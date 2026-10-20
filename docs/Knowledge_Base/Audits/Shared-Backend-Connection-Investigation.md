@@ -11,7 +11,7 @@ updated: 2026-10-20
 
 **Pass date:** 2026-10-20
 **Android reference:** `/data/data/com.termux/files/home/Neo_Child_Clinic` — `main` @ `ca4bed406bfd246ad83878fff9a4e178ebc5670f`, clean worktree
-**Desktop project:** `/storage/emulated/0/Neo_Child_Clinic_Desktop` — not a Git repository
+**Desktop project:** `/storage/emulated/0/Neo_Child_Clinic_Desktop` — Git repository initialized and `main` pushed after this investigation
 **Binding decision:** [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008 — Shared Supabase Backend and Single Schema]]
 **Return to:** [[Home]]
 
@@ -23,7 +23,7 @@ Three candidate files were found. They contain schema metadata, not connection c
 |---|---|---:|---:|---:|---|---|
 | Android repo: `supabase/migrations/Supabase Snippet Full Schema Catalog (Tables, Keys, Indexes).csv` | `7fc4208a4a464801930a3068d8036ceb889a6b6e87ae28e7264b124d44b68f22` | 19,581 B | 361 | 23 | Tracked; introduced in `f8e5d8a` | Older, stale snapshot. Its filename claims keys and indexes, but its columns contain only table/column metadata. |
 | Shared-storage copy: `/storage/emulated/0/Neo_Child_Clinic-main/supabase/migrations/Supabase Snippet Full Schema Catalog (Tables, Keys, Indexes).csv` | `7fc4208a4a464801930a3068d8036ceb889a6b6e87ae28e7264b124d44b68f22` | 19,581 B | 361 | 23 | Not part of the inspected Android worktree | Byte-identical duplicate of the Android repo CSV; not independent evidence. |
-| Desktop project: `/storage/emulated/0/Neo_Child_Clinic_Desktop/Supabase Snippet List Public Table Columns.csv` | `1e5ceee58a083c63ba1af024f9bc41d6f0809daefe28dce3e4507d9ee80c978a` | 23,237 B | 416 | 24 | Untracked; desktop project has no Git repository | Newer, broader snapshot, but still not a live-schema authority. |
+| Desktop project: `/storage/emulated/0/Neo_Child_Clinic_Desktop/Supabase Snippet List Public Table Columns.csv` | `1e5ceee58a083c63ba1af024f9bc41d6f0809daefe28dce3e4507d9ee80c978a` | 23,237 B | 416 | 24 | Tracked after the post-investigation push; at investigation time untracked with no Git repository | Newer, broader snapshot, but still not a live-schema authority. |
 
 Both CSVs use the same seven fields:
 
@@ -258,18 +258,20 @@ The other tables are altered by migrations but assumed to pre-exist. There is no
 
 ## 7. Desktop connection implementation status
 
-`[VERIFIED]` The desktop project contains only:
+`[VERIFIED]` At investigation time the desktop project contained only:
 
 - `.opencode/skills/` definitions;
 - `docs/Knowledge_Base/`;
 - `Supabase Snippet List Public Table Columns.csv`.
+
+A post-investigation push added the Git repository, `.gitignore`, and the repository `LICENSE`. The application-code inventory did not change.
 
 `[VERIFIED]` It contains no:
 
 - `go.mod`, `wails.json`, `package.json`, Go/TypeScript/React source;
 - `.env` or `.env.local`;
 - Supabase client, HTTP client, database driver, repositories, migrations, or local database;
-- test suite, CI, build output, or Git repository.
+- test suite, CI, or build output. A Git repository now exists; no application code is present.
 
 **Status: Missing. No desktop connection exists, and there is nothing to inspect for URL, key, auth, RLS, Storage, RPC, or Realtime behavior.** The desktop has not been connected to the existing project, correctly or incorrectly.
 
@@ -360,7 +362,7 @@ These are **not implemented** in this pass. No dates or effort estimates are ass
 
 | Change | Purpose | Status |
 |---|---|---|
-| Create the desktop Git repository, Go module, Wails app, React/TS app, `AGENTS.md`, CI | Establish a reviewable implementation | `[PROPOSED]` |
+| Add repository structure, `AGENTS.md`, CI (Git repository now initialized) | Establish a reviewable implementation | `[PROPOSED]` |
 | Add a configuration provider for the existing project URL/publishable key and optional backup-worker URL | Connect to the same backend without committed secrets | `[PROPOSED]` |
 | Implement Go auth/session service with OS keychain refresh-token storage | Match Supabase Auth and keep tokens out of the renderer | `[PROPOSED]` |
 | Implement a typed Supabase HTTPS client for Auth, PostgREST, Storage, Functions, Realtime | Use the existing API surface with user JWT | `[PROPOSED]` |

@@ -32,8 +32,8 @@ updated: 2026-10-20
 
 | Fact | Value |
 |---|---|
-| Desktop project files | 17 skills + 1 user CSV; no app source |
-| Desktop Git repository | None |
+| Desktop project files | 17 skills + 1 user CSV at audit time; now also the Knowledge Base, `.gitignore`, `LICENSE`, and Git metadata |
+| Desktop Git repository | None at audit time; initialized and pushed after the audit |
 | Desktop `AGENTS.md` | None |
 | Android branch / HEAD | `main` / `ca4bed406bfd246ad83878fff9a4e178ebc5670f` |
 | Android worktree | Clean, 583 tracked files |
@@ -53,7 +53,7 @@ updated: 2026-10-20
 | ID | Severity | Finding | Evidence | Disposition |
 |---|---|---|---|---|
 | AUD-001 | **Blocker** | No desktop implementation exists | Filesystem search found only skills and CSV | Document as Missing; do not fabricate parity |
-| AUD-002 | **High** | Desktop project is not a Git repository and has no `AGENTS.md` | `.git` absent; no instruction file | Establish before code; no source changes in this pass |
+| AUD-002 | **High** | At audit time the desktop project was not a Git repository and had no `AGENTS.md` | `.git` was absent; no instruction file. A repository now exists and `main` is pushed, but `AGENTS.md`, CI, and branch protection remain absent | Add instructions and CI; no application source changes in this pass |
 | AUD-003 | **High** | Live Supabase schema, grants, policies, and data are unavailable | No project credentials/connection | Mark live claims `[UNKNOWN]`; require verification gate |
 | AUD-004 | **High** | Repository cannot reproduce a clean database from zero | Only 9 `CREATE TABLE` statements for 24 snapshot tables | Baseline schema + migration reconciliation before release |
 | AUD-005 | **Medium** | Existing Android KB is stale relative to HEAD | Home cites `f8e5d8a`; HEAD `ca4bed4`; counts differ (351/43/22 vs 352/41+8/23) | Do not overwrite Android KB; note drift and link |
@@ -91,7 +91,7 @@ updated: 2026-10-20
 ## Recommended next gate
 
 Before feature implementation:
-1. Create the desktop repository, `AGENTS.md`, branch protection, and CI.
+1. Add `AGENTS.md`, branch protection, and CI to the existing desktop repository.
 2. Obtain approved access to the **existing** Supabase project and capture the real schema/grants/policies read-only. Do not create a new project or separate database; see [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]].
 3. Reconcile the baseline migration against that evidence and prove the approved verification path works.
 4. Approve local persistence, encryption, auth/session, sync, and backup ADRs.

@@ -7,7 +7,7 @@ updated: 2026-10-20
 
 # Final Report
 
-> **Completion boundary:** the documentation workflow is complete for this pass. The desktop application is not implemented. No application source, schema, dependency, production data, or Git history was changed.
+> **Completion boundary:** the documentation workflow is complete for this pass. The desktop application is not implemented. No application source, schema, dependency, production data, or Android Git history was changed. A subsequent user-requested push initialized the desktop Git repository and pushed documentation only.
 >
 > **Shared-backend addendum:** [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]] is now accepted by explicit user direction. Android and desktop must reuse the **same existing Supabase project and schema**. Any earlier “disposable Supabase project” wording in this baseline is superseded for backend selection: a disposable harness is not the desktop backend and requires explicit approval. Connection evidence is in [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Connection Investigation]].
 
@@ -20,7 +20,7 @@ updated: 2026-10-20
 ## 1. Discovery
 
 - The desktop project contains 17 installed `.opencode/skills/*/SKILL.md` files and one user-supplied `Supabase Snippet List Public Table Columns.csv`.
-- It contains no `go.mod`, `wails.json`, `package.json`, `src/`, `app/`, tests, CI, build output, or Git repository.
+- It contains no `go.mod`, `wails.json`, `package.json`, `src/`, `app/`, tests, CI, or build output. A Git repository now exists and `main` is pushed to GitHub.
 - The Android repository is the only application source available. It is clean at `ca4bed4` with 583 tracked files: 352 main Kotlin files, 41 unit test files, 8 instrumented test files, 23 SQL migrations, and 37 Knowledge Base notes.
 - No Go/Wails/React desktop source was found under the home or shared-storage locations searched.
 - The Android Knowledge Base was read for verified behavior and confirmed defects. It was not modified.
@@ -34,7 +34,7 @@ updated: 2026-10-20
 | Severity | Count | Examples |
 |---|---|---|
 | Blocker | 1 | No desktop implementation |
-| High | 7 | No Git/instructions, live RLS unavailable, no baseline schema, reference defects, no tests, no toolchain, undecided privacy/encryption |
+| High | 7 | No `AGENTS.md`/CI, live RLS unavailable, no baseline schema, reference defects, no tests, no toolchain, undecided privacy/encryption |
 | Medium | 6 | Stale Android KB, path collision risk, uncommitted/incomplete CSV, no packaging, table-list drift |
 | Low | 1 | Internal Android KB count inconsistencies |
 
@@ -139,7 +139,7 @@ The Android Knowledge Base's historical 277-unit-test result was **not** re-run.
 
 **Android repository:** unchanged. `git status --short --branch` shows `## main...origin/main` with no file changes. No app source, schema, migration, policy, dependency, or Git history was modified.
 
-**Desktop project:** not a Git repository, so a Git diff is unavailable. Created the Knowledge Base under `docs/Knowledge_Base/`; preserved the 17 skills and the user CSV.
+**Desktop project:** Git repository initialized; `main` pushed to GitHub. The pushed branch contains the Knowledge Base, 17 skill definitions, the user CSV, `.gitignore`, and the repository `LICENSE`. No Git diff from before the push exists because the project was previously untracked.
 
 **Markdown files in vault:** 63 (61 baseline + 2 shared-backend notes).
 
@@ -246,7 +246,7 @@ The Android Knowledge Base's historical 277-unit-test result was **not** re-run.
 ## 11. Next gate
 
 Do not start feature implementation until:
-1. A desktop Git repository and `AGENTS.md` exist.
+1. `AGENTS.md`, branch protection, and CI exist in the now-initialized desktop repository.
 2. The existing Supabase project identity is verified with a redacted fingerprint; the desktop resolves the same project as Android.
 3. A reviewed baseline/reconciliation path exists for the existing schema and RLS, without creating a new project or separate database.
 4. ADR-0002, ADR-0003, ADR-0004, and ADR-0005 are accepted; ADR-0008 is already accepted.

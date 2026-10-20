@@ -28,7 +28,7 @@ Exit criteria are verifiable outcomes, not elapsed time.
 
 | Work item | Deliverable | Exit criterion | Depends on |
 |---|---|---|---|
-| Repository and instructions | Desktop Git repo, `AGENTS.md`, branch protection, issue/PR templates | Clean clone builds and docs checks run | None |
+| Repository and instructions | Existing desktop Git repository; add `AGENTS.md`, branch protection, issue/PR templates | Clean clone builds and docs checks run | Git repository initialized |
 | Toolchain | Pinned Go, Wails, Node/package manager, linter, formatter | Reproducible build on a clean machine | Repo |
 | CI | Build, lint, unit tests, docs validation, dependency scan | CI required on every change | Toolchain |
 | Shared-backend verification | Approved non-destructive access path to the **existing** Supabase project; test-account and synthetic-data protocol | Same project identity proven by a redacted fingerprint; no new backend; no production data mutation | Security approval |

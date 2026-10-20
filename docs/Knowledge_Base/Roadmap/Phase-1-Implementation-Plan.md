@@ -26,7 +26,7 @@ updated: 2026-10-20
 ## Step sequence
 
 ### Step 0 — Control the workspace
-Deliverables: Git repository, `AGENTS.md`, branch protection, issue/PR templates, docs location, CI skeleton.
+Deliverables: existing Git repository; add `AGENTS.md`, branch protection, issue/PR templates, docs location, and CI skeleton.
 Gate: clean clone builds a hello-world Wails app and docs validation runs; no secrets committed.
 
 ### Step 1 — Make the existing backend verifiable

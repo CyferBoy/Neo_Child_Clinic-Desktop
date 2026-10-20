@@ -26,7 +26,7 @@ updated: 2026-10-20
 | Desktop tests | **0** (no suite) |
 | Android reference feature modules | 22 |
 | Android reference status | 10 partially implemented, 12 unverified in this pass |
-| Desktop repository | **Not a Git repository** |
+| Desktop repository | **Initialized; `main` pushed to GitHub** |
 | Desktop instructions | **No `AGENTS.md`** |
 | Installed skills | 17 `SKILL.md` files |
 | Shared backend | **Existing Supabase project required** (ADR-0008); desktop connection **Missing** |
@@ -156,7 +156,7 @@ updated: 2026-10-20
 
 `[VERIFIED]`
 - The Android repository is clean at `ca4bed4` with 583 tracked files, 352 main Kotlin files, 41 unit test files, 8 instrumented test files, and 23 SQL migrations.
-- The desktop project contains 17 skill definitions and one user-supplied CSV; it has no application source, `go.mod`, `wails.json`, `package.json`, test suite, build configuration, or Git repository.
+- The desktop project now has a Git repository with `main` pushed to GitHub; it still has no application source, `go.mod`, `wails.json`, `package.json`, test suite, or build configuration.
 - The existing Android Knowledge Base has 37 Markdown notes and was not modified.
 - The desktop CSV lists 24 public tables and 416 columns. A second, older CSV in the Android repository lists 23 tables and 361 columns; it still uses camelCase `waste_records` names and is superseded by a later migration.
 - Neither CSV contains a project URL, project reference, auth setting, policy, or credential. Repository migrations create only 9 of the 24 newer-snapshot tables from zero; there is no baseline migration.
@@ -185,7 +185,7 @@ updated: 2026-10-20
 
 ## Current blockers
 
-1. No desktop source or repository.
+1. No desktop application source. The Git repository now exists, but `AGENTS.md`, branch protection, and CI are still missing.
 2. The actual existing project identity/configuration is absent; same-project connection is not proven.
 3. No reproducible database baseline and no live schema/RLS/Storage verification.
 4. No approved local persistence/encryption or sync contract.
@@ -195,7 +195,7 @@ updated: 2026-10-20
 
 ## Immediate next actions
 
-1. Create the desktop Git repository, `AGENTS.md`, branch protection, and CI.
+1. Add `AGENTS.md`, branch protection, and CI to the existing desktop repository.
 2. Obtain the approved existing-project configuration through a secure channel and verify a redacted project fingerprint; do not print or commit the values.
 3. Capture the existing project's schema, grants, policies, triggers, and Storage rules read-only; reconcile a baseline without creating a new project or duplicate schema.
 4. Approve ADR-0002, ADR-0003, ADR-0004, and ADR-0005; ADR-0008 is already accepted.

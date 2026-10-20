@@ -17,7 +17,7 @@ updated: 2026-10-20
 4. Classified Android reference status conservatively: source presence is not runtime verification.
 5. Recorded the desktop target behavior as a proposed specification, not as an implemented feature.
 
-**Desktop filesystem evidence** `[VERIFIED]`: the only files under `/storage/emulated/0/Neo_Child_Clinic_Desktop` were `.opencode/skills/**` (17 `SKILL.md` files) and the user-supplied `Supabase Snippet List Public Table Columns.csv`. No `go.mod`, `wails.json`, `package.json`, `src/`, `app/`, test suite, CI configuration, or Git repository exists.
+**Desktop filesystem evidence** `[VERIFIED]`: at audit time the only files under `/storage/emulated/0/Neo_Child_Clinic_Desktop` were `.opencode/skills/**` (17 `SKILL.md` files) and the user-supplied `Supabase Snippet List Public Table Columns.csv`. A Git repository has since been initialized and pushed, but there is still no `go.mod`, `wails.json`, `package.json`, `src/`, `app/`, test suite, or CI configuration.
 
 ## Parity matrix
 
