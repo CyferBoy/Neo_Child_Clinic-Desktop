@@ -29,7 +29,7 @@ Do not use this skill to fix the code or to claim a fix. Hand off remediation to
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read, the register, the hypotheses/unknowns note, and the documentation maintenance guide.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the register, the hypotheses/unknowns note, and the documentation maintenance guide.
 2. Record the current commit and date.
 3. Search for duplicates by symptom, root cause, affected symbol, and reproduction before assigning a new ID.
 4. Preserve existing IDs. Never renumber, reuse, or delete an ID, even when an item is fixed or refuted.

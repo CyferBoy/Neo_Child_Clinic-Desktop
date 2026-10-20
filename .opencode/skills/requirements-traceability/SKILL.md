@@ -29,7 +29,7 @@ Do not use this skill to test behavior or fix gaps. Hand off to `test-strategy-p
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read, the documentation index, and any existing requirement registry.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the documentation index and any existing requirement registry.
 2. Record the commit and date. Traceability is a snapshot, not a permanent truth.
 3. Locate all ID sources. Do not create a second ID scheme if one exists; adopt it. If none exists, use the project convention below.
 4. Confirm that test results, if referenced, have an observed source. A test file is not a passing test.

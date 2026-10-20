@@ -29,7 +29,7 @@ updated: 2026-10-20
 | Backend integration | PostgREST, RLS, functions, receipt sequence, Storage | Approved non-destructive path against the existing project | PR/nightly |
 | React component | Forms, tables, states, accessibility | Component test runner | Every commit |
 | E2E | Critical staff workflows | Browser/desktop automation | PR/nightly |
-| Sync chaos | Timeout, 401/403/409/429/500, duplicate, partial group, tombstone | Fault-injecting harness | Nightly/pre-release |
+| Sync chaos | Timeout, 401/403/409/429/500, duplicate, partial group, deletion reconciliation (contract TBD) | Fault-injecting harness | Nightly/pre-release |
 | Backup/restore | Round-trip, wrong passphrase, tamper, interruption | CLI/E2E | Pre-release |
 | Printing | Preview, failure, retry, no PHI leak | Manual + integration | Pre-release |
 | Update | Signature, version, rollback | Harness | Pre-release |
@@ -43,7 +43,7 @@ updated: 2026-10-20
 3. Vaccination creates visit, items, stock, reminder, payment, receipt link, audit as one local transaction.
 4. Replay the vaccination outbox group; no duplicate visit/payment/stock.
 5. Batch stock insufficient/expired; transaction rolls back.
-6. Delete on device A; pull on device B; row remains deleted.
+6. Delete on device A; pull on device B; row remains deleted. This is blocked until an approved deletion/absence contract exists; it is not satisfied by the current hard-delete pull behavior.
 7. Concurrent patient edit; conflict visible, no silent overwrite.
 8. Cash/online/mixed payment totals reconcile to the visit.
 9. Receipt number is server-assigned and immutable.
@@ -59,7 +59,7 @@ updated: 2026-10-20
 19. Android and desktop resolve the same existing project identity via a redacted fingerprint.
 20. Android-created patient/visit is read and updated by desktop; desktop-created row is read by Android; no duplicate records.
 21. Desktop contains no service-role key, database password, or direct PostgreSQL connection; privileged staff changes go through the existing Edge Function.
-22. Desktop does not create tables, run migrations, or use a second database.
+22. Desktop does not create remote tables, run production migrations, or use a second remote PostgreSQL database. Local SQLite tables and migrations are expected.
 
 ## Test data
 
@@ -88,7 +88,7 @@ No arbitrary percentage target is asserted. Coverage is risk-based:
 
 - No P0/P1 failing test.
 - RLS suite green on the approved shared-backend verification path.
-- Sync replay and tombstone suites green.
+- Sync replay and deletion-reconciliation suites green; deletion contract approved.
 - Backup restore and interruption tests green.
 - No critical/high security finding without approved exception.
 - Accessibility checklist complete.

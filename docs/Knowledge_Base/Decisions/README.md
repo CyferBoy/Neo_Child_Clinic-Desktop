@@ -24,7 +24,7 @@ updated: 2026-10-20
 |---|---|---|
 | [[Decisions/ADR-0001-Desktop-Stack|ADR-0001]] | Go + Wails + React/TypeScript + Supabase | Proposed (stack fixed by project direction; details open) |
 | [[Decisions/ADR-0002-Local-Persistence|ADR-0002]] | SQLite local working copy | Proposed |
-| [[Decisions/ADR-0003-Offline-Sync|ADR-0003]] | Outbox + transaction groups + tombstones | Proposed |
+| [[Decisions/ADR-0003-Offline-Sync|ADR-0003]] | Outbox + transaction groups + deletion reconciliation (contract TBD) | Proposed |
 | [[Decisions/ADR-0004-Authentication-and-Session|ADR-0004]] | Supabase Auth in Go; tokens in OS keychain | Proposed |
 | [[Decisions/ADR-0005-Wails-Boundary|ADR-0005]] | Typed Go bindings; no direct renderer data access | Proposed |
 | [[Decisions/ADR-0006-Testing-and-Release|ADR-0006]] | Layered tests + signed release gates | Proposed |

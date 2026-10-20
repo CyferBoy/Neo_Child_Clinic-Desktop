@@ -29,7 +29,7 @@ Do not use this skill to implement, refactor, or update documentation. Use `docu
 
 ## Before you start
 
-1. Read the root `AGENTS.md`, every nested `AGENTS.md`, `opencode.json`/`opencode.jsonc`, and any instructions they reference. Project instructions override this skill where they are stricter.
+1. Read the root and nested `AGENTS.md` when present, plus `opencode.json`/`opencode.jsonc` when present, and any instructions they reference. Project instructions override this skill where they are stricter.
 2. Confirm the project root with `pwd`, `git rev-parse --show-toplevel` (if Git), and the location of the expected manifests. If the directory is the Android reference rather than the desktop project, say so and stop the desktop-specific audit.
 3. Capture Git state without changing it: `git status --short --branch`, `git diff --stat`, `git diff --cached --stat`, `git ls-files --others --exclude-standard`, `git stash list`, `git log -1 --format='%H%n%ad%n%s' --date=iso-strict`, `git remote -v`, and recent tags. If there is no Git repository, record that fact.
 4. Never run `git reset`, `git clean`, `git checkout`, `git restore`, `git stash`, or any command that rewrites user work.

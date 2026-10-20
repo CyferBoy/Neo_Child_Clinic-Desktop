@@ -18,7 +18,7 @@ The existing Android application is the functional reference for a single-clinic
 - The Android repository contains feature packages for patient, vaccination, consultation, inventory, waste, borrowed vaccines, reminders, personal reminders, finance, dashboard, statistics, audit, sync, settings, staff, update, and auth.
 - The Android app is offline-first: writes are committed locally and uploaded through a sync queue.
 - The backend is Supabase (Auth, PostgreSQL, RLS, Edge Functions).
-- The Android Knowledge Base records known defects in inventory arithmetic, sync conflict handling, statistics, and backup restore testing.
+- The Android Knowledge Base records historical inventory, sync, statistics, and backup defects. Many are fixed at `ca4bed4`; open gaps include deletion/absence reconciliation, sync queue priority, a local-only inventory ledger, a duplicate database singleton, and missing end-to-end restore coverage.
 
 **Product intent** `[PROPOSED]`
 The desktop client should be a trustworthy, offline-capable workstation for the same clinic, not a second source of truth. Staff should be able to register a patient, record a vaccination, consult, take payment, print a receipt, and reconcile stock even when the clinic network is unavailable. When connectivity returns, the same data should converge safely with the Android clients and Supabase.
@@ -59,9 +59,9 @@ These are scope boundaries, not permanent product decisions. Changing them requi
 
 - **Local database is the working copy; Supabase is the shared authority.** Neither side is allowed to invent a second identity for the same business event.
 - **Every write has an idempotency key.** A retry must not create a second patient, vaccination, payment, or stock movement.
-- **Money is stored and calculated in integer minor units.** The Android reference uses floating-point amounts; the desktop should not repeat that risk.
+- **Money is stored and calculated in integer minor units.** The Android client maps most shared-schema `numeric` amounts to `Double`; the desktop should not repeat the floating-point calculation risk.
 - **Dates are typed, timezone-explicit values.** Clinic reporting uses IST (`Asia/Kolkata`), matching the Android reference; storage and transport must be unambiguous.
-- **Soft deletion is a synchronization concern, not only a UI filter.** Deletes need tombstones and consistent filters across reads, reports, and sync.
+- **Soft deletion is a synchronization concern, not only a UI filter.** Deletes need an approved reconciliation contract (tombstones or absence reconciliation) and consistent filters across reads, reports, and sync.
 - **No service-role key in the client.** The desktop authenticates as a staff user and is subject to RLS.
 - **No PHI in logs, crash reports, window titles, or telemetry.** Redaction is a release gate.
 - **The UI may guide, but the database decides.** UI guards are usability features; RLS and server-side validation are the security boundary.
@@ -70,7 +70,7 @@ These are scope boundaries, not permanent product decisions. Changing them requi
 
 `[DECISION]` The project direction supplied on 2026-10-20 specifies Go, Wails, React + TypeScript, Supabase Auth/PostgreSQL/RLS, local persistence, caching, and offline-first sync.
 
-`[DECISION]` The desktop must reuse the **same existing Supabase project and PostgreSQL schema** as Android. No new project, separate desktop database, duplicate tables, or parallel schema is approved; see [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]].
+`[DECISION]` The desktop must reuse the **same existing Supabase project and PostgreSQL schema** as Android. No new project, separate remote PostgreSQL database, duplicate remote tables, or parallel remote schema is approved; local SQLite is expected. See [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]].
 
 `[PROPOSED]` Local persistence technology, Wails major version, sync conflict policy, packaging targets, and test tooling are not yet approved. They are recorded as proposed ADRs under [[Decisions/README|Decisions]].
 

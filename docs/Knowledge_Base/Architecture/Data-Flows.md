@@ -93,13 +93,13 @@ sequenceDiagram
     participant UI as React UI
 
     Sync->>PG: SELECT changes after cursor (updated_at, id)
-    PG-->>Sync: pages of rows, including tombstones
+    PG-->>Sync: pages of rows, including soft-delete fields where present
     Sync->>DB: validate + upsert in transaction
-    Sync->>DB: apply tombstones, advance cursor
+    Sync->>DB: apply approved deletion reconciliation, advance cursor
     DB-->>UI: query invalidation
 ```
 
-Pull must be paged and resumable. A deleted row must remain deleted after a pull; an older remote row must not overwrite a newer local unacknowledged write.
+Pull must be paged and resumable. Hard deletes are not observable through the repository-evidenced shared schema: no server tombstone table or change feed is present, and live schema state is unverified. A deleted row must remain deleted only once an approved deletion/absence reconciliation contract exists; an older remote row must not overwrite a newer local unacknowledged write.
 
 ## 5. Backup and restore
 

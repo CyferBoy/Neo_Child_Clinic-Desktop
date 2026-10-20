@@ -1,7 +1,7 @@
 ---
 title: Cache Strategy
 doc_status: proposed
-evidence: Android caching reference + confirmed stale-cache defect
+evidence: Android caching reference + source re-check
 updated: 2026-10-20
 ---
 
@@ -30,13 +30,13 @@ The local database is the durable working copy. A cache may accelerate reads, bu
 3. **No long-lived PHI in memory.** Clear patient detail caches on sign-out, lock, and after a configurable idle period.
 4. **No cross-account cache.** A different user session must not see the previous user's data.
 5. **No cache-only authorization.** A cached role or permission is for rendering; Go/RLS decides.
-6. **No stale history.** Editing a vaccination must invalidate the patient timeline, not only the patient row.
+6. **No stale derived data.** If a cache stores a read model that joins multiple tables, editing a vaccination must invalidate that timeline/read model, not only the patient row.
 7. **Bounded size.** Use LRU limits and metrics; do not cache unbounded lists.
 8. **Explicit stale state.** If a read is from a stale snapshot, label it and offer refresh.
 
-## Anti-pattern from the reference
+## Reference observation
 
-The Android `PatientCache` is invalidated on `patients` table changes, but not on vaccination edits, so a cached patient can hold stale history for up to five minutes. The desktop must key cache entries by all dependent entity versions or invalidate on the broader clinical event.
+The current Android `PatientCache` stores only a `PatientEntity`; it does not embed visit or vaccination history. It is invalidated on `patients` table changes. The earlier claim that this cache serves stale vaccination history is not supported by current source. The desktop must still define invalidation for any joined or derived read model it introduces, because that model would have additional dependencies.
 
 ## Proposed read model keys
 

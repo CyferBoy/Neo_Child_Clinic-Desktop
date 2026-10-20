@@ -9,7 +9,7 @@ updated: 2026-10-20
 
 > **Desktop status: all 22 Phase 1 modules are Missing.** No desktop source, Wails configuration, Go module, React application, or desktop test exists in `/storage/emulated/0/Neo_Child_Clinic_Desktop`. The Android reference is the only available implementation.
 >
-> **Shared backend:** every module must target the **existing** Supabase project/schema under [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]. No module may create a new project, separate database, duplicate tables, or parallel schema.
+> **Shared backend:** every module must target the **existing** Supabase project/schema under [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]. No module may create a new project, separate remote PostgreSQL database, duplicate remote tables, or parallel remote schema. Local SQLite is expected.
 
 ## Status vocabulary
 
@@ -29,27 +29,27 @@ updated: 2026-10-20
 | 01 | Desktop shell and navigation | PLAT | Unverified | Missing | `app/Navigation.kt`, `feature/dashboard/` |
 | 02 | Authentication and session | AUTH | Unverified | Missing | `core/security/AuthViewModel.kt`, `feature/auth/` |
 | 03 | Staff and role management | STF | Unverified | Missing | `feature/staff/`, `supabase/functions/manage-staff/` |
-| 04 | Patient management | PAT | Partially implemented | Missing | `feature/patient/`, Android KB `Patient Management` |
-| 05 | Vaccination management | VAC | Partially implemented | Missing | `feature/vaccination/`, Android KB `Vaccination Management` |
+| 04 | Patient management | PAT | Unverified | Missing | `feature/patient/`, Android KB `Patient Management` |
+| 05 | Vaccination management | VAC | Unverified | Missing | `feature/vaccination/`, Android KB `Vaccination Management` |
 | 06 | Consultation management | CON | Unverified | Missing | `feature/consultation/` |
 | 07 | Vaccine and batch inventory | INV | Partially implemented | Missing | `feature/inventory/`, Android KB `Inventory Management` |
 | 08 | Wastage | WAS | Unverified | Missing | `feature/waste/` |
 | 09 | Borrowed and lent vaccines | BRW | Unverified | Missing | `feature/borrowed/` |
 | 10 | Vaccination reminders | REM | Partially implemented | Missing | `feature/reminder/`, Android KB `Due Vaccination` |
-| 11 | Personal reminders | PER | Partially implemented | Missing | `feature/personalreminder/`, Android KB `Due Vaccination` |
+| 11 | Personal reminders | PER | Unverified | Missing | `feature/personalreminder/`, Android KB `Due Vaccination` |
 | 12 | Finance and payments | FIN | Unverified | Missing | `feature/finance/` |
 | 13 | Receipts and printing | RCP | Unverified | Missing | `feature/patient/presentation/Receipt*`, `20260824_receipt_numbering.sql` |
 | 14 | Dashboard | DSH | Unverified | Missing | `feature/dashboard/` |
-| 15 | Statistics and reports | RPT | Partially implemented | Missing | `feature/statistics/`, Android KB `Statistics Dashboard` |
+| 15 | Statistics and reports | RPT | Unverified | Missing | `feature/statistics/`, Android KB `Statistics Dashboard` |
 | 16 | Local persistence and offline operation | OFF | Partially implemented | Missing | `data/local/`, Android KB `Offline-First Architecture` |
 | 17 | Supabase synchronization | SYNC | Partially implemented | Missing | `feature/sync/`, Android KB `Offline Synchronization` |
 | 18 | Backup and recovery | BAK | Partially implemented | Missing | `data/backup/`, Android KB `Backup and Restore` |
-| 19 | Desktop notifications | NOT | Partially implemented | Missing | `core/notification/`, Android KB `Due Vaccination` |
+| 19 | Desktop notifications | NOT | Unverified | Missing | `core/notification/`, Android KB `Due Vaccination` |
 | 20 | Settings | SET | Unverified | Missing | `feature/settings/` |
 | 21 | Audit logging | AUD | Unverified | Missing | `feature/audit/`, `core/logger/` |
 | 22 | Application updates | UPD | Unverified | Missing | `feature/update/` |
 
-**Counts:** desktop 0 implemented, 22 missing. Android reference: 10 partially implemented, 12 unverified in this pass, 0 modules claimed fully verified. No desktop tests were run because there is no desktop test suite.
+**Counts:** desktop 0 implemented, 22 missing. Android reference: 5 partially implemented (inventory, reminders, local persistence, sync, backup), 17 unverified in this pass, 0 modules claimed fully verified. No desktop tests were run because there is no desktop test suite.
 
 ## What "verified" means here
 

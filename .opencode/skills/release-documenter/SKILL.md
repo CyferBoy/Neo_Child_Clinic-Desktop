@@ -30,7 +30,7 @@ Do not use this skill to tag, publish, sign, deploy, or modify application code.
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read, the release checklist, changelog conventions, and previous release notes.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the release checklist, changelog conventions, and previous release notes.
 2. Record the target commit, previous release tag, branch, and date.
 3. Confirm the version number from the actual project manifest or release process. Do not invent it.
 4. Confirm which environments were used for verification. Do not imply a hosted migration or production test occurred without evidence.

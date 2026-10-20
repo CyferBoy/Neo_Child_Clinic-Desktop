@@ -31,7 +31,7 @@ updated: 2026-10-20
 
 ## Android reference backup
 
-`[VERIFIED]` The Android backup is an encrypted JSON envelope (`.nccb`) covering 22 Room tables, with a versioned header and a passphrase-derived key. It deliberately excludes `sync_queue`, `widget_due_cache`, and `backup_history`, and strips FCM tokens. The restore path is destructive and uses a safety backup. The Android KB records that the restore path has no automated tests and several crypto/atomicity gaps.
+`[VERIFIED]` The Android backup is an encrypted JSON envelope (`.nccb`) covering 22 Room tables, with a versioned header and a passphrase-derived key. It deliberately excludes `sync_queue`, `widget_due_cache`, and `backup_history`, and strips FCM tokens. The restore path is destructive and creates a safety snapshot; it has no end-to-end automated restore test. Crypto and validation helpers do have unit tests. The reviewed crypto path has two low-severity observations: it uses no AAD, and the parser accepts an empty salt. Those code observations do not substitute for an end-to-end restore test.
 
 The desktop must not simply copy the Android file format without a compatibility decision. If cross-client restore is required, the format and crypto must be specified and tested. If not, the desktop backup is a separate, documented format.
 

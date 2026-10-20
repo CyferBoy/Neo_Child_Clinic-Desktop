@@ -3,7 +3,7 @@ title: Statistics and Reports
 feature_id: RPT
 doc_status: proposed
 desktop_status: Missing
-android_status: Partially implemented
+android_status: Unverified
 evidence: Android source + Knowledge Base
 updated: 2026-10-20
 ---
@@ -11,7 +11,7 @@ updated: 2026-10-20
 # 15. Statistics and Reports
 
 > **Desktop status: Missing.** No desktop implementation exists. This is a Phase 1 specification, not a claim of completion.
-> **Android reference status:** Partially implemented. Evidence: `feature/statistics/`, Android KB `Statistics Dashboard`, confirmed double-count/filter findings.
+> **Android reference status:** Unverified. Evidence: `feature/statistics/`, Android KB `Statistics Dashboard`. Historical double-count, filter, and brand-drill-down defects are fixed; runtime verification is still absent.
 
 **Requirement IDs:** `RPT-001`, `RPT-002`, `RPT-003`, `RPT-004`, `RPT-005`, `RPT-006`, `RPT-007`
 

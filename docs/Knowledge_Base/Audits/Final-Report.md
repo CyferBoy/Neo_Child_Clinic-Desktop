@@ -1,13 +1,13 @@
 ---
 title: Final Report
 doc_status: baseline
-evidence: nine-stage discovery, audit, specification, architecture, roadmap, validation pass + shared-backend connection investigation
+evidence: nine-stage discovery, audit, specification, architecture, roadmap, validation pass, shared-backend connection investigation + Phase 0B blocker/architecture review
 updated: 2026-10-20
 ---
 
 # Final Report
 
-> **Completion boundary:** the documentation workflow is complete for this pass. The desktop application is not implemented. No application source, schema, dependency, production data, or Android Git history was changed. A subsequent user-requested push initialized the desktop Git repository and pushed documentation only.
+> **Completion boundary:** the documentation baseline is complete, and a second read-only validation pass corrected verified documentation errors. A Phase 0B recheck then reconciled the CSV/migration discrepancy and prepared the architecture decision review. The desktop application is not implemented. No application source, schema, dependency, production data, or Android Git history was changed. A subsequent user-requested push initialized the desktop Git repository and pushed documentation only.
 >
 > **Shared-backend addendum:** [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]] is now accepted by explicit user direction. Android and desktop must reuse the **same existing Supabase project and schema**. Any earlier “disposable Supabase project” wording in this baseline is superseded for backend selection: a disposable harness is not the desktop backend and requires explicit approval. Connection evidence is in [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Connection Investigation]].
 
@@ -34,23 +34,25 @@ updated: 2026-10-20
 | Severity | Count | Examples |
 |---|---|---|
 | Blocker | 1 | No desktop implementation |
-| High | 7 | No `AGENTS.md`/CI, live RLS unavailable, no baseline schema, reference defects, no tests, no toolchain, undecided privacy/encryption |
-| Medium | 6 | Stale Android KB, path collision risk, uncommitted/incomplete CSV, no packaging, table-list drift |
+| High | 7 | No `AGENTS.md`/CI, live RLS unavailable, no baseline schema, historical reference defects plus open gaps, no tests, no toolchain, undecided privacy/encryption |
+| Medium | 6 | Stale Android KB, path collision risk, column-only CSV without keys/policies, no packaging, table-list drift |
 | Low | 1 | Internal Android KB count inconsistencies |
 
 The full finding register is in [[Audits/Initial-Audit|Initial Audit]]. The risk register has 20 risks; the debt register has 15 items.
 
-**Most important audit finding:** repository migrations create only 9 of the 24 tables in the supplied snapshot. A clean database cannot be rebuilt from the repository alone. This blocks reproducible tests and disaster recovery.
+**Most important audit finding:** repository migrations create only 9 of the 24 tables in the supplied snapshot. Fifteen are baseline tables present in both snapshots, and at least one migration is missing (`todo_notification_events`). A clean database cannot be rebuilt from the repository alone. This blocks reproducible tests and disaster recovery.
+
+**Phase 0B reconciliation:** the 24-vs-23 and 416-vs-361 differences are explained by snapshot timing plus the known soft-delete/waste/API migrations, not by 15 missing production tables. The live contract is still unverified. See [[Database/Schema-Reconciliation|Schema Reconciliation]].
 
 **Second most important:** the live Supabase project is unavailable, so RLS, grants, triggers, and data behavior are not verified. The actual Android project URL/key are also absent from the worktree, so the desktop cannot yet prove it targets the same project. Existing Android security findings (NSC-001, NSC-002, NSC-005, NSC-013) must be treated as inherited risks, not resolved facts.
 
 ## 3. Implementation status and parity
 
 - **Desktop:** 0 of 22 modules implemented; 0 desktop tests.
-- **Android reference:** 10 partially implemented, 12 unverified in this pass, 0 claimed fully verified.
+- **Android reference:** 5 partially implemented (inventory, reminders, local persistence, sync, backup), 17 unverified in this pass, 0 claimed fully verified.
 - **Parity:** 0 of 22 modules have verified desktop parity.
 
-The Android reference is source-backed and functionally substantial, but it has confirmed defects in patient validation/cache invalidation, vaccination stock/retry paths, inventory date sorting/lost updates/trigger arithmetic, reminder timezone/tombstones, statistics double-counting, sync acknowledgement/tombstones, and backup restore testing. These are documented as anti-patterns, not copied into desktop requirements.
+The Android reference is source-backed and functionally substantial. At `ca4bed4`, the earlier waiter, unbounded work-chain, unreachable-conflict, patient-validation, stock/trigger, inventory-sorting, statistics, and backup TOCTOU defects are fixed and retained as regression targets. Current gaps are deletion/absence reconciliation (NCC-023), sync queue priority (NCC-025), low-severity inventory guards (NCC-027/030), the local-only ledger (NCC-038), the duplicate database singleton (NCC-039), and missing end-to-end restore coverage. The earlier `PatientCache` stale-history claim is not supported by current source.
 
 See [[Product/Feature-Inventory|Feature Inventory]] and [[Product/Android-Desktop-Parity|Android-Desktop Parity]].
 
@@ -64,9 +66,9 @@ Critical/high risks:
 - Stolen laptop exposing local PHI; no encryption/key-management decision.
 - Refresh-token theft through a renderer boundary.
 - Duplicate/corrupt stock or payment writes from non-idempotent sync.
-- Deleted records resurrecting on pull.
+- Deleted records resurrecting on pull because no deletion/absence contract exists.
 - Duplicate or altered receipt numbers.
-- Destructive backup restore that is not yet tested.
+- Destructive backup restore without an end-to-end automated test.
 - No signed update/rollback design.
 - No privacy retention or local PHI policy.
 
@@ -77,18 +79,18 @@ The target controls are in [[Security/Security-Model|Security Model]], [[Securit
 1. Keep the renderer untrusted: React/TS calls typed Wails bindings only; no direct Supabase, DB, filesystem, or token access.
 2. Put the trusted core in Go: validation, transactions, local DB, sync, auth, printing, updates.
 3. Use a local SQLite working copy with WAL, versioned migrations, encryption at rest, and a single writer. Exact driver/encryption remains an open ADR.
-4. Commit business data and outbox rows atomically; use transaction groups, stable IDs, idempotency, tombstones, and explicit conflict states.
-5. Reuse the existing Supabase project and schema; keep Supabase Auth/RLS authoritative; no service-role key or direct PostgreSQL credentials in the client; verify RLS with real roles through an approved non-destructive path.
+4. Commit business data and outbox rows atomically; use transaction groups, stable IDs, idempotency, an approved deletion/absence reconciliation contract, and explicit conflict states.
+5. Reuse the existing Supabase project and schema; keep Supabase Auth/RLS authoritative; no service-role key or direct PostgreSQL credentials in the client; verify RLS with real roles through an approved non-destructive path. Local SQLite is expected.
 6. Use server-assigned receipt numbers and a single stock ledger; never compute either locally.
 7. Use integer minor units for money, typed dates, IST reporting, and stable IDs.
 8. Make recovery and release first-class: encrypted backup with preview/safety snapshot, signed updates, rollback, and a release checklist.
-9. Do not create a new project, separate desktop database, duplicate tables, or parallel schema; see [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]].
+9. Do not create a new project, separate remote PostgreSQL database, duplicate remote tables, or parallel remote schema; local SQLite is expected. See [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]].
 
 See [[Architecture/System-Architecture|System Architecture]] and [[Decisions/README|Decision Log]].
 
 ## 6. Roadmap
 
-Phase 0 is the current gate: repository/instructions/CI, an approved non-destructive verification path against the existing Supabase project, a reviewed baseline schema, ADRs, auth/local-DB/sync spikes, test harness, and threat model. No new Supabase project or separate desktop database is approved.
+Phase 0 is the current gate: repository/instructions/CI, an approved non-destructive verification path against the existing Supabase project, a reviewed baseline schema, ADRs, auth/local-DB/sync spikes, test harness, and threat model. No new Supabase project or separate remote PostgreSQL database is approved; local SQLite is expected.
 
 Phase 1 is sequenced into six waves:
 1. Shell, auth, staff, settings.
@@ -100,8 +102,13 @@ Phase 1 is sequenced into six waves:
 
 No dates or effort estimates are asserted; there is no desktop code to measure. See [[Roadmap/Desktop-Roadmap|Desktop Roadmap]], [[Roadmap/Phase-1-Implementation-Plan|Phase 1 Plan]], and [[Roadmap/Dependencies-and-Milestones|Dependencies and Milestones]].
 
+### Phase 0B decision review
+
+[[Audits/Phase-0B-Architecture-Review|Phase 0B Architecture Review]] records 14 unresolved decisions (D1–D14), options/pros/cons, recommendations, prerequisites, and the nine-gate readiness matrix. ADR-0008 remains accepted; ADR-0001–ADR-0007 remain proposed. The review conclusion is **BLOCKED ON SPECIFIED EVIDENCE**, not a critical design failure.
+
 ## 7. Open decisions
 
+- The consolidated D1–D14 decisions and recommendations in [[Audits/Phase-0B-Architecture-Review|Phase 0B Architecture Review]] are the authoritative review list; the items below are retained as the original open-decision inventory.
 - Knowledge Base placement: this pass created a separate desktop vault to avoid overwriting Android notes; confirm whether a pointer or mirror under the Android `docs/Knowledge_Base/Desktop/` namespace is required.
 - Ownership of the actual existing-project URL/publishable key and the secure channel for desktop configuration.
 - The approved non-destructive verification path against the existing project; whether any separate test harness is permitted.
@@ -128,7 +135,7 @@ No dates or effort estimates are asserted; there is no desktop code to measure. 
 | Android instrumented tests | Not run — no emulator evidence |
 | Live Supabase/RLS/Storage tests | Not run — actual project access unavailable |
 | Shared-backend file/config audit | Complete read-only; actual URL/key absent from worktree; no secret values printed |
-| Documentation link/fence/frontmatter validation | 63 notes, 611 wikilinks, 0 missing links, 0 unbalanced fences, 0 frontmatter errors |
+| Documentation link/fence/frontmatter validation | 67 notes, 739 wikilinks, 0 missing links, 0 unbalanced fences, 0 frontmatter errors |
 | Existing Android doc validator | Not run against the desktop vault; Android KB unchanged |
 | Mermaid blocks | 11 fenced blocks, fences balanced; not render-tested |
 | Secret scan | Custom JWT/key/URL/PostgreSQL-URI/secret-assignment scan; no literal secret found. CSV value-pattern scan also found no URL/key/JWT/service-role/password fields. |
@@ -141,7 +148,11 @@ The Android Knowledge Base's historical 277-unit-test result was **not** re-run.
 
 **Desktop project:** Git repository initialized; `main` pushed to GitHub. The pushed branch contains the Knowledge Base, 17 skill definitions, the user CSV, `.gitignore`, and the repository `LICENSE`. No Git diff from before the push exists because the project was previously untracked.
 
-**Markdown files in vault:** 63 (61 baseline + 2 shared-backend notes).
+**Second-pass correction state (2026-10-20):** 43 pre-existing notes, all 17 skills, and the repository root `README.md` were modified; one validation note was added. No application source, schema, migration, policy, dependency, or Android file was changed. Those documentation corrections are uncommitted at report time.
+
+**Phase 0B state (2026-10-20):** three new notes were added; the database/audit/index notes listed below, the Product Vision/Technical Debt money wording, and ADR-0007's evidence context were extended. No application source, schema, migration, RLS policy, grant, Supabase setting, dependency, Android file, or credential was changed. All desktop documentation changes remain uncommitted.
+
+**Markdown files in vault:** 67 (63 pre-existing + 1 validation note + 3 Phase 0B notes).
 
 ### Root
 - `docs/Knowledge_Base/Home.md`
@@ -167,6 +178,8 @@ The Android Knowledge Base's historical 277-unit-test result was **not** re-run.
 - `docs/Knowledge_Base/Database/Access-Patterns.md`
 - `docs/Knowledge_Base/Database/Data-Dictionary.md`
 - `docs/Knowledge_Base/Database/Database-Architecture.md`
+- `docs/Knowledge_Base/Database/Live-Verification-Queries.md`
+- `docs/Knowledge_Base/Database/Schema-Reconciliation.md`
 
 ### Security
 - `docs/Knowledge_Base/Security/Privacy-and-Backup.md`
@@ -202,8 +215,10 @@ The Android Knowledge Base's historical 277-unit-test result was **not** re-run.
 - `docs/Knowledge_Base/Testing/Test-Strategy.md`
 
 ### Audits
+- `docs/Knowledge_Base/Audits/Documentation-Validation.md`
 - `docs/Knowledge_Base/Audits/Final-Report.md`
 - `docs/Knowledge_Base/Audits/Initial-Audit.md`
+- `docs/Knowledge_Base/Audits/Phase-0B-Architecture-Review.md`
 - `docs/Knowledge_Base/Audits/Risk-Register.md`
 - `docs/Knowledge_Base/Audits/Shared-Backend-Connection-Investigation.md`
 - `docs/Knowledge_Base/Audits/Technical-Debt.md`
@@ -233,24 +248,27 @@ The Android Knowledge Base's historical 277-unit-test result was **not** re-run.
 | Stage | Outcome |
 |---|---|
 | 1. Discovery | Complete for available sources |
-| 2. Audit | Complete; 15 findings recorded |
+| 2. Audit | Complete; 15 initial audit findings recorded |
 | 3. Feature inventory | 22 modules documented; statuses conservative |
-| 4. Feature specifications | 22 specs; 126 module requirements |
+| 4. Feature specifications | 22 specs; 126 module requirements + 12 cross-cutting = 138 total |
 | 5. Architecture documentation | System, frontend, Go, data flows, offline/sync, cache, errors |
 | 6. Database documentation | Architecture, 24-table/416-column desktop snapshot + 23/361 stale Android snapshot, access patterns |
 | 7. Security/privacy | Security model, threat model, privacy/backup |
 | 8. Roadmap | Phase 0/1/2/3, implementation plan, dependencies, traceability |
 | 9. Final report | This document |
 | 10. Shared-backend investigation | CSV comparison, Android connection map, desktop status, RLS evidence, risk update |
+| 11. Documentation validation | 63 pre-existing notes checked (20 PASS, 25 PARTIAL, 18 FAIL); 17 skills checked (17 PARTIAL); 16 material findings corrected; live evidence remains blocked |
+| 12. Phase 0B blocker/architecture review | 18 FAIL/25 PARTIAL rechecked; 55-row CSV delta reconciled; Data Dictionary key rows and money-type wording corrected; 3 new evidence/decision notes; live security and stock mode remain blocked |
 
-## 11. Next gate
+## 13. Next gate
 
 Do not start feature implementation until:
-1. `AGENTS.md`, branch protection, and CI exist in the now-initialized desktop repository.
+1. `AGENTS.md` and CI exist in the now-initialized desktop repository, and branch protection is confirmed/configured through GitHub settings (it is not verifiable from repository contents).
 2. The existing Supabase project identity is verified with a redacted fingerprint; the desktop resolves the same project as Android.
-3. A reviewed baseline/reconciliation path exists for the existing schema and RLS, without creating a new project or separate database.
-4. ADR-0002, ADR-0003, ADR-0004, and ADR-0005 are accepted; ADR-0008 is already accepted.
-5. The auth/local-DB/sync spike passes replay, tombstone, token, and cross-client tests through the approved path.
-6. Local PHI encryption and retention are approved.
+3. The read-only [[Database/Live-Verification-Queries|Live Verification Queries]] export is reviewed against the CSVs and migrations, including the 15 baseline tables, `todo_notification_events`, RLS/ACLs, Storage/Realtime, and the live stock/receipt triggers.
+4. The live stock mode is resolved (trigger or absolute writer); desktop will not dual-write.
+5. ADR-0001 through ADR-0007 are accepted or rejected through the D1–D14 review; ADR-0008 remains accepted. A deletion/absence reconciliation contract is approved as part of ADR-0003.
+6. The auth/local-DB/sync spike passes replay, deletion-reconciliation, token, stock, and cross-client tests through the approved path.
+7. Local PHI encryption, key recovery, retention, and backup/restore are approved and tested.
 
-**Bottom line:** the documentation baseline is complete and traceable; the shared-backend constraint is accepted; the desktop product is not built and its connection is **Missing**.
+**Bottom line:** the documentation baseline is corrected and the 55-row schema discrepancy is reconciled at file level; the shared-backend constraint is accepted. The desktop product is not built, its connection is **Missing**, and the Phase 0B conclusion is **BLOCKED ON SPECIFIED EVIDENCE** pending live catalog/security evidence, stock-trigger resolution, the deletion contract, and D1–D14 approvals.

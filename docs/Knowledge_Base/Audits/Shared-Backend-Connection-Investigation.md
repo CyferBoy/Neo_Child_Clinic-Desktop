@@ -25,9 +25,7 @@ Three candidate files were found. They contain schema metadata, not connection c
 | Shared-storage copy: `/storage/emulated/0/Neo_Child_Clinic-main/supabase/migrations/Supabase Snippet Full Schema Catalog (Tables, Keys, Indexes).csv` | `7fc4208a4a464801930a3068d8036ceb889a6b6e87ae28e7264b124d44b68f22` | 19,581 B | 361 | 23 | Not part of the inspected Android worktree | Byte-identical duplicate of the Android repo CSV; not independent evidence. |
 | Desktop project: `/storage/emulated/0/Neo_Child_Clinic_Desktop/Supabase Snippet List Public Table Columns.csv` | `1e5ceee58a083c63ba1af024f9bc41d6f0809daefe28dce3e4507d9ee80c978a` | 23,237 B | 416 | 24 | Tracked after the post-investigation push; at investigation time untracked with no Git repository | Newer, broader snapshot, but still not a live-schema authority. |
 
-Both CSVs use the same seven fields:
-
-`table_name`, `column_order`, `column_name`, `data_type`, `postgres_type`, `is_nullable`, `column_default`
+The two CSVs do **not** use the same fields. The Android-repository snapshot uses `table_name`, `column_order`, `column_name`, `data_type`, `postgres_type`, `is_nullable`, `column_default`. The desktop snapshot uses `table_schema`, `table_name`, `column_name`, `ordinal_position`, `data_type`, `is_nullable`, `column_default`.
 
 Neither CSV contains a project URL, project reference, authentication setting, grant, RLS policy, Storage/Realtime/RPC configuration, or credential field. A field-name and value-pattern scan found no `http(s)://` URL, JWT-like literal, `service_role` reference, publishable/secret key prefix, PostgreSQL URI, or password/secret field in either file. The values were not reproduced.
 
@@ -39,10 +37,12 @@ Neither CSV contains a project URL, project reference, authentication setting, g
 | Columns | 361 | 416 | 55 more column rows in the newer snapshot, including soft-delete columns on many tables. |
 | `waste_records` naming | camelCase: `vaccineId`, `batchId`, `brandName`, `batchNumber`, `expiryDate`, `dateWasted`, `updatedAt`, `isSynced` | snake_case: `vaccine_id`, `batch_id`, `brand_name`, `batch_number`, `expiry_date`, `date_wasted`, `updated_at`, `is_synced` | The Android CSV predates `20260919_waste_records_snake_case.sql`. Current `WasteEntity` uses `@SerialName` snake_case names and current queries filter `is_deleted`, so the older CSV would generate the wrong desktop contract. |
 | Soft delete | Mostly absent | `is_deleted`, `deleted_at`, `deleted_by` on many tables | The current Android source filters `is_deleted` in most refresh paths. A desktop model generated from the old CSV would reject or omit current rows. |
-| Ordinal completeness | Gaps exist | Gaps exist | Even the 416-column snapshot may omit columns. It is not proof of completeness. |
+| Ordinal completeness | Gaps exist | Gaps exist | Gaps are consistent with dropped columns and are not proof of omitted rows. The concrete completeness gap is missing keys/indexes/policies/grants. |
 | `todo_notification_events` | Absent | Absent | Migration `20261016_rls_index_and_stock_trigger_hardening.sql` references this table as created by a migration not present in the repository. Its live status is unknown. |
 
-**Conclusion:** the Android repo CSV is an older snapshot; the desktop CSV is newer but still incomplete and unverified. Neither is a connection configuration. The CSV must not be used to prove which Supabase project the Android app uses.
+**Conclusion:** the Android repo CSV is an older snapshot; the desktop CSV is newer but remains a column-only snapshot with no keys, indexes, policies, or grants. Neither is a connection configuration. The CSV must not be used to prove which Supabase project the Android app uses.
+
+`[INFERRED, high]` The exact 55-row difference is explained by migration chronology: 15 tables × 3 soft-delete columns (45), `doctor_slot_exceptions`/`expenses` × 2 additional soft-delete columns (4), `waste_records` 8 renames plus 3 additions (+3 net), and `api_write_rate_limits` (3). The Android snapshot predates `20260919`; the desktop snapshot is after `20260929`. See [[Database/Schema-Reconciliation|Schema Reconciliation]].
 
 ## 2. Android database connection architecture
 
@@ -280,8 +280,8 @@ A post-investigation push added the Git repository, `.gitignore`, and the reposi
 | ID | Finding | Evidence | Impact | Required disposition |
 |---|---|---|---|---|
 | CONN-001 | Actual project URL/project identity and publishable key are absent from the worktree and inspection environment | `.env.local`, `.env`, `local.properties` absent; `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, and `BACKUP_WORKER_URL` unset; CSV has no connection fields | Cannot prove desktop would use the same project; wrong-project risk | Obtain approved configuration through a secure channel; verify a redacted project fingerprint; never print the values |
-| CONN-002 | Android repo CSV is stale and would generate the wrong contract | 23 tables/361 columns; camelCase `waste_records`; missing soft-delete columns and `api_write_rate_limits`; migration `20260919_waste_records_snake_case.sql` supersedes it | Desktop model/query drift; broken waste sync; missing tombstones | Do not use the old CSV; use a live catalog or the newer snapshot plus schema verification |
-| CONN-003 | Both CSVs are incomplete | Ordinal gaps; no keys/indexes despite filename; `todo_notification_events` absent but referenced by migration | Missing columns/tables/policies; false confidence | Capture live read-only catalog, constraints, indexes, grants, policies, triggers |
+| CONN-002 | Android repo CSV is stale and would generate the wrong contract | 23 tables/361 columns; camelCase `waste_records`; missing soft-delete columns and `api_write_rate_limits`; migration `20260919_waste_records_snake_case.sql` supersedes it | Desktop model/query drift; broken waste sync; missing soft-delete fields and deletion contract | Do not use the old CSV; use a live catalog or the newer snapshot plus schema verification |
+| CONN-003 | Both CSVs are incomplete for a schema contract | No keys/indexes/policies/grants; ordinal gaps are not omission proof; `todo_notification_events` absent but referenced by migration | Missing columns/tables/policies; false confidence | Capture live read-only catalog, constraints, indexes, grants, policies, triggers |
 | CONN-004 | Repository cannot reproduce the schema from zero | Only 9 of 24 tables created; no baseline | No clean desktop test environment or disaster-recovery proof | Reconcile a baseline against the existing project; do not invent tables |
 | CONN-005 | Live RLS/grants/Storage policies unverified | No live access; SQL tests not run; policy SQL is intent | Desktop could expose or corrupt data even if Android works | Run read-only verification and role tests with approved test accounts; no production mutation |
 | CONN-006 | The desktop has no connection code | No source, build, config, or tests | All connection status is Missing, not “working” | Implement only after ADR-0008 and the verification gate are approved |
@@ -324,10 +324,10 @@ flowchart LR
 `[PROPOSED]` and constrained by `[DECISION]` ADR-0008:
 
 1. **Use the existing Supabase HTTPS APIs.** Auth, PostgREST, Storage, Functions, and Realtime. Do not connect the desktop directly to PostgreSQL.
-2. **Use the same project identity and schema.** Resolve `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` from approved configuration; verify the same project with a redacted fingerprint. No new project, database, schema, or duplicate tables.
+2. **Use the same project identity and schema.** Resolve `SUPABASE_URL` and `SUPABASE_PUBLISHABLE_KEY` from approved configuration; verify the same project with a redacted fingerprint. No new project, separate remote database, parallel remote schema, or duplicate remote tables. Local SQLite is expected.
 3. **Authenticate as the staff user.** Go owns sign-in, refresh, and revocation. The refresh token goes in the OS keychain; the access token stays in Go memory; the renderer never receives either.
 4. **Carry the user JWT on every request.** PostgREST, Storage, and Functions see the same `auth.uid()` and `app_metadata.role` as Android. RLS remains authoritative.
-5. **Use a local SQLite working copy plus an outbox.** Local writes commit first; the outbox uploads with stable IDs and transaction groups; pulls reconcile by cursor and tombstones. SQLite is not a second backend.
+5. **Use a local SQLite working copy plus an outbox.** Local writes commit first; the outbox uploads with stable IDs and transaction groups; pulls reconcile by cursor and an approved deletion/absence contract. Repository evidence contains no server tombstone feed; live status is unverified. SQLite is not a second backend.
 6. **Keep server-authoritative behavior.** Receipt numbers, stock triggers, audit attribution, write-rate limits, and privileged staff changes stay server-side.
 7. **Preserve table boundaries.** Sync only the public tables that Android syncs; keep `sync_queue`, `widget_due_cache`, `inventory_deductions`, and `backup_history` local; never create `receipt_sequences` or `api_write_rate_limits` from the desktop.
 8. **Use Storage only where the reference does.** `patient-docs` with the user session; do not invent a desktop-only bucket. Backups already use a separate Cloudflare worker, not Supabase Storage.
@@ -341,7 +341,7 @@ flowchart LR
 | Supabase Auth + PostgREST + Storage + Functions over HTTPS with user JWT | **Recommended.** Matches Android, preserves RLS, no database password, no new backend. |
 | Direct PostgreSQL connection from Go | **Rejected.** Requires privileged credentials, bypasses PostgREST conventions, duplicates authorization, and creates a new network surface. |
 | Service-role key in the desktop app | **Rejected.** Every installation would bypass RLS. |
-| New Supabase project or separate desktop database | **Rejected by ADR-0008.** Splits data and identity; violates the non-negotiable requirement. |
+| New Supabase project or separate remote PostgreSQL database | **Rejected by ADR-0008.** Splits data and identity; violates the non-negotiable requirement. |
 | New backend service | **Not justified.** Existing Auth/PostgREST/Storage/Functions already cover the observed operations. Revisit only with a concrete privileged-operation requirement and approval. |
 | Use the CSV as the desktop schema source | **Rejected.** Stale/incomplete; generate from a verified live catalog or a reviewed baseline, not the CSV alone. |
 
@@ -368,14 +368,14 @@ These are **not implemented** in this pass. No dates or effort estimates are ass
 | Implement a typed Supabase HTTPS client for Auth, PostgREST, Storage, Functions, Realtime | Use the existing API surface with user JWT | `[PROPOSED]` |
 | Generate/define desktop models from a verified live schema snapshot | Match actual columns, nullability, and soft-delete fields | `[PROPOSED]`; blocked on live catalog |
 | Create desktop SQLite schema/migrations and outbox tables | Local working copy without a parallel server schema | `[PROPOSED]` |
-| Implement sync worker with stable IDs, transaction groups, idempotent upserts, tombstones, conflict states | Safe convergence with Android | `[PROPOSED]` |
+| Implement sync worker with stable IDs, transaction groups, idempotent upserts, deletion/absence reconciliation, conflict states | Safe convergence with Android; deletion contract required first | `[PROPOSED]`; deletion contract blocked |
 | Wire `patient-docs` Storage access with the user session | Match existing document behavior | `[PROPOSED]` |
 | Wire Realtime refresh triggers only | Freshness without a second write path | `[PROPOSED]` |
 | Reuse `manage-staff`; no new backend unless approved | Keep privileged operations server-side | `[PROPOSED]` |
 | Add connection/auth/RLS/cross-client tests and secret scanning to CI | Prove same backend and safe behavior | `[PROPOSED]` |
 | Update ADR-0002/0003/0004/0005 and this report after approval | Resolve open implementation choices | `[PROPOSED]` |
 
-**Do not** create a new Supabase project, create a separate desktop database, duplicate tables, ship a service-role key, connect directly to PostgreSQL, or modify the live schema/RLS as part of this work without a separate approved change.
+**Do not** create a new Supabase project, create a separate remote PostgreSQL database, duplicate remote tables, ship a service-role key, connect directly to PostgreSQL, or modify the live schema/RLS as part of this work without a separate approved change. A local SQLite working copy is expected.
 
 ## 11. Tests needed to verify both applications use the same backend safely
 
@@ -389,7 +389,7 @@ No test below was run in this pass.
 | RLS CRUD matrix per table | Desktop cannot read/write rows RLS denies; Android behavior remains consistent | Read-only where possible; write tests use synthetic rows and approved cleanup |
 | Deactivated account | Refresh and data access fail; local PHI is cleared | Use a dedicated inactive test account |
 | Cross-client create/read/update | Android-created rows are visible to desktop and vice versa; no duplicate rows | Use synthetic patients/visits; never modify real clinical records |
-| Soft-delete/tombstone | Deleted rows do not resurrect; desktop filters `is_deleted` correctly | Synthetic rows; verify both clients |
+| Soft-delete and deletion reconciliation | Deleted rows do not resurrect; desktop filters `is_deleted` correctly and applies an approved deletion contract | Synthetic rows; verify both clients; contract required first |
 | Receipt assignment | Desktop uploads blank receipt number and reads the server-assigned immutable value | Use a test visit; do not consume production receipt numbers without approval |
 | Stock transaction replay | Duplicate/retried uploads do not double-apply stock or ledger rows | Use a test batch and controlled cleanup |
 | Audit append-only | Desktop cannot update/delete audit rows; actor is server-stamped | Synthetic audit rows |
@@ -398,7 +398,7 @@ No test below was run in this pass.
 | `manage-staff` authorization | Only an admin can create/change staff; no service-role key in desktop | Test with synthetic staff accounts; do not alter real staff |
 | Offline/outbox replay | Local commit survives restart; retry is idempotent; conflict is visible | Local test DB plus approved backend path |
 | Secret/log redaction | No URL/key/token/PHI in logs, crash output, or diagnostics | Run with redacted fixtures |
-| No-parallel-schema check | Desktop does not create tables, run migrations, or use a second database | Static/config test plus runtime inspection |
+| No-parallel-schema check | Desktop does not create remote tables, run production migrations, or use a second remote PostgreSQL database; local SQLite is expected | Static/config test plus runtime inspection |
 
 Existing assets:
 
@@ -415,9 +415,9 @@ Implementation should not start until:
 2. The actual existing project identity and configuration are supplied through an approved channel, without reproducing secrets in documentation or logs.
 3. A read-only schema/grants/policies/triggers capture is reviewed against the CSVs and migrations.
 4. A non-destructive verification path is approved. If a separate test harness is ever proposed, it must be explicitly approved and must never become the desktop backend.
-5. ADR-0002 (local persistence), ADR-0003 (sync), ADR-0004 (auth/session), and ADR-0005 (Wails boundary) are reviewed.
+5. ADR-0001 through ADR-0007 are reviewed and accepted; ADR-0008 remains binding.
 6. The desktop connection spike proves same-project auth, RLS, cross-client reads, and no service-role key.
 
 ## Related
 
-[[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008 — Shared Supabase Backend]] · [[Database/Database-Architecture|Database Architecture]] · [[Database/Access-Patterns|Database Access Patterns]] · [[Security/Security-Model|Security Model]] · [[Architecture/System-Architecture|System Architecture]] · [[Roadmap/Desktop-Roadmap|Desktop Roadmap]] · [[Testing/Test-Strategy|Test Strategy]] · [[Audits/Final-Report|Final Report]]
+[[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008 — Shared Supabase Backend]] · [[Database/Database-Architecture|Database Architecture]] · [[Database/Schema-Reconciliation|Schema Reconciliation]] · [[Database/Live-Verification-Queries|Live Verification Queries]] · [[Database/Access-Patterns|Database Access Patterns]] · [[Security/Security-Model|Security Model]] · [[Architecture/System-Architecture|System Architecture]] · [[Roadmap/Desktop-Roadmap|Desktop Roadmap]] · [[Testing/Test-Strategy|Test Strategy]] · [[Audits/Final-Report|Final Report]]

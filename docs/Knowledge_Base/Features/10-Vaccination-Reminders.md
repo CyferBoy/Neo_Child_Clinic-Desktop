@@ -11,7 +11,7 @@ updated: 2026-10-20
 # 10. Vaccination Reminders
 
 > **Desktop status: Missing.** No desktop implementation exists. This is a Phase 1 specification, not a claim of completion.
-> **Android reference status:** Partially implemented. Evidence: `feature/reminder/`, Android KB `Due Vaccination`, confirmed timezone/tombstone/notification findings.
+> **Android reference status:** Partially implemented. Evidence: `feature/reminder/`, Android KB `Due Vaccination`. Historical timezone and notification defects are fixed; no deletion/absence reconciliation contract exists (NCC-023).
 
 **Requirement IDs:** `REM-001`, `REM-002`, `REM-003`, `REM-004`, `REM-005`, `REM-006`
 
@@ -38,7 +38,7 @@ The Android reference contains this feature surface. Source inspection and the e
 4. Dismiss with reason.
 5. Reschedule while preserving history.
 6. Notify staff and open the patient context.
-7. Apply tombstones from other devices.
+7. Reconcile deletions from other devices once an approved deletion/absence contract exists; no server tombstone feed is present in repository evidence; live status is unverified.
 
 ## 5. UI states
 
@@ -96,7 +96,7 @@ The Android reference contains this feature surface. Source inspection and the e
 - Blank/invalid date -> block.
 - Stale status -> conflict, not overwrite.
 - Notification permission denied -> visible preference state.
-- Tombstone missing -> deleted row can resurrect (must prevent).
+- Deletion contract absent -> a hard-deleted row can resurrect; resolve an approved deletion/absence contract before sync.
 
 ## 11. Edge cases
 
@@ -118,7 +118,7 @@ The Android reference contains this feature surface. Source inspection and the e
 ## 13. Test notes
 
 - Clock/timezone unit tests.
-- Integration: status transitions/tombstones.
+- Integration: status transitions and deletion reconciliation (requires an approved contract).
 - E2E: due list and notification.
 - Chaos: stale pull.
 

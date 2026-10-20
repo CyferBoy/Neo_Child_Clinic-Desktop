@@ -30,7 +30,7 @@ Do not use this skill to write production code or to assert that a test passed. 
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read, the test conventions, and existing test layout.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the test conventions and existing test layout.
 2. Record the commit and date.
 3. Discover the actual test commands from build files, package scripts, `Makefile`, CI, README, or Wails configuration. Do not invent commands.
 4. Inspect what already exists before proposing new suites. Do not duplicate an existing test under a new name.

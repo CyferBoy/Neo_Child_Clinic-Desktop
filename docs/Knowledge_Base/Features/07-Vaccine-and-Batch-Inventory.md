@@ -11,7 +11,7 @@ updated: 2026-10-20
 # 07. Vaccine and Batch Inventory
 
 > **Desktop status: Missing.** No desktop implementation exists. This is a Phase 1 specification, not a claim of completion.
-> **Android reference status:** Partially implemented. Evidence: `feature/inventory/`, Android KB `Inventory Management`, confirmed sorting/lost-update/trigger findings.
+> **Android reference status:** Partially implemented. Evidence: `feature/inventory/`, Android KB `Inventory Management`. Historical sorting/lost-update/trigger findings are fixed; NCC-027 and NCC-030 remain open low-severity gaps.
 
 **Requirement IDs:** `INV-001`, `INV-002`, `INV-003`, `INV-004`, `INV-005`, `INV-006`, `INV-007`
 

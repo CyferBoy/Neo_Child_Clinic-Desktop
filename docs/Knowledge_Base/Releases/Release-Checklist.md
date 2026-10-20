@@ -29,7 +29,7 @@ updated: 2026-10-20
 
 ## Security
 
-- [ ] Same-project fingerprint matches Android; no new project/database/parallel schema.
+- [ ] Same-project fingerprint matches Android; no new project, separate remote PostgreSQL database, or parallel remote schema. Local SQLite is expected.
 - [ ] RLS suite green with multiple roles and a deactivated account through the approved path.
 - [ ] No service-role/database credential in the client.
 - [ ] Renderer contains no tokens or PHI in storage/URLs.
@@ -44,7 +44,7 @@ updated: 2026-10-20
 - [ ] Schema drift check passed.
 - [ ] Cross-client Android/desktop read/write test passed without duplicates.
 - [ ] Outbox/transaction-group replay test passed.
-- [ ] Tombstone/pull test passed.
+- [ ] Deletion/absence reconciliation test passed; the contract is approved.
 - [ ] Conflict handling tested for patient/payment/stock/note.
 - [ ] Receipt sequence test passed.
 - [ ] Stock ledger reconciliation passed.

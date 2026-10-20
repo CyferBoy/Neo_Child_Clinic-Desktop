@@ -3,7 +3,7 @@ title: Desktop Notifications
 feature_id: NOT
 doc_status: proposed
 desktop_status: Missing
-android_status: Partially implemented
+android_status: Unverified
 evidence: Android source + Knowledge Base
 updated: 2026-10-20
 ---
@@ -11,7 +11,7 @@ updated: 2026-10-20
 # 19. Desktop Notifications
 
 > **Desktop status: Missing.** No desktop implementation exists. This is a Phase 1 specification, not a claim of completion.
-> **Android reference status:** Partially implemented. Evidence: `core/notification/`, `feature/reminder/`, Android KB `Due Vaccination` findings.
+> **Android reference status:** Unverified. Evidence: `core/notification/`, `feature/reminder/`, Android KB `Due Vaccination`. Historical notification-ID/statistics defects are fixed; no open module-specific defect is recorded.
 
 **Requirement IDs:** `NOT-001`, `NOT-002`, `NOT-003`, `NOT-004`, `NOT-005`
 

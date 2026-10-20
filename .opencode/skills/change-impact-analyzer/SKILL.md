@@ -29,7 +29,7 @@ Do not use this skill to edit code, write migrations, or execute a plan.
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read and the current architecture, schema, and sync documentation.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the current architecture, schema, and sync documentation.
 2. Record the current commit and Git state.
 3. Restate the change in one paragraph and list explicit non-goals. If the intended behavior is ambiguous, stop and ask.
 4. Confirm whether the backend is shared with Android. If it is, Android compatibility is in scope even when only desktop changes.

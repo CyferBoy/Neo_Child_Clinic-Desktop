@@ -29,7 +29,7 @@ Do not use this skill to write migrations, apply policies, or change API contrac
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read, existing schema/API notes, and the documentation maintenance guide.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read existing schema/API notes and the documentation maintenance guide.
 2. Record the commit and branch. State the migration range covered.
 3. Identify whether the backend is shared with Android. Shared objects require compatibility notes.
 4. Confirm whether a live database is available. Do not imply hosted state from repository migrations.

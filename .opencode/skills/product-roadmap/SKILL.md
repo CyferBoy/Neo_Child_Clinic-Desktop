@@ -30,7 +30,7 @@ Do not use this skill to write detailed feature behavior; use `feature-specifica
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read, the product/KB index, and any existing vision or roadmap notes.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the product/KB index and any existing vision or roadmap notes.
 2. Record the evidence date and commit. A roadmap built on stale inventory is marked as such.
 3. Identify who owns product priority. If no owner is available, mark prioritisation as `[UNKNOWN]` rather than inventing it.
 4. Do not reuse Android roadmap stages as desktop commitments. They are reference material only.

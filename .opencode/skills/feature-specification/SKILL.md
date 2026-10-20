@@ -30,7 +30,7 @@ Do not use this skill to write code, migrations, tests, or implementation tasks.
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read, the feature inventory, roadmap, architecture, schema, and related specs.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the feature inventory, roadmap, architecture, schema, and related specs.
 2. Record the commit/date and the evidence sources for the intended behavior.
 3. Confirm the feature is in scope and the product owner is available for unresolved decisions.
 4. If the Android reference is the only source of behavior, describe it as reference input, not as a desktop fact.

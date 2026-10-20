@@ -9,7 +9,7 @@ updated: 2026-10-20
 
 > **Proposed.** No desktop threat model has been validated against a running application. This document identifies the threats the Phase 1 design must address.
 >
-> **Backend constraint:** the desktop uses the same existing Supabase project/schema as Android under [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]. No new project, separate database, direct PostgreSQL access, or service-role key in the client is permitted.
+> **Backend constraint:** the desktop uses the same existing Supabase project/schema as Android under [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]. No new project, separate remote PostgreSQL database, direct PostgreSQL access, or service-role key in the client is permitted. Local SQLite is expected.
 
 ## Scope
 

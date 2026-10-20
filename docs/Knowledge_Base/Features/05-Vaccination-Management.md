@@ -3,7 +3,7 @@ title: Vaccination Management
 feature_id: VAC
 doc_status: proposed
 desktop_status: Missing
-android_status: Partially implemented
+android_status: Unverified
 evidence: Android source + Knowledge Base
 updated: 2026-10-20
 ---
@@ -11,7 +11,7 @@ updated: 2026-10-20
 # 05. Vaccination Management
 
 > **Desktop status: Missing.** No desktop implementation exists. This is a Phase 1 specification, not a claim of completion.
-> **Android reference status:** Partially implemented. Evidence: `feature/vaccination/`, Android KB `Vaccination Management`, confirmed stock/retry findings.
+> **Android reference status:** Unverified. Evidence: `feature/vaccination/`, Android KB `Vaccination Management`. Historical stock/retry defects are fixed at `ca4bed4`; runtime verification is still absent.
 
 **Requirement IDs:** `VAC-001`, `VAC-002`, `VAC-003`, `VAC-004`, `VAC-005`, `VAC-006`, `VAC-007`
 

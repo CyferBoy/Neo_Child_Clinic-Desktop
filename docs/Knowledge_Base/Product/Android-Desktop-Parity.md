@@ -26,22 +26,22 @@ updated: 2026-10-20
 | Desktop shell | Unverified | Missing | Gap | No shell, routing, window, or sync-status surface |
 | Authentication | Unverified | Missing | Gap | No session, token storage, role claim handling, or lock screen |
 | Staff/roles | Unverified | Missing | Gap | No account lifecycle or role administration |
-| Patients | Partially implemented | Missing | Gap | Validation feedback and stale-history defects in reference |
-| Vaccinations | Partially implemented | Missing | Gap | Retry/idempotency and stock-ledger defects in reference |
+| Patients | Unverified | Missing | Gap | Historical validation defects fixed; no supported stale-history defect remains; runtime unverified |
+| Vaccinations | Unverified | Missing | Gap | Historical stock/retry defects fixed; runtime unverified |
 | Consultations | Unverified | Missing | Gap | No clinical note or linked payment workflow |
-| Inventory | Partially implemented | Missing | Gap | String date sorting, lost updates, trigger double-apply risk |
+| Inventory | Partially implemented | Missing | Gap | Historical sorting/lost-update/trigger defects fixed; NCC-027/NCC-030 low-severity gaps remain |
 | Wastage | Unverified | Missing | Gap | No waste ledger or stock reconciliation |
 | Borrow/return | Unverified | Missing | Gap | No batch-linked borrow/return lifecycle |
-| Vaccination reminders | Partially implemented | Missing | Gap | Timezone, tombstone, and notification defects in reference |
-| Personal reminders | Partially implemented | Missing | Gap | Blank-date reminder defect; no desktop reminder model |
+| Vaccination reminders | Partially implemented | Missing | Gap | Historical timezone/notification defects fixed; no deletion/absence contract (NCC-023) |
+| Personal reminders | Unverified | Missing | Gap | NCC-034 reclassified as not a bug; no desktop reminder model |
 | Finance/payments | Unverified | Missing | Gap | No income/expense ledger or payment split |
 | Receipts/printing | Unverified | Missing | Gap | No server receipt number integration or desktop print path |
 | Dashboard | Unverified | Missing | Gap | No today view, counts, or alert surface |
-| Statistics/reports | Partially implemented | Missing | Gap | Income double-count defect in reference |
-| Local persistence | Partially implemented | Missing | Gap | No local schema, transactions, or recovery |
-| Supabase sync | Partially implemented | Missing | Gap | No outbox, pull cursor, conflict policy, or tombstones |
-| Backup/recovery | Partially implemented | Missing | Gap | Restore path is destructive and untested in reference |
-| Notifications | Partially implemented | Missing | Gap | No desktop notification bridge or preference model |
+| Statistics/reports | Unverified | Missing | Gap | Historical income double-count/filter defects fixed; runtime unverified |
+| Local persistence | Partially implemented | Missing | Gap | NCC-039 duplicate singleton; no deletion contract at sync boundary |
+| Supabase sync | Partially implemented | Missing | Gap | Historical waiter/chain/conflict defects fixed; NCC-023/025/038 remain open |
+| Backup/recovery | Partially implemented | Missing | Gap | Destructive restore; no end-to-end test; crypto/validator unit tests exist |
+| Notifications | Unverified | Missing | Gap | Historical notification defects fixed; no desktop notification bridge yet |
 | Settings | Unverified | Missing | Gap | No local/remote configuration boundary |
 | Audit | Unverified | Missing | Gap | No append-only audit writer or viewer |
 | Updates | Unverified | Missing | Gap | No packaging, signing, update feed, or rollback |
@@ -66,7 +66,7 @@ updated: 2026-10-20
 
 1. Trust boundary: auth, RLS verification, local encryption, IPC.
 2. Data integrity: patient identity, vaccination transaction, stock ledger, payments, receipts.
-3. Offline convergence: outbox, idempotency, tombstones, pull cursor.
+3. Offline convergence: outbox, idempotency, approved deletion/absence reconciliation, pull cursor.
 4. Recovery: backup/restore, audit, sync error resolution.
 5. Reporting and operational polish.
 

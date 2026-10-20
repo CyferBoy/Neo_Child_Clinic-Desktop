@@ -151,7 +151,7 @@ updated: 2026-10-20
 | `ERR-005` | Fatal local storage error stops writes safely | [[Architecture/Error-Handling|Error Handling]] |
 | `DB-001` | User JWT only; no service role | [[Database/Access-Patterns|Access Patterns]] |
 | `DB-002` | RLS verified with multiple roles through an approved non-destructive path | [[Database/Access-Patterns|Access Patterns]] |
-| `DB-007` | Both clients use the same existing Supabase project/schema; no new project, separate database, duplicate tables, or parallel schema; verify with a redacted fingerprint | [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] |
+| `DB-007` | Both clients use the same existing Supabase project/schema; no new project, separate remote PostgreSQL database, duplicate remote tables, or parallel remote schema; local SQLite is expected; verify with a redacted fingerprint | [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] |
 | `SEC-001` | No service-role/database credential in client | [[Security/Security-Model|Security Model]] |
 | `SEC-002` | Refresh token only in OS keychain | [[Security/Security-Model|Security Model]] |
 | `SEC-005` | Audit append-only and attributable | [[Security/Security-Model|Security Model]] |

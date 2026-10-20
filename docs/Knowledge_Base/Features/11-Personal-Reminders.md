@@ -3,7 +3,7 @@ title: Personal Reminders
 feature_id: PER
 doc_status: proposed
 desktop_status: Missing
-android_status: Partially implemented
+android_status: Unverified
 evidence: Android source + Knowledge Base
 updated: 2026-10-20
 ---
@@ -11,7 +11,7 @@ updated: 2026-10-20
 # 11. Personal Reminders
 
 > **Desktop status: Missing.** No desktop implementation exists. This is a Phase 1 specification, not a claim of completion.
-> **Android reference status:** Partially implemented. Evidence: `feature/personalreminder/`, `domain/model/PersonalReminder.kt`, Android KB blank-date finding.
+> **Android reference status:** Unverified. Evidence: `feature/personalreminder/`, `domain/model/PersonalReminder.kt`. NCC-034 was reclassified as not a bug; no open module-specific defect is recorded.
 
 **Requirement IDs:** `PER-001`, `PER-002`, `PER-003`, `PER-004`, `PER-005`
 

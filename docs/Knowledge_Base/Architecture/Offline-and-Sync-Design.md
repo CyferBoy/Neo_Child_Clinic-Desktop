@@ -7,7 +7,7 @@ updated: 2026-10-20
 
 # Offline and Sync Design
 
-> **Proposed only.** The Android app is the reference for offline-first intent, but its confirmed sync defects are explicit anti-patterns for the desktop. Sync targets the **existing** Supabase project and schema under [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]; it does not create a separate backend.
+> **Proposed only.** The Android app is the reference for offline-first intent. Its historical sync defects are regression targets, and its unresolved deletion gap is an explicit warning for the desktop. Sync targets the **existing** Supabase project and schema under [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]; it does not create a separate remote backend or database.
 
 ## Guarantee
 
@@ -55,10 +55,11 @@ If step 3, 4, or 5 fails, the business write rolls back. A business row without 
 - Retries reuse the same payload identity and idempotency key.
 - The client treats a duplicate/already-exists response as success **only** when the server row matches the intended business identity.
 
-## Pull and tombstones
+## Pull and deletion reconciliation
 
 - Pull by a monotonic cursor, ordered by `(updated_at, id)`, with a safety overlap window.
-- Include deleted rows or a separate tombstone feed. A deleted row must be applied as deleted, not skipped.
+- Repository migrations add `is_deleted`/`deleted_at`/`deleted_by` to some tables, but repository evidence contains no server tombstone table or change feed for hard deletes; live status is unverified. Android pull paths therefore cannot observe every delete; NCC-023 is re-scoped as an absence-reconciliation gap.
+- Do not assume tombstones. Before sync is implemented, approve one deletion contract: remote soft delete plus a filtered pull, authoritative-snapshot/absence reconciliation, or another approved change-data-capture mechanism. Deletion propagation is blocked until then.
 - Do not let an older remote `updated_at` overwrite a local unacknowledged write.
 - Advance the cursor only after the page is committed locally.
 - Detect schema drift and stop with a visible error rather than writing unknown shapes.
@@ -95,16 +96,19 @@ If step 3, 4, or 5 fails, the business write rolls back. A business row without 
 
 ## Anti-patterns from the reference
 
-The Android Knowledge Base records these confirmed problems; the desktop must not repeat them:
-- A sync waiter that discards the failure result and reports success.
+Historical defects fixed at `ca4bed4`; keep them as regression targets, not current-bug claims:
+- A sync waiter that discarded the failure result and reported success.
 - Unbounded work chains created per queued row.
-- A conflict branch that is unreachable because status is committed before upload.
-- Pull paths that never apply tombstones, allowing deleted rows to resurrect.
-- A single stock deduction applied through multiple non-atomic paths.
-- Date strings compared lexicographically.
-- A destructive restore path with no automated tests.
+- A conflict branch that was unreachable because status was committed before upload.
+- Lexicographic date-string comparisons in inventory and statistics paths.
 
-See Android KB `Offline Synchronization`, `Inventory Management`, and `Backup and Restore` for the evidence.
+Remaining gaps the desktop must not inherit:
+- Pull paths cannot observe every hard delete, and repository evidence contains no server tombstone contract (NCC-023); live status is unverified.
+- Android has no tombstone or authoritative snapshot contract for deletion propagation.
+- `inventory_deductions` is a local-only ledger table with no remote counterpart (NCC-038).
+- The destructive restore path has no end-to-end automated restore test; crypto and validation helpers do have unit tests.
+
+See Android KB `Offline Synchronization`, `Inventory Management`, and `Backup and Restore`, and the Bug Register entries NCC-023, NCC-038, and NCC-037.
 
 ## Requirements
 
@@ -113,7 +117,7 @@ See Android KB `Offline Synchronization`, `Inventory Management`, and `Backup an
 | OFF-001 | A local business transaction and its outbox rows commit atomically or not at all. |
 | OFF-002 | The UI distinguishes local commit from server acknowledgement. |
 | OFF-003 | A retry never creates a duplicate business event. |
-| OFF-004 | Deletes propagate as tombstones and cannot resurrect on pull. |
+| OFF-004 | Deletes are reconciled by an approved contract and cannot resurrect on pull. The contract is currently unresolved; repository evidence contains no server tombstone feed, and live status is unverified. |
 | OFF-005 | Sync failures are visible, classified, and recoverable without data loss. |
 | SYNC-001 | A transaction group is acknowledged only when all required members are acknowledged. |
 | SYNC-002 | Pull is paged, resumable, schema-checked, and cursor-safe. |
@@ -124,7 +128,7 @@ See Android KB `Offline Synchronization`, `Inventory Management`, and `Backup an
 
 - Kill the network during patient, vaccination, payment, and stock writes; restart; all committed work is present and syncs once.
 - Retry the same outbox batch twice; server row counts and amounts are unchanged.
-- Delete a row on device A, pull on device B; it stays deleted.
+- Delete a row on device A, pull on device B; it stays deleted. This is blocked until an approved deletion/absence reconciliation contract exists.
 - Edit the same patient on two devices; the conflict is visible and resolvable.
 - Expire the token during a batch; re-authenticate; no duplicate rows.
 - Simulate a 500 after the server committed; retry is idempotent.
@@ -133,7 +137,7 @@ See Android KB `Offline Synchronization`, `Inventory Management`, and `Backup an
 
 - Is the outbox payload canonical JSON or a typed per-entity record?
 - Does the backend expose a transaction-group RPC, or must the client order independent upserts?
-- What is the retention window for tombstones?
+- Which deletion/absence reconciliation contract is approved, given that repository evidence contains no server tombstone feed, and what is its retention window?
 - How are server-side stock triggers reconciled with client-side stock movements?
 - Is multi-workstation conflict resolution a Phase 1 requirement or a Phase 2 hardening item?
 

@@ -29,7 +29,7 @@ Do not use this skill to design a new feature or to change code. Hand off design
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read, the Knowledge Base index, existing architecture notes, and ADRs.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the Knowledge Base index, existing architecture notes, and ADRs.
 2. Record the commit and date. Architecture notes must state what revision they describe.
 3. Locate the actual entry points and package boundaries. Do not assume a conventional Wails layout.
 4. If a layer is absent or inaccessible, document the gap rather than drawing an imagined component.

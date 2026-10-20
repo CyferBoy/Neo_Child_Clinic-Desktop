@@ -30,7 +30,7 @@ Do not use this skill if the specification is still `Proposed`, if key decisions
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read, the spec, the impact analysis, and the existing implementation.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the spec, the impact analysis, and the existing implementation.
 2. Record the commit and date.
 3. Confirm the spec status is `Approved` and all blocking `QUES` items are resolved. If not, stop.
 4. Confirm the write scope: no application code should be changed during planning.

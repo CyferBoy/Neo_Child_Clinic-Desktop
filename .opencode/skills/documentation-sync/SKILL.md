@@ -29,7 +29,7 @@ Do not use this skill to design missing architecture or write new feature specif
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read, the documentation maintenance guide, the index, and the vault validator instructions.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the documentation maintenance guide, the index, and the vault validator instructions.
 2. Record the baseline commit, branch, date, and Git status.
 3. Establish the comparison set. For a diff-based pass, use the actual changed files; do not scan the entire vault unless requested.
 4. If the vault has uncommitted user changes, preserve them and work around them; do not overwrite.

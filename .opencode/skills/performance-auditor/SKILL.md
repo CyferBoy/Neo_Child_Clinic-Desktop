@@ -30,7 +30,7 @@ Do not use this skill to optimize code or to run production load tests. Hand off
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read and any performance, architecture, and data-flow notes.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read any performance, architecture, and data-flow notes.
 2. Record the commit, build type, OS, hardware/VM, dataset, and network conditions. A result without an environment is not comparable.
 3. Confirm the test environment. Never measure against production or a shared service without explicit owner approval and a safe plan.
 4. Establish a baseline before changing anything. Since this skill is read-only, no optimization is applied here.

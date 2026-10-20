@@ -19,10 +19,10 @@ The supplied CSV files are schema snapshots, not connection configuration. The o
 ## Decision
 
 1. **One backend.** Android and desktop use the same existing Supabase project, the same PostgreSQL database, the same Auth users, the same Storage buckets, and the same Edge Functions.
-2. **No parallel backend.** Do not create a new Supabase project, a separate desktop database, duplicate tables, a parallel schema, or a second authentication system.
+2. **No parallel backend.** Do not create a new Supabase project, a separate remote PostgreSQL database, duplicate remote tables, a parallel remote schema, or a second authentication system. The local SQLite working copy permitted by ADR-0002 is not a second backend.
 3. **Normal user access only.** The desktop uses the Supabase publishable/anon key plus the signed-in user's JWT over HTTPS. It must not contain a service-role key, database password, or other privileged credential.
 4. **Server authority.** PostgreSQL and RLS remain authoritative for authorization and data integrity. Local SQLite is a working copy and cache, not a second source of truth.
-5. **Same contract.** Desktop table names, columns, primary keys, timestamps, soft-delete fields, Storage paths, and receipt-number behavior must match the existing shared schema. Local-only tables are not created remotely.
+5. **Same remote contract.** For every synchronized entity, the desktop's remote-facing table names, columns, primary keys, timestamps, soft-delete fields, Storage paths, and receipt-number behavior must match the existing shared schema. Local SQLite is a physical projection: it may use local-only tables and explicit mapping, but it must not invent a parallel remote schema.
 6. **Configuration is external.** The actual project URL and publishable key are supplied through approved build/runtime configuration. They are not committed and are not reproduced in documentation.
 7. **No schema changes in this investigation.** No migration, RLS policy, grant, trigger, production record, or database setting is changed by this documentation pass.
 8. **No new backend service by default.** If a privileged operation genuinely requires server-side code, it belongs in an existing or separately approved server-side component, never in the desktop binary. A new service requires a concrete requirement and a new approved ADR.
@@ -60,7 +60,7 @@ Negative / risks:
 - RLS tests cover active/inactive staff, multiple roles, and an unauthenticated client.
 - An Android-created row is read and updated by desktop, and a desktop-created row is read by Android, without duplicate rows.
 - No service-role key, database password, refresh token, or project secret appears in desktop source, logs, crash reports, or documentation.
-- No desktop code creates tables or runs production migrations.
+- No desktop code creates remote tables or runs production migrations. Local SQLite migrations are expected and remain local.
 
 ## Open questions
 

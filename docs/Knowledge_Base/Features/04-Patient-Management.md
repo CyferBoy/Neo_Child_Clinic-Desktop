@@ -3,7 +3,7 @@ title: Patient Management
 feature_id: PAT
 doc_status: proposed
 desktop_status: Missing
-android_status: Partially implemented
+android_status: Unverified
 evidence: Android source + Knowledge Base
 updated: 2026-10-20
 ---
@@ -11,7 +11,7 @@ updated: 2026-10-20
 # 04. Patient Management
 
 > **Desktop status: Missing.** No desktop implementation exists. This is a Phase 1 specification, not a claim of completion.
-> **Android reference status:** Partially implemented. Evidence: `feature/patient/`, Android KB `Patient Management`, confirmed validation and stale-cache findings.
+> **Android reference status:** Unverified. Evidence: `feature/patient/`, Android KB `Patient Management`. Historical validation defects are fixed; the former stale-history cache claim is not supported by current `PatientCache` source.
 
 **Requirement IDs:** `PAT-001`, `PAT-002`, `PAT-003`, `PAT-004`, `PAT-005`, `PAT-006`, `PAT-007`
 

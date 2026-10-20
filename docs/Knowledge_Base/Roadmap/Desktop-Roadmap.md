@@ -9,7 +9,7 @@ updated: 2026-10-20
 
 > **No dates and no delivery estimates are asserted.** The desktop has no code, so desktop effort cannot be evidence-based yet. "Reference footprint" is the Android feature package file count, used only to show relative surface area.
 >
-> **Accepted constraint:** the desktop reuses the existing Supabase project and schema under [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]. Do not create a new project, separate database, duplicate tables, or parallel schema.
+> **Accepted constraint:** the desktop reuses the existing Supabase project and schema under [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]. Do not create a new project, separate remote PostgreSQL database, duplicate remote tables, or parallel remote schema; local SQLite is expected.
 
 ## Prioritization
 
@@ -28,7 +28,7 @@ Exit criteria are verifiable outcomes, not elapsed time.
 
 | Work item | Deliverable | Exit criterion | Depends on |
 |---|---|---|---|
-| Repository and instructions | Existing desktop Git repository; add `AGENTS.md`, branch protection, issue/PR templates | Clean clone builds and docs checks run | Git repository initialized |
+| Repository and instructions | Existing desktop Git repository; add `AGENTS.md`, CI, issue/PR templates; confirm/configure branch protection in GitHub settings | Clean clone builds and docs checks run; branch protection confirmed | Git repository initialized |
 | Toolchain | Pinned Go, Wails, Node/package manager, linter, formatter | Reproducible build on a clean machine | Repo |
 | CI | Build, lint, unit tests, docs validation, dependency scan | CI required on every change | Toolchain |
 | Shared-backend verification | Approved non-destructive access path to the **existing** Supabase project; test-account and synthetic-data protocol | Same project identity proven by a redacted fingerprint; no new backend; no production data mutation | Security approval |
@@ -36,11 +36,11 @@ Exit criteria are verifiable outcomes, not elapsed time.
 | ADRs | Local persistence, sync, auth, Wails boundary, money/date, testing/release | ADRs reviewed and status recorded; ADR-0008 remains accepted | Architecture review |
 | Auth spike | Login, refresh, revoke, role claim, inactive account | Works offline cold start and online refresh against the existing project | Shared-backend verification |
 | Local DB spike | SQLite, migrations, WAL, transaction/outbox | Kill/restart preserves committed data | ADR-0002 |
-| Sync contract | Outbox/group/idempotency/tombstone design | Replay and duplicate tests pass on a spike | ADR-0003 |
+| Sync contract | Outbox/group/idempotency/deletion-reconciliation design | Replay and duplicate tests pass; deletion contract approved and tested on a spike | ADR-0003 |
 | Test harness | Go/React/integration/E2E skeletons | A failing test blocks CI | CI |
 | Threat model | Reviewed threats and controls | P0 threats have tests or accepted controls | Architecture |
 
-**Backend rule:** ADR-0008 forbids creating a new Supabase project or separate desktop database. The verification row must use the existing project, test accounts, and synthetic/reversible data unless a separate harness is explicitly approved. A separate harness must never become the desktop backend.
+**Backend rule:** ADR-0008 forbids creating a new Supabase project or separate remote PostgreSQL database. The verification row must use the existing project, test accounts, and synthetic/reversible data unless a separate harness is explicitly approved. A separate harness must never become the desktop backend, and local SQLite remains expected.
 
 **Phase 0 is not done while the schema cannot be rebuilt or RLS cannot be tested.**
 
@@ -51,7 +51,7 @@ Exit criteria are verifiable outcomes, not elapsed time.
 | A. Shell | Desktop shell, auth, staff/roles, settings | P0 | Safe sign-in, navigation, administration | 5+2+7+13 files | Auth spike, RLS | Token/role handling | Login/logout/role tests; inactive account blocked | Not estimated |
 | B. Identity + core | Patients, dashboard | P0 | Find and register patients; see the day | 25+12 files | Shell, local DB | Duplicate identity, stale history | Create/search/edit/merge tests; offline read | Not estimated |
 | C. Clinical | Vaccinations, inventory, reminders, personal reminders | P0 | Record care and protect stock | 11+16+12+8 files | Patients, local DB, sync contract | Stock/idempotency, due dates | Vaccination transaction replay; stock reconciliation; due-list clock tests | Not estimated |
-| D. Revenue | Consultations, finance, receipts | P0 | Complete the visit and collect payment | 5+9+receipt code | Clinical, server receipt RPC | Double-count, duplicate receipt | Payment split tests; receipt sequence test; print preview | Not estimated |
+| D. Revenue | Consultations, finance, receipts | P0 | Complete the visit and collect payment | 5+9+receipt code | Clinical, server receipt numbering | Double-count, duplicate receipt | Payment split tests; receipt sequence test; print preview | Not estimated |
 | E. Operations | Wastage, borrow/return, audit, notifications, reports | P1/P2 | Reconcile stock, review activity, see trends | 4+8+5+12+23 files | Inventory, clinical, finance | Reporting correctness, audit completeness | Ledger tests; report golden data; audit append-only test | Not estimated |
 | F. Resilience | Offline/sync hardening, backup/recovery, updates | P0/P1 | Survive outages and recover | 4+13+7 files | All writes, packaging | Data loss, destructive restore | Chaos sync; restore round-trip; signed update test | Not estimated |
 

@@ -29,7 +29,7 @@ Do not use this skill to fix a flow or performance issue. Hand off to `performan
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read and the documentation index.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the documentation index.
 2. Record the current commit and Git status.
 3. Locate the actual frontend entry point, Wails bindings, Go handlers, repositories, local database layer, Supabase client, and synchronization code. Do not assume paths from the intended stack.
 4. If Go or frontend sources are absent, stop at the available layer and mark the remainder `Unverified`.

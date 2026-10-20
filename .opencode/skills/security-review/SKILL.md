@@ -29,7 +29,7 @@ Do not use this skill to exploit a live service, rotate credentials, or change p
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read and the security policy.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the security policy.
 2. Record the commit, branch, and dirty state.
 3. Define the assets (patient data, financial records, inventory, credentials, backups), actors (unauthenticated user, staff role, admin, local attacker, malicious document/URL), and trust boundaries.
 4. Confirm which environments are actually available. Do not describe a hosted setting as verified without evidence.

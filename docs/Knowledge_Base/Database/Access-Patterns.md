@@ -29,9 +29,9 @@ updated: 2026-10-20
 | Realtime | `patients`/`patient_visits`/`consultations` and todo tables; refresh trigger only | Subscribe for freshness, then reconcile from PostgREST |
 | Local database | Room 25 entities, SQLCipher, `sync_queue` outbox | SQLite is a working copy, not a second backend |
 
-`[VERIFIED]` The older Android-repository CSV is stale: it lists 23 tables/361 columns and camelCase `waste_records` names, while current migrations and source use snake_case and soft-delete fields. The newer desktop CSV lists 24/416 but still has ordinal gaps and no connection/policy fields. Neither CSV is a schema authority.
+`[VERIFIED]` The older Android-repository CSV is stale: it lists 23 tables/361 columns and camelCase `waste_records` names, while current migrations and source use snake_case and soft-delete fields. The newer desktop CSV lists 24/416 but still has no keys, indexes, policies, or grants; its ordinal gaps are consistent with dropped columns, not proof of omitted rows. Neither CSV is a schema authority. See [[Database/Schema-Reconciliation|Schema Reconciliation]].
 
-`[DECISION]` Both clients must target the **same existing Supabase project**; see [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]. No new project, separate database, duplicate tables, or parallel schema is approved.
+`[DECISION]` Both clients must target the **same existing Supabase project**; see [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]. No new project, separate remote PostgreSQL database, duplicate remote tables, or parallel remote schema is approved. The local SQLite working copy is expected.
 
 ## Policy summary
 
@@ -57,20 +57,20 @@ updated: 2026-10-20
 
 ### Patient timeline
 - Join visits, vaccinations, consultations, payments, reminders, notes, and audit by patient ID.
-- Avoid N+1 queries. The Android `refreshPatients` path has a known N+1; the desktop should use set-based reads.
+- Avoid N+1 queries. The former Android `refreshPatients` N+1 was fixed at `b27d945`; the desktop should still use set-based reads.
 - Invalidate the timeline on any dependent write, not only the patient row.
 
 ### Due list
 - Filter by due date, status, category, and soft-delete state.
 - Use IST date boundaries.
 - Do not rely on formatted text sorting.
-- Apply tombstones during pull.
+- Apply the approved deletion/absence reconciliation contract during pull. No server tombstone feed is present in repository evidence; live status is unverified.
 
 ### Inventory
 - Aggregate stock from batches, excluding expired batches where the reference does.
 - Use a single ledger path for deductions.
 - Read batch quantities transactionally; do not use read-modify-write without a version/guard.
-- Reconcile server trigger effects; the Android KB records trigger double-apply and update-arithmetic defects.
+- Reconcile server trigger effects. Historical trigger double-apply and update-arithmetic defects are fixed by the 2026-10 trigger hardening; verify the deployed trigger definition before relying on it.
 
 ### Finance and reports
 - Payments are per visit/consultation with cash/online split.
@@ -88,7 +88,7 @@ updated: 2026-10-20
 ### Sync
 - Upload in dependency order within a transaction group.
 - Pull by cursor with a safety overlap.
-- Apply tombstones.
+- Apply the approved deletion/absence reconciliation contract.
 - Reject unknown columns/shapes with a visible schema-drift error.
 - Do not let a stale pull overwrite an unacknowledged local write.
 
@@ -113,7 +113,7 @@ updated: 2026-10-20
 | DB-004 | Every mutation is parameterized and validated server-side; the client is not the only validator. |
 | DB-005 | Receipt numbers and stock arithmetic are server-authoritative where the schema makes them so. |
 | DB-006 | Audit writes are append-only and attributable to the authenticated actor. |
-| DB-007 | Both clients use the same existing Supabase project/schema; no new project, separate database, duplicate tables, or parallel schema. Verify with a redacted project fingerprint. |
+| DB-007 | Both clients use the same existing Supabase project/schema; no new project, separate remote PostgreSQL database, duplicate remote tables, or parallel remote schema. Local SQLite is expected. Verify with a redacted project fingerprint. |
 
 ## Open questions
 

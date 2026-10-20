@@ -11,7 +11,7 @@ updated: 2026-10-20
 # 16. Local Persistence and Offline Operation
 
 > **Desktop status: Missing.** No desktop implementation exists. This is a Phase 1 specification, not a claim of completion.
-> **Android reference status:** Partially implemented. Evidence: `data/local/`, Android KB `Offline-First Architecture`, `Room Database`, `Caching`.
+> **Android reference status:** Partially implemented. Evidence: `data/local/`, Android KB `Offline-First Architecture`, `Room Database`. Open gaps include NCC-039 (duplicate database singleton) and the unresolved deletion contract at the sync boundary; historical cache-staleness wording was not supported by current source.
 
 **Requirement IDs:** `OFF-001`, `OFF-002`, `OFF-003`, `OFF-004`, `OFF-005`, `OFF-006`
 

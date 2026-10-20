@@ -30,7 +30,7 @@ Do not use this skill to write feature specifications or to implement a feature.
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read and the current Knowledge Base index.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the current Knowledge Base index.
 2. Confirm Git state and the current commit; record it in the inventory header.
 3. Confirm which repository is the desktop project and which is the Android reference. Do not blend their evidence.
 4. If the desktop source is absent, produce only an Android reference inventory and mark every desktop status `Unverified`; do not infer parity.

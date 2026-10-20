@@ -8,7 +8,7 @@ A cross-platform desktop application for Neo Child Clinic, planned around Go, Wa
 
 Neo Child Clinic Desktop is intended to provide a desktop workspace for managing clinic patients, vaccinations, consultations, vaccine inventory, reminders, finances, receipts, and reporting.
 
-The desktop application is designed to work with the existing Neo Child Clinic Android application's Supabase backend: the same Auth users, PostgreSQL schema, tables, Row Level Security policies, Storage buckets, and Edge Functions. It must not create a new backend, a separate database, duplicate tables, or a parallel schema.
+The desktop application is designed to work with the existing Neo Child Clinic Android application's Supabase backend: the same Auth users, PostgreSQL schema, tables, Row Level Security policies, Storage buckets, and Edge Functions. It must not create a new backend, a separate remote PostgreSQL database, duplicate remote tables, or a parallel remote schema. A local SQLite working copy is expected.
 
 See [ADR-0008](docs/Knowledge_Base/Decisions/ADR-0008-Shared-Supabase-Backend.md) for the accepted shared-backend decision.
 
@@ -96,8 +96,9 @@ This repository is currently a documentation project. To review it:
 
 1. Clone the repository.
 2. Open [the Knowledge Base](docs/Knowledge_Base/Home.md).
-3. Read the [Final Report](docs/Knowledge_Base/Audits/Final-Report.md) and [Shared Backend Investigation](docs/Knowledge_Base/Audits/Shared-Backend-Connection-Investigation.md).
-4. Consult the [Phase 1 Implementation Plan](docs/Knowledge_Base/Roadmap/Phase-1-Implementation-Plan.md) before starting implementation.
+3. Read the [Final Report](docs/Knowledge_Base/Audits/Final-Report.md), [Phase 0B Architecture Review](docs/Knowledge_Base/Audits/Phase-0B-Architecture-Review.md), and [Shared Backend Investigation](docs/Knowledge_Base/Audits/Shared-Backend-Connection-Investigation.md).
+4. Use the [Schema Reconciliation](docs/Knowledge_Base/Database/Schema-Reconciliation.md) for the CSV/migration delta and the [Live Verification Queries](docs/Knowledge_Base/Database/Live-Verification-Queries.md) for the read-only evidence still required.
+5. Consult the [Phase 1 Implementation Plan](docs/Knowledge_Base/Roadmap/Phase-1-Implementation-Plan.md) before starting implementation.
 
 Application setup, build, and test commands will be added after the Go/Wails toolchain is initialized and verified. Do not publish placeholder commands as working instructions.
 
@@ -114,6 +115,8 @@ The desktop application must use the existing Neo Child Clinic Supabase project.
 - Offline synchronization behavior, if implemented
 
 Never commit passwords, service-role keys, access tokens, or other secrets. The repository ignores common local environment files. The actual project URL, publishable key, and hosted identity are not present in this repository.
+
+Run the read-only [Live Verification Queries](docs/Knowledge_Base/Database/Live-Verification-Queries.md) through an authorized administrative session to capture the current catalog, RLS/ACLs, functions/triggers, Storage, and Realtime state. Do not run the non-read-only `rls_role_test.sql` without separate approval and synthetic test data.
 
 Do not create a new production database or duplicate the existing schema. See the [Database Architecture](docs/Knowledge_Base/Database/Database-Architecture.md) and [Access Patterns](docs/Knowledge_Base/Database/Access-Patterns.md).
 
@@ -171,6 +174,9 @@ Detailed documentation is maintained in [docs/Knowledge_Base](docs/Knowledge_Bas
 Key entry points:
 
 - [Final Report](docs/Knowledge_Base/Audits/Final-Report.md)
+- [Phase 0B Architecture Review](docs/Knowledge_Base/Audits/Phase-0B-Architecture-Review.md)
+- [Schema Reconciliation](docs/Knowledge_Base/Database/Schema-Reconciliation.md)
+- [Live Verification Queries](docs/Knowledge_Base/Database/Live-Verification-Queries.md)
 - [Shared Backend Investigation](docs/Knowledge_Base/Audits/Shared-Backend-Connection-Investigation.md)
 - [ADR-0008 — Shared Supabase Backend](docs/Knowledge_Base/Decisions/ADR-0008-Shared-Supabase-Backend.md)
 - [Feature Inventory](docs/Knowledge_Base/Product/Feature-Inventory.md)
@@ -197,7 +203,7 @@ Future tests must prioritize:
 - Receipt numbering
 - Reminder logic
 - Authorization and RLS
-- Synchronization replay and tombstones
+- Synchronization replay and deletion/absence reconciliation (contract TBD)
 - Backup and restore
 
 See the [Test Strategy](docs/Knowledge_Base/Testing/Test-Strategy.md) and [Regression Matrix](docs/Knowledge_Base/Testing/Regression-Matrix.md).
@@ -206,7 +212,7 @@ See the [Test Strategy](docs/Knowledge_Base/Testing/Test-Strategy.md) and [Regre
 
 There is no application build yet, so installation and runtime troubleshooting is not available.
 
-Known baseline blockers are documented in the [Final Report](docs/Knowledge_Base/Audits/Final-Report.md) and [Home](docs/Knowledge_Base/Home.md): missing desktop source, unverified same-project configuration, no reproducible schema baseline, unverified live RLS and Storage, and no approved non-destructive verification path.
+Known baseline blockers are documented in the [Final Report](docs/Knowledge_Base/Audits/Final-Report.md), [Phase 0B Architecture Review](docs/Knowledge_Base/Audits/Phase-0B-Architecture-Review.md), and [Home](docs/Knowledge_Base/Home.md): missing desktop source, unverified same-project configuration, no reproducible live schema baseline, unverified live RLS and Storage, unresolved stock-trigger mode, no approved deletion contract, and no approved local encryption/backup design. The Phase 0B conclusion is **BLOCKED ON SPECIFIED EVIDENCE**.
 
 ## Contributing
 

@@ -16,7 +16,7 @@ updated: 2026-10-20
 | W0 | Repository and CI | Build, lint, tests, docs checks, dependency scan | Engineering lead |
 | W1 | Backend readiness | Existing Supabase project verification, baseline reconciliation, RLS tests, functions | Backend owner |
 | W2 | Desktop core | Wails shell, typed bindings, local DB, migrations, keychain | Desktop lead |
-| W3 | Sync | Outbox, groups, idempotency, pull cursor, tombstones, retries | Sync owner |
+| W3 | Sync | Outbox, groups, idempotency, pull cursor, deletion reconciliation (contract TBD), retries | Sync owner |
 | W4 | Clinical | Patients, vaccinations, consultations, reminders | Clinical lead |
 | W5 | Inventory | Catalog, batches, ledger, waste, borrow/return | Inventory lead |
 | W6 | Money | Finance, expenses, receipts, printing | Finance lead |
@@ -26,12 +26,12 @@ updated: 2026-10-20
 ## Step sequence
 
 ### Step 0 — Control the workspace
-Deliverables: existing Git repository; add `AGENTS.md`, branch protection, issue/PR templates, docs location, and CI skeleton.
+Deliverables: existing Git repository; add `AGENTS.md`, issue/PR templates, docs location, and CI skeleton; confirm/configure branch protection in GitHub settings.
 Gate: clean clone builds a hello-world Wails app and docs validation runs; no secrets committed.
 
 ### Step 1 — Make the existing backend verifiable
 Deliverables: approved non-destructive access to the existing Supabase project, real schema/grants/policies capture, baseline migration/reconciliation, RLS test harness, synthetic seed data.
-Gate: baseline evidence reviewed; role matrix tests pass; no new project/database; no production data mutation; no production credentials in the desktop test client.
+Gate: baseline evidence reviewed; role matrix tests pass; no new project or remote database; no production data mutation; no production credentials in the desktop test client; local SQLite is expected.
 
 ### Step 2 — Prove the trust boundary
 Deliverables: auth spike, keychain storage, typed Wails binding, local DB open/migrate, PHI-safe logging.
@@ -83,7 +83,7 @@ Every slice must include:
 | Pre-release/pilot | Release candidate against the existing project | Synthetic or approved de-identified data; no production mutation without approval |
 | Production | Clinic | Real PHI; no developer direct access |
 
-**No separate desktop backend.** If a disposable harness is proposed for destructive tests, it requires explicit approval and must never become the desktop backend. A test harness is not a production database.
+**No separate desktop backend.** If a disposable harness is proposed for destructive tests, it requires explicit approval and must never become the desktop backend. A test harness is not a production database, and the local SQLite working copy is not a second backend.
 
 ## Data migration
 

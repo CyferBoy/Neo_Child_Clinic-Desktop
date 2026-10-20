@@ -53,20 +53,20 @@ updated: 2026-10-20
 | ID | Severity | Finding | Evidence | Disposition |
 |---|---|---|---|---|
 | AUD-001 | **Blocker** | No desktop implementation exists | Filesystem search found only skills and CSV | Document as Missing; do not fabricate parity |
-| AUD-002 | **High** | At audit time the desktop project was not a Git repository and had no `AGENTS.md` | `.git` was absent; no instruction file. A repository now exists and `main` is pushed, but `AGENTS.md`, CI, and branch protection remain absent | Add instructions and CI; no application source changes in this pass |
+| AUD-002 | **High** | At audit time the desktop project was not a Git repository and had no `AGENTS.md` | `.git` was absent; no instruction file. A repository now exists and `main` is pushed, but `AGENTS.md` and CI remain absent. Branch protection is not verifiable from repository contents; confirm it in GitHub settings | Add instructions and CI; confirm/configure branch protection; no application source changes in this pass |
 | AUD-003 | **High** | Live Supabase schema, grants, policies, and data are unavailable | No project credentials/connection | Mark live claims `[UNKNOWN]`; require verification gate |
 | AUD-004 | **High** | Repository cannot reproduce a clean database from zero | Only 9 `CREATE TABLE` statements for 24 snapshot tables | Baseline schema + migration reconciliation before release |
 | AUD-005 | **Medium** | Existing Android KB is stale relative to HEAD | Home cites `f8e5d8a`; HEAD `ca4bed4`; counts differ (351/43/22 vs 352/41+8/23) | Do not overwrite Android KB; note drift and link |
 | AUD-006 | **Medium** | Proposed desktop KB paths would collide with Android note names | `Home`, `Architecture Map`, `Feature Roadmap`, etc. | Created a separate desktop vault; preserved Android vault |
 | AUD-007 | **Medium** | User-supplied CSV is untracked and provenance is unstated | File exists at project root; no commit/metadata | Preserve; label as user-supplied, not authoritative |
-| AUD-008 | **High** | Android reference has confirmed defects in stock, sync, statistics, and backup | Existing KB confirmed findings | Treat as anti-patterns; require desktop tests |
+| AUD-008 | **High** | Android reference has a history of confirmed stock, sync, statistics, and backup defects; several remain relevant | Bug Register and source at `ca4bed4`: fixed items include the waiter, work chain, conflict branch, N+1, validation, stock/trigger, statistics, and backup TOCTOU; open items include NCC-023/025/027/030/038/039 and end-to-end restore coverage | Treat fixed items as regression tests, not current bugs; carry open items as risks |
 | AUD-009 | **High** | No desktop tests or test harness; Android tests not re-run | 0 desktop files; 41+8 Android test files but no execution | Test strategy and Phase 0 CI gate |
 | AUD-010 | **High** | No desktop toolchain, dependency manifest, or build | No `go.mod`, `wails.json`, `package.json` | Phase 0 setup |
 | AUD-011 | **Medium** | No desktop packaging, signing, print, or update path | No build/dist/update files | Phase 0/1 release workstream |
 | AUD-012 | **High** | Privacy retention, backup format, and local encryption are undecided | No ADR/policy | Decision gate before PHI storage |
 | AUD-013 | **Medium** | Table evidence sets disagree | `todo_notification_events` is referenced by migration but absent from both CSVs; `sync_queue`, `widget_due_cache`, `inventory_deductions`, and `backup_history` are local-only Room entities | Keep local-only tables local; verify `todo_notification_events` live |
 | AUD-014 | **Low** | Android KB page counts and test totals are inconsistent internally | Home/Testing/Feature Roadmap dates and counts differ | Note as documentation debt; do not silently edit |
-| AUD-015 | **Medium** | Supplied column CSV may be incomplete | Ordinal gaps (for example `patients` 9 -> 12) despite the reported column count | Treat as partial; require live catalog before baseline |
+| AUD-015 | **Medium** | Supplied column CSV is incomplete for a schema contract | No keys, indexes, policies, or grants; ordinal gaps are consistent with dropped columns, not proof of omitted rows | Treat as a column snapshot; require live catalog before baseline |
 
 ## What is genuinely strong in the reference
 
@@ -82,7 +82,7 @@ updated: 2026-10-20
 - That any desktop feature works.
 - That any live RLS policy is correct.
 - That the Android test suite currently passes.
-- That the supplied CSV is current or complete; ordinal gaps suggest omitted columns.
+- That the supplied CSV is current or a complete schema catalog; it has no keys/indexes/policies/grants, and ordinal gaps do not by themselves prove omitted rows.
 - That the desktop would connect to the same Supabase project as Android; the actual URL/project identity and key are absent from the worktree.
 - That either CSV proves authentication, RLS, Storage, Realtime, or RPC configuration; neither contains those fields.
 - That the Android app's workflows are free of the known defects.
@@ -91,8 +91,8 @@ updated: 2026-10-20
 ## Recommended next gate
 
 Before feature implementation:
-1. Add `AGENTS.md`, branch protection, and CI to the existing desktop repository.
-2. Obtain approved access to the **existing** Supabase project and capture the real schema/grants/policies read-only. Do not create a new project or separate database; see [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]].
+1. Add `AGENTS.md` and CI to the existing desktop repository; confirm and configure branch protection through authenticated GitHub settings.
+2. Obtain approved access to the **existing** Supabase project and capture the real schema/grants/policies read-only. Do not create a new project or separate remote PostgreSQL database; local SQLite is expected. See [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]].
 3. Reconcile the baseline migration against that evidence and prove the approved verification path works.
 4. Approve local persistence, encryption, auth/session, sync, and backup ADRs.
 5. Run the existing Android test suite or explicitly accept that its results are historical.
@@ -100,4 +100,4 @@ Before feature implementation:
 
 ## Related
 
-[[Audits/Risk-Register|Risk Register]] · [[Audits/Technical-Debt|Technical Debt]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] · [[Roadmap/Desktop-Roadmap|Desktop Roadmap]] · [[Testing/Test-Strategy|Test Strategy]]
+[[Audits/Risk-Register|Risk Register]] · [[Audits/Phase-0B-Architecture-Review|Phase 0B Architecture Review]] · [[Database/Schema-Reconciliation|Schema Reconciliation]] · [[Audits/Technical-Debt|Technical Debt]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] · [[Roadmap/Desktop-Roadmap|Desktop Roadmap]] · [[Testing/Test-Strategy|Test Strategy]]

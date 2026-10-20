@@ -35,7 +35,7 @@ flowchart TD
 | M0 | Workspace and CI | Clean clone builds; lint/test/docs checks required | None |
 | M1 | Reproducible backend | Baseline reset; real grants/policies captured; RLS suite | M0 |
 | M2 | Trust boundary | Auth/keychain/IPC/local DB/log redaction tests | M1 |
-| M3 | Offline write + sync | Outbox/group/idempotency/replay/tombstone tests | M2 |
+| M3 | Offline write + sync | Outbox/group/idempotency/replay/deletion-reconciliation tests | M2 |
 | M4 | Patient slice | Registration/search/detail/merge/audit offline tests | M3 |
 | M5 | Vaccination + inventory | Transaction, stock, due date, payment, receipt link tests | M4 |
 | M6 | Consultation + money | Payment split, expense, receipt print, reconciliation tests | M5 |
@@ -45,15 +45,15 @@ flowchart TD
 
 ## Critical path
 
-M0 → M1 → M2 → M3 → M4 → M5 → M6 → M8 → Pilot.
+M0 → M1 → M2 → M3 → M4 → M5 → M6 → M7 → M8 → Pilot.
 
-M7 can run partly in parallel with M6 only where it does not touch shared stock/payment invariants.
+M7 can run partly in parallel with M6 only where it does not touch shared stock/payment invariants, but M8 cannot start until both M6 and M7 exit criteria are met.
 
 ## External dependencies
 
 | Dependency | Needed for | Status |
 |---|---|---|
-| Approved shared-backend verification path (existing project) | RLS, functions, sync contracts | Not available; no new project/database approved |
+| Approved shared-backend verification path (existing project) | RLS, functions, sync contracts | Not available; no new project or remote database approved |
 | Live schema/grants/policies export | Baseline and security verification | Not available |
 | Signing certificate(s) | Release/update | Not available |
 | Target OS test machines | Packaging/printing/accessibility | Not available |

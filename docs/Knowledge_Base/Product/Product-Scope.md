@@ -64,7 +64,7 @@ The 22 module specifications are in `Features/`. Requirement IDs are stable and 
 
 ## Delivery boundaries
 
-- Phase 0 must establish repository, instructions, CI, an approved non-destructive verification path against the existing Supabase project, a reviewed baseline schema, and the sync contract before feature work. Do not create a new project, separate database, duplicate tables, or parallel schema.
+- Phase 0 must establish repository, instructions, CI, an approved non-destructive verification path against the existing Supabase project, a reviewed baseline schema, and the sync contract before feature work. Do not create a new project, separate remote PostgreSQL database, duplicate remote tables, or parallel remote schema; local SQLite is expected.
 - Phase 1 is complete only when every module has an accepted specification, implementation, automated checks, and a recorded manual acceptance result.
 - A module cannot be marked complete solely because a screen renders or a happy-path request succeeds.
 - No production rollout until RLS, backup restore, and sync idempotency have evidence.

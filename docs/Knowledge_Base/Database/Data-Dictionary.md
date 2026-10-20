@@ -11,7 +11,7 @@ updated: 2026-10-20
 >
 > **The older Android-repository CSV is stale.** It lists 23 tables and 361 columns and uses camelCase `waste_records` fields. Current migrations/source use snake_case and soft-delete fields. Do not generate desktop models from the old snapshot. Neither CSV contains a project URL, auth setting, policy, or credential; see [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Connection Investigation]].
 
-> **Snapshot may be incomplete.** Some tables have ordinal-position gaps (for example `patients` jumps from 9 to 12), even though the row count equals the reported column count. The CSV may have been filtered or joined in a way that omitted columns. Treat it as a partial snapshot, not a complete schema catalog.
+> **Snapshot limits.** Some tables have ordinal-position gaps (for example `patients` jumps from 9 to 12), even though the row count equals the reported column count. Those gaps are consistent with dropped columns; they do not prove omitted rows. The CSV still has no keys, indexes, policies, or grants and remains a partial schema catalog. See [[Database/Schema-Reconciliation|Schema Reconciliation]] for the exact 55-row delta and chronology.
 
 ## Table summary
 
@@ -45,7 +45,7 @@ updated: 2026-10-20
 ## Reading the tables
 
 - `text` dates are business dates in many tables; do not treat them as typed dates without validation.
-- `double precision`/floating money appears in the snapshot; treat it as a shared-schema constraint, not a desktop calculation type.
+- Shared-schema money columns are `numeric` (exact decimal), except `expenses.amount_paise` (`bigint`); Android maps most of them to `Double`. Treat integer paise as the desktop calculation type and convert at the numeric boundary; the risk is client-side floating arithmetic, not a float database column.
 - `created_by`/`updated_by` may be display labels rather than UUIDs; do not assume referential integrity.
 - `is_deleted`/`deleted_at`/`deleted_by` are soft-delete fields where present; filtering must be consistent across reads and reports.
 - `is_synced` is a legacy per-row flag; it is not a substitute for a server acknowledgement or outbox.
@@ -644,10 +644,10 @@ These relationships are inferred from names, the Android data model, and migrati
 |---|---|---|---|
 | `patients` | `patient_visits` | `patient_id` | High |
 | `patients` | `patient_notes` | `patient_id` | High |
-| `patients` | `vaccination_items` | `patient_id` | High |
+| `patients` | `finance_transactions` | `patient_id` | High |
 | `patients` | `consultations` | `patient_id` | High |
 | `patients` | `reminders` | `patient_id` | High |
-| `patient_visits` | `vaccination_items` | `visit_id` / `vaccination_id` | High |
+| `patient_visits` | `vaccination_items` | `vaccination_id` | High |
 | `patient_visits` | `consultations` | `visit_id` | High |
 | `vaccines` | `vaccine_batches` | `vaccine_id` | High |
 | `vaccine_batches` | `inventory_transactions` | `batch_id` | High |
@@ -661,7 +661,8 @@ These relationships are inferred from names, the Android data model, and migrati
 ## Known gaps
 
 - No live primary-key/foreign-key/index catalog was available.
-- Ordinal-position gaps indicate the supplied snapshot may omit columns; do not treat it as complete.
+- Ordinal-position gaps are consistent with dropped columns and do not prove omitted columns; the missing keys/indexes/policies are the concrete completeness gap. Do not treat either CSV as complete.
+- `vaccination_items` has `vaccination_id`, not `patient_id`; the supported relationship is `patient_visits → vaccination_items`, then to the patient through the visit.
 - `sync_queue`, `widget_due_cache`, `inventory_deductions`, and `backup_history` are local-only Room entities in Android; they are not in this 24-table server snapshot and must not be created remotely for desktop.
 - `todo_notification_events` appears in migration SQL but not in this snapshot; its live status is `[UNKNOWN]`.
 - `receipt_sequences` is present, but the RPC/function definitions and grants must be verified live.
@@ -670,4 +671,4 @@ These relationships are inferred from names, the Android data model, and migrati
 
 ## Related
 
-[[Database/Database-Architecture|Database Architecture]] · [[Database/Access-Patterns|Access Patterns]] · [[Audits/Initial-Audit|Initial Audit]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]
+[[Database/Database-Architecture|Database Architecture]] · [[Database/Schema-Reconciliation|Schema Reconciliation]] · [[Database/Live-Verification-Queries|Live Verification Queries]] · [[Database/Access-Patterns|Access Patterns]] · [[Audits/Initial-Audit|Initial Audit]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]

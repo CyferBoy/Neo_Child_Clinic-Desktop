@@ -19,7 +19,7 @@ Use **SQLite** as the local working database, accessed only by Go, with:
 - WAL mode, foreign keys, busy timeout, and a single writer.
 - Embedded, versioned migrations.
 - Explicit transactions for business events and outbox rows.
-- A separate local schema from PostgreSQL, with typed mapping at the boundary.
+- A separate local physical SQLite schema, with typed mapping at the boundary. Remote-facing table/column/key names follow the shared contract in ADR-0008; local-only tables and mapping are allowed.
 - Encryption at rest using an approved mechanism; key protected by the OS keychain.
 
 The exact SQLite driver and encryption library remain open.

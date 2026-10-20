@@ -9,7 +9,7 @@ updated: 2026-10-20
 
 > **No desktop security control is implemented.** This is a target model. The Android security register is used as evidence of backend risks that the desktop will inherit unless they are fixed.
 
-> **Accepted backend constraint `[DECISION]`:** Android and desktop must use the same existing Supabase project, PostgreSQL schema, Auth users, Storage buckets, and Edge Functions. No new project, separate desktop database, duplicate tables, or parallel schema is approved. See [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]] and [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Connection Investigation]].
+> **Accepted backend constraint `[DECISION]`:** Android and desktop must use the same existing Supabase project, PostgreSQL schema, Auth users, Storage buckets, and Edge Functions. No new project, separate remote PostgreSQL database, duplicate remote tables, or parallel remote schema is approved. Local SQLite is expected. See [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]] and [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Connection Investigation]].
 
 ## Assets
 
@@ -125,7 +125,7 @@ These are recorded in the Android KB; they are not claims about the live desktop
 | NSC-008 | Some Android routes lack nav guards | Desktop must guard routes and backend calls |
 | NSC-009 | `manage-staff` self-guard gap for profile update | Fix before reusing the function for desktop |
 | NSC-012 | Write rate limiter counts rows, not requests | Desktop batch writes may hit unexpected limits |
-| NSC-013 | `SECURITY DEFINER` function without `search_path` | Verify/fix function definitions |
+| NSC-013 | Live-only legacy `get_my_role()` is `SECURITY DEFINER` without `search_path`; all 13 migration-authored `SECURITY DEFINER` functions pin it | Verify the live definition; do not copy the legacy function into desktop code |
 
 ### Connection-specific risks
 

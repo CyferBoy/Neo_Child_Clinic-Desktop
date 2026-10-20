@@ -20,7 +20,7 @@ The Go process is the trusted desktop application core. It owns:
 - Audit intent and append-only records.
 - OS keychain, printing, file export, and update verification.
 
-The renderer is a presentation client. It must not receive database handles, service-role keys, refresh tokens, or unrestricted filesystem APIs. The desktop must not open a direct PostgreSQL connection or create a second database; see [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]].
+The renderer is a presentation client. It must not receive database handles, service-role keys, refresh tokens, or unrestricted filesystem APIs. The desktop must not open a direct PostgreSQL connection or create a second remote PostgreSQL database; local SQLite is expected. See [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]].
 
 ## Proposed package layout
 
@@ -58,7 +58,7 @@ Packages depend inward. Domain has no Wails, SQL, HTTP, or OS imports.
 - `PRAGMA integrity_check` at startup or scheduled maintenance.
 - Backup/export path that uses a consistent snapshot, not a raw copy of an open WAL database.
 
-The local schema is **not** assumed to be identical to PostgreSQL. It mirrors the working set and sync metadata. Differences must be documented and migrated.
+The local schema is **not** assumed to be identical to PostgreSQL. It mirrors the working set and sync metadata. Differences must be documented and migrated. For synchronized entities, remote-facing names, columns, keys, timestamps, and soft-delete fields follow the shared contract in ADR-0008; local-only tables and explicit mapping are allowed.
 
 ## Supabase access
 

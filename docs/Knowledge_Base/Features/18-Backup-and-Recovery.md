@@ -11,7 +11,7 @@ updated: 2026-10-20
 # 18. Backup and Recovery
 
 > **Desktop status: Missing.** No desktop implementation exists. This is a Phase 1 specification, not a claim of completion.
-> **Android reference status:** Partially implemented. Evidence: `data/backup/`, Android KB `Backup and Restore`, confirmed untested restore findings.
+> **Android reference status:** Partially implemented. Evidence: `data/backup/`, Android KB `Backup and Restore`. The restore path is destructive and lacks an end-to-end automated test; crypto and validation helpers do have unit tests, and NCC-037's TOCTOU issue is fixed.
 
 **Requirement IDs:** `BAK-001`, `BAK-002`, `BAK-003`, `BAK-004`, `BAK-005`, `BAK-006`
 

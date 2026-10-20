@@ -29,7 +29,7 @@ Do not use this skill to reconcile many stale claims across the codebase; use `d
 
 ## Before you start
 
-1. Read the root and nested `AGENTS.md`, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read, the vault index (often `Home.md`), the documentation maintenance guide, and any template notes.
+1. Read the root and nested `AGENTS.md` when present, project instructions, and `git status --short --branch`; never reset, clean, checkout, or stash user changes. Then read the vault index (often `Home.md`), the documentation maintenance guide, and any template notes.
 2. Record the current Git status and commit. If the vault is outside Git, record that.
 3. Determine whether the requested note is Android-reference material, desktop-specific material, or shared. Do not mix them without an explicit namespace decision.
 4. If no vault exists, stop and propose a location and structure. Do not create one until approved.
