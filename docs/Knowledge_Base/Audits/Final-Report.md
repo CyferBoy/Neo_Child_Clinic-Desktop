@@ -148,9 +148,9 @@ The Android Knowledge Base's historical 277-unit-test result was **not** re-run.
 
 **Desktop project:** Git repository initialized; `main` pushed to GitHub. The pushed branch contains the Knowledge Base, 17 skill definitions, the user CSV, `.gitignore`, and the repository `LICENSE`. No Git diff from before the push exists because the project was previously untracked.
 
-**Second-pass correction state (2026-10-20):** 43 pre-existing notes, all 17 skills, and the repository root `README.md` were modified; one validation note was added. No application source, schema, migration, policy, dependency, or Android file was changed. Those documentation corrections are uncommitted at report time.
+**Second-pass correction state (2026-10-20):** 43 pre-existing notes, all 17 skills, and the repository root `README.md` were modified; one validation note was added. No application source, schema, migration, policy, dependency, or Android file was changed. Those documentation corrections were uncommitted at report time and were subsequently committed in `ab6f2b5`.
 
-**Phase 0B state (2026-10-20):** three new notes were added; the database/audit/index notes listed below, the Product Vision/Technical Debt money wording, and ADR-0007's evidence context were extended. No application source, schema, migration, RLS policy, grant, Supabase setting, dependency, Android file, or credential was changed. All desktop documentation changes remain uncommitted.
+**Phase 0B state (2026-10-20):** three new notes were added; the database/audit/index notes listed below, the Product Vision/Technical Debt money wording, and ADR-0007's evidence context were extended. No application source, schema, migration, RLS policy, grant, Supabase setting, dependency, Android file, or credential was changed. The documentation set was committed as `ab6f2b5` and pushed to `origin/main`.
 
 **Markdown files in vault:** 67 (63 pre-existing + 1 validation note + 3 Phase 0B notes).
 

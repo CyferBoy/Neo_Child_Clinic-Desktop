@@ -9,10 +9,10 @@ updated: 2026-10-20
 
 > **Decision-ready review, not an implementation.** This pass rechecked the failed/partial notes, reconciled the two CSV snapshots against migrations and Android source, and evaluated the unresolved architecture decisions. No desktop application, Android source, database schema, migration, RLS policy, grant, Supabase setting, or dependency was changed. No credential, project URL, JWT, or patient data is reproduced.
 
-**Android reference:** `/data/data/com.termux/files/home/Neo_Child_Clinic` — `main` @ `ca4bed4`, clean  
-**Desktop:** `/storage/emulated/0/Neo_Child_Clinic_Desktop` — documentation only, changes uncommitted  
-**Live Supabase access:** none available in this environment  
-**Binding decision:** [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]] remains accepted
+- **Android reference:** `/data/data/com.termux/files/home/Neo_Child_Clinic` — `main` @ `ca4bed4`, clean
+- **Desktop:** `/storage/emulated/0/Neo_Child_Clinic_Desktop` — documentation only; committed as `ab6f2b5` and pushed
+- **Live Supabase access:** none available in this environment
+- **Binding decision:** [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]] remains accepted
 
 ## 1. Recheck of the 18 failed and 25 partial notes
 
@@ -409,7 +409,7 @@ No application source, migration, schema, RLS policy, grant, Supabase setting, d
 
 **Android:** `main` at `ca4bed4`, clean against `origin/main`. No Android file was modified.
 
-**No commit or push was performed.** All desktop documentation changes remain uncommitted for review.
+**Post-review commit:** the documentation set was committed as `ab6f2b5` (**68 files, 1,555 insertions, 275 deletions**) and pushed to `origin/main`; the working tree is clean. The counts earlier in this section describe the review-time tracked-file snapshot before the four untracked notes were added.
 
 ## 8. Decisions requiring user approval
 
