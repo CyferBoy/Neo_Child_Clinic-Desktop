@@ -1,0 +1,11 @@
+# Local configuration and credentials
+.env
+.env.local
+.env.*.local
+local.properties
+secrets.properties
+
+# Logs and OS files
+*.log
+.DS_Store
+Thumbs.db

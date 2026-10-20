@@ -1,0 +1,417 @@
+table_schema,table_name,column_name,ordinal_position,data_type,is_nullable,column_default
+public,api_write_rate_limits,user_id,1,uuid,NO,null
+public,api_write_rate_limits,window_started_at,2,timestamp with time zone,NO,null
+public,api_write_rate_limits,request_count,3,integer,NO,0
+public,audit_logs,id,1,uuid,NO,gen_random_uuid()
+public,audit_logs,timestamp,2,text,YES,(now())::text
+public,audit_logs,user,3,text,YES,null
+public,audit_logs,module,4,text,YES,null
+public,audit_logs,entity_type,5,text,YES,null
+public,audit_logs,entity_id,6,text,YES,null
+public,audit_logs,action,7,text,YES,null
+public,audit_logs,old_value,8,text,YES,null
+public,audit_logs,new_value,9,text,YES,null
+public,audit_logs,remarks,10,text,YES,null
+public,audit_logs,device,11,text,YES,null
+public,audit_logs,patient_id,12,uuid,YES,null
+public,audit_logs,is_synced,13,boolean,YES,true
+public,audit_logs,created_at,14,timestamp with time zone,NO,now()
+public,audit_logs,updated_at,15,timestamp with time zone,NO,now()
+public,audit_logs,created_by,16,text,YES,null
+public,audit_logs,updated_by,17,text,YES,null
+public,borrow_records,id,1,uuid,NO,gen_random_uuid()
+public,borrow_records,doctor_name,2,text,YES,null
+public,borrow_records,vaccine_id,3,uuid,YES,null
+public,borrow_records,batch_id,4,uuid,YES,null
+public,borrow_records,borrowed_date,5,text,YES,null
+public,borrow_records,quantity,6,integer,YES,1
+public,borrow_records,is_returned,7,boolean,YES,false
+public,borrow_records,returned_date,8,text,YES,null
+public,borrow_records,type,9,text,YES,'BY'::text
+public,borrow_records,notes,10,text,YES,null
+public,borrow_records,is_synced,11,boolean,YES,true
+public,borrow_records,created_at,12,timestamp with time zone,NO,now()
+public,borrow_records,updated_at,13,timestamp with time zone,NO,now()
+public,borrow_records,created_by,14,text,YES,null
+public,borrow_records,updated_by,15,text,YES,null
+public,borrow_records,is_deleted,16,boolean,NO,false
+public,borrow_records,deleted_at,17,timestamp with time zone,YES,null
+public,borrow_records,deleted_by,18,text,YES,null
+public,borrow_returns,id,1,uuid,NO,gen_random_uuid()
+public,borrow_returns,borrow_record_id,2,uuid,NO,null
+public,borrow_returns,batch_id,3,uuid,NO,null
+public,borrow_returns,quantity,4,integer,NO,null
+public,borrow_returns,returned_date,5,date,NO,null
+public,borrow_returns,notes,6,text,YES,null
+public,borrow_returns,created_at,7,timestamp with time zone,NO,now()
+public,borrow_returns,is_synced,8,boolean,NO,true
+public,borrow_returns,created_by,9,text,YES,null
+public,borrow_returns,updated_by,10,text,YES,null
+public,borrow_returns,updated_at,11,timestamp with time zone,NO,now()
+public,borrow_returns,is_deleted,12,boolean,NO,false
+public,borrow_returns,deleted_at,13,timestamp with time zone,YES,null
+public,borrow_returns,deleted_by,14,text,YES,null
+public,consultation_todos,id,1,uuid,NO,gen_random_uuid()
+public,consultation_todos,patient_id,2,uuid,YES,null
+public,consultation_todos,name,3,text,NO,null
+public,consultation_todos,mobile,4,text,NO,null
+public,consultation_todos,address,5,text,NO,''::text
+public,consultation_todos,todo_date,6,date,NO,null
+public,consultation_todos,status,7,text,NO,'PENDING'::text
+public,consultation_todos,created_at,8,timestamp with time zone,NO,now()
+public,consultation_todos,updated_at,9,timestamp with time zone,NO,now()
+public,consultation_todos,is_synced,10,boolean,NO,true
+public,consultation_todos,created_by,11,text,YES,null
+public,consultation_todos,updated_by,12,text,YES,null
+public,consultation_todos,doctor_id,13,uuid,YES,null
+public,consultation_todos,doctor_name,14,text,YES,null
+public,consultation_todos,availability_slot_id,15,uuid,YES,null
+public,consultation_todos,is_deleted,16,boolean,NO,false
+public,consultation_todos,deleted_at,17,timestamp with time zone,YES,null
+public,consultation_todos,deleted_by,18,text,YES,null
+public,consultations,id,1,uuid,NO,gen_random_uuid()
+public,consultations,visit_id,2,uuid,YES,null
+public,consultations,patient_id,3,uuid,YES,null
+public,consultations,doctor_id,4,text,YES,null
+public,consultations,doctor_name,5,text,YES,null
+public,consultations,date,6,text,NO,(now())::text
+public,consultations,amount,7,numeric,NO,0.0
+public,consultations,cash_amount,8,numeric,YES,0.0
+public,consultations,online_amount,9,numeric,YES,0.0
+public,consultations,problem,10,text,YES,null
+public,consultations,notes,11,text,YES,null
+public,consultations,next_follow_up_date,12,text,YES,null
+public,consultations,created_at,13,text,YES,(now())::text
+public,consultations,updated_at,14,text,YES,(now())::text
+public,consultations,is_synced,15,boolean,YES,true
+public,consultations,created_by,16,text,YES,null
+public,consultations,updated_by,17,text,YES,null
+public,consultations,availability_slot_id,18,uuid,YES,null
+public,consultations,is_deleted,19,boolean,NO,false
+public,consultations,deleted_at,20,timestamp with time zone,YES,null
+public,consultations,deleted_by,21,text,YES,null
+public,doctor_slot_exceptions,id,1,uuid,NO,gen_random_uuid()
+public,doctor_slot_exceptions,doctor_id,2,uuid,NO,null
+public,doctor_slot_exceptions,exception_date,3,date,NO,null
+public,doctor_slot_exceptions,exception_type,4,text,NO,null
+public,doctor_slot_exceptions,weekly_slot_id,5,uuid,YES,null
+public,doctor_slot_exceptions,reason,6,text,YES,null
+public,doctor_slot_exceptions,created_at,8,timestamp with time zone,NO,now()
+public,doctor_slot_exceptions,updated_at,9,timestamp with time zone,NO,now()
+public,doctor_slot_exceptions,created_by,10,text,YES,null
+public,doctor_slot_exceptions,updated_by,11,text,YES,null
+public,doctor_slot_exceptions,is_synced,12,boolean,YES,null
+public,doctor_slot_exceptions,is_deleted,13,boolean,NO,false
+public,doctor_slot_exceptions,deleted_at,14,timestamp with time zone,YES,null
+public,doctor_slot_exceptions,deleted_by,15,text,YES,null
+public,doctor_weekly_slots,id,1,uuid,NO,gen_random_uuid()
+public,doctor_weekly_slots,doctor_id,2,uuid,NO,null
+public,doctor_weekly_slots,day_of_week,3,smallint,NO,null
+public,doctor_weekly_slots,start_minute,4,smallint,NO,null
+public,doctor_weekly_slots,end_minute,5,smallint,NO,null
+public,doctor_weekly_slots,is_active,6,boolean,NO,true
+public,doctor_weekly_slots,created_at,7,timestamp with time zone,NO,now()
+public,doctor_weekly_slots,updated_at,8,timestamp with time zone,NO,now()
+public,doctor_weekly_slots,created_by,9,text,YES,null
+public,doctor_weekly_slots,updated_by,10,text,YES,null
+public,doctor_weekly_slots,is_synced,11,boolean,NO,false
+public,doctor_weekly_slots,is_deleted,12,boolean,NO,false
+public,doctor_weekly_slots,deleted_at,13,timestamp with time zone,YES,null
+public,doctor_weekly_slots,deleted_by,14,text,YES,null
+public,expenses,id,1,text,NO,null
+public,expenses,expense_date,2,date,NO,null
+public,expenses,category,3,text,NO,null
+public,expenses,title,4,text,NO,null
+public,expenses,description,5,text,YES,null
+public,expenses,amount_paise,6,bigint,NO,null
+public,expenses,payment_method,7,text,NO,null
+public,expenses,reference_number,8,text,YES,null
+public,expenses,attachment_path,9,text,YES,null
+public,expenses,is_deleted,10,boolean,NO,false
+public,expenses,created_at,11,timestamp with time zone,NO,now()
+public,expenses,updated_at,12,timestamp with time zone,NO,now()
+public,expenses,created_by,13,text,YES,null
+public,expenses,updated_by,14,text,YES,null
+public,expenses,is_synced,15,boolean,NO,true
+public,expenses,synced_at,16,timestamp with time zone,YES,null
+public,expenses,deleted_at,17,timestamp with time zone,YES,null
+public,expenses,deleted_by,18,text,YES,null
+public,finance_transactions,id,1,uuid,NO,gen_random_uuid()
+public,finance_transactions,timestamp,2,text,YES,(now())::text
+public,finance_transactions,type,3,text,YES,null
+public,finance_transactions,category,4,text,YES,null
+public,finance_transactions,amount,5,numeric,YES,0.0
+public,finance_transactions,cash_amount,6,numeric,YES,0.0
+public,finance_transactions,online_amount,7,numeric,YES,0.0
+public,finance_transactions,currency,8,text,YES,'INR'::text
+public,finance_transactions,payment_method,9,text,YES,null
+public,finance_transactions,patient_id,10,uuid,YES,null
+public,finance_transactions,visit_id,11,uuid,YES,null
+public,finance_transactions,reference_number,12,text,YES,null
+public,finance_transactions,remarks,13,text,YES,null
+public,finance_transactions,recorded_by,14,text,YES,null
+public,finance_transactions,is_synced,15,boolean,YES,true
+public,finance_transactions,created_at,16,timestamp with time zone,NO,now()
+public,finance_transactions,updated_at,17,timestamp with time zone,NO,now()
+public,finance_transactions,created_by,18,text,YES,null
+public,finance_transactions,updated_by,19,text,YES,null
+public,finance_transactions,transaction_date,20,date,NO,null
+public,finance_transactions,is_deleted,21,boolean,NO,false
+public,finance_transactions,deleted_at,22,timestamp with time zone,YES,null
+public,finance_transactions,deleted_by,23,text,YES,null
+public,inventory_transactions,id,1,uuid,NO,gen_random_uuid()
+public,inventory_transactions,vaccine_id,2,uuid,YES,null
+public,inventory_transactions,batch_id,3,uuid,YES,null
+public,inventory_transactions,patient_id,4,uuid,YES,null
+public,inventory_transactions,visit_id,5,uuid,YES,null
+public,inventory_transactions,transaction_type,6,text,YES,null
+public,inventory_transactions,quantity,7,integer,NO,0
+public,inventory_transactions,previous_quantity,8,integer,YES,0
+public,inventory_transactions,current_quantity,9,integer,YES,0
+public,inventory_transactions,timestamp,10,text,YES,(now())::text
+public,inventory_transactions,user,11,text,YES,null
+public,inventory_transactions,notes,12,text,YES,null
+public,inventory_transactions,is_synced,13,boolean,YES,true
+public,inventory_transactions,status,14,text,YES,'COMPLETED'::text
+public,inventory_transactions,created_at,15,timestamp with time zone,NO,now()
+public,inventory_transactions,updated_at,16,timestamp with time zone,NO,now()
+public,inventory_transactions,created_by,17,text,YES,null
+public,inventory_transactions,updated_by,18,text,YES,null
+public,patient_notes,id,1,uuid,NO,gen_random_uuid()
+public,patient_notes,patient_id,2,uuid,YES,null
+public,patient_notes,content,3,text,NO,''::text
+public,patient_notes,author,4,text,YES,null
+public,patient_notes,timestamp,5,text,YES,(now())::text
+public,patient_notes,is_synced,6,boolean,YES,true
+public,patient_notes,created_at,7,timestamp with time zone,NO,now()
+public,patient_notes,updated_at,8,timestamp with time zone,NO,now()
+public,patient_notes,created_by,9,text,YES,null
+public,patient_notes,updated_by,10,text,YES,null
+public,patient_notes,is_deleted,11,boolean,NO,false
+public,patient_notes,deleted_at,12,timestamp with time zone,YES,null
+public,patient_notes,deleted_by,13,text,YES,null
+public,patient_visits,id,1,uuid,NO,gen_random_uuid()
+public,patient_visits,patient_id,2,uuid,YES,null
+public,patient_visits,date_given,3,text,NO,(now())::text
+public,patient_visits,doctor,4,text,YES,null
+public,patient_visits,vaccine_names,5,text,YES,null
+public,patient_visits,vaccine_ids,6,text,YES,null
+public,patient_visits,batch_ids,7,text,YES,null
+public,patient_visits,batch_numbers,8,text,YES,null
+public,patient_visits,materials_used,9,text,YES,null
+public,patient_visits,notes,10,text,YES,null
+public,patient_visits,receipt_number,11,text,YES,null
+public,patient_visits,total_paid,12,numeric,YES,0.0
+public,patient_visits,payment_id,13,uuid,YES,null
+public,patient_visits,nxt_vaccine_names,14,text,YES,null
+public,patient_visits,next_due_date,15,text,YES,null
+public,patient_visits,cash_amount,16,numeric,YES,0.0
+public,patient_visits,online_amount,17,numeric,YES,0.0
+public,patient_visits,with_fees,18,boolean,YES,false
+public,patient_visits,doctors_acc,19,boolean,YES,false
+public,patient_visits,status,20,text,YES,'ACTIVE'::text
+public,patient_visits,source,21,text,YES,'CLINIC'::text
+public,patient_visits,visit_type,22,text,YES,'VACCINATION'::text
+public,patient_visits,inventory_status,23,text,YES,'PENDING'::text
+public,patient_visits,created_at,24,timestamp with time zone,NO,now()
+public,patient_visits,updated_at,25,timestamp with time zone,NO,now()
+public,patient_visits,is_synced,26,boolean,YES,true
+public,patient_visits,doctor_id,27,text,YES,''::text
+public,patient_visits,created_by,28,text,YES,null
+public,patient_visits,updated_by,29,text,YES,null
+public,patient_visits,availability_slot_id,30,uuid,YES,null
+public,patient_visits,is_deleted,31,boolean,NO,false
+public,patient_visits,deleted_at,32,timestamp with time zone,YES,null
+public,patient_visits,deleted_by,33,text,YES,null
+public,patients,id,1,uuid,NO,gen_random_uuid()
+public,patients,patient_clinic_id,2,text,YES,null
+public,patients,name,3,text,NO,null
+public,patients,phone,4,text,YES,null
+public,patients,alternate_phone,5,text,YES,null
+public,patients,dob,6,date,YES,null
+public,patients,gender,7,text,YES,null
+public,patients,address,8,text,YES,null
+public,patients,registration_date,9,timestamp with time zone,YES,now()
+public,patients,attachments,12,jsonb,YES,null
+public,patients,updated_at,13,timestamp with time zone,YES,now()
+public,patients,is_synced,14,boolean,YES,true
+public,patients,created_at,15,timestamp with time zone,NO,now()
+public,patients,created_by,16,text,YES,null
+public,patients,updated_by,17,text,YES,null
+public,patients,is_deleted,18,boolean,NO,false
+public,patients,deleted_at,19,timestamp with time zone,YES,null
+public,patients,deleted_by,20,text,YES,null
+public,personal_vaccine_reminders,id,1,uuid,NO,gen_random_uuid()
+public,personal_vaccine_reminders,patient_id,2,uuid,YES,null
+public,personal_vaccine_reminders,vaccine_id,3,uuid,YES,null
+public,personal_vaccine_reminders,vaccine_label,4,text,YES,null
+public,personal_vaccine_reminders,note,5,text,YES,null
+public,personal_vaccine_reminders,advance_received,6,boolean,NO,false
+public,personal_vaccine_reminders,advance_amount,7,numeric,YES,null
+public,personal_vaccine_reminders,advance_date,8,date,YES,null
+public,personal_vaccine_reminders,reminder_date,9,date,YES,null
+public,personal_vaccine_reminders,status,10,text,NO,'PENDING'::text
+public,personal_vaccine_reminders,created_at,11,timestamp with time zone,NO,now()
+public,personal_vaccine_reminders,updated_at,12,timestamp with time zone,NO,now()
+public,personal_vaccine_reminders,completed_at,13,timestamp with time zone,YES,null
+public,personal_vaccine_reminders,cancelled_at,14,timestamp with time zone,YES,null
+public,personal_vaccine_reminders,is_synced,15,boolean,NO,true
+public,personal_vaccine_reminders,created_by,16,text,YES,null
+public,personal_vaccine_reminders,updated_by,17,text,YES,null
+public,personal_vaccine_reminders,patient_name,18,text,NO,null
+public,personal_vaccine_reminders,patient_phone,19,text,NO,null
+public,personal_vaccine_reminders,is_deleted,20,boolean,NO,false
+public,personal_vaccine_reminders,deleted_at,21,timestamp with time zone,YES,null
+public,personal_vaccine_reminders,deleted_by,22,text,YES,null
+public,profiles,id,1,uuid,NO,null
+public,profiles,email,2,text,NO,null
+public,profiles,display_name,3,text,YES,null
+public,profiles,phone_number,4,text,YES,null
+public,profiles,role,5,text,YES,'nurse'::text
+public,profiles,is_active,6,boolean,YES,true
+public,profiles,employee_id,7,text,YES,null
+public,profiles,fcm_token,8,text,YES,null
+public,profiles,created_at,9,timestamp with time zone,YES,now()
+public,profiles,updated_at,10,timestamp with time zone,YES,now()
+public,profiles,last_login,11,timestamp with time zone,YES,null
+public,profiles,is_deleted,12,boolean,NO,false
+public,profiles,deleted_at,13,timestamp with time zone,YES,null
+public,profiles,deleted_by,14,uuid,YES,null
+public,profiles,created_by,15,text,YES,null
+public,profiles,updated_by,16,text,YES,null
+public,receipt_sequences,financial_year,1,text,NO,null
+public,receipt_sequences,last_number,2,integer,NO,0
+public,receipt_sequences,updated_at,3,timestamp with time zone,NO,now()
+public,receipt_sequences,created_at,4,timestamp with time zone,NO,now()
+public,receipt_sequences,created_by,5,uuid,YES,null
+public,receipt_sequences,updated_by,6,uuid,YES,null
+public,reminders,id,1,uuid,NO,gen_random_uuid()
+public,reminders,patient_id,2,uuid,NO,null
+public,reminders,original_visit_id,3,uuid,NO,null
+public,reminders,vaccine_name,4,text,NO,null
+public,reminders,due_date,5,text,NO,null
+public,reminders,status,6,text,NO,null
+public,reminders,priority,7,text,YES,'NORMAL'::text
+public,reminders,reminder_enabled,8,boolean,YES,true
+public,reminders,category,9,text,YES,'VACCINATION'::text
+public,reminders,type,10,text,YES,''::text
+public,reminders,nxt_vaccine_id,11,ARRAY,YES,null
+public,reminders,notes,12,text,YES,null
+public,reminders,completion_date,13,text,YES,null
+public,reminders,performed_by,14,text,YES,null
+public,reminders,dismissal_date,15,text,YES,null
+public,reminders,dismissal_reason,16,text,YES,null
+public,reminders,created_at,17,timestamp with time zone,YES,now()
+public,reminders,updated_at,18,timestamp with time zone,YES,now()
+public,reminders,is_synced,19,boolean,YES,true
+public,reminders,created_by,20,text,YES,null
+public,reminders,updated_by,21,text,YES,null
+public,reminders,is_deleted,22,boolean,NO,false
+public,reminders,deleted_at,23,timestamp with time zone,YES,null
+public,reminders,deleted_by,24,text,YES,null
+public,user_devices,id,1,uuid,NO,gen_random_uuid()
+public,user_devices,user_id,2,uuid,YES,null
+public,user_devices,fcm_token,3,text,NO,null
+public,user_devices,device_name,4,text,YES,null
+public,user_devices,platform,5,text,YES,'Android'::text
+public,user_devices,app_version,6,text,YES,null
+public,user_devices,is_active,7,boolean,YES,true
+public,user_devices,last_seen_at,8,text,YES,null
+public,user_devices,created_at,9,text,YES,(now())::text
+public,user_devices,updated_at,10,timestamp with time zone,NO,now()
+public,user_devices,created_by,11,uuid,YES,null
+public,user_devices,updated_by,12,uuid,YES,null
+public,vaccination_items,id,1,uuid,NO,gen_random_uuid()
+public,vaccination_items,vaccination_id,2,uuid,YES,null
+public,vaccination_items,vaccine_id,3,uuid,YES,null
+public,vaccination_items,batch_id,4,uuid,YES,null
+public,vaccination_items,quantity,5,integer,YES,1
+public,vaccination_items,mrp,6,numeric,YES,0.0
+public,vaccination_items,net_rate,7,numeric,YES,0.0
+public,vaccination_items,expiry_date,8,text,YES,null
+public,vaccination_items,vaccine_name,9,text,NO,''::text
+public,vaccination_items,batch_number,10,text,NO,''::text
+public,vaccination_items,created_at,11,timestamp with time zone,NO,now()
+public,vaccination_items,updated_at,12,timestamp with time zone,NO,now()
+public,vaccination_items,created_by,13,text,YES,null
+public,vaccination_items,updated_by,14,text,YES,null
+public,vaccination_items,is_deleted,15,boolean,NO,false
+public,vaccination_items,deleted_at,16,timestamp with time zone,YES,null
+public,vaccination_items,deleted_by,17,text,YES,null
+public,vaccination_todos,id,1,uuid,NO,gen_random_uuid()
+public,vaccination_todos,patient_id,2,uuid,YES,null
+public,vaccination_todos,name,3,text,NO,null
+public,vaccination_todos,mobile,4,text,NO,null
+public,vaccination_todos,vaccine_names,5,text,NO,null
+public,vaccination_todos,address,6,text,NO,''::text
+public,vaccination_todos,todo_date,7,date,NO,null
+public,vaccination_todos,status,8,text,NO,'PENDING'::text
+public,vaccination_todos,created_at,9,timestamp with time zone,NO,now()
+public,vaccination_todos,updated_at,10,timestamp with time zone,NO,now()
+public,vaccination_todos,is_synced,11,boolean,NO,true
+public,vaccination_todos,created_by,12,text,YES,null
+public,vaccination_todos,updated_by,13,text,YES,null
+public,vaccination_todos,doctor_id,14,uuid,YES,null
+public,vaccination_todos,doctor_name,15,text,YES,null
+public,vaccination_todos,availability_slot_id,16,uuid,YES,null
+public,vaccination_todos,is_deleted,17,boolean,NO,false
+public,vaccination_todos,deleted_at,18,timestamp with time zone,YES,null
+public,vaccination_todos,deleted_by,19,text,YES,null
+public,vaccine_batches,id,1,uuid,NO,gen_random_uuid()
+public,vaccine_batches,vaccine_id,2,uuid,YES,null
+public,vaccine_batches,batch_number,3,text,YES,null
+public,vaccine_batches,manufacturer,4,text,YES,null
+public,vaccine_batches,purchase_date,5,text,YES,null
+public,vaccine_batches,expiry_date,6,text,YES,null
+public,vaccine_batches,purchase_quantity,7,integer,YES,0
+public,vaccine_batches,remaining_quantity,8,integer,YES,0
+public,vaccine_batches,reserved_quantity,9,integer,YES,0
+public,vaccine_batches,used_quantity,10,integer,YES,0
+public,vaccine_batches,wasted_quantity,11,integer,YES,0
+public,vaccine_batches,borrowed_quantity,12,integer,YES,0
+public,vaccine_batches,supplier,13,text,YES,null
+public,vaccine_batches,purchase_cost,14,numeric,YES,null
+public,vaccine_batches,selling_price,15,numeric,YES,null
+public,vaccine_batches,status,16,text,YES,'ACTIVE'::text
+public,vaccine_batches,updated_at,17,text,YES,(now())::text
+public,vaccine_batches,created_at,18,timestamp with time zone,NO,now()
+public,vaccine_batches,created_by,19,text,YES,null
+public,vaccine_batches,updated_by,20,text,YES,null
+public,vaccine_batches,is_deleted,21,boolean,NO,false
+public,vaccine_batches,deleted_at,22,timestamp with time zone,YES,null
+public,vaccine_batches,deleted_by,23,text,YES,null
+public,vaccines,id,1,uuid,NO,gen_random_uuid()
+public,vaccines,type,2,text,YES,null
+public,vaccines,brand_name,3,text,YES,null
+public,vaccines,company_name,4,text,YES,null
+public,vaccines,manufacturer,5,text,YES,null
+public,vaccines,category,6,text,YES,null
+public,vaccines,dose_schedule,7,text,YES,null
+public,vaccines,storage_details,8,text,YES,null
+public,vaccines,mrp,9,numeric,YES,0.0
+public,vaccines,net_rate,10,numeric,YES,0.0
+public,vaccines,last_updated,11,text,YES,(now())::text
+public,vaccines,created_at,12,timestamp with time zone,NO,now()
+public,vaccines,updated_at,13,timestamp with time zone,NO,now()
+public,vaccines,created_by,14,text,YES,null
+public,vaccines,updated_by,15,text,YES,null
+public,vaccines,is_deleted,16,boolean,NO,false
+public,vaccines,deleted_at,17,timestamp with time zone,YES,null
+public,vaccines,deleted_by,18,text,YES,null
+public,waste_records,id,1,uuid,NO,gen_random_uuid()
+public,waste_records,vaccine_id,2,uuid,YES,null
+public,waste_records,batch_id,3,uuid,YES,null
+public,waste_records,brand_name,4,text,YES,null
+public,waste_records,batch_number,5,text,YES,null
+public,waste_records,expiry_date,6,text,YES,null
+public,waste_records,date_wasted,7,text,YES,null
+public,waste_records,reason,8,text,YES,null
+public,waste_records,quantity,9,integer,YES,null
+public,waste_records,updated_at,10,text,YES,now()
+public,waste_records,is_synced,11,boolean,YES,true
+public,waste_records,created_at,12,timestamp with time zone,NO,now()
+public,waste_records,created_by,13,text,YES,null
+public,waste_records,updated_by,14,text,YES,null
+public,waste_records,is_deleted,15,boolean,NO,false
+public,waste_records,deleted_at,16,timestamp with time zone,YES,null
+public,waste_records,deleted_by,17,text,YES,null
