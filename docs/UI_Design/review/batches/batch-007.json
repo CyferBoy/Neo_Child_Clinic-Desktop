@@ -1,0 +1,111 @@
+{
+  "batch_id": "batch-007",
+  "image_count": 10,
+  "max_images": 10,
+  "screen_ids": [
+    "AUD-002",
+    "SYS-001",
+    "SYS-002",
+    "SYS-003",
+    "SYS-004",
+    "SYS-005",
+    "SYS-006",
+    "SYS-007",
+    "SET-001"
+  ],
+  "images": [
+    {
+      "screen_id": "AUD-002",
+      "screen_name": "Audit event detail",
+      "path": "screenshots/AUD-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "7fe96e5766b0289856fb40921adebf9ab7cd2516861e5fa6d01775179a9fa13e"
+    },
+    {
+      "screen_id": "SYS-001",
+      "screen_name": "Sync center",
+      "path": "screenshots/SYS-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "140c7f9d1fa83fa2faf47026a0de3a460eca820e2ed5439f74619f76db82fd49"
+    },
+    {
+      "screen_id": "SYS-002",
+      "screen_name": "Resolve sync conflict",
+      "path": "screenshots/SYS-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "f2c84f92da3173568d26597d93f24d42d3613b1bffc52628969fc7045fc6eb3c"
+    },
+    {
+      "screen_id": "SYS-003",
+      "screen_name": "Local data & recovery",
+      "path": "screenshots/SYS-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "245f4291e9f98cac7d28070a73ce625bf2725db9595f9bfcb99e3ae247b76d31"
+    },
+    {
+      "screen_id": "SYS-004",
+      "screen_name": "Application update",
+      "path": "screenshots/SYS-004.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "dfc3a8d29df8bf06d631c0d19030cdc06e58d579ab175f01b3559ad241bb42aa"
+    },
+    {
+      "screen_id": "SYS-005",
+      "screen_name": "Backups",
+      "path": "screenshots/SYS-005.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "8f2589c8ccd48f9a86c0956c6b5358bd99ddc03fdf060708325c01f31e73fe1d"
+    },
+    {
+      "screen_id": "SYS-006",
+      "screen_name": "Create encrypted backup",
+      "path": "screenshots/SYS-006.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "910017377bc8824d52872524068795074b1e865d32b8f71674ea1de5641a9d7e"
+    },
+    {
+      "screen_id": "SYS-007",
+      "screen_name": "Restore backup preview",
+      "path": "screenshots/SYS-007.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "76a35f30c9863283f6bcb0ac829948fecb57ef15798d104a1c3a942b8038344a"
+    },
+    {
+      "screen_id": "SET-001",
+      "screen_name": "Appearance settings",
+      "path": "screenshots/SET-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "0bbb147e0ce2d0788583e2fd6e70b1c39a1d40b5f767c3a98aab72a2681fd382"
+    },
+    {
+      "screen_id": "SET-001",
+      "screen_name": "Appearance settings",
+      "path": "screenshots/SET-001-dark.png",
+      "kind": "dark",
+      "width": 1366,
+      "height": 768,
+      "sha256": "301ea959eb9db98e5443a66767fa70757efec29eafdf3a2fa2826268e0e4df77"
+    }
+  ],
+  "prompt": "review/prompts/batch-007.md",
+  "result": "review/results/batch-007.json",
+  "status": "complete"
+}

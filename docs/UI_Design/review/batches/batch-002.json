@@ -1,0 +1,111 @@
+{
+  "batch_id": "batch-002",
+  "image_count": 10,
+  "max_images": 10,
+  "screen_ids": [
+    "PAT-001",
+    "PAT-002",
+    "PAT-003",
+    "PAT-004",
+    "PAT-005",
+    "PAT-006",
+    "PAT-007",
+    "VAC-001",
+    "VAC-002"
+  ],
+  "images": [
+    {
+      "screen_id": "PAT-001",
+      "screen_name": "Patient list",
+      "path": "screenshots/PAT-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "00e3a5a6bc06084526c1759a7a69082ac54467da3be3ae0e8da190b3a4f8a061"
+    },
+    {
+      "screen_id": "PAT-001",
+      "screen_name": "Patient list",
+      "path": "screenshots/PAT-001-dark.png",
+      "kind": "dark",
+      "width": 1366,
+      "height": 768,
+      "sha256": "752050bd6d16736fb8fc99c511e64acfe456ff3e4a3e6a8a90dcfb9fbc8012c7"
+    },
+    {
+      "screen_id": "PAT-002",
+      "screen_name": "Register patient",
+      "path": "screenshots/PAT-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "656503ff458924f371c4e4a62b3f73fe00b136b9e6c7678a1acf797bb458ace8"
+    },
+    {
+      "screen_id": "PAT-003",
+      "screen_name": "Patient profile",
+      "path": "screenshots/PAT-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "dd53a904773a4b8aae586db6455972dc4571bc7ec6461b23086dc77fdb4e3d52"
+    },
+    {
+      "screen_id": "PAT-004",
+      "screen_name": "Edit patient",
+      "path": "screenshots/PAT-004.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "a3dfac376ce9b38cb9f3c93b6a169254387a86ce14b8ffb4b6dce22d50611619"
+    },
+    {
+      "screen_id": "PAT-005",
+      "screen_name": "Duplicate warning",
+      "path": "screenshots/PAT-005.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "8970e8780b3ec371f691b909d6b310165a88face8ed323798e3e246c9baf4912"
+    },
+    {
+      "screen_id": "PAT-006",
+      "screen_name": "Merge patients",
+      "path": "screenshots/PAT-006.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "400452c9143c3a0e57de5c0c4c1028182da9ccc1c3b4fc014066c1e902210dad"
+    },
+    {
+      "screen_id": "PAT-007",
+      "screen_name": "Archive patient",
+      "path": "screenshots/PAT-007.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "cd528f45a04daabedc03eff695821119f58df5be1939c887d812f5bd2390f46a"
+    },
+    {
+      "screen_id": "VAC-001",
+      "screen_name": "Vaccination visits",
+      "path": "screenshots/VAC-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "2be60b7da21ea642aec3d97dee848c5f1999f7b8e3cadb1ee0ad42a47ebb6907"
+    },
+    {
+      "screen_id": "VAC-002",
+      "screen_name": "Record vaccination",
+      "path": "screenshots/VAC-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "f71dcc3b553ece3e959e9b84049c26d7b4a25f4d63d22467343dbab049093d1f"
+    }
+  ],
+  "prompt": "review/prompts/batch-002.md",
+  "result": "review/results/batch-002.json",
+  "status": "complete"
+}

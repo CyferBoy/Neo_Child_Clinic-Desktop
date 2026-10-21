@@ -1,0 +1,57 @@
+{
+  "generated_at": "2026-10-21T10:00:00+00:00",
+  "method": "Read the local OpenCode session store and counted image file parts per isolated reviewer session. Each reviewer session saw one batch only; max_images_in_request is the cumulative number of image parts in that session at its highest point.",
+  "max_allowed": 10,
+  "max_observed": 10,
+  "violations": [],
+  "sessions": [
+    {
+      "batch_id": "batch-001",
+      "session_id": "ses_ea35c67fbffeIBAFx9HsNT8lpW",
+      "images_total": 10,
+      "max_images_in_request": 10
+    },
+    {
+      "batch_id": "batch-002",
+      "session_id": "ses_ea35c67f7ffeVDrJ9MLHGlvm3n",
+      "images_total": 10,
+      "max_images_in_request": 10
+    },
+    {
+      "batch_id": "batch-003",
+      "session_id": "ses_ea35c67f4ffe83POR1d6SlpDl8",
+      "images_total": 10,
+      "max_images_in_request": 10
+    },
+    {
+      "batch_id": "batch-004",
+      "session_id": "ses_ea35c67ddffeDoAiyHqciTuf6r",
+      "images_total": 10,
+      "max_images_in_request": 10
+    },
+    {
+      "batch_id": "batch-005",
+      "session_id": "ses_ea350d266ffeHHl7f5kvhpvlM3",
+      "images_total": 10,
+      "max_images_in_request": 10
+    },
+    {
+      "batch_id": "batch-006",
+      "session_id": "ses_ea350d260ffeEKuC44Cuq7kdnQ",
+      "images_total": 10,
+      "max_images_in_request": 10
+    },
+    {
+      "batch_id": "batch-007",
+      "session_id": "ses_ea350d25bffeUjRanwgv2OrW1Q",
+      "images_total": 10,
+      "max_images_in_request": 10
+    },
+    {
+      "batch_id": "batch-008",
+      "session_id": "ses_ea350d247ffev7bZQeL7lfAsup",
+      "images_total": 3,
+      "max_images_in_request": 3
+    }
+  ]
+}

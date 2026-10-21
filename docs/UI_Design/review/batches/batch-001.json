@@ -1,0 +1,109 @@
+{
+  "batch_id": "batch-001",
+  "image_count": 10,
+  "max_images": 10,
+  "screen_ids": [
+    "AUTH-001",
+    "AUTH-002",
+    "AUTH-003",
+    "AUTH-004",
+    "AUTH-005",
+    "SHELL-001",
+    "DASH-001"
+  ],
+  "images": [
+    {
+      "screen_id": "AUTH-001",
+      "screen_name": "Sign in",
+      "path": "screenshots/AUTH-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "ca1ec7ce23de1dfa7f0f30adc3a687d051e6a69a5ca98f1cdb8d37ea65100083"
+    },
+    {
+      "screen_id": "AUTH-001",
+      "screen_name": "Sign in",
+      "path": "screenshots/AUTH-001-wide.png",
+      "kind": "wide",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "b54c5dff6e58ae167328ff2f556887d70aff487a1d4bb2929d98207b88b671af"
+    },
+    {
+      "screen_id": "AUTH-002",
+      "screen_name": "Restoring session",
+      "path": "screenshots/AUTH-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "ea3d1557b229318bdde4d7c0c5b9588f2644db96ea168ef311c2f2d6281760ed"
+    },
+    {
+      "screen_id": "AUTH-003",
+      "screen_name": "Session expired",
+      "path": "screenshots/AUTH-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "c9981668309c096f3820485a9f8257e986aa8ef6ccfd4c9cbab02e0a53c38986"
+    },
+    {
+      "screen_id": "AUTH-004",
+      "screen_name": "Access denied",
+      "path": "screenshots/AUTH-004.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "6f8cdd1877ded576cd78f8c465a9d5bdb76601010d8b5ad7270d8a23338bc94c"
+    },
+    {
+      "screen_id": "AUTH-005",
+      "screen_name": "Sign out with pending writes",
+      "path": "screenshots/AUTH-005.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "27693c2d9568709e33d05696e6a1dc7bd1b63368a66f3108034be0f6e86ca405"
+    },
+    {
+      "screen_id": "SHELL-001",
+      "screen_name": "Global search",
+      "path": "screenshots/SHELL-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "bb9e259f963aa9bb5630a502eac5c8aeddc44259bee68ef15717bcc2784f3257"
+    },
+    {
+      "screen_id": "DASH-001",
+      "screen_name": "Dashboard",
+      "path": "screenshots/DASH-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "b3b623a867b0f7090a5cdb48d77be31390bfb7ec497e73e4f0d3777a343d3156"
+    },
+    {
+      "screen_id": "DASH-001",
+      "screen_name": "Dashboard",
+      "path": "screenshots/DASH-001-dark.png",
+      "kind": "dark",
+      "width": 1366,
+      "height": 768,
+      "sha256": "20c60d04928508c241cd4b560890318cbd8acee3f191abcf1d53305b58eff1b1"
+    },
+    {
+      "screen_id": "DASH-001",
+      "screen_name": "Dashboard",
+      "path": "screenshots/DASH-001-wide.png",
+      "kind": "wide",
+      "width": 1920,
+      "height": 1080,
+      "sha256": "bebca0cdce237fbd0f17bea15c97e16fe61956f73580d19017103b2a01db5f56"
+    }
+  ],
+  "prompt": "review/prompts/batch-001.md",
+  "result": "review/results/batch-001.json",
+  "status": "complete"
+}

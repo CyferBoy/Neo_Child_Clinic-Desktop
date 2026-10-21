@@ -1,0 +1,112 @@
+{
+  "batch_id": "batch-006",
+  "image_count": 10,
+  "max_images": 10,
+  "screen_ids": [
+    "RCP-003",
+    "RPT-001",
+    "RPT-002",
+    "RPT-003",
+    "RPT-004",
+    "STF-001",
+    "STF-002",
+    "STF-003",
+    "STF-004",
+    "AUD-001"
+  ],
+  "images": [
+    {
+      "screen_id": "RCP-003",
+      "screen_name": "Reprint receipt",
+      "path": "screenshots/RCP-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "9fa01d71a446268ead3c07f051278b1fe33668e55baf9cbc150886630737e6d5"
+    },
+    {
+      "screen_id": "RPT-001",
+      "screen_name": "Statistics overview",
+      "path": "screenshots/RPT-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "eb24791dcfaec1b963c43c83a3928e1cbbcb3286d2b11615b2acf54f012d4a5b"
+    },
+    {
+      "screen_id": "RPT-002",
+      "screen_name": "Vaccination report",
+      "path": "screenshots/RPT-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "1ee7192ef7ac0441178f57129173bab2bf6e8406eab89a7b2d03d0d664b336ad"
+    },
+    {
+      "screen_id": "RPT-003",
+      "screen_name": "Finance report",
+      "path": "screenshots/RPT-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "bcf7a7c6e3e892aa4062335b4e74a5c8a1a189ba14a4d6119e1bc17d6797c065"
+    },
+    {
+      "screen_id": "RPT-004",
+      "screen_name": "Patient milestone report",
+      "path": "screenshots/RPT-004.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "e5f295928d70e09b1695b4704bfb8cf591261b6fffe82a45e2cdec057fa003d9"
+    },
+    {
+      "screen_id": "STF-001",
+      "screen_name": "Staff list",
+      "path": "screenshots/STF-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "3b86bed265b35962bfcbd1ecf6cc115f4b9f2f58dce629c4ea69f0f2b9b450b2"
+    },
+    {
+      "screen_id": "STF-002",
+      "screen_name": "Add staff member",
+      "path": "screenshots/STF-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "41b7b355029f364ddb5fb2487ff3b35d41285213767a00471bb943f8d627b955"
+    },
+    {
+      "screen_id": "STF-003",
+      "screen_name": "Deactivate staff",
+      "path": "screenshots/STF-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "69e06771b9dd6888fead335e64edf7b36a386973efcd9e69da04e572a0d89315"
+    },
+    {
+      "screen_id": "STF-004",
+      "screen_name": "Reset staff password",
+      "path": "screenshots/STF-004.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "651a2897fd28303d8891d6f7572e990a5627a2016fb28e283ae4ece8bce1897c"
+    },
+    {
+      "screen_id": "AUD-001",
+      "screen_name": "Audit log",
+      "path": "screenshots/AUD-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "da02cde37cd3991bd8e9f82bb2f9c28b7a23a54e9a42ed1c2405afe14436ee4c"
+    }
+  ],
+  "prompt": "review/prompts/batch-006.md",
+  "result": "review/results/batch-006.json",
+  "status": "complete"
+}

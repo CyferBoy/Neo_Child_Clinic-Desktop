@@ -1,0 +1,77 @@
+{
+  "batch_id": "batch-005",
+  "images_reviewed": 10,
+  "reviewed_at": "2026-10-21T04:19:48Z",
+  "notes": "Eight of ten screens are complete and consistent with the shell and finance/receipt patterns. The two creation forms, REM-004 and FIN-006, have collapsed field grids that make their inputs unreadable and require rework before sign-off.",
+  "screens": [
+    {
+      "screen_id": "REM-003",
+      "verdict": "pass_with_notes",
+      "summary": "Personal reminders list is complete and legible, with clear tabs, table, pagination and advisory notices. Only small cosmetic text-fitting issues in the search field and linked-patient column.",
+      "issues": [
+        {"image": "screenshots/REM-003.png", "severity": "minor", "observation": "The search placeholder wraps onto two lines inside a single-line-height input, making the field look cramped."},
+        {"image": "screenshots/REM-003.png", "severity": "minor", "observation": "Linked patient IDs are truncated to \"NCC-2026-0...\" in every row, reducing their identifying value."}
+      ]
+    },
+    {
+      "screen_id": "REM-004",
+      "verdict": "fail",
+      "summary": "Create-reminder form layout is broken: the follow-up fields collapse into a narrow column, values wrap word-by-word outside their controls, labels collide, and most of the card is empty.",
+      "issues": [
+        {"image": "screenshots/REM-004.png", "severity": "blocking", "observation": "Reminder, Reminder date, Assigned to and Note are squeezed into a ~90-220px column while the right half of the card is blank; the reminder value renders as a vertical word stack and the note control is unusably small."},
+        {"image": "screenshots/REM-004.png", "severity": "blocking", "observation": "The labels Vaccine interest, Advance amount, Reminder and Assigned to run together on one line, and the Assigned-to value overflows its select, so the form cannot be read or used."}
+      ]
+    },
+    {
+      "screen_id": "FIN-001",
+      "verdict": "pass",
+      "summary": "Finance overview is complete and well balanced: KPI cards, collections trend, payment-method mix and recent transactions are legible with consistent styling and fictional data.",
+      "issues": []
+    },
+    {
+      "screen_id": "FIN-002",
+      "verdict": "pass",
+      "summary": "Transactions list is clear and complete, with readable status badges, cash/online split, consistent table rhythm and working pagination. Truncated references are appropriately ellipsized.",
+      "issues": []
+    },
+    {
+      "screen_id": "FIN-003",
+      "verdict": "pass",
+      "summary": "Payment detail presents amount, split, status, visit metadata and linked service cleanly. Hierarchy and provisional-receipt treatment are clear with no clipping.",
+      "issues": []
+    },
+    {
+      "screen_id": "FIN-004",
+      "verdict": "pass",
+      "summary": "Record-payment form is well structured and legible, with correct cash/online split messaging, patient context and receipt state. No visible layout or data defects.",
+      "issues": []
+    },
+    {
+      "screen_id": "FIN-005",
+      "verdict": "pass",
+      "summary": "Expenses screen is complete and legible, with clear summary cards, filter controls, status badges and a well-aligned table. No blocking or cosmetic defects noted.",
+      "issues": []
+    },
+    {
+      "screen_id": "FIN-006",
+      "verdict": "fail",
+      "summary": "Record-expense form layout is broken: the field grid collapses into slivers, Title and Note values wrap vertically outside their controls, labels overlap, and the card is mostly blank.",
+      "issues": [
+        {"image": "screenshots/FIN-006.png", "severity": "blocking", "observation": "Date, Category, Title and Reference are forced into a narrow column; the Title input is only a few characters wide and its value wraps one word per line beyond the field boundary."},
+        {"image": "screenshots/FIN-006.png", "severity": "blocking", "observation": "Title and Reference labels overlap, the Note textarea is collapsed to a thin strip with vertically stacked text, and the left half of the form card is empty, making the form unusable."}
+      ]
+    },
+    {
+      "screen_id": "RCP-001",
+      "verdict": "pass",
+      "summary": "Receipt preview is complete and convincing: receipt document, totals, payment split, print status and print settings all render cleanly with fictional data and no clipping.",
+      "issues": []
+    },
+    {
+      "screen_id": "RCP-002",
+      "verdict": "pass",
+      "summary": "Print-queue error state is purposeful and legible, with a clear failure banner, job facts, recovery actions, print options and history. No layout or data defects.",
+      "issues": []
+    }
+  ]
+}

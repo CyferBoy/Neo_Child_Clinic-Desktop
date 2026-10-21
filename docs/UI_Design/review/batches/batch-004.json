@@ -1,0 +1,112 @@
+{
+  "batch_id": "batch-004",
+  "image_count": 10,
+  "max_images": 10,
+  "screen_ids": [
+    "INV-004",
+    "INV-005",
+    "INV-006",
+    "WAS-001",
+    "WAS-002",
+    "BRW-001",
+    "BRW-002",
+    "BRW-003",
+    "REM-001",
+    "REM-002"
+  ],
+  "images": [
+    {
+      "screen_id": "INV-004",
+      "screen_name": "Batch detail",
+      "path": "screenshots/INV-004.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "cdaa79f918551e2e0f822c322484b5c4662116b387facac0db4889da4a1abb19"
+    },
+    {
+      "screen_id": "INV-005",
+      "screen_name": "Receive stock",
+      "path": "screenshots/INV-005.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "522731251fa89f8c56cbe5450759fa42ba9b5d141807474903be627f95664b36"
+    },
+    {
+      "screen_id": "INV-006",
+      "screen_name": "Adjust stock",
+      "path": "screenshots/INV-006.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "e6d8537e92f1ab8333a4d330e2f23908906a75877cbc2938ecf02ea72cc4f33a"
+    },
+    {
+      "screen_id": "WAS-001",
+      "screen_name": "Wastage overview",
+      "path": "screenshots/WAS-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "ca81e1bf902114ed2b11c8dd79ee44aba1cfff091cdf93418383f3dfd4d2080f"
+    },
+    {
+      "screen_id": "WAS-002",
+      "screen_name": "Record wastage",
+      "path": "screenshots/WAS-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "051072ec7b24dc4aa15deb61850f07e6231759474b2ea5a5ffaa4fde2c8e8ef3"
+    },
+    {
+      "screen_id": "BRW-001",
+      "screen_name": "Borrow & return",
+      "path": "screenshots/BRW-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "8414a9bcf6bfeba7fbf5a60a93705c2115e182f693e29c5fb08200ecca1c413d"
+    },
+    {
+      "screen_id": "BRW-002",
+      "screen_name": "Record borrow / lend",
+      "path": "screenshots/BRW-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "e91d65765901b3a2ecdb6fb61679e92d2b617a88907f6e9b67d6de4017c059c9"
+    },
+    {
+      "screen_id": "BRW-003",
+      "screen_name": "Record return",
+      "path": "screenshots/BRW-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "83ba549b7de54e1277866c590cd826ad2b38203dd684788ac28b3eb1cefabe4e"
+    },
+    {
+      "screen_id": "REM-001",
+      "screen_name": "Due vaccinations",
+      "path": "screenshots/REM-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "cdbd8b9691605feefbecf47210ef878fffbbd05e6925e8ec0245e60d8793af9a"
+    },
+    {
+      "screen_id": "REM-002",
+      "screen_name": "Vaccination reminder detail",
+      "path": "screenshots/REM-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "103effdec26f66b92f43985833e34580a5e5f9b6ad6a9a1acb5337abd505da50"
+    }
+  ],
+  "prompt": "review/prompts/batch-004.md",
+  "result": "review/results/batch-004.json",
+  "status": "complete"
+}

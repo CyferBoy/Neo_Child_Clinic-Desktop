@@ -1,0 +1,248 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Neo Child Clinic Desktop · UI Design Gallery</title><link rel="stylesheet" href="assets/app.css"><style>
+    body { background: #eef4f2; }
+    .g-head { background: #072e32; color: #fff; padding: 26px 34px 22px; }
+    .g-head .kicker { font-size: 10px; letter-spacing: 1.2px; text-transform: uppercase; color: #9ed0cc; font-weight: 700; }
+    .g-head h1 { font-family: var(--font-display); font-size: 30px; letter-spacing: -0.8px; margin-top: 4px; }
+    .g-head p { color: #b9d8d5; font-size: 12px; max-width: 860px; line-height: 1.55; margin-top: 7px; }
+    .g-toolbar { position: sticky; top: 0; z-index: 3; display: flex; gap: 10px; align-items: center; padding: 12px 34px; background: rgba(255,255,255,.94); border-bottom: 1px solid #d7e2e0; }
+    .g-toolbar input, .g-toolbar select { height: 34px; border: 1px solid #b5c6c3; border-radius: 7px; background: #fff; padding: 0 10px; font: inherit; font-size: 11px; }
+    .g-toolbar input { width: 320px; }
+    .g-count { color: #6b7d80; font-size: 11px; }
+    .g-grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; padding: 20px 34px 44px; }
+    .g-card { background: #fff; border: 1px solid #d7e2e0; border-radius: 10px; overflow: hidden; box-shadow: 0 1px 2px rgba(7,46,50,.06); }
+    .shot { display: block; background: #dce9e6; aspect-ratio: 1366/768; overflow: hidden; border-bottom: 1px solid #e7eeec; }
+    .shot img { width: 100%; height: 100%; object-fit: cover; display: block; }
+    .g-meta { padding: 10px 12px 11px; display: flex; gap: 10px; align-items: flex-start; }
+    .g-meta > div:first-child { min-width: 0; flex: 1; }
+    .g-id { font-family: var(--font-mono); font-size: 9.5px; color: #0f5d64; font-weight: 700; }
+    .g-section { font-size: 9px; color: #6b7d80; margin-left: 6px; text-transform: uppercase; letter-spacing: .4px; }
+    .g-meta h2 { font-family: var(--font-display); font-size: 13px; margin-top: 3px; }
+    .g-meta p { color: #6b7d80; font-size: 10px; margin-top: 2px; }
+    .g-links { display: flex; flex-wrap: wrap; gap: 5px; justify-content: flex-end; max-width: 95px; }
+    .g-links a, .variant-links { font-size: 9.5px; color: #0f5d64; font-weight: 700; text-decoration: none; background: #eef7f6; border-radius: 4px; padding: 3px 5px; }
+    .variant-links { text-align: right; }
+    .g-foot { padding: 0 34px 34px; color: #6b7d80; font-size: 10.5px; }
+    @media (max-width: 980px) { .g-grid { grid-template-columns: 1fr 1fr; } }
+    @media (max-width: 640px) { .g-grid { grid-template-columns: 1fr; padding: 14px; } }
+    </style></head><body>
+    <header class="g-head"><div class="kicker">Design artifact · not production UI</div><h1>Neo Child Clinic · Desktop screen gallery</h1><p>68 screen specifications rendered at 1366×768 from the static prototype. This gallery is the visual index for review; all clinical and financial content is fictional. No production service is connected.</p></header>
+    <div class="g-toolbar"><input id="g-search" type="search" placeholder="Filter by screen ID, name or feature…" aria-label="Filter screens"><select id="g-section" aria-label="Filter by section"><option value="">All sections</option><option value="Authentication">Authentication</option><option value="Shell">Shell</option><option value="Dashboard">Dashboard</option><option value="Patients">Patients</option><option value="Vaccinations">Vaccinations</option><option value="Consultations">Consultations</option><option value="Inventory">Inventory</option><option value="Wastage">Wastage</option><option value="Borrow &amp; Return">Borrow &amp; Return</option><option value="Follow-up">Follow-up</option><option value="Finance">Finance</option><option value="Receipts">Receipts</option><option value="Reports">Reports</option><option value="Administration">Administration</option><option value="System">System</option><option value="Settings">Settings</option></select><span class="g-count" id="g-count">68 screens</span></div>
+    <main class="g-grid" id="g-grid"><article class="g-card" data-section="Authentication" data-search="auth-001 sign in authentication and session">
+  <a class="shot" href="screens/AUTH-001.html"><img src="../screenshots/AUTH-001.png" alt="Rendered screen: Sign in" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">AUTH-001</span><span class="g-section">Authentication</span><h2>Sign in</h2><p>Authentication and Session</p></div><div class="g-links"><a href="screens/AUTH-001.html">Open</a><a href="../Screens/AUTH-001-sign-in.md">Spec</a><span class="variant-links"><a href="../screenshots/AUTH-001-wide.png">1920</a></span></div></div>
+</article><article class="g-card" data-section="Authentication" data-search="auth-002 restoring session authentication and session">
+  <a class="shot" href="screens/AUTH-002.html"><img src="../screenshots/AUTH-002.png" alt="Rendered screen: Restoring session" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">AUTH-002</span><span class="g-section">Authentication</span><h2>Restoring session</h2><p>Authentication and Session</p></div><div class="g-links"><a href="screens/AUTH-002.html">Open</a><a href="../Screens/AUTH-002-restoring-session.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Authentication" data-search="auth-003 session expired authentication and session">
+  <a class="shot" href="screens/AUTH-003.html"><img src="../screenshots/AUTH-003.png" alt="Rendered screen: Session expired" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">AUTH-003</span><span class="g-section">Authentication</span><h2>Session expired</h2><p>Authentication and Session</p></div><div class="g-links"><a href="screens/AUTH-003.html">Open</a><a href="../Screens/AUTH-003-session-expired.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Authentication" data-search="auth-004 access denied authentication and session">
+  <a class="shot" href="screens/AUTH-004.html"><img src="../screenshots/AUTH-004.png" alt="Rendered screen: Access denied" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">AUTH-004</span><span class="g-section">Authentication</span><h2>Access denied</h2><p>Authentication and Session</p></div><div class="g-links"><a href="screens/AUTH-004.html">Open</a><a href="../Screens/AUTH-004-access-denied.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Authentication" data-search="auth-005 sign out with pending writes authentication and session">
+  <a class="shot" href="screens/AUTH-005.html"><img src="../screenshots/AUTH-005.png" alt="Rendered screen: Sign out with pending writes" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">AUTH-005</span><span class="g-section">Authentication</span><h2>Sign out with pending writes</h2><p>Authentication and Session</p></div><div class="g-links"><a href="screens/AUTH-005.html">Open</a><a href="../Screens/AUTH-005-sign-out-pending.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Shell" data-search="shell-001 global search desktop shell and navigation">
+  <a class="shot" href="screens/SHELL-001.html"><img src="../screenshots/SHELL-001.png" alt="Rendered screen: Global search" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SHELL-001</span><span class="g-section">Shell</span><h2>Global search</h2><p>Desktop Shell and Navigation</p></div><div class="g-links"><a href="screens/SHELL-001.html">Open</a><a href="../Screens/SHELL-001-global-search.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Dashboard" data-search="dash-001 dashboard dashboard">
+  <a class="shot" href="screens/DASH-001.html"><img src="../screenshots/DASH-001.png" alt="Rendered screen: Dashboard" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">DASH-001</span><span class="g-section">Dashboard</span><h2>Dashboard</h2><p>Dashboard</p></div><div class="g-links"><a href="screens/DASH-001.html">Open</a><a href="../Screens/DASH-001-dashboard.md">Spec</a><span class="variant-links"><a href="../screenshots/DASH-001-dark.png">Dark</a> · <a href="../screenshots/DASH-001-wide.png">1920</a></span></div></div>
+</article><article class="g-card" data-section="Patients" data-search="pat-001 patient list patient management">
+  <a class="shot" href="screens/PAT-001.html"><img src="../screenshots/PAT-001.png" alt="Rendered screen: Patient list" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">PAT-001</span><span class="g-section">Patients</span><h2>Patient list</h2><p>Patient Management</p></div><div class="g-links"><a href="screens/PAT-001.html">Open</a><a href="../Screens/PAT-001-patient-list.md">Spec</a><span class="variant-links"><a href="../screenshots/PAT-001-dark.png">Dark</a></span></div></div>
+</article><article class="g-card" data-section="Patients" data-search="pat-002 register patient patient management">
+  <a class="shot" href="screens/PAT-002.html"><img src="../screenshots/PAT-002.png" alt="Rendered screen: Register patient" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">PAT-002</span><span class="g-section">Patients</span><h2>Register patient</h2><p>Patient Management</p></div><div class="g-links"><a href="screens/PAT-002.html">Open</a><a href="../Screens/PAT-002-register-patient.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Patients" data-search="pat-003 patient profile patient management">
+  <a class="shot" href="screens/PAT-003.html"><img src="../screenshots/PAT-003.png" alt="Rendered screen: Patient profile" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">PAT-003</span><span class="g-section">Patients</span><h2>Patient profile</h2><p>Patient Management</p></div><div class="g-links"><a href="screens/PAT-003.html">Open</a><a href="../Screens/PAT-003-patient-profile.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Patients" data-search="pat-004 edit patient patient management">
+  <a class="shot" href="screens/PAT-004.html"><img src="../screenshots/PAT-004.png" alt="Rendered screen: Edit patient" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">PAT-004</span><span class="g-section">Patients</span><h2>Edit patient</h2><p>Patient Management</p></div><div class="g-links"><a href="screens/PAT-004.html">Open</a><a href="../Screens/PAT-004-edit-patient.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Patients" data-search="pat-005 duplicate warning patient management">
+  <a class="shot" href="screens/PAT-005.html"><img src="../screenshots/PAT-005.png" alt="Rendered screen: Duplicate warning" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">PAT-005</span><span class="g-section">Patients</span><h2>Duplicate warning</h2><p>Patient Management</p></div><div class="g-links"><a href="screens/PAT-005.html">Open</a><a href="../Screens/PAT-005-duplicate-warning.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Patients" data-search="pat-006 merge patients patient management">
+  <a class="shot" href="screens/PAT-006.html"><img src="../screenshots/PAT-006.png" alt="Rendered screen: Merge patients" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">PAT-006</span><span class="g-section">Patients</span><h2>Merge patients</h2><p>Patient Management</p></div><div class="g-links"><a href="screens/PAT-006.html">Open</a><a href="../Screens/PAT-006-merge-patients.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Patients" data-search="pat-007 archive patient patient management">
+  <a class="shot" href="screens/PAT-007.html"><img src="../screenshots/PAT-007.png" alt="Rendered screen: Archive patient" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">PAT-007</span><span class="g-section">Patients</span><h2>Archive patient</h2><p>Patient Management</p></div><div class="g-links"><a href="screens/PAT-007.html">Open</a><a href="../Screens/PAT-007-archive-patient.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Vaccinations" data-search="vac-001 vaccination visits vaccination management">
+  <a class="shot" href="screens/VAC-001.html"><img src="../screenshots/VAC-001.png" alt="Rendered screen: Vaccination visits" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">VAC-001</span><span class="g-section">Vaccinations</span><h2>Vaccination visits</h2><p>Vaccination Management</p></div><div class="g-links"><a href="screens/VAC-001.html">Open</a><a href="../Screens/VAC-001-vaccination-visits.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Vaccinations" data-search="vac-002 record vaccination vaccination management">
+  <a class="shot" href="screens/VAC-002.html"><img src="../screenshots/VAC-002.png" alt="Rendered screen: Record vaccination" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">VAC-002</span><span class="g-section">Vaccinations</span><h2>Record vaccination</h2><p>Vaccination Management</p></div><div class="g-links"><a href="screens/VAC-002.html">Open</a><a href="../Screens/VAC-002-record-vaccination.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Vaccinations" data-search="vac-003 batch selection vaccination management">
+  <a class="shot" href="screens/VAC-003.html"><img src="../screenshots/VAC-003.png" alt="Rendered screen: Batch selection" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">VAC-003</span><span class="g-section">Vaccinations</span><h2>Batch selection</h2><p>Vaccination Management</p></div><div class="g-links"><a href="screens/VAC-003.html">Open</a><a href="../Screens/VAC-003-batch-selection.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Vaccinations" data-search="vac-004 vaccination visit detail vaccination management">
+  <a class="shot" href="screens/VAC-004.html"><img src="../screenshots/VAC-004.png" alt="Rendered screen: Vaccination visit detail" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">VAC-004</span><span class="g-section">Vaccinations</span><h2>Vaccination visit detail</h2><p>Vaccination Management</p></div><div class="g-links"><a href="screens/VAC-004.html">Open</a><a href="../Screens/VAC-004-vaccination-visit-detail.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Vaccinations" data-search="vac-005 correct or delete vaccination vaccination management">
+  <a class="shot" href="screens/VAC-005.html"><img src="../screenshots/VAC-005.png" alt="Rendered screen: Correct or delete vaccination" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">VAC-005</span><span class="g-section">Vaccinations</span><h2>Correct or delete vaccination</h2><p>Vaccination Management</p></div><div class="g-links"><a href="screens/VAC-005.html">Open</a><a href="../Screens/VAC-005-correct-delete-vaccination.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Consultations" data-search="con-001 consultations consultation management">
+  <a class="shot" href="screens/CON-001.html"><img src="../screenshots/CON-001.png" alt="Rendered screen: Consultations" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">CON-001</span><span class="g-section">Consultations</span><h2>Consultations</h2><p>Consultation Management</p></div><div class="g-links"><a href="screens/CON-001.html">Open</a><a href="../Screens/CON-001-consultations.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Consultations" data-search="con-002 new consultation consultation management">
+  <a class="shot" href="screens/CON-002.html"><img src="../screenshots/CON-002.png" alt="Rendered screen: New consultation" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">CON-002</span><span class="g-section">Consultations</span><h2>New consultation</h2><p>Consultation Management</p></div><div class="g-links"><a href="screens/CON-002.html">Open</a><a href="../Screens/CON-002-new-consultation.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Consultations" data-search="con-003 consultation detail consultation management">
+  <a class="shot" href="screens/CON-003.html"><img src="../screenshots/CON-003.png" alt="Rendered screen: Consultation detail" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">CON-003</span><span class="g-section">Consultations</span><h2>Consultation detail</h2><p>Consultation Management</p></div><div class="g-links"><a href="screens/CON-003.html">Open</a><a href="../Screens/CON-003-consultation-detail.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Consultations" data-search="con-004 delete consultation consultation management">
+  <a class="shot" href="screens/CON-004.html"><img src="../screenshots/CON-004.png" alt="Rendered screen: Delete consultation" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">CON-004</span><span class="g-section">Consultations</span><h2>Delete consultation</h2><p>Consultation Management</p></div><div class="g-links"><a href="screens/CON-004.html">Open</a><a href="../Screens/CON-004-delete-consultation.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Inventory" data-search="inv-001 inventory overview vaccine and batch inventory">
+  <a class="shot" href="screens/INV-001.html"><img src="../screenshots/INV-001.png" alt="Rendered screen: Inventory overview" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">INV-001</span><span class="g-section">Inventory</span><h2>Inventory overview</h2><p>Vaccine and Batch Inventory</p></div><div class="g-links"><a href="screens/INV-001.html">Open</a><a href="../Screens/INV-001-inventory-overview.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Inventory" data-search="inv-002 vaccine catalogue vaccine and batch inventory">
+  <a class="shot" href="screens/INV-002.html"><img src="../screenshots/INV-002.png" alt="Rendered screen: Vaccine catalogue" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">INV-002</span><span class="g-section">Inventory</span><h2>Vaccine catalogue</h2><p>Vaccine and Batch Inventory</p></div><div class="g-links"><a href="screens/INV-002.html">Open</a><a href="../Screens/INV-002-vaccine-catalogue.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Inventory" data-search="inv-003 edit vaccine catalogue vaccine and batch inventory">
+  <a class="shot" href="screens/INV-003.html"><img src="../screenshots/INV-003.png" alt="Rendered screen: Edit vaccine catalogue" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">INV-003</span><span class="g-section">Inventory</span><h2>Edit vaccine catalogue</h2><p>Vaccine and Batch Inventory</p></div><div class="g-links"><a href="screens/INV-003.html">Open</a><a href="../Screens/INV-003-edit-vaccine-catalogue.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Inventory" data-search="inv-004 batch detail vaccine and batch inventory">
+  <a class="shot" href="screens/INV-004.html"><img src="../screenshots/INV-004.png" alt="Rendered screen: Batch detail" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">INV-004</span><span class="g-section">Inventory</span><h2>Batch detail</h2><p>Vaccine and Batch Inventory</p></div><div class="g-links"><a href="screens/INV-004.html">Open</a><a href="../Screens/INV-004-batch-detail.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Inventory" data-search="inv-005 receive stock vaccine and batch inventory">
+  <a class="shot" href="screens/INV-005.html"><img src="../screenshots/INV-005.png" alt="Rendered screen: Receive stock" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">INV-005</span><span class="g-section">Inventory</span><h2>Receive stock</h2><p>Vaccine and Batch Inventory</p></div><div class="g-links"><a href="screens/INV-005.html">Open</a><a href="../Screens/INV-005-receive-stock.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Inventory" data-search="inv-006 adjust stock vaccine and batch inventory">
+  <a class="shot" href="screens/INV-006.html"><img src="../screenshots/INV-006.png" alt="Rendered screen: Adjust stock" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">INV-006</span><span class="g-section">Inventory</span><h2>Adjust stock</h2><p>Vaccine and Batch Inventory</p></div><div class="g-links"><a href="screens/INV-006.html">Open</a><a href="../Screens/INV-006-adjust-stock.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Wastage" data-search="was-001 wastage overview wastage">
+  <a class="shot" href="screens/WAS-001.html"><img src="../screenshots/WAS-001.png" alt="Rendered screen: Wastage overview" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">WAS-001</span><span class="g-section">Wastage</span><h2>Wastage overview</h2><p>Wastage</p></div><div class="g-links"><a href="screens/WAS-001.html">Open</a><a href="../Screens/WAS-001-wastage-overview.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Wastage" data-search="was-002 record wastage wastage">
+  <a class="shot" href="screens/WAS-002.html"><img src="../screenshots/WAS-002.png" alt="Rendered screen: Record wastage" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">WAS-002</span><span class="g-section">Wastage</span><h2>Record wastage</h2><p>Wastage</p></div><div class="g-links"><a href="screens/WAS-002.html">Open</a><a href="../Screens/WAS-002-record-wastage.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Borrow &amp; Return" data-search="brw-001 borrow &amp; return borrowed and lent vaccines">
+  <a class="shot" href="screens/BRW-001.html"><img src="../screenshots/BRW-001.png" alt="Rendered screen: Borrow &amp; return" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">BRW-001</span><span class="g-section">Borrow &amp; Return</span><h2>Borrow &amp; return</h2><p>Borrowed and Lent Vaccines</p></div><div class="g-links"><a href="screens/BRW-001.html">Open</a><a href="../Screens/BRW-001-borrow-return.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Borrow &amp; Return" data-search="brw-002 record borrow / lend borrowed and lent vaccines">
+  <a class="shot" href="screens/BRW-002.html"><img src="../screenshots/BRW-002.png" alt="Rendered screen: Record borrow / lend" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">BRW-002</span><span class="g-section">Borrow &amp; Return</span><h2>Record borrow / lend</h2><p>Borrowed and Lent Vaccines</p></div><div class="g-links"><a href="screens/BRW-002.html">Open</a><a href="../Screens/BRW-002-record-borrow-lend.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Borrow &amp; Return" data-search="brw-003 record return borrowed and lent vaccines">
+  <a class="shot" href="screens/BRW-003.html"><img src="../screenshots/BRW-003.png" alt="Rendered screen: Record return" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">BRW-003</span><span class="g-section">Borrow &amp; Return</span><h2>Record return</h2><p>Borrowed and Lent Vaccines</p></div><div class="g-links"><a href="screens/BRW-003.html">Open</a><a href="../Screens/BRW-003-record-return.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Follow-up" data-search="rem-001 due vaccinations vaccination reminders">
+  <a class="shot" href="screens/REM-001.html"><img src="../screenshots/REM-001.png" alt="Rendered screen: Due vaccinations" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">REM-001</span><span class="g-section">Follow-up</span><h2>Due vaccinations</h2><p>Vaccination Reminders</p></div><div class="g-links"><a href="screens/REM-001.html">Open</a><a href="../Screens/REM-001-due-vaccinations.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Follow-up" data-search="rem-002 vaccination reminder detail vaccination reminders">
+  <a class="shot" href="screens/REM-002.html"><img src="../screenshots/REM-002.png" alt="Rendered screen: Vaccination reminder detail" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">REM-002</span><span class="g-section">Follow-up</span><h2>Vaccination reminder detail</h2><p>Vaccination Reminders</p></div><div class="g-links"><a href="screens/REM-002.html">Open</a><a href="../Screens/REM-002-vaccination-reminder-detail.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Follow-up" data-search="rem-003 personal reminders personal reminders">
+  <a class="shot" href="screens/REM-003.html"><img src="../screenshots/REM-003.png" alt="Rendered screen: Personal reminders" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">REM-003</span><span class="g-section">Follow-up</span><h2>Personal reminders</h2><p>Personal Reminders</p></div><div class="g-links"><a href="screens/REM-003.html">Open</a><a href="../Screens/REM-003-personal-reminders.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Follow-up" data-search="rem-004 create personal reminder personal reminders">
+  <a class="shot" href="screens/REM-004.html"><img src="../screenshots/REM-004.png" alt="Rendered screen: Create personal reminder" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">REM-004</span><span class="g-section">Follow-up</span><h2>Create personal reminder</h2><p>Personal Reminders</p></div><div class="g-links"><a href="screens/REM-004.html">Open</a><a href="../Screens/REM-004-create-personal-reminder.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Finance" data-search="fin-001 finance overview finance and payments">
+  <a class="shot" href="screens/FIN-001.html"><img src="../screenshots/FIN-001.png" alt="Rendered screen: Finance overview" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">FIN-001</span><span class="g-section">Finance</span><h2>Finance overview</h2><p>Finance and Payments</p></div><div class="g-links"><a href="screens/FIN-001.html">Open</a><a href="../Screens/FIN-001-finance-overview.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Finance" data-search="fin-002 transactions finance and payments">
+  <a class="shot" href="screens/FIN-002.html"><img src="../screenshots/FIN-002.png" alt="Rendered screen: Transactions" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">FIN-002</span><span class="g-section">Finance</span><h2>Transactions</h2><p>Finance and Payments</p></div><div class="g-links"><a href="screens/FIN-002.html">Open</a><a href="../Screens/FIN-002-transactions.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Finance" data-search="fin-003 payment detail finance and payments">
+  <a class="shot" href="screens/FIN-003.html"><img src="../screenshots/FIN-003.png" alt="Rendered screen: Payment detail" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">FIN-003</span><span class="g-section">Finance</span><h2>Payment detail</h2><p>Finance and Payments</p></div><div class="g-links"><a href="screens/FIN-003.html">Open</a><a href="../Screens/FIN-003-payment-detail.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Finance" data-search="fin-004 record payment finance and payments">
+  <a class="shot" href="screens/FIN-004.html"><img src="../screenshots/FIN-004.png" alt="Rendered screen: Record payment" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">FIN-004</span><span class="g-section">Finance</span><h2>Record payment</h2><p>Finance and Payments</p></div><div class="g-links"><a href="screens/FIN-004.html">Open</a><a href="../Screens/FIN-004-record-payment.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Finance" data-search="fin-005 expenses finance and payments">
+  <a class="shot" href="screens/FIN-005.html"><img src="../screenshots/FIN-005.png" alt="Rendered screen: Expenses" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">FIN-005</span><span class="g-section">Finance</span><h2>Expenses</h2><p>Finance and Payments</p></div><div class="g-links"><a href="screens/FIN-005.html">Open</a><a href="../Screens/FIN-005-expenses.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Finance" data-search="fin-006 record expense finance and payments">
+  <a class="shot" href="screens/FIN-006.html"><img src="../screenshots/FIN-006.png" alt="Rendered screen: Record expense" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">FIN-006</span><span class="g-section">Finance</span><h2>Record expense</h2><p>Finance and Payments</p></div><div class="g-links"><a href="screens/FIN-006.html">Open</a><a href="../Screens/FIN-006-record-expense.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Receipts" data-search="rcp-001 receipt preview receipts and printing">
+  <a class="shot" href="screens/RCP-001.html"><img src="../screenshots/RCP-001.png" alt="Rendered screen: Receipt preview" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">RCP-001</span><span class="g-section">Receipts</span><h2>Receipt preview</h2><p>Receipts and Printing</p></div><div class="g-links"><a href="screens/RCP-001.html">Open</a><a href="../Screens/RCP-001-receipt-preview.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Receipts" data-search="rcp-002 print queue error receipts and printing">
+  <a class="shot" href="screens/RCP-002.html"><img src="../screenshots/RCP-002.png" alt="Rendered screen: Print queue error" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">RCP-002</span><span class="g-section">Receipts</span><h2>Print queue error</h2><p>Receipts and Printing</p></div><div class="g-links"><a href="screens/RCP-002.html">Open</a><a href="../Screens/RCP-002-print-queue-error.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Receipts" data-search="rcp-003 reprint receipt receipts and printing">
+  <a class="shot" href="screens/RCP-003.html"><img src="../screenshots/RCP-003.png" alt="Rendered screen: Reprint receipt" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">RCP-003</span><span class="g-section">Receipts</span><h2>Reprint receipt</h2><p>Receipts and Printing</p></div><div class="g-links"><a href="screens/RCP-003.html">Open</a><a href="../Screens/RCP-003-reprint-receipt.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Reports" data-search="rpt-001 statistics overview statistics and reports">
+  <a class="shot" href="screens/RPT-001.html"><img src="../screenshots/RPT-001.png" alt="Rendered screen: Statistics overview" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">RPT-001</span><span class="g-section">Reports</span><h2>Statistics overview</h2><p>Statistics and Reports</p></div><div class="g-links"><a href="screens/RPT-001.html">Open</a><a href="../Screens/RPT-001-statistics-overview.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Reports" data-search="rpt-002 vaccination report statistics and reports">
+  <a class="shot" href="screens/RPT-002.html"><img src="../screenshots/RPT-002.png" alt="Rendered screen: Vaccination report" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">RPT-002</span><span class="g-section">Reports</span><h2>Vaccination report</h2><p>Statistics and Reports</p></div><div class="g-links"><a href="screens/RPT-002.html">Open</a><a href="../Screens/RPT-002-vaccination-report.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Reports" data-search="rpt-003 finance report statistics and reports">
+  <a class="shot" href="screens/RPT-003.html"><img src="../screenshots/RPT-003.png" alt="Rendered screen: Finance report" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">RPT-003</span><span class="g-section">Reports</span><h2>Finance report</h2><p>Statistics and Reports</p></div><div class="g-links"><a href="screens/RPT-003.html">Open</a><a href="../Screens/RPT-003-finance-report.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Reports" data-search="rpt-004 patient milestone report statistics and reports">
+  <a class="shot" href="screens/RPT-004.html"><img src="../screenshots/RPT-004.png" alt="Rendered screen: Patient milestone report" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">RPT-004</span><span class="g-section">Reports</span><h2>Patient milestone report</h2><p>Statistics and Reports</p></div><div class="g-links"><a href="screens/RPT-004.html">Open</a><a href="../Screens/RPT-004-patient-milestone-report.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Administration" data-search="stf-001 staff list staff and role management">
+  <a class="shot" href="screens/STF-001.html"><img src="../screenshots/STF-001.png" alt="Rendered screen: Staff list" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">STF-001</span><span class="g-section">Administration</span><h2>Staff list</h2><p>Staff and Role Management</p></div><div class="g-links"><a href="screens/STF-001.html">Open</a><a href="../Screens/STF-001-staff-list.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Administration" data-search="stf-002 add staff member staff and role management">
+  <a class="shot" href="screens/STF-002.html"><img src="../screenshots/STF-002.png" alt="Rendered screen: Add staff member" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">STF-002</span><span class="g-section">Administration</span><h2>Add staff member</h2><p>Staff and Role Management</p></div><div class="g-links"><a href="screens/STF-002.html">Open</a><a href="../Screens/STF-002-add-staff-member.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Administration" data-search="stf-003 deactivate staff staff and role management">
+  <a class="shot" href="screens/STF-003.html"><img src="../screenshots/STF-003.png" alt="Rendered screen: Deactivate staff" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">STF-003</span><span class="g-section">Administration</span><h2>Deactivate staff</h2><p>Staff and Role Management</p></div><div class="g-links"><a href="screens/STF-003.html">Open</a><a href="../Screens/STF-003-deactivate-staff.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Administration" data-search="stf-004 reset staff password staff and role management">
+  <a class="shot" href="screens/STF-004.html"><img src="../screenshots/STF-004.png" alt="Rendered screen: Reset staff password" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">STF-004</span><span class="g-section">Administration</span><h2>Reset staff password</h2><p>Staff and Role Management</p></div><div class="g-links"><a href="screens/STF-004.html">Open</a><a href="../Screens/STF-004-reset-staff-password.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Administration" data-search="aud-001 audit log audit logging">
+  <a class="shot" href="screens/AUD-001.html"><img src="../screenshots/AUD-001.png" alt="Rendered screen: Audit log" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">AUD-001</span><span class="g-section">Administration</span><h2>Audit log</h2><p>Audit Logging</p></div><div class="g-links"><a href="screens/AUD-001.html">Open</a><a href="../Screens/AUD-001-audit-log.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Administration" data-search="aud-002 audit event detail audit logging">
+  <a class="shot" href="screens/AUD-002.html"><img src="../screenshots/AUD-002.png" alt="Rendered screen: Audit event detail" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">AUD-002</span><span class="g-section">Administration</span><h2>Audit event detail</h2><p>Audit Logging</p></div><div class="g-links"><a href="screens/AUD-002.html">Open</a><a href="../Screens/AUD-002-audit-event-detail.md">Spec</a></div></div>
+</article><article class="g-card" data-section="System" data-search="sys-001 sync center supabase synchronization">
+  <a class="shot" href="screens/SYS-001.html"><img src="../screenshots/SYS-001.png" alt="Rendered screen: Sync center" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SYS-001</span><span class="g-section">System</span><h2>Sync center</h2><p>Supabase Synchronization</p></div><div class="g-links"><a href="screens/SYS-001.html">Open</a><a href="../Screens/SYS-001-sync-center.md">Spec</a></div></div>
+</article><article class="g-card" data-section="System" data-search="sys-002 resolve sync conflict supabase synchronization">
+  <a class="shot" href="screens/SYS-002.html"><img src="../screenshots/SYS-002.png" alt="Rendered screen: Resolve sync conflict" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SYS-002</span><span class="g-section">System</span><h2>Resolve sync conflict</h2><p>Supabase Synchronization</p></div><div class="g-links"><a href="screens/SYS-002.html">Open</a><a href="../Screens/SYS-002-resolve-sync-conflict.md">Spec</a></div></div>
+</article><article class="g-card" data-section="System" data-search="sys-003 local data &amp; recovery local persistence and offline operation">
+  <a class="shot" href="screens/SYS-003.html"><img src="../screenshots/SYS-003.png" alt="Rendered screen: Local data &amp; recovery" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SYS-003</span><span class="g-section">System</span><h2>Local data &amp; recovery</h2><p>Local Persistence and Offline Operation</p></div><div class="g-links"><a href="screens/SYS-003.html">Open</a><a href="../Screens/SYS-003-local-data-recovery.md">Spec</a></div></div>
+</article><article class="g-card" data-section="System" data-search="sys-004 application update application updates">
+  <a class="shot" href="screens/SYS-004.html"><img src="../screenshots/SYS-004.png" alt="Rendered screen: Application update" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SYS-004</span><span class="g-section">System</span><h2>Application update</h2><p>Application Updates</p></div><div class="g-links"><a href="screens/SYS-004.html">Open</a><a href="../Screens/SYS-004-application-update.md">Spec</a></div></div>
+</article><article class="g-card" data-section="System" data-search="sys-005 backups backup and recovery">
+  <a class="shot" href="screens/SYS-005.html"><img src="../screenshots/SYS-005.png" alt="Rendered screen: Backups" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SYS-005</span><span class="g-section">System</span><h2>Backups</h2><p>Backup and Recovery</p></div><div class="g-links"><a href="screens/SYS-005.html">Open</a><a href="../Screens/SYS-005-backups.md">Spec</a></div></div>
+</article><article class="g-card" data-section="System" data-search="sys-006 create encrypted backup backup and recovery">
+  <a class="shot" href="screens/SYS-006.html"><img src="../screenshots/SYS-006.png" alt="Rendered screen: Create encrypted backup" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SYS-006</span><span class="g-section">System</span><h2>Create encrypted backup</h2><p>Backup and Recovery</p></div><div class="g-links"><a href="screens/SYS-006.html">Open</a><a href="../Screens/SYS-006-create-encrypted-backup.md">Spec</a></div></div>
+</article><article class="g-card" data-section="System" data-search="sys-007 restore backup preview backup and recovery">
+  <a class="shot" href="screens/SYS-007.html"><img src="../screenshots/SYS-007.png" alt="Rendered screen: Restore backup preview" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SYS-007</span><span class="g-section">System</span><h2>Restore backup preview</h2><p>Backup and Recovery</p></div><div class="g-links"><a href="screens/SYS-007.html">Open</a><a href="../Screens/SYS-007-restore-backup-preview.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Settings" data-search="set-001 appearance settings settings">
+  <a class="shot" href="screens/SET-001.html"><img src="../screenshots/SET-001.png" alt="Rendered screen: Appearance settings" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SET-001</span><span class="g-section">Settings</span><h2>Appearance settings</h2><p>Settings</p></div><div class="g-links"><a href="screens/SET-001.html">Open</a><a href="../Screens/SET-001-appearance-settings.md">Spec</a><span class="variant-links"><a href="../screenshots/SET-001-dark.png">Dark</a></span></div></div>
+</article><article class="g-card" data-section="Settings" data-search="set-002 notification settings settings">
+  <a class="shot" href="screens/SET-002.html"><img src="../screenshots/SET-002.png" alt="Rendered screen: Notification settings" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SET-002</span><span class="g-section">Settings</span><h2>Notification settings</h2><p>Settings</p></div><div class="g-links"><a href="screens/SET-002.html">Open</a><a href="../Screens/SET-002-notification-settings.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Settings" data-search="set-003 security &amp; sessions settings">
+  <a class="shot" href="screens/SET-003.html"><img src="../screenshots/SET-003.png" alt="Rendered screen: Security &amp; sessions" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SET-003</span><span class="g-section">Settings</span><h2>Security &amp; sessions</h2><p>Settings</p></div><div class="g-links"><a href="screens/SET-003.html">Open</a><a href="../Screens/SET-003-security-sessions.md">Spec</a></div></div>
+</article><article class="g-card" data-section="Settings" data-search="set-004 clinic &amp; safety settings settings">
+  <a class="shot" href="screens/SET-004.html"><img src="../screenshots/SET-004.png" alt="Rendered screen: Clinic &amp; safety settings" loading="lazy"></a>
+  <div class="g-meta"><div><span class="g-id">SET-004</span><span class="g-section">Settings</span><h2>Clinic &amp; safety settings</h2><p>Settings</p></div><div class="g-links"><a href="screens/SET-004.html">Open</a><a href="../Screens/SET-004-clinic-safety-settings.md">Spec</a></div></div>
+</article></main>
+    <div class="g-foot">Generated from <code>prototype/tools/build.py</code>. Screen specifications are in <code>Screens/</code>; screenshots are in <code>screenshots/</code>. Source requirements remain proposed in the Knowledge Base.</div>
+    <script>
+    const search = document.getElementById('g-search');
+    const section = document.getElementById('g-section');
+    const cards = [...document.querySelectorAll('.g-card')];
+    const count = document.getElementById('g-count');
+    function apply() {
+      const q = search.value.trim().toLowerCase(); const s = section.value;
+      let n = 0;
+      cards.forEach(c => { const ok = (!q || c.dataset.search.includes(q)) && (!s || c.dataset.section === s); c.style.display = ok ? '' : 'none'; if (ok) n++; });
+      count.textContent = n + ' screen' + (n === 1 ? '' : 's');
+    }
+    search.addEventListener('input', apply); section.addEventListener('change', apply);
+    </script></body></html>

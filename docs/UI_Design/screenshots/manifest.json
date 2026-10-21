@@ -1,0 +1,682 @@
+[
+  {
+    "id": "AUTH-001",
+    "name": "Sign in",
+    "section": "Authentication",
+    "feature": "Authentication and Session",
+    "html": "prototype/screens/AUTH-001.html",
+    "png": "screenshots/AUTH-001.png",
+    "dark": null,
+    "wide": "screenshots/AUTH-001-wide.png"
+  },
+  {
+    "id": "AUTH-002",
+    "name": "Restoring session",
+    "section": "Authentication",
+    "feature": "Authentication and Session",
+    "html": "prototype/screens/AUTH-002.html",
+    "png": "screenshots/AUTH-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "AUTH-003",
+    "name": "Session expired",
+    "section": "Authentication",
+    "feature": "Authentication and Session",
+    "html": "prototype/screens/AUTH-003.html",
+    "png": "screenshots/AUTH-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "AUTH-004",
+    "name": "Access denied",
+    "section": "Authentication",
+    "feature": "Authentication and Session",
+    "html": "prototype/screens/AUTH-004.html",
+    "png": "screenshots/AUTH-004.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "AUTH-005",
+    "name": "Sign out with pending writes",
+    "section": "Authentication",
+    "feature": "Authentication and Session",
+    "html": "prototype/screens/AUTH-005.html",
+    "png": "screenshots/AUTH-005.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "SHELL-001",
+    "name": "Global search",
+    "section": "Shell",
+    "feature": "Desktop Shell and Navigation",
+    "html": "prototype/screens/SHELL-001.html",
+    "png": "screenshots/SHELL-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "DASH-001",
+    "name": "Dashboard",
+    "section": "Dashboard",
+    "feature": "Dashboard",
+    "html": "prototype/screens/DASH-001.html",
+    "png": "screenshots/DASH-001.png",
+    "dark": "screenshots/DASH-001-dark.png",
+    "wide": "screenshots/DASH-001-wide.png"
+  },
+  {
+    "id": "PAT-001",
+    "name": "Patient list",
+    "section": "Patients",
+    "feature": "Patient Management",
+    "html": "prototype/screens/PAT-001.html",
+    "png": "screenshots/PAT-001.png",
+    "dark": "screenshots/PAT-001-dark.png",
+    "wide": null
+  },
+  {
+    "id": "PAT-002",
+    "name": "Register patient",
+    "section": "Patients",
+    "feature": "Patient Management",
+    "html": "prototype/screens/PAT-002.html",
+    "png": "screenshots/PAT-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "PAT-003",
+    "name": "Patient profile",
+    "section": "Patients",
+    "feature": "Patient Management",
+    "html": "prototype/screens/PAT-003.html",
+    "png": "screenshots/PAT-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "PAT-004",
+    "name": "Edit patient",
+    "section": "Patients",
+    "feature": "Patient Management",
+    "html": "prototype/screens/PAT-004.html",
+    "png": "screenshots/PAT-004.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "PAT-005",
+    "name": "Duplicate warning",
+    "section": "Patients",
+    "feature": "Patient Management",
+    "html": "prototype/screens/PAT-005.html",
+    "png": "screenshots/PAT-005.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "PAT-006",
+    "name": "Merge patients",
+    "section": "Patients",
+    "feature": "Patient Management",
+    "html": "prototype/screens/PAT-006.html",
+    "png": "screenshots/PAT-006.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "PAT-007",
+    "name": "Archive patient",
+    "section": "Patients",
+    "feature": "Patient Management",
+    "html": "prototype/screens/PAT-007.html",
+    "png": "screenshots/PAT-007.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "VAC-001",
+    "name": "Vaccination visits",
+    "section": "Vaccinations",
+    "feature": "Vaccination Management",
+    "html": "prototype/screens/VAC-001.html",
+    "png": "screenshots/VAC-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "VAC-002",
+    "name": "Record vaccination",
+    "section": "Vaccinations",
+    "feature": "Vaccination Management",
+    "html": "prototype/screens/VAC-002.html",
+    "png": "screenshots/VAC-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "VAC-003",
+    "name": "Batch selection",
+    "section": "Vaccinations",
+    "feature": "Vaccination Management",
+    "html": "prototype/screens/VAC-003.html",
+    "png": "screenshots/VAC-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "VAC-004",
+    "name": "Vaccination visit detail",
+    "section": "Vaccinations",
+    "feature": "Vaccination Management",
+    "html": "prototype/screens/VAC-004.html",
+    "png": "screenshots/VAC-004.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "VAC-005",
+    "name": "Correct or delete vaccination",
+    "section": "Vaccinations",
+    "feature": "Vaccination Management",
+    "html": "prototype/screens/VAC-005.html",
+    "png": "screenshots/VAC-005.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "CON-001",
+    "name": "Consultations",
+    "section": "Consultations",
+    "feature": "Consultation Management",
+    "html": "prototype/screens/CON-001.html",
+    "png": "screenshots/CON-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "CON-002",
+    "name": "New consultation",
+    "section": "Consultations",
+    "feature": "Consultation Management",
+    "html": "prototype/screens/CON-002.html",
+    "png": "screenshots/CON-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "CON-003",
+    "name": "Consultation detail",
+    "section": "Consultations",
+    "feature": "Consultation Management",
+    "html": "prototype/screens/CON-003.html",
+    "png": "screenshots/CON-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "CON-004",
+    "name": "Delete consultation",
+    "section": "Consultations",
+    "feature": "Consultation Management",
+    "html": "prototype/screens/CON-004.html",
+    "png": "screenshots/CON-004.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "INV-001",
+    "name": "Inventory overview",
+    "section": "Inventory",
+    "feature": "Vaccine and Batch Inventory",
+    "html": "prototype/screens/INV-001.html",
+    "png": "screenshots/INV-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "INV-002",
+    "name": "Vaccine catalogue",
+    "section": "Inventory",
+    "feature": "Vaccine and Batch Inventory",
+    "html": "prototype/screens/INV-002.html",
+    "png": "screenshots/INV-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "INV-003",
+    "name": "Edit vaccine catalogue",
+    "section": "Inventory",
+    "feature": "Vaccine and Batch Inventory",
+    "html": "prototype/screens/INV-003.html",
+    "png": "screenshots/INV-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "INV-004",
+    "name": "Batch detail",
+    "section": "Inventory",
+    "feature": "Vaccine and Batch Inventory",
+    "html": "prototype/screens/INV-004.html",
+    "png": "screenshots/INV-004.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "INV-005",
+    "name": "Receive stock",
+    "section": "Inventory",
+    "feature": "Vaccine and Batch Inventory",
+    "html": "prototype/screens/INV-005.html",
+    "png": "screenshots/INV-005.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "INV-006",
+    "name": "Adjust stock",
+    "section": "Inventory",
+    "feature": "Vaccine and Batch Inventory",
+    "html": "prototype/screens/INV-006.html",
+    "png": "screenshots/INV-006.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "WAS-001",
+    "name": "Wastage overview",
+    "section": "Wastage",
+    "feature": "Wastage",
+    "html": "prototype/screens/WAS-001.html",
+    "png": "screenshots/WAS-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "WAS-002",
+    "name": "Record wastage",
+    "section": "Wastage",
+    "feature": "Wastage",
+    "html": "prototype/screens/WAS-002.html",
+    "png": "screenshots/WAS-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "BRW-001",
+    "name": "Borrow & return",
+    "section": "Borrow & Return",
+    "feature": "Borrowed and Lent Vaccines",
+    "html": "prototype/screens/BRW-001.html",
+    "png": "screenshots/BRW-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "BRW-002",
+    "name": "Record borrow / lend",
+    "section": "Borrow & Return",
+    "feature": "Borrowed and Lent Vaccines",
+    "html": "prototype/screens/BRW-002.html",
+    "png": "screenshots/BRW-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "BRW-003",
+    "name": "Record return",
+    "section": "Borrow & Return",
+    "feature": "Borrowed and Lent Vaccines",
+    "html": "prototype/screens/BRW-003.html",
+    "png": "screenshots/BRW-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "REM-001",
+    "name": "Due vaccinations",
+    "section": "Follow-up",
+    "feature": "Vaccination Reminders",
+    "html": "prototype/screens/REM-001.html",
+    "png": "screenshots/REM-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "REM-002",
+    "name": "Vaccination reminder detail",
+    "section": "Follow-up",
+    "feature": "Vaccination Reminders",
+    "html": "prototype/screens/REM-002.html",
+    "png": "screenshots/REM-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "REM-003",
+    "name": "Personal reminders",
+    "section": "Follow-up",
+    "feature": "Personal Reminders",
+    "html": "prototype/screens/REM-003.html",
+    "png": "screenshots/REM-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "REM-004",
+    "name": "Create personal reminder",
+    "section": "Follow-up",
+    "feature": "Personal Reminders",
+    "html": "prototype/screens/REM-004.html",
+    "png": "screenshots/REM-004.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "FIN-001",
+    "name": "Finance overview",
+    "section": "Finance",
+    "feature": "Finance and Payments",
+    "html": "prototype/screens/FIN-001.html",
+    "png": "screenshots/FIN-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "FIN-002",
+    "name": "Transactions",
+    "section": "Finance",
+    "feature": "Finance and Payments",
+    "html": "prototype/screens/FIN-002.html",
+    "png": "screenshots/FIN-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "FIN-003",
+    "name": "Payment detail",
+    "section": "Finance",
+    "feature": "Finance and Payments",
+    "html": "prototype/screens/FIN-003.html",
+    "png": "screenshots/FIN-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "FIN-004",
+    "name": "Record payment",
+    "section": "Finance",
+    "feature": "Finance and Payments",
+    "html": "prototype/screens/FIN-004.html",
+    "png": "screenshots/FIN-004.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "FIN-005",
+    "name": "Expenses",
+    "section": "Finance",
+    "feature": "Finance and Payments",
+    "html": "prototype/screens/FIN-005.html",
+    "png": "screenshots/FIN-005.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "FIN-006",
+    "name": "Record expense",
+    "section": "Finance",
+    "feature": "Finance and Payments",
+    "html": "prototype/screens/FIN-006.html",
+    "png": "screenshots/FIN-006.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "RCP-001",
+    "name": "Receipt preview",
+    "section": "Receipts",
+    "feature": "Receipts and Printing",
+    "html": "prototype/screens/RCP-001.html",
+    "png": "screenshots/RCP-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "RCP-002",
+    "name": "Print queue error",
+    "section": "Receipts",
+    "feature": "Receipts and Printing",
+    "html": "prototype/screens/RCP-002.html",
+    "png": "screenshots/RCP-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "RCP-003",
+    "name": "Reprint receipt",
+    "section": "Receipts",
+    "feature": "Receipts and Printing",
+    "html": "prototype/screens/RCP-003.html",
+    "png": "screenshots/RCP-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "RPT-001",
+    "name": "Statistics overview",
+    "section": "Reports",
+    "feature": "Statistics and Reports",
+    "html": "prototype/screens/RPT-001.html",
+    "png": "screenshots/RPT-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "RPT-002",
+    "name": "Vaccination report",
+    "section": "Reports",
+    "feature": "Statistics and Reports",
+    "html": "prototype/screens/RPT-002.html",
+    "png": "screenshots/RPT-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "RPT-003",
+    "name": "Finance report",
+    "section": "Reports",
+    "feature": "Statistics and Reports",
+    "html": "prototype/screens/RPT-003.html",
+    "png": "screenshots/RPT-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "RPT-004",
+    "name": "Patient milestone report",
+    "section": "Reports",
+    "feature": "Statistics and Reports",
+    "html": "prototype/screens/RPT-004.html",
+    "png": "screenshots/RPT-004.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "STF-001",
+    "name": "Staff list",
+    "section": "Administration",
+    "feature": "Staff and Role Management",
+    "html": "prototype/screens/STF-001.html",
+    "png": "screenshots/STF-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "STF-002",
+    "name": "Add staff member",
+    "section": "Administration",
+    "feature": "Staff and Role Management",
+    "html": "prototype/screens/STF-002.html",
+    "png": "screenshots/STF-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "STF-003",
+    "name": "Deactivate staff",
+    "section": "Administration",
+    "feature": "Staff and Role Management",
+    "html": "prototype/screens/STF-003.html",
+    "png": "screenshots/STF-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "STF-004",
+    "name": "Reset staff password",
+    "section": "Administration",
+    "feature": "Staff and Role Management",
+    "html": "prototype/screens/STF-004.html",
+    "png": "screenshots/STF-004.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "AUD-001",
+    "name": "Audit log",
+    "section": "Administration",
+    "feature": "Audit Logging",
+    "html": "prototype/screens/AUD-001.html",
+    "png": "screenshots/AUD-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "AUD-002",
+    "name": "Audit event detail",
+    "section": "Administration",
+    "feature": "Audit Logging",
+    "html": "prototype/screens/AUD-002.html",
+    "png": "screenshots/AUD-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "SYS-001",
+    "name": "Sync center",
+    "section": "System",
+    "feature": "Supabase Synchronization",
+    "html": "prototype/screens/SYS-001.html",
+    "png": "screenshots/SYS-001.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "SYS-002",
+    "name": "Resolve sync conflict",
+    "section": "System",
+    "feature": "Supabase Synchronization",
+    "html": "prototype/screens/SYS-002.html",
+    "png": "screenshots/SYS-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "SYS-003",
+    "name": "Local data & recovery",
+    "section": "System",
+    "feature": "Local Persistence and Offline Operation",
+    "html": "prototype/screens/SYS-003.html",
+    "png": "screenshots/SYS-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "SYS-004",
+    "name": "Application update",
+    "section": "System",
+    "feature": "Application Updates",
+    "html": "prototype/screens/SYS-004.html",
+    "png": "screenshots/SYS-004.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "SYS-005",
+    "name": "Backups",
+    "section": "System",
+    "feature": "Backup and Recovery",
+    "html": "prototype/screens/SYS-005.html",
+    "png": "screenshots/SYS-005.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "SYS-006",
+    "name": "Create encrypted backup",
+    "section": "System",
+    "feature": "Backup and Recovery",
+    "html": "prototype/screens/SYS-006.html",
+    "png": "screenshots/SYS-006.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "SYS-007",
+    "name": "Restore backup preview",
+    "section": "System",
+    "feature": "Backup and Recovery",
+    "html": "prototype/screens/SYS-007.html",
+    "png": "screenshots/SYS-007.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "SET-001",
+    "name": "Appearance settings",
+    "section": "Settings",
+    "feature": "Settings",
+    "html": "prototype/screens/SET-001.html",
+    "png": "screenshots/SET-001.png",
+    "dark": "screenshots/SET-001-dark.png",
+    "wide": null
+  },
+  {
+    "id": "SET-002",
+    "name": "Notification settings",
+    "section": "Settings",
+    "feature": "Settings",
+    "html": "prototype/screens/SET-002.html",
+    "png": "screenshots/SET-002.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "SET-003",
+    "name": "Security & sessions",
+    "section": "Settings",
+    "feature": "Settings",
+    "html": "prototype/screens/SET-003.html",
+    "png": "screenshots/SET-003.png",
+    "dark": null,
+    "wide": null
+  },
+  {
+    "id": "SET-004",
+    "name": "Clinic & safety settings",
+    "section": "Settings",
+    "feature": "Settings",
+    "html": "prototype/screens/SET-004.html",
+    "png": "screenshots/SET-004.png",
+    "dark": null,
+    "wide": null
+  }
+]

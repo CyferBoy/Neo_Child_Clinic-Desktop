@@ -1,0 +1,104 @@
+{
+  "batch_id": "batch-003",
+  "images_reviewed": 10,
+  "reviewed_at": "2026-10-21T09:39:43+05:30",
+  "notes": "Most screens are legible and consistent at 1366x768, but New consultation has a collapsed form layout and Edit vaccine hides its primary actions below the fold. Minor typography and data mismatches were noted elsewhere.",
+  "screens": [
+    {
+      "screen_id": "VAC-003",
+      "verdict": "pass_with_notes",
+      "summary": "Batch selection modal is clear and complete, with workable row states; only a product-name typo and an awkward subtitle wrap detract.",
+      "issues": [
+        {
+          "image": "screenshots/VAC-003.png",
+          "severity": "minor",
+          "observation": "Modal subtitle reads 'Pentalvent' instead of 'Pentavalent' and wraps the year '2026' onto its own line."
+        }
+      ]
+    },
+    {
+      "screen_id": "VAC-004",
+      "verdict": "pass_with_notes",
+      "summary": "Vaccination visit detail is legible with consistent totals, but the body uses only the left two-thirds, leaving a large empty right column.",
+      "issues": [
+        {
+          "image": "screenshots/VAC-004.png",
+          "severity": "minor",
+          "observation": "Main detail content stops around two-thirds width, leaving a conspicuous blank area on the right below the page actions."
+        }
+      ]
+    },
+    {
+      "screen_id": "VAC-005",
+      "verdict": "pass",
+      "summary": "Correction and deletion dialog is well structured, fully visible and consistent with the package; no blocking issues.",
+      "issues": []
+    },
+    {
+      "screen_id": "CON-001",
+      "verdict": "pass_with_notes",
+      "summary": "Consultation list is clean, legible and well spaced; the pagination count does not match the number of visible rows.",
+      "issues": [
+        {
+          "image": "screenshots/CON-001.png",
+          "severity": "minor",
+          "observation": "Footer reports '1-7 of 428 consultations' although only five table rows are rendered before the pagination bar."
+        }
+      ]
+    },
+    {
+      "screen_id": "CON-002",
+      "verdict": "fail",
+      "summary": "New consultation form layout is collapsed: fields are squeezed into narrow columns, text wraps word by word, and clinical notes overlap helper text.",
+      "issues": [
+        {
+          "image": "screenshots/CON-002.png",
+          "severity": "blocking",
+          "observation": "Form grid collapses into narrow middle columns; doctor, problem and notes values wrap one word per line, clinical notes overlap the follow-up helper text, and most of the card is blank."
+        }
+      ]
+    },
+    {
+      "screen_id": "CON-003",
+      "verdict": "pass",
+      "summary": "Consultation detail is complete, well balanced and legible, with consistent audit, payment and follow-up information.",
+      "issues": []
+    },
+    {
+      "screen_id": "CON-004",
+      "verdict": "pass",
+      "summary": "Delete consultation dialog is complete and readable, showing audit and payment context before the destructive action.",
+      "issues": []
+    },
+    {
+      "screen_id": "INV-001",
+      "verdict": "pass_with_notes",
+      "summary": "Inventory overview is clear and well organised; the footer expiry note does not agree with the table's nearest PCV expiry.",
+      "issues": [
+        {
+          "image": "screenshots/INV-001.png",
+          "severity": "minor",
+          "observation": "Footer says PCV-2411 expires in 12 days, while the PCV row lists a nearest expiry of 12 Nov 2026, about 22 days from 21 Oct."
+        }
+      ]
+    },
+    {
+      "screen_id": "INV-002",
+      "verdict": "pass",
+      "summary": "Vaccine catalogue table is complete and legible, with consistent pricing, statuses and pagination.",
+      "issues": []
+    },
+    {
+      "screen_id": "INV-003",
+      "verdict": "fail",
+      "summary": "Edit vaccine drawer is legible but taller than the 768px viewport; save and cancel controls are off-screen and metadata is clipped.",
+      "issues": [
+        {
+          "image": "screenshots/INV-003.png",
+          "severity": "major",
+          "observation": "No primary save or cancel action is visible; drawer content runs past the viewport bottom at 'Catalogue metadata', clipping the form and hiding its commit controls."
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "batch_id": "batch-006",
+  "images_reviewed": 10,
+  "reviewed_at": "2026-10-21T09:51:58+05:30",
+  "notes": "Eight screens are fit for review with only minor notes; RPT-003 and RPT-004 share a blocking overlap where the results table covers the report cards above it.",
+  "screens": [
+    {
+      "screen_id": "RCP-003",
+      "verdict": "pass",
+      "summary": "Reprint dialog is fully visible and legible over the receipt preview, with clear reason, duplicate marking and actions.",
+      "issues": []
+    },
+    {
+      "screen_id": "RPT-001",
+      "verdict": "pass",
+      "summary": "Statistics overview is complete with legible KPI cards and chart; the Report views section continues below the fold normally.",
+      "issues": []
+    },
+    {
+      "screen_id": "RPT-002",
+      "verdict": "pass",
+      "summary": "Vaccination report renders cleanly with KPI cards, charts, brand mix and a complete table; no clipping or broken data.",
+      "issues": []
+    },
+    {
+      "screen_id": "RPT-003",
+      "verdict": "fail",
+      "summary": "The finance chart is clipped by the daily rows table, hiding the plot's lower area and x-axis labels; this layout overlap needs fixing.",
+      "issues": [
+        {
+          "image": "screenshots/RPT-003.png",
+          "severity": "major",
+          "observation": "The Income vs expenses chart card is overlapped by the daily rows table at its base, cutting off the plot bottom and x-axis labels."
+        }
+      ]
+    },
+    {
+      "screen_id": "RPT-004",
+      "verdict": "fail",
+      "summary": "The results table overlaps the milestone chart and the By vaccine panel, slicing the vaccine list mid-row; this is a blocking layout defect.",
+      "issues": [
+        {
+          "image": "screenshots/RPT-004.png",
+          "severity": "major",
+          "observation": "The milestone table begins over the report cards above it, cutting off the By vaccine list mid-row and hiding the chart card's bottom edge."
+        }
+      ]
+    },
+    {
+      "screen_id": "STF-001",
+      "verdict": "pass",
+      "summary": "Staff list is complete and legible, with a consistent shell, role chips, search, pagination and admin notes.",
+      "issues": []
+    },
+    {
+      "screen_id": "STF-002",
+      "verdict": "pass_with_notes",
+      "summary": "Add staff drawer is clear, but its primary action and role summary sit below the 768px viewport, requiring scroll without a visible footer.",
+      "issues": [
+        {
+          "image": "screenshots/STF-002.png",
+          "severity": "minor",
+          "observation": "Drawer content extends past the viewport bottom, so the role capability summary and submit action are not visible without scrolling."
+        }
+      ]
+    },
+    {
+      "screen_id": "STF-003",
+      "verdict": "pass",
+      "summary": "Deactivation dialog is fully visible with legible warnings, reason, note and confirmation controls; the background is appropriately dimmed.",
+      "issues": []
+    },
+    {
+      "screen_id": "STF-004",
+      "verdict": "pass",
+      "summary": "Password reset dialog is complete and legible with account details, delivery note, verification and clear actions.",
+      "issues": []
+    },
+    {
+      "screen_id": "AUD-001",
+      "verdict": "pass_with_notes",
+      "summary": "Audit log is legible and well structured; source and one action label are ellipsized, and later rows continue below the fold.",
+      "issues": [
+        {
+          "image": "screenshots/AUD-001.png",
+          "severity": "minor",
+          "observation": "Source values such as 'Local \u2192 que...' and one action label are truncated; confirm tooltips or slightly wider columns."
+        }
+      ]
+    }
+  ]
+}

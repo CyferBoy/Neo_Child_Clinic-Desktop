@@ -1,0 +1,112 @@
+{
+  "batch_id": "batch-003",
+  "image_count": 10,
+  "max_images": 10,
+  "screen_ids": [
+    "VAC-003",
+    "VAC-004",
+    "VAC-005",
+    "CON-001",
+    "CON-002",
+    "CON-003",
+    "CON-004",
+    "INV-001",
+    "INV-002",
+    "INV-003"
+  ],
+  "images": [
+    {
+      "screen_id": "VAC-003",
+      "screen_name": "Batch selection",
+      "path": "screenshots/VAC-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "84a2f1aa82bfd86c4ac30690ceecd430d7b595d0db18a57fa239560f7be14000"
+    },
+    {
+      "screen_id": "VAC-004",
+      "screen_name": "Vaccination visit detail",
+      "path": "screenshots/VAC-004.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "ab21556bf985ee2fd098b876c2297b83fb7261421bd6c722a44a7f381ea55911"
+    },
+    {
+      "screen_id": "VAC-005",
+      "screen_name": "Correct or delete vaccination",
+      "path": "screenshots/VAC-005.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "ddd748464398240f7e1289764a1d66b84fab327fa35d095bc7f10ac8dba8d2d8"
+    },
+    {
+      "screen_id": "CON-001",
+      "screen_name": "Consultations",
+      "path": "screenshots/CON-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "876e931d2c2e22b721937935798be561fac965520d5c9b8a47f561373d92e16f"
+    },
+    {
+      "screen_id": "CON-002",
+      "screen_name": "New consultation",
+      "path": "screenshots/CON-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "2fe1644aac7a83b3cf87f5a61de037fc2283dc1f00497eb0f8e94500f47fdd1a"
+    },
+    {
+      "screen_id": "CON-003",
+      "screen_name": "Consultation detail",
+      "path": "screenshots/CON-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "3ebd57e3eada7afc2538562697118e21735538c6d144bd76aa540cb623d19cc7"
+    },
+    {
+      "screen_id": "CON-004",
+      "screen_name": "Delete consultation",
+      "path": "screenshots/CON-004.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "5e45b397cbfae8220cc1f4eca50a6cda8bb084e283f6a7649eaafc3dca694fd4"
+    },
+    {
+      "screen_id": "INV-001",
+      "screen_name": "Inventory overview",
+      "path": "screenshots/INV-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "5a0a5d1d1a30f8e9a5c045ea2fc05ba616396f4be0fdff6ada3efe4eb4a0e024"
+    },
+    {
+      "screen_id": "INV-002",
+      "screen_name": "Vaccine catalogue",
+      "path": "screenshots/INV-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "4bf750f64283c616fe98bcba880fa6bd5989cf928b35e9f8f0b4f7f19fc9dc09"
+    },
+    {
+      "screen_id": "INV-003",
+      "screen_name": "Edit vaccine catalogue",
+      "path": "screenshots/INV-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "74b4929ba8bd888d9bc0170e228cf4e1462d86e8f03efe6acc6550940b859863"
+    }
+  ],
+  "prompt": "review/prompts/batch-003.md",
+  "result": "review/results/batch-003.json",
+  "status": "complete"
+}

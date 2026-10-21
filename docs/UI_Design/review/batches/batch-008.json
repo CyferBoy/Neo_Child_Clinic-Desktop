@@ -1,0 +1,42 @@
+{
+  "batch_id": "batch-008",
+  "image_count": 3,
+  "max_images": 10,
+  "screen_ids": [
+    "SET-002",
+    "SET-003",
+    "SET-004"
+  ],
+  "images": [
+    {
+      "screen_id": "SET-002",
+      "screen_name": "Notification settings",
+      "path": "screenshots/SET-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "810600a24a60712e7d6519f16000fb555146f06891eb83baa258c7bd5e1888e4"
+    },
+    {
+      "screen_id": "SET-003",
+      "screen_name": "Security & sessions",
+      "path": "screenshots/SET-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "aae59902fc8b45342c59c7dbe6fddea10011be0327ab7210f9aac201ee0902b6"
+    },
+    {
+      "screen_id": "SET-004",
+      "screen_name": "Clinic & safety settings",
+      "path": "screenshots/SET-004.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "88135e467427dd23eb6d59ff8ab8abc115f7acf5411d832167645fa50850696a"
+    }
+  ],
+  "prompt": "review/prompts/batch-008.md",
+  "result": "review/results/batch-008.json",
+  "status": "complete"
+}

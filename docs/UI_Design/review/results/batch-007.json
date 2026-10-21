@@ -1,0 +1,98 @@
+{
+  "batch_id": "batch-007",
+  "images_reviewed": 10,
+  "reviewed_at": "2026-10-21T04:26:58Z",
+  "notes": "The system and settings screens share a consistent shell, legible typography and clearly fictional data. Remaining findings are non-blocking: one empty panel, unclear readiness states, a developer-style helper string, an over-emphasized sidebar item and a dark-theme selection mismatch.",
+  "screens": [
+    {
+      "screen_id": "AUD-002",
+      "verdict": "pass_with_notes",
+      "summary": "Audit event drawer is complete and legible, with clear actor, event, integrity and redacted payload sections; the sidebar shows two emphasized destinations at once.",
+      "issues": [
+        {
+          "image": "screenshots/AUD-002.png",
+          "severity": "minor",
+          "observation": "The sidebar emphasizes both Audit log (tinted row) and Sync center (raised white row), making the current navigation destination ambiguous."
+        }
+      ]
+    },
+    {
+      "screen_id": "SYS-001",
+      "verdict": "pass_with_notes",
+      "summary": "Sync center is clear and consistent, with a complete outbox table and connection details, but the Sync actions panel is empty.",
+      "issues": [
+        {
+          "image": "screenshots/SYS-001.png",
+          "severity": "minor",
+          "observation": "The Sync actions card renders only its header over a large blank body, with no controls or explanatory content, leaving the right column unfinished."
+        }
+      ]
+    },
+    {
+      "screen_id": "SYS-002",
+      "verdict": "pass",
+      "summary": "Conflict comparison, resolution choices and required note are fully visible and legible, with plausible fictional stock data and no clipping.",
+      "issues": []
+    },
+    {
+      "screen_id": "SYS-003",
+      "verdict": "pass",
+      "summary": "Local data and integrity cards are complete and legible, with clear encryption, schema, size and health details; no visual defects observed.",
+      "issues": []
+    },
+    {
+      "screen_id": "SYS-004",
+      "verdict": "pass_with_notes",
+      "summary": "Update and readiness cards are legible, but the Blocked state does not name a blocker and the Install update button still looks available.",
+      "issues": [
+        {
+          "image": "screenshots/SYS-004.png",
+          "severity": "minor",
+          "observation": "Install readiness is marked Blocked while every checklist row shows a check and the primary Install update action remains enabled-looking, with no explicit blocker stated."
+        }
+      ]
+    },
+    {
+      "screen_id": "SYS-005",
+      "verdict": "pass_with_notes",
+      "summary": "Backup stats, history and settings are complete and legible; the Retention helper reads like an implementation note rather than user guidance.",
+      "issues": [
+        {
+          "image": "screenshots/SYS-005.png",
+          "severity": "minor",
+          "observation": "Under Retention, the helper text 'Range validation required.' reads as a developer or specification note instead of clear user-facing range guidance."
+        }
+      ]
+    },
+    {
+      "screen_id": "SYS-006",
+      "verdict": "pass",
+      "summary": "Create encrypted backup form is complete, with passphrase, destination, confirmation and preview all legible and aligned; no broken data.",
+      "issues": []
+    },
+    {
+      "screen_id": "SYS-007",
+      "verdict": "pass_with_notes",
+      "summary": "Restore preview clearly presents manifest, compatibility and confirmation, but the primary restore action looks available before the safety snapshot and confirmation are complete.",
+      "issues": [
+        {
+          "image": "screenshots/SYS-007.png",
+          "severity": "minor",
+          "observation": "Restore local data is styled as an available primary action even though the screen reports 5 of 6 checks, Safety snapshot 'Not yet created', and the confirmation form is incomplete."
+        }
+      ]
+    },
+    {
+      "screen_id": "SET-001",
+      "verdict": "pass_with_notes",
+      "summary": "Appearance settings are clean and consistent in both themes, but the dark variant still displays Light as the selected theme.",
+      "issues": [
+        {
+          "image": "screenshots/SET-001-dark.png",
+          "severity": "minor",
+          "observation": "The interface renders in dark mode while the Theme control still shows Light selected and Dark unselected, contradicting the applied appearance."
+        }
+      ]
+    }
+  ]
+}

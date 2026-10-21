@@ -1,0 +1,3352 @@
+{
+  "schema_version": 1,
+  "generated_at": "2026-10-21T04:38:28+00:00",
+  "package": "Neo Child Clinic Desktop UI/UX design package",
+  "max_images_per_request": 10,
+  "policy": "One fresh AI session per batch. A screen's variants stay in the same batch and every image counts toward the limit.",
+  "totals": {
+    "screens": 68,
+    "screenshots": 73,
+    "batches": 8,
+    "reviewed": 68,
+    "pending": 0,
+    "unreviewed": 0,
+    "failed": 9
+  },
+  "status_counts": {
+    "reviewed_pass": 36,
+    "reviewed_pass_with_notes": 23,
+    "reviewed_fail": 9,
+    "pending": 0,
+    "unreviewed": 0,
+    "blocked_automated_checks": 0
+  },
+  "screens": [
+    {
+      "screen_id": "AUTH-001",
+      "name": "Sign in",
+      "section": "Authentication",
+      "feature": "Authentication and Session",
+      "spec": "Screens/AUTH-001-sign-in.md",
+      "html": "prototype/screens/AUTH-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/AUTH-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 85985,
+          "sha256": "ca1ec7ce23de1dfa7f0f30adc3a687d051e6a69a5ca98f1cdb8d37ea65100083",
+          "error": null
+        },
+        {
+          "path": "screenshots/AUTH-001-wide.png",
+          "kind": "wide",
+          "exists": true,
+          "readable": true,
+          "width": 1920,
+          "height": 1080,
+          "expected_width": 1920,
+          "expected_height": 1080,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 75525,
+          "sha256": "b54c5dff6e58ae167328ff2f556887d70aff487a1d4bb2929d98207b88b671af",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "876292d8c83daf072710a4f915208322a0d4fc9d396836590d9d47e85b645367",
+      "review_status": "reviewed_fail",
+      "verdict": "fail",
+      "summary": "Sign-in base is clean and complete, but the 1920 wide variant is broken: the form is clipped at 1366px, the panel stops at 768px high and most of the canvas is blank.",
+      "issues": [
+        {
+          "image": "screenshots/AUTH-001-wide.png",
+          "severity": "blocking",
+          "observation": "Wide capture is severely clipped: heading, supporting copy, fields and button are cut off at 1366px, the dark panel ends at 768px height, and the lower and right areas of the 1920x1080 canvas are empty."
+        }
+      ],
+      "batch_id": "batch-001",
+      "reviewed_at": "2026-10-21T04:11:40Z"
+    },
+    {
+      "screen_id": "AUTH-002",
+      "name": "Restoring session",
+      "section": "Authentication",
+      "feature": "Authentication and Session",
+      "spec": "Screens/AUTH-002-restoring-session.md",
+      "html": "prototype/screens/AUTH-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/AUTH-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 30424,
+          "sha256": "ea3d1557b229318bdde4d7c0c5b9588f2644db96ea168ef311c2f2d6281760ed",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "baaccbeeb073f7d609528698c41f2f0676aa7314aab308f90cce4d6340ba2070",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Session-restore screen is complete and legible, with clear progress, step states and balanced centring.",
+      "issues": [],
+      "batch_id": "batch-001",
+      "reviewed_at": "2026-10-21T04:11:40Z"
+    },
+    {
+      "screen_id": "AUTH-003",
+      "name": "Session expired",
+      "section": "Authentication",
+      "feature": "Authentication and Session",
+      "spec": "Screens/AUTH-003-session-expired.md",
+      "html": "prototype/screens/AUTH-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/AUTH-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 186565,
+          "sha256": "c9981668309c096f3820485a9f8257e986aa8ef6ccfd4c9cbab02e0a53c38986",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "1d4466258bb4469e4f620a85b0a6229882565efef84ab8f409798d9f9c353dd0",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Session-expired dialog is complete and readable; background dimming, fields and both actions fit cleanly.",
+      "issues": [],
+      "batch_id": "batch-001",
+      "reviewed_at": "2026-10-21T04:11:40Z"
+    },
+    {
+      "screen_id": "AUTH-004",
+      "name": "Access denied",
+      "section": "Authentication",
+      "feature": "Authentication and Session",
+      "spec": "Screens/AUTH-004-access-denied.md",
+      "html": "prototype/screens/AUTH-004.html",
+      "screenshots": [
+        {
+          "path": "screenshots/AUTH-004.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 49033,
+          "sha256": "6f8cdd1877ded576cd78f8c465a9d5bdb76601010d8b5ad7270d8a23338bc94c",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "de5ce6726d215a049550b8aebe7a6c1a755485cc29d2562d7a9462648f478d45",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Access-denied state is complete and consistent, with clear guidance, visible actions and no broken data.",
+      "issues": [],
+      "batch_id": "batch-001",
+      "reviewed_at": "2026-10-21T04:11:40Z"
+    },
+    {
+      "screen_id": "AUTH-005",
+      "name": "Sign out with pending writes",
+      "section": "Authentication",
+      "feature": "Authentication and Session",
+      "spec": "Screens/AUTH-005-sign-out-pending.md",
+      "html": "prototype/screens/AUTH-005.html",
+      "screenshots": [
+        {
+          "path": "screenshots/AUTH-005.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 198268,
+          "sha256": "27693c2d9568709e33d05696e6a1dc7bd1b63368a66f3108034be0f6e86ca405",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "7b5819d197ca87c2b3447d0cac764c4af33a61f04529aeefba3111c4fb0d0756",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Pending-writes sign-out dialog fits cleanly; grouped changes, conflict warning and all three actions are legible.",
+      "issues": [],
+      "batch_id": "batch-001",
+      "reviewed_at": "2026-10-21T04:11:40Z"
+    },
+    {
+      "screen_id": "SHELL-001",
+      "name": "Global search",
+      "section": "Shell",
+      "feature": "Desktop Shell and Navigation",
+      "spec": "Screens/SHELL-001-global-search.md",
+      "html": "prototype/screens/SHELL-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SHELL-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 191429,
+          "sha256": "bb9e259f963aa9bb5630a502eac5c8aeddc44259bee68ef15717bcc2784f3257",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "7006bbffdae6874ee4524740eae2998b72f55febad80d5a89222d2540e90e84a",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Search overlay is complete and legible; only the wrapped footer key hint is a minor cosmetic flaw.",
+      "issues": [
+        {
+          "image": "screenshots/SHELL-001.png",
+          "severity": "minor",
+          "observation": "Footer hint \"Up/Down to move - Enter to open\" wraps \"open\" onto a second line, so the left hint is two lines while the right note remains one."
+        }
+      ],
+      "batch_id": "batch-001",
+      "reviewed_at": "2026-10-21T04:11:40Z"
+    },
+    {
+      "screen_id": "DASH-001",
+      "name": "Dashboard",
+      "section": "Dashboard",
+      "feature": "Dashboard",
+      "spec": "Screens/DASH-001-dashboard.md",
+      "html": "prototype/screens/DASH-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/DASH-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 176707,
+          "sha256": "b3b623a867b0f7090a5cdb48d77be31390bfb7ec497e73e4f0d3777a343d3156",
+          "error": null
+        },
+        {
+          "path": "screenshots/DASH-001-dark.png",
+          "kind": "dark",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 173418,
+          "sha256": "20c60d04928508c241cd4b560890318cbd8acee3f191abcf1d53305b58eff1b1",
+          "error": null
+        },
+        {
+          "path": "screenshots/DASH-001-wide.png",
+          "kind": "wide",
+          "exists": true,
+          "readable": true,
+          "width": 1920,
+          "height": 1080,
+          "expected_width": 1920,
+          "expected_height": 1080,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 118871,
+          "sha256": "bebca0cdce237fbd0f17bea15c97e16fe61956f73580d19017103b2a01db5f56",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "ca8e8ddef4eb6f172d9a7cb878604e4e932ce745a8f93b3460b965b731aaf0f5",
+      "review_status": "reviewed_fail",
+      "verdict": "fail",
+      "summary": "Base and dark dashboards look polished, but the wide variant loses the right column, fourth KPI, actions and status pills, leaving most of the canvas empty.",
+      "issues": [
+        {
+          "image": "screenshots/DASH-001-wide.png",
+          "severity": "blocking",
+          "observation": "Wide dashboard is confined to the top-left area: today's collections KPI, Needs attention and Due today cards, header actions and row status badges are missing, with large empty areas right and below."
+        },
+        {
+          "image": "screenshots/DASH-001.png",
+          "severity": "minor",
+          "observation": "Today's clinic header says \"6 of 18 visits shown\" but only five visit rows are visible and there is no scroll affordance."
+        },
+        {
+          "image": "screenshots/DASH-001-dark.png",
+          "severity": "minor",
+          "observation": "Patient avatar initials are very low contrast against the teal circles in dark mode."
+        }
+      ],
+      "batch_id": "batch-001",
+      "reviewed_at": "2026-10-21T04:11:40Z"
+    },
+    {
+      "screen_id": "PAT-001",
+      "name": "Patient list",
+      "section": "Patients",
+      "feature": "Patient Management",
+      "spec": "Screens/PAT-001-patient-list.md",
+      "html": "prototype/screens/PAT-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/PAT-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 176612,
+          "sha256": "00e3a5a6bc06084526c1759a7a69082ac54467da3be3ae0e8da190b3a4f8a061",
+          "error": null
+        },
+        {
+          "path": "screenshots/PAT-001-dark.png",
+          "kind": "dark",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 172380,
+          "sha256": "752050bd6d16736fb8fc99c511e64acfe456ff3e4a3e6a8a90dcfb9fbc8012c7",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "dbc593795cd796021d043e169b7acd1c76e1729327162055892b7dc8f4ff95b0",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Base list is complete and well aligned; the dark variant is coherent but its active 'All patients' filter chip loses its text label.",
+      "issues": [
+        {
+          "image": "screenshots/PAT-001-dark.png",
+          "severity": "minor",
+          "observation": "The first filter chip in the dark render appears as an icon-only stub; unlike the base render, the 'All patients' label is not visible. Restore the label's visibility and contrast."
+        }
+      ],
+      "batch_id": "batch-002",
+      "reviewed_at": "2026-10-21T04:15:08Z"
+    },
+    {
+      "screen_id": "PAT-002",
+      "name": "Register patient",
+      "section": "Patients",
+      "feature": "Patient Management",
+      "spec": "Screens/PAT-002-register-patient.md",
+      "html": "prototype/screens/PAT-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/PAT-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 127345,
+          "sha256": "656503ff458924f371c4e4a62b3f73fe00b136b9e6c7678a1acf797bb458ace8",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "46c5a2e8d952ce1968212311c828bd9905f87fbecc14a2650cf9394eb916cb21",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Register form is complete: header actions, required fields, guidance rail and duplicate-check status all fit without clipping.",
+      "issues": [],
+      "batch_id": "batch-002",
+      "reviewed_at": "2026-10-21T04:15:08Z"
+    },
+    {
+      "screen_id": "PAT-003",
+      "name": "Patient profile",
+      "section": "Patients",
+      "feature": "Patient Management",
+      "spec": "Screens/PAT-003-patient-profile.md",
+      "html": "prototype/screens/PAT-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/PAT-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 159932,
+          "sha256": "dd53a904773a4b8aae586db6455972dc4571bc7ec6461b23086dc77fdb4e3d52",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "17efcc6b36189e36a5f9d0d3c7054505fce687f93e8673c6a0db6b645c600edb",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Profile overview is complete; summary card, tabs and chronological timeline remain legible with aligned timestamps and status chips.",
+      "issues": [],
+      "batch_id": "batch-002",
+      "reviewed_at": "2026-10-21T04:15:08Z"
+    },
+    {
+      "screen_id": "PAT-004",
+      "name": "Edit patient",
+      "section": "Patients",
+      "feature": "Patient Management",
+      "spec": "Screens/PAT-004-edit-patient.md",
+      "html": "prototype/screens/PAT-004.html",
+      "screenshots": [
+        {
+          "path": "screenshots/PAT-004.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 181818,
+          "sha256": "a3dfac376ce9b38cb9f3c93b6a169254387a86ce14b8ffb4b6dce22d50611619",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "f17cf0fd2998498b3859ed0a1945b4692c73b0c5000a42eee95ebec765614a46",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Edit drawer overlays the profile cleanly; fields, record metadata and footer actions are fully visible and aligned.",
+      "issues": [],
+      "batch_id": "batch-002",
+      "reviewed_at": "2026-10-21T04:15:08Z"
+    },
+    {
+      "screen_id": "PAT-005",
+      "name": "Duplicate warning",
+      "section": "Patients",
+      "feature": "Patient Management",
+      "spec": "Screens/PAT-005-duplicate-warning.md",
+      "html": "prototype/screens/PAT-005.html",
+      "screenshots": [
+        {
+          "path": "screenshots/PAT-005.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 163864,
+          "sha256": "8970e8780b3ec371f691b909d6b310165a88face8ed323798e3e246c9baf4912",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "9973a8fc8909fed3e5e899ed507257cab08e6568eeda05bfbfbe75514b2166af",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Duplicate warning modal is complete and centred; candidate cards, override reason field and actions fit without clipping.",
+      "issues": [],
+      "batch_id": "batch-002",
+      "reviewed_at": "2026-10-21T04:15:08Z"
+    },
+    {
+      "screen_id": "PAT-006",
+      "name": "Merge patients",
+      "section": "Patients",
+      "feature": "Patient Management",
+      "spec": "Screens/PAT-006-merge-patients.md",
+      "html": "prototype/screens/PAT-006.html",
+      "screenshots": [
+        {
+          "path": "screenshots/PAT-006.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 180614,
+          "sha256": "400452c9143c3a0e57de5c0c4c1028182da9ccc1c3b4fc014066c1e902210dad",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "68a6d8776896f19da0df5301a9b119547ed4455d9a28606a9fd3c42eb41ab4e7",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Merge dialog fits the viewport; primary and secondary summary cards and the resolve table align with no clipped columns.",
+      "issues": [],
+      "batch_id": "batch-002",
+      "reviewed_at": "2026-10-21T04:15:08Z"
+    },
+    {
+      "screen_id": "PAT-007",
+      "name": "Archive patient",
+      "section": "Patients",
+      "feature": "Patient Management",
+      "spec": "Screens/PAT-007-archive-patient.md",
+      "html": "prototype/screens/PAT-007.html",
+      "screenshots": [
+        {
+          "path": "screenshots/PAT-007.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 181288,
+          "sha256": "cd528f45a04daabedc03eff695821119f58df5be1939c887d812f5bd2390f46a",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "62291cbdc28e0b33e3bb56516ec7f88b75caeaab95dd594443605c6efd9b17fe",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Archive confirmation is complete; patient context, linked-record warning, reason field and destructive action are clearly presented.",
+      "issues": [],
+      "batch_id": "batch-002",
+      "reviewed_at": "2026-10-21T04:15:08Z"
+    },
+    {
+      "screen_id": "VAC-001",
+      "name": "Vaccination visits",
+      "section": "Vaccinations",
+      "feature": "Vaccination Management",
+      "spec": "Screens/VAC-001-vaccination-visits.md",
+      "html": "prototype/screens/VAC-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/VAC-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 195523,
+          "sha256": "2be60b7da21ea642aec3d97dee848c5f1999f7b8e3cadb1ee0ad42a47ebb6907",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "10eb6a9b26ce807c8366bf2df528676384af316c826a5d62791445154c934159",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Vaccination visit list is complete; KPI cards, filters and the seven-column table fit with consistent chips and totals.",
+      "issues": [],
+      "batch_id": "batch-002",
+      "reviewed_at": "2026-10-21T04:15:08Z"
+    },
+    {
+      "screen_id": "VAC-002",
+      "name": "Record vaccination",
+      "section": "Vaccinations",
+      "feature": "Vaccination Management",
+      "spec": "Screens/VAC-002-record-vaccination.md",
+      "html": "prototype/screens/VAC-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/VAC-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 139416,
+          "sha256": "f71dcc3b553ece3e959e9b84049c26d7b4a25f4d63d22467343dbab049093d1f",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "f4e9ff94c2829da6683e423e479ab0f2448dc96ee739ca8e19be84d9f3532905",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Record vaccination is complete; patient banner, two-row vaccine table, totals and reminder form are legible and aligned.",
+      "issues": [],
+      "batch_id": "batch-002",
+      "reviewed_at": "2026-10-21T04:15:08Z"
+    },
+    {
+      "screen_id": "VAC-003",
+      "name": "Batch selection",
+      "section": "Vaccinations",
+      "feature": "Vaccination Management",
+      "spec": "Screens/VAC-003-batch-selection.md",
+      "html": "prototype/screens/VAC-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/VAC-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 164950,
+          "sha256": "84a2f1aa82bfd86c4ac30690ceecd430d7b595d0db18a57fa239560f7be14000",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "1a6a7f0fa842369ebd02053e2117117751e49a223964e5964f505f7bec6b70ee",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Batch selection modal is clear and complete, with workable row states; only a product-name typo and an awkward subtitle wrap detract.",
+      "issues": [
+        {
+          "image": "screenshots/VAC-003.png",
+          "severity": "minor",
+          "observation": "Modal subtitle reads 'Pentalvent' instead of 'Pentavalent' and wraps the year '2026' onto its own line."
+        }
+      ],
+      "batch_id": "batch-003",
+      "reviewed_at": "2026-10-21T09:39:43+05:30"
+    },
+    {
+      "screen_id": "VAC-004",
+      "name": "Vaccination visit detail",
+      "section": "Vaccinations",
+      "feature": "Vaccination Management",
+      "spec": "Screens/VAC-004-vaccination-visit-detail.md",
+      "html": "prototype/screens/VAC-004.html",
+      "screenshots": [
+        {
+          "path": "screenshots/VAC-004.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 140768,
+          "sha256": "ab21556bf985ee2fd098b876c2297b83fb7261421bd6c722a44a7f381ea55911",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "4cfb76c0f3e6424b707f0e97ba592b8c4a532bbc77cc4582968d95b80fa45c80",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Vaccination visit detail is legible with consistent totals, but the body uses only the left two-thirds, leaving a large empty right column.",
+      "issues": [
+        {
+          "image": "screenshots/VAC-004.png",
+          "severity": "minor",
+          "observation": "Main detail content stops around two-thirds width, leaving a conspicuous blank area on the right below the page actions."
+        }
+      ],
+      "batch_id": "batch-003",
+      "reviewed_at": "2026-10-21T09:39:43+05:30"
+    },
+    {
+      "screen_id": "VAC-005",
+      "name": "Correct or delete vaccination",
+      "section": "Vaccinations",
+      "feature": "Vaccination Management",
+      "spec": "Screens/VAC-005-correct-delete-vaccination.md",
+      "html": "prototype/screens/VAC-005.html",
+      "screenshots": [
+        {
+          "path": "screenshots/VAC-005.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 156647,
+          "sha256": "ddd748464398240f7e1289764a1d66b84fab327fa35d095bc7f10ac8dba8d2d8",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "128273cfacd1146901531a72bad63440168606065dc0f88d76eb1e14d9d03c35",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Correction and deletion dialog is well structured, fully visible and consistent with the package; no blocking issues.",
+      "issues": [],
+      "batch_id": "batch-003",
+      "reviewed_at": "2026-10-21T09:39:43+05:30"
+    },
+    {
+      "screen_id": "CON-001",
+      "name": "Consultations",
+      "section": "Consultations",
+      "feature": "Consultation Management",
+      "spec": "Screens/CON-001-consultations.md",
+      "html": "prototype/screens/CON-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/CON-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 169883,
+          "sha256": "876e931d2c2e22b721937935798be561fac965520d5c9b8a47f561373d92e16f",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "2bbe9623423fb558005b3a606e59138f4c4ce1141ec148fcbd4bbc4309ef8e68",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Consultation list is clean, legible and well spaced; the pagination count does not match the number of visible rows.",
+      "issues": [
+        {
+          "image": "screenshots/CON-001.png",
+          "severity": "minor",
+          "observation": "Footer reports '1-7 of 428 consultations' although only five table rows are rendered before the pagination bar."
+        }
+      ],
+      "batch_id": "batch-003",
+      "reviewed_at": "2026-10-21T09:39:43+05:30"
+    },
+    {
+      "screen_id": "CON-002",
+      "name": "New consultation",
+      "section": "Consultations",
+      "feature": "Consultation Management",
+      "spec": "Screens/CON-002-new-consultation.md",
+      "html": "prototype/screens/CON-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/CON-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 123824,
+          "sha256": "2fe1644aac7a83b3cf87f5a61de037fc2283dc1f00497eb0f8e94500f47fdd1a",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "57fe1f0be90ed0351c4960daccdb4dece6062f0097c59738fd1e08de8711a8e7",
+      "review_status": "reviewed_fail",
+      "verdict": "fail",
+      "summary": "New consultation form layout is collapsed: fields are squeezed into narrow columns, text wraps word by word, and clinical notes overlap helper text.",
+      "issues": [
+        {
+          "image": "screenshots/CON-002.png",
+          "severity": "blocking",
+          "observation": "Form grid collapses into narrow middle columns; doctor, problem and notes values wrap one word per line, clinical notes overlap the follow-up helper text, and most of the card is blank."
+        }
+      ],
+      "batch_id": "batch-003",
+      "reviewed_at": "2026-10-21T09:39:43+05:30"
+    },
+    {
+      "screen_id": "CON-003",
+      "name": "Consultation detail",
+      "section": "Consultations",
+      "feature": "Consultation Management",
+      "spec": "Screens/CON-003-consultation-detail.md",
+      "html": "prototype/screens/CON-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/CON-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 174194,
+          "sha256": "3ebd57e3eada7afc2538562697118e21735538c6d144bd76aa540cb623d19cc7",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "fcfb8b1f2fe6d05ce0a51cdfc921138345b40a3bbac950b42ea633212e4da4e6",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Consultation detail is complete, well balanced and legible, with consistent audit, payment and follow-up information.",
+      "issues": [],
+      "batch_id": "batch-003",
+      "reviewed_at": "2026-10-21T09:39:43+05:30"
+    },
+    {
+      "screen_id": "CON-004",
+      "name": "Delete consultation",
+      "section": "Consultations",
+      "feature": "Consultation Management",
+      "spec": "Screens/CON-004-delete-consultation.md",
+      "html": "prototype/screens/CON-004.html",
+      "screenshots": [
+        {
+          "path": "screenshots/CON-004.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 190029,
+          "sha256": "5e45b397cbfae8220cc1f4eca50a6cda8bb084e283f6a7649eaafc3dca694fd4",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "ef02d3ee9b660a058f5c1c582cba6f70185e1132550e2f216089143901ff4308",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Delete consultation dialog is complete and readable, showing audit and payment context before the destructive action.",
+      "issues": [],
+      "batch_id": "batch-003",
+      "reviewed_at": "2026-10-21T09:39:43+05:30"
+    },
+    {
+      "screen_id": "INV-001",
+      "name": "Inventory overview",
+      "section": "Inventory",
+      "feature": "Vaccine and Batch Inventory",
+      "spec": "Screens/INV-001-inventory-overview.md",
+      "html": "prototype/screens/INV-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/INV-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 168123,
+          "sha256": "5a0a5d1d1a30f8e9a5c045ea2fc05ba616396f4be0fdff6ada3efe4eb4a0e024",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "be5b13d274ccbae5a71e249604968e2006a4f0dc4e2e9f19c0b1f3343309dd57",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Inventory overview is clear and well organised; the footer expiry note does not agree with the table's nearest PCV expiry.",
+      "issues": [
+        {
+          "image": "screenshots/INV-001.png",
+          "severity": "minor",
+          "observation": "Footer says PCV-2411 expires in 12 days, while the PCV row lists a nearest expiry of 12 Nov 2026, about 22 days from 21 Oct."
+        }
+      ],
+      "batch_id": "batch-003",
+      "reviewed_at": "2026-10-21T09:39:43+05:30"
+    },
+    {
+      "screen_id": "INV-002",
+      "name": "Vaccine catalogue",
+      "section": "Inventory",
+      "feature": "Vaccine and Batch Inventory",
+      "spec": "Screens/INV-002-vaccine-catalogue.md",
+      "html": "prototype/screens/INV-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/INV-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 167385,
+          "sha256": "4bf750f64283c616fe98bcba880fa6bd5989cf928b35e9f8f0b4f7f19fc9dc09",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "be09ce0a62920178b5a81ef467d620b2a4e17c66f5fa12bf142339953b4ba957",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Vaccine catalogue table is complete and legible, with consistent pricing, statuses and pagination.",
+      "issues": [],
+      "batch_id": "batch-003",
+      "reviewed_at": "2026-10-21T09:39:43+05:30"
+    },
+    {
+      "screen_id": "INV-003",
+      "name": "Edit vaccine catalogue",
+      "section": "Inventory",
+      "feature": "Vaccine and Batch Inventory",
+      "spec": "Screens/INV-003-edit-vaccine-catalogue.md",
+      "html": "prototype/screens/INV-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/INV-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 177167,
+          "sha256": "74b4929ba8bd888d9bc0170e228cf4e1462d86e8f03efe6acc6550940b859863",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "2169c739ddae135dd60cf87bf68653717363d09250997a4a7eeca92f6d86ccd2",
+      "review_status": "reviewed_fail",
+      "verdict": "fail",
+      "summary": "Edit vaccine drawer is legible but taller than the 768px viewport; save and cancel controls are off-screen and metadata is clipped.",
+      "issues": [
+        {
+          "image": "screenshots/INV-003.png",
+          "severity": "major",
+          "observation": "No primary save or cancel action is visible; drawer content runs past the viewport bottom at 'Catalogue metadata', clipping the form and hiding its commit controls."
+        }
+      ],
+      "batch_id": "batch-003",
+      "reviewed_at": "2026-10-21T09:39:43+05:30"
+    },
+    {
+      "screen_id": "INV-004",
+      "name": "Batch detail",
+      "section": "Inventory",
+      "feature": "Vaccine and Batch Inventory",
+      "spec": "Screens/INV-004-batch-detail.md",
+      "html": "prototype/screens/INV-004.html",
+      "screenshots": [
+        {
+          "path": "screenshots/INV-004.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 169294,
+          "sha256": "cdaa79f918551e2e0f822c322484b5c4662116b387facac0db4889da4a1abb19",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "eb3710dc4627e7dec5a639a8371135430fe429a03a3a3a0ffc12b2ae190e1a50",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Batch detail is complete and legible, with KPIs, ledger and batch facts aligned. Ledger dates and one reference truncate, and the Batch controls panel appears empty.",
+      "issues": [
+        {
+          "image": "screenshots/INV-004.png",
+          "severity": "minor",
+          "observation": "Ledger date cells truncate to '20 Oct 2026 ...' and the supplier reference to 'Supplier: Bharat Biote...', slightly reducing scanability."
+        },
+        {
+          "image": "screenshots/INV-004.png",
+          "severity": "minor",
+          "observation": "The 'Batch controls' card shows a heading but no controls or empty-state copy in the viewport."
+        }
+      ],
+      "batch_id": "batch-004",
+      "reviewed_at": "2026-10-21T09:47:42+05:30"
+    },
+    {
+      "screen_id": "INV-005",
+      "name": "Receive stock",
+      "section": "Inventory",
+      "feature": "Vaccine and Batch Inventory",
+      "spec": "Screens/INV-005-receive-stock.md",
+      "html": "prototype/screens/INV-005.html",
+      "screenshots": [
+        {
+          "path": "screenshots/INV-005.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 122080,
+          "sha256": "522731251fa89f8c56cbe5450759fa42ba9b5d141807474903be627f95664b36",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "4e4dfcac18d2d7c45ecfadf61ec7be5668f78ed66246e1c30f88548def021f04",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Receive-stock form is clean and complete, with legible fields, helper text and clear primary and cancel actions consistent with the shell.",
+      "issues": [],
+      "batch_id": "batch-004",
+      "reviewed_at": "2026-10-21T09:47:42+05:30"
+    },
+    {
+      "screen_id": "INV-006",
+      "name": "Adjust stock",
+      "section": "Inventory",
+      "feature": "Vaccine and Batch Inventory",
+      "spec": "Screens/INV-006-adjust-stock.md",
+      "html": "prototype/screens/INV-006.html",
+      "screenshots": [
+        {
+          "path": "screenshots/INV-006.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 165218,
+          "sha256": "e6d8537e92f1ab8333a4d330e2f23908906a75877cbc2938ecf02ea72cc4f33a",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "4f11989a90fd8529b0cc93809121ce73128d5bda851b15310a3e257b8a72f084",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Adjust-stock data reconciles (28 - 2 = 26), but a detached select chevron renders outside the dialog edge and the action footer sits below the viewport.",
+      "issues": [
+        {
+          "image": "screenshots/INV-006.png",
+          "severity": "major",
+          "observation": "A detached white select/chevron fragment renders outside the dialog's right edge over the dimmed backdrop near the Reason field."
+        },
+        {
+          "image": "screenshots/INV-006.png",
+          "severity": "major",
+          "observation": "The dialog extends past the bottom of the 768px viewport, so no Cancel or Apply action is visible."
+        }
+      ],
+      "batch_id": "batch-004",
+      "reviewed_at": "2026-10-21T09:47:42+05:30"
+    },
+    {
+      "screen_id": "WAS-001",
+      "name": "Wastage overview",
+      "section": "Wastage",
+      "feature": "Wastage",
+      "spec": "Screens/WAS-001-wastage-overview.md",
+      "html": "prototype/screens/WAS-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/WAS-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 200736,
+          "sha256": "ca81e1bf902114ed2b11c8dd79ee44aba1cfff091cdf93418383f3dfd4d2080f",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "47b51313712575abd7fb2da735baecd20a218d77d8896335615cb6456a1b457a",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Wastage overview is well structured, with consistent KPIs, filters and chart. One reason cell clips 'Cold-chain breakage' mid-word.",
+      "issues": [
+        {
+          "image": "screenshots/WAS-001.png",
+          "severity": "minor",
+          "observation": "The 15 Oct reason cell clips 'Cold-chain breakage' to 'Cold-chain breakd' without an ellipsis."
+        }
+      ],
+      "batch_id": "batch-004",
+      "reviewed_at": "2026-10-21T09:47:42+05:30"
+    },
+    {
+      "screen_id": "WAS-002",
+      "name": "Record wastage",
+      "section": "Wastage",
+      "feature": "Wastage",
+      "spec": "Screens/WAS-002-record-wastage.md",
+      "html": "prototype/screens/WAS-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/WAS-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 156102,
+          "sha256": "051072ec7b24dc4aa15deb61850f07e6231759474b2ea5a5ffaa4fde2c8e8ef3",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "854b05c41fbc8ce04b6a1e4645f3c7189ff95bfd3f2509258cb0f3f7e738b48c",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Record-wastage form is coherent and legible; batch context, quantity math (28 - 2 = 26) and audit copy all read correctly.",
+      "issues": [],
+      "batch_id": "batch-004",
+      "reviewed_at": "2026-10-21T09:47:42+05:30"
+    },
+    {
+      "screen_id": "BRW-001",
+      "name": "Borrow & return",
+      "section": "Borrow & Return",
+      "feature": "Borrowed and Lent Vaccines",
+      "spec": "Screens/BRW-001-borrow-return.md",
+      "html": "prototype/screens/BRW-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/BRW-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 179621,
+          "sha256": "8414a9bcf6bfeba7fbf5a60a93705c2115e182f693e29c5fb08200ecca1c413d",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "50ceaa5c166d22b62bec0d64e4068b7a9801ed6b4db6a513fc2ea3c33f40636f",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Borrow/return overview is legible, but status chips clip at the table edge, the active Open tab shows closed records, and BR-1042's due date conflicts with its overdue flag.",
+      "issues": [
+        {
+          "image": "screenshots/BRW-001.png",
+          "severity": "major",
+          "observation": "The STATUS column clips 'Partially returned' chips at the card's right edge on multiple rows."
+        },
+        {
+          "image": "screenshots/BRW-001.png",
+          "severity": "major",
+          "observation": "The active 'Open 4' tab lists Closed records and the footer says '1-6 of 25 records', contradicting the selected filter."
+        },
+        {
+          "image": "screenshots/BRW-001.png",
+          "severity": "minor",
+          "observation": "BR-1042 is due 24 Oct 2026 yet is flagged as overdue by 4 days while the screens are dated 20 Oct 2026."
+        }
+      ],
+      "batch_id": "batch-004",
+      "reviewed_at": "2026-10-21T09:47:42+05:30"
+    },
+    {
+      "screen_id": "BRW-002",
+      "name": "Record borrow / lend",
+      "section": "Borrow & Return",
+      "feature": "Borrowed and Lent Vaccines",
+      "spec": "Screens/BRW-002-record-borrow-lend.md",
+      "html": "prototype/screens/BRW-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/BRW-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 109600,
+          "sha256": "e91d65765901b3a2ecdb6fb61679e92d2b617a88907f6e9b67d6de4017c059c9",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "29e52283f3b8d1cd386381292a029fa9ce205797eb63a530e0233d365a7976f1",
+      "review_status": "reviewed_fail",
+      "verdict": "fail",
+      "summary": "Record borrow/lend layout is broken: the direction and counterparty grid collapses, squeezing inputs to a few characters wide and wrapping helper text one word per line.",
+      "issues": [
+        {
+          "image": "screenshots/BRW-002.png",
+          "severity": "blocking",
+          "observation": "Counterparty, contact and reference fields collapse to roughly 40-60px, so entered values wrap one word per line and the direction toggle stacks vertically; the form is not usable."
+        },
+        {
+          "image": "screenshots/BRW-002.png",
+          "severity": "major",
+          "observation": "The first card leaves a large empty area while the 'Vaccine & quantity' card is cut off at the viewport, compounding the broken grid."
+        }
+      ],
+      "batch_id": "batch-004",
+      "reviewed_at": "2026-10-21T09:47:42+05:30"
+    },
+    {
+      "screen_id": "BRW-003",
+      "name": "Record return",
+      "section": "Borrow & Return",
+      "feature": "Borrowed and Lent Vaccines",
+      "spec": "Screens/BRW-003-record-return.md",
+      "html": "prototype/screens/BRW-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/BRW-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 189405,
+          "sha256": "83ba549b7de54e1277866c590cd826ad2b38203dd684788ac28b3eb1cefabe4e",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "8cc54af44e689c70eaa9f14567d90f8c86c7ca508d1d12325c3223bc3897232b",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Return dialog content and stock math are clear, but its confirm action is below the 768px fold, background status chips clip, and the due date is labelled overdue despite being in the future.",
+      "issues": [
+        {
+          "image": "screenshots/BRW-003.png",
+          "severity": "major",
+          "observation": "The dialog extends below the viewport; no primary 'Record return' action is visible at 1366x768."
+        },
+        {
+          "image": "screenshots/BRW-003.png",
+          "severity": "major",
+          "observation": "The dialog states 'Due 24 Oct 2026 - overdue' on 20 Oct 2026, which contradicts the date."
+        },
+        {
+          "image": "screenshots/BRW-003.png",
+          "severity": "minor",
+          "observation": "Partially returned status chips in the underlying table are clipped at the right edge."
+        }
+      ],
+      "batch_id": "batch-004",
+      "reviewed_at": "2026-10-21T09:47:42+05:30"
+    },
+    {
+      "screen_id": "REM-001",
+      "name": "Due vaccinations",
+      "section": "Follow-up",
+      "feature": "Vaccination Reminders",
+      "spec": "Screens/REM-001-due-vaccinations.md",
+      "html": "prototype/screens/REM-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/REM-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 199197,
+          "sha256": "cdbd8b9691605feefbecf47210ef878fffbbd05e6925e8ec0245e60d8793af9a",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "bc43e7333aa283b47626290a182db50c553f8a3ea1edeb5a8b02640655f6186b",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Due-vaccinations list is complete and well structured; counts, statuses, patient rows and pagination are legible with no visible defects.",
+      "issues": [],
+      "batch_id": "batch-004",
+      "reviewed_at": "2026-10-21T09:47:42+05:30"
+    },
+    {
+      "screen_id": "REM-002",
+      "name": "Vaccination reminder detail",
+      "section": "Follow-up",
+      "feature": "Vaccination Reminders",
+      "spec": "Screens/REM-002-vaccination-reminder-detail.md",
+      "html": "prototype/screens/REM-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/REM-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 210247,
+          "sha256": "103effdec26f66b92f43985833e34580a5e5f9b6ad6a9a1acb5337abd505da50",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "3274207fccbbc7277af40e406f4cb056293b76fc77510282cb302e4b87a1e31a",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Reminder side panel is readable and matches Aarav Sharma's row, but no completion action is visible within the 768px viewport.",
+      "issues": [
+        {
+          "image": "screenshots/REM-002.png",
+          "severity": "major",
+          "observation": "The 'Complete this reminder' section ends with the note field and no visible submit or complete action at 1366x768."
+        }
+      ],
+      "batch_id": "batch-004",
+      "reviewed_at": "2026-10-21T09:47:42+05:30"
+    },
+    {
+      "screen_id": "REM-003",
+      "name": "Personal reminders",
+      "section": "Follow-up",
+      "feature": "Personal Reminders",
+      "spec": "Screens/REM-003-personal-reminders.md",
+      "html": "prototype/screens/REM-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/REM-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 173486,
+          "sha256": "2fdfb82fd181930c4336b5625fbb47b2195056d545571a14a65897354d10b5cf",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "41f33d7fa648097989465e01fef30f0bb86ceeac0b4d7f76ef3c7a263ef9fe4e",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Personal reminders list is complete and legible, with clear tabs, table, pagination and advisory notices. Only small cosmetic text-fitting issues in the search field and linked-patient column.",
+      "issues": [
+        {
+          "image": "screenshots/REM-003.png",
+          "severity": "minor",
+          "observation": "The search placeholder wraps onto two lines inside a single-line-height input, making the field look cramped."
+        },
+        {
+          "image": "screenshots/REM-003.png",
+          "severity": "minor",
+          "observation": "Linked patient IDs are truncated to \"NCC-2026-0...\" in every row, reducing their identifying value."
+        }
+      ],
+      "batch_id": "batch-005",
+      "reviewed_at": "2026-10-21T04:19:48Z"
+    },
+    {
+      "screen_id": "REM-004",
+      "name": "Create personal reminder",
+      "section": "Follow-up",
+      "feature": "Personal Reminders",
+      "spec": "Screens/REM-004-create-personal-reminder.md",
+      "html": "prototype/screens/REM-004.html",
+      "screenshots": [
+        {
+          "path": "screenshots/REM-004.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 120647,
+          "sha256": "8a3647b40e10e24905d31f0a7b4b709a2cd4d4a9ebca9d7d2dc1061acb18a586",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "cb83e3e9c191a2af538a50ea7c3d4f9c97f39c9fddcd6b45a5ea445407a23972",
+      "review_status": "reviewed_fail",
+      "verdict": "fail",
+      "summary": "Create-reminder form layout is broken: the follow-up fields collapse into a narrow column, values wrap word-by-word outside their controls, labels collide, and most of the card is empty.",
+      "issues": [
+        {
+          "image": "screenshots/REM-004.png",
+          "severity": "blocking",
+          "observation": "Reminder, Reminder date, Assigned to and Note are squeezed into a ~90-220px column while the right half of the card is blank; the reminder value renders as a vertical word stack and the note control is unusably small."
+        },
+        {
+          "image": "screenshots/REM-004.png",
+          "severity": "blocking",
+          "observation": "The labels Vaccine interest, Advance amount, Reminder and Assigned to run together on one line, and the Assigned-to value overflows its select, so the form cannot be read or used."
+        }
+      ],
+      "batch_id": "batch-005",
+      "reviewed_at": "2026-10-21T04:19:48Z"
+    },
+    {
+      "screen_id": "FIN-001",
+      "name": "Finance overview",
+      "section": "Finance",
+      "feature": "Finance and Payments",
+      "spec": "Screens/FIN-001-finance-overview.md",
+      "html": "prototype/screens/FIN-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/FIN-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 154842,
+          "sha256": "17865a1e797b435a181e5041f997bc2f4357bbb2f00f61edece4d45d002a6c63",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "7e2f93d3818224cf13b17b539e0ec211affead70878e425e3664d5bfc84dc513",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Finance overview is complete and well balanced: KPI cards, collections trend, payment-method mix and recent transactions are legible with consistent styling and fictional data.",
+      "issues": [],
+      "batch_id": "batch-005",
+      "reviewed_at": "2026-10-21T04:19:48Z"
+    },
+    {
+      "screen_id": "FIN-002",
+      "name": "Transactions",
+      "section": "Finance",
+      "feature": "Finance and Payments",
+      "spec": "Screens/FIN-002-transactions.md",
+      "html": "prototype/screens/FIN-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/FIN-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 183548,
+          "sha256": "ab3e4ab38f9a5df587e157f43f5caafd0257037ee42edaf2bb1e11d883201451",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "ba74371f1d8716e4c60dd577fbe53c89e3bc29983d25148e4a82a5a4a1feb663",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Transactions list is clear and complete, with readable status badges, cash/online split, consistent table rhythm and working pagination. Truncated references are appropriately ellipsized.",
+      "issues": [],
+      "batch_id": "batch-005",
+      "reviewed_at": "2026-10-21T04:19:48Z"
+    },
+    {
+      "screen_id": "FIN-003",
+      "name": "Payment detail",
+      "section": "Finance",
+      "feature": "Finance and Payments",
+      "spec": "Screens/FIN-003-payment-detail.md",
+      "html": "prototype/screens/FIN-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/FIN-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 122728,
+          "sha256": "0b493c8aed6611744b0be43c8a4a6281e2bcf53b9dbf3144f6ed74b3553163f5",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "860a356e61bcf53440333771304e94860840b6435883a6d251a1551438052ac6",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Payment detail presents amount, split, status, visit metadata and linked service cleanly. Hierarchy and provisional-receipt treatment are clear with no clipping.",
+      "issues": [],
+      "batch_id": "batch-005",
+      "reviewed_at": "2026-10-21T04:19:48Z"
+    },
+    {
+      "screen_id": "FIN-004",
+      "name": "Record payment",
+      "section": "Finance",
+      "feature": "Finance and Payments",
+      "spec": "Screens/FIN-004-record-payment.md",
+      "html": "prototype/screens/FIN-004.html",
+      "screenshots": [
+        {
+          "path": "screenshots/FIN-004.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 117205,
+          "sha256": "4f1afaade7d29fc0259c21549e83d5c48eade1847e6e8546bcdd58508e16ba86",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "9f1a2b20bbcba7da066990a6064e4b7473433a633c657a7579899844b5363749",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Record-payment form is well structured and legible, with correct cash/online split messaging, patient context and receipt state. No visible layout or data defects.",
+      "issues": [],
+      "batch_id": "batch-005",
+      "reviewed_at": "2026-10-21T04:19:48Z"
+    },
+    {
+      "screen_id": "FIN-005",
+      "name": "Expenses",
+      "section": "Finance",
+      "feature": "Finance and Payments",
+      "spec": "Screens/FIN-005-expenses.md",
+      "html": "prototype/screens/FIN-005.html",
+      "screenshots": [
+        {
+          "path": "screenshots/FIN-005.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 166298,
+          "sha256": "020916b8872bbf61a4788ac0dc093422f84ed3c2aaa52dfb127c0cbf41c299ea",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "3b66a4baed2099ff8f3aded8f9eb7deb1d86d831d21f1a850bd8affa32d01524",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Expenses screen is complete and legible, with clear summary cards, filter controls, status badges and a well-aligned table. No blocking or cosmetic defects noted.",
+      "issues": [],
+      "batch_id": "batch-005",
+      "reviewed_at": "2026-10-21T04:19:48Z"
+    },
+    {
+      "screen_id": "FIN-006",
+      "name": "Record expense",
+      "section": "Finance",
+      "feature": "Finance and Payments",
+      "spec": "Screens/FIN-006-record-expense.md",
+      "html": "prototype/screens/FIN-006.html",
+      "screenshots": [
+        {
+          "path": "screenshots/FIN-006.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 107599,
+          "sha256": "90e6dc1123ab7e86d54eefd1584566499b94091abde1c07e83cb35abca25341f",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "b9708e3c1ad899a29731abc84b83fe6a2061f0637758e2a8b5913da244349b7c",
+      "review_status": "reviewed_fail",
+      "verdict": "fail",
+      "summary": "Record-expense form layout is broken: the field grid collapses into slivers, Title and Note values wrap vertically outside their controls, labels overlap, and the card is mostly blank.",
+      "issues": [
+        {
+          "image": "screenshots/FIN-006.png",
+          "severity": "blocking",
+          "observation": "Date, Category, Title and Reference are forced into a narrow column; the Title input is only a few characters wide and its value wraps one word per line beyond the field boundary."
+        },
+        {
+          "image": "screenshots/FIN-006.png",
+          "severity": "blocking",
+          "observation": "Title and Reference labels overlap, the Note textarea is collapsed to a thin strip with vertically stacked text, and the left half of the form card is empty, making the form unusable."
+        }
+      ],
+      "batch_id": "batch-005",
+      "reviewed_at": "2026-10-21T04:19:48Z"
+    },
+    {
+      "screen_id": "RCP-001",
+      "name": "Receipt preview",
+      "section": "Receipts",
+      "feature": "Receipts and Printing",
+      "spec": "Screens/RCP-001-receipt-preview.md",
+      "html": "prototype/screens/RCP-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/RCP-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 170909,
+          "sha256": "1735eb56b8452788ba8814134b4484dea7813adce168edec943e56b19a986d07",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "37c5d951a0356c67a7cffb23c183c22dcb1f9524c05d32a96e9dd5ee1400c26c",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Receipt preview is complete and convincing: receipt document, totals, payment split, print status and print settings all render cleanly with fictional data and no clipping.",
+      "issues": [],
+      "batch_id": "batch-005",
+      "reviewed_at": "2026-10-21T04:19:48Z"
+    },
+    {
+      "screen_id": "RCP-002",
+      "name": "Print queue error",
+      "section": "Receipts",
+      "feature": "Receipts and Printing",
+      "spec": "Screens/RCP-002-print-queue-error.md",
+      "html": "prototype/screens/RCP-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/RCP-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 149586,
+          "sha256": "658b178081da74aac5530e3f22fc7b908b974bc268c620e7a6f7f8da79e7af57",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "057334c95f3c7905fa664da0a422f6aee5a5f224a6619c35fabefb3c21e02431",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Print-queue error state is purposeful and legible, with a clear failure banner, job facts, recovery actions, print options and history. No layout or data defects.",
+      "issues": [],
+      "batch_id": "batch-005",
+      "reviewed_at": "2026-10-21T04:19:48Z"
+    },
+    {
+      "screen_id": "RCP-003",
+      "name": "Reprint receipt",
+      "section": "Receipts",
+      "feature": "Receipts and Printing",
+      "spec": "Screens/RCP-003-reprint-receipt.md",
+      "html": "prototype/screens/RCP-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/RCP-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 172482,
+          "sha256": "9fa01d71a446268ead3c07f051278b1fe33668e55baf9cbc150886630737e6d5",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "b3f3569c5f8f0770757b2512ce1b09a3a38cdcc19f4aebb228d17c0639393e4f",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Reprint dialog is fully visible and legible over the receipt preview, with clear reason, duplicate marking and actions.",
+      "issues": [],
+      "batch_id": "batch-006",
+      "reviewed_at": "2026-10-21T09:51:58+05:30"
+    },
+    {
+      "screen_id": "RPT-001",
+      "name": "Statistics overview",
+      "section": "Reports",
+      "feature": "Statistics and Reports",
+      "spec": "Screens/RPT-001-statistics-overview.md",
+      "html": "prototype/screens/RPT-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/RPT-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 136850,
+          "sha256": "eb24791dcfaec1b963c43c83a3928e1cbbcb3286d2b11615b2acf54f012d4a5b",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "798d93b68a91e0a95dfafff9bebe1d6ba689f433f64f805491838655e7bcaa19",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Statistics overview is complete with legible KPI cards and chart; the Report views section continues below the fold normally.",
+      "issues": [],
+      "batch_id": "batch-006",
+      "reviewed_at": "2026-10-21T09:51:58+05:30"
+    },
+    {
+      "screen_id": "RPT-002",
+      "name": "Vaccination report",
+      "section": "Reports",
+      "feature": "Statistics and Reports",
+      "spec": "Screens/RPT-002-vaccination-report.md",
+      "html": "prototype/screens/RPT-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/RPT-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 156821,
+          "sha256": "1ee7192ef7ac0441178f57129173bab2bf6e8406eab89a7b2d03d0d664b336ad",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "385d1f187dc389ad3b2002c4fa5978f7fe1f3d4a0e8b965059618670b10a74cc",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Vaccination report renders cleanly with KPI cards, charts, brand mix and a complete table; no clipping or broken data.",
+      "issues": [],
+      "batch_id": "batch-006",
+      "reviewed_at": "2026-10-21T09:51:58+05:30"
+    },
+    {
+      "screen_id": "RPT-003",
+      "name": "Finance report",
+      "section": "Reports",
+      "feature": "Statistics and Reports",
+      "spec": "Screens/RPT-003-finance-report.md",
+      "html": "prototype/screens/RPT-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/RPT-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 152881,
+          "sha256": "bcf7a7c6e3e892aa4062335b4e74a5c8a1a189ba14a4d6119e1bc17d6797c065",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "68154b5bdb356a7cc7b80e6dd459422e52e40838aa810b5bfdb98d1bf0995a7b",
+      "review_status": "reviewed_fail",
+      "verdict": "fail",
+      "summary": "The finance chart is clipped by the daily rows table, hiding the plot's lower area and x-axis labels; this layout overlap needs fixing.",
+      "issues": [
+        {
+          "image": "screenshots/RPT-003.png",
+          "severity": "major",
+          "observation": "The Income vs expenses chart card is overlapped by the daily rows table at its base, cutting off the plot bottom and x-axis labels."
+        }
+      ],
+      "batch_id": "batch-006",
+      "reviewed_at": "2026-10-21T09:51:58+05:30"
+    },
+    {
+      "screen_id": "RPT-004",
+      "name": "Patient milestone report",
+      "section": "Reports",
+      "feature": "Statistics and Reports",
+      "spec": "Screens/RPT-004-patient-milestone-report.md",
+      "html": "prototype/screens/RPT-004.html",
+      "screenshots": [
+        {
+          "path": "screenshots/RPT-004.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 151574,
+          "sha256": "e5f295928d70e09b1695b4704bfb8cf591261b6fffe82a45e2cdec057fa003d9",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "b9dc306c1769965070bb70922b8bc5eda1a265eeaa325d4155f3a8eec1d47e7b",
+      "review_status": "reviewed_fail",
+      "verdict": "fail",
+      "summary": "The results table overlaps the milestone chart and the By vaccine panel, slicing the vaccine list mid-row; this is a blocking layout defect.",
+      "issues": [
+        {
+          "image": "screenshots/RPT-004.png",
+          "severity": "major",
+          "observation": "The milestone table begins over the report cards above it, cutting off the By vaccine list mid-row and hiding the chart card's bottom edge."
+        }
+      ],
+      "batch_id": "batch-006",
+      "reviewed_at": "2026-10-21T09:51:58+05:30"
+    },
+    {
+      "screen_id": "STF-001",
+      "name": "Staff list",
+      "section": "Administration",
+      "feature": "Staff and Role Management",
+      "spec": "Screens/STF-001-staff-list.md",
+      "html": "prototype/screens/STF-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/STF-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 169722,
+          "sha256": "3b86bed265b35962bfcbd1ecf6cc115f4b9f2f58dce629c4ea69f0f2b9b450b2",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "c5c2e46d4d26784fc5a819ad5de7ec6a5074c10a6bc86577b8ba8208fd896e7c",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Staff list is complete and legible, with a consistent shell, role chips, search, pagination and admin notes.",
+      "issues": [],
+      "batch_id": "batch-006",
+      "reviewed_at": "2026-10-21T09:51:58+05:30"
+    },
+    {
+      "screen_id": "STF-002",
+      "name": "Add staff member",
+      "section": "Administration",
+      "feature": "Staff and Role Management",
+      "spec": "Screens/STF-002-add-staff-member.md",
+      "html": "prototype/screens/STF-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/STF-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 180918,
+          "sha256": "41b7b355029f364ddb5fb2487ff3b35d41285213767a00471bb943f8d627b955",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "02ff24d75fd6185373714ba524e059e08364ac693e9d0c5e7194c58d812dea48",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Add staff drawer is clear, but its primary action and role summary sit below the 768px viewport, requiring scroll without a visible footer.",
+      "issues": [
+        {
+          "image": "screenshots/STF-002.png",
+          "severity": "minor",
+          "observation": "Drawer content extends past the viewport bottom, so the role capability summary and submit action are not visible without scrolling."
+        }
+      ],
+      "batch_id": "batch-006",
+      "reviewed_at": "2026-10-21T09:51:58+05:30"
+    },
+    {
+      "screen_id": "STF-003",
+      "name": "Deactivate staff",
+      "section": "Administration",
+      "feature": "Staff and Role Management",
+      "spec": "Screens/STF-003-deactivate-staff.md",
+      "html": "prototype/screens/STF-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/STF-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 194615,
+          "sha256": "69e06771b9dd6888fead335e64edf7b36a386973efcd9e69da04e572a0d89315",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "135c0393460099d8b709140b8f7caea5b7d9860783cd4110b938f356671c5d61",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Deactivation dialog is fully visible with legible warnings, reason, note and confirmation controls; the background is appropriately dimmed.",
+      "issues": [],
+      "batch_id": "batch-006",
+      "reviewed_at": "2026-10-21T09:51:58+05:30"
+    },
+    {
+      "screen_id": "STF-004",
+      "name": "Reset staff password",
+      "section": "Administration",
+      "feature": "Staff and Role Management",
+      "spec": "Screens/STF-004-reset-staff-password.md",
+      "html": "prototype/screens/STF-004.html",
+      "screenshots": [
+        {
+          "path": "screenshots/STF-004.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 191016,
+          "sha256": "651a2897fd28303d8891d6f7572e990a5627a2016fb28e283ae4ece8bce1897c",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "196d70e8bb104bd33e23503176996ccdf91a64ea2d2956a56a5a1317862b8c42",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Password reset dialog is complete and legible with account details, delivery note, verification and clear actions.",
+      "issues": [],
+      "batch_id": "batch-006",
+      "reviewed_at": "2026-10-21T09:51:58+05:30"
+    },
+    {
+      "screen_id": "AUD-001",
+      "name": "Audit log",
+      "section": "Administration",
+      "feature": "Audit Logging",
+      "spec": "Screens/AUD-001-audit-log.md",
+      "html": "prototype/screens/AUD-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/AUD-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 193744,
+          "sha256": "da02cde37cd3991bd8e9f82bb2f9c28b7a23a54e9a42ed1c2405afe14436ee4c",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "0dcf8c32c6e22b15ad618e294986d9a7ccde03ad13f7b9e5b116e863144807ea",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Audit log is legible and well structured; source and one action label are ellipsized, and later rows continue below the fold.",
+      "issues": [
+        {
+          "image": "screenshots/AUD-001.png",
+          "severity": "minor",
+          "observation": "Source values such as 'Local \u2192 que...' and one action label are truncated; confirm tooltips or slightly wider columns."
+        }
+      ],
+      "batch_id": "batch-006",
+      "reviewed_at": "2026-10-21T09:51:58+05:30"
+    },
+    {
+      "screen_id": "AUD-002",
+      "name": "Audit event detail",
+      "section": "Administration",
+      "feature": "Audit Logging",
+      "spec": "Screens/AUD-002-audit-event-detail.md",
+      "html": "prototype/screens/AUD-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/AUD-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 205628,
+          "sha256": "7fe96e5766b0289856fb40921adebf9ab7cd2516861e5fa6d01775179a9fa13e",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "ec7c689bb057767d5f83a39ae664dddbae4cd2e54359e1028f1f6b10618266d7",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Audit event drawer is complete and legible, with clear actor, event, integrity and redacted payload sections; the sidebar shows two emphasized destinations at once.",
+      "issues": [
+        {
+          "image": "screenshots/AUD-002.png",
+          "severity": "minor",
+          "observation": "The sidebar emphasizes both Audit log (tinted row) and Sync center (raised white row), making the current navigation destination ambiguous."
+        }
+      ],
+      "batch_id": "batch-007",
+      "reviewed_at": "2026-10-21T04:26:58Z"
+    },
+    {
+      "screen_id": "SYS-001",
+      "name": "Sync center",
+      "section": "System",
+      "feature": "Supabase Synchronization",
+      "spec": "Screens/SYS-001-sync-center.md",
+      "html": "prototype/screens/SYS-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SYS-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 156234,
+          "sha256": "140c7f9d1fa83fa2faf47026a0de3a460eca820e2ed5439f74619f76db82fd49",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "49342923b41a703957f9143bedce516b2ff5b96199c0bd8e47a2632b52fb369f",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Sync center is clear and consistent, with a complete outbox table and connection details, but the Sync actions panel is empty.",
+      "issues": [
+        {
+          "image": "screenshots/SYS-001.png",
+          "severity": "minor",
+          "observation": "The Sync actions card renders only its header over a large blank body, with no controls or explanatory content, leaving the right column unfinished."
+        }
+      ],
+      "batch_id": "batch-007",
+      "reviewed_at": "2026-10-21T04:26:58Z"
+    },
+    {
+      "screen_id": "SYS-002",
+      "name": "Resolve sync conflict",
+      "section": "System",
+      "feature": "Supabase Synchronization",
+      "spec": "Screens/SYS-002-resolve-sync-conflict.md",
+      "html": "prototype/screens/SYS-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SYS-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 145899,
+          "sha256": "f2c84f92da3173568d26597d93f24d42d3613b1bffc52628969fc7045fc6eb3c",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "88a8defc7fcdffedfb4449faf194d2b7c4602583611c0689af6909233d6d0497",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Conflict comparison, resolution choices and required note are fully visible and legible, with plausible fictional stock data and no clipping.",
+      "issues": [],
+      "batch_id": "batch-007",
+      "reviewed_at": "2026-10-21T04:26:58Z"
+    },
+    {
+      "screen_id": "SYS-003",
+      "name": "Local data & recovery",
+      "section": "System",
+      "feature": "Local Persistence and Offline Operation",
+      "spec": "Screens/SYS-003-local-data-recovery.md",
+      "html": "prototype/screens/SYS-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SYS-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 135856,
+          "sha256": "245f4291e9f98cac7d28070a73ce625bf2725db9595f9bfcb99e3ae247b76d31",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "94537d3705413726e3572652233240e5a95e21f3fcf1d1bfee75aedb345e098d",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Local data and integrity cards are complete and legible, with clear encryption, schema, size and health details; no visual defects observed.",
+      "issues": [],
+      "batch_id": "batch-007",
+      "reviewed_at": "2026-10-21T04:26:58Z"
+    },
+    {
+      "screen_id": "SYS-004",
+      "name": "Application update",
+      "section": "System",
+      "feature": "Application Updates",
+      "spec": "Screens/SYS-004-application-update.md",
+      "html": "prototype/screens/SYS-004.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SYS-004.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 131118,
+          "sha256": "dfc3a8d29df8bf06d631c0d19030cdc06e58d579ab175f01b3559ad241bb42aa",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "4c890b7bc4e09464aac5a291a601b1e4bf08505c256913d7d077fd75b07f3037",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Update and readiness cards are legible, but the Blocked state does not name a blocker and the Install update button still looks available.",
+      "issues": [
+        {
+          "image": "screenshots/SYS-004.png",
+          "severity": "minor",
+          "observation": "Install readiness is marked Blocked while every checklist row shows a check and the primary Install update action remains enabled-looking, with no explicit blocker stated."
+        }
+      ],
+      "batch_id": "batch-007",
+      "reviewed_at": "2026-10-21T04:26:58Z"
+    },
+    {
+      "screen_id": "SYS-005",
+      "name": "Backups",
+      "section": "System",
+      "feature": "Backup and Recovery",
+      "spec": "Screens/SYS-005-backups.md",
+      "html": "prototype/screens/SYS-005.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SYS-005.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 160483,
+          "sha256": "8f2589c8ccd48f9a86c0956c6b5358bd99ddc03fdf060708325c01f31e73fe1d",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "ed06d5134aadefd4bcdceac32229af18577e5d404c0261536fa3e045ab8534c3",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Backup stats, history and settings are complete and legible; the Retention helper reads like an implementation note rather than user guidance.",
+      "issues": [
+        {
+          "image": "screenshots/SYS-005.png",
+          "severity": "minor",
+          "observation": "Under Retention, the helper text 'Range validation required.' reads as a developer or specification note instead of clear user-facing range guidance."
+        }
+      ],
+      "batch_id": "batch-007",
+      "reviewed_at": "2026-10-21T04:26:58Z"
+    },
+    {
+      "screen_id": "SYS-006",
+      "name": "Create encrypted backup",
+      "section": "System",
+      "feature": "Backup and Recovery",
+      "spec": "Screens/SYS-006-create-encrypted-backup.md",
+      "html": "prototype/screens/SYS-006.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SYS-006.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 165126,
+          "sha256": "910017377bc8824d52872524068795074b1e865d32b8f71674ea1de5641a9d7e",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "c7abc99a081bea817d0cbcd153579979a19e3cf087ef0bb2f654ae167b81d28f",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Create encrypted backup form is complete, with passphrase, destination, confirmation and preview all legible and aligned; no broken data.",
+      "issues": [],
+      "batch_id": "batch-007",
+      "reviewed_at": "2026-10-21T04:26:58Z"
+    },
+    {
+      "screen_id": "SYS-007",
+      "name": "Restore backup preview",
+      "section": "System",
+      "feature": "Backup and Recovery",
+      "spec": "Screens/SYS-007-restore-backup-preview.md",
+      "html": "prototype/screens/SYS-007.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SYS-007.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 158839,
+          "sha256": "76a35f30c9863283f6bcb0ac829948fecb57ef15798d104a1c3a942b8038344a",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "f4771a967e7c76df092438aadb7180838bbdb9c47cd33e24871f67a6e2aa0820",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Restore preview clearly presents manifest, compatibility and confirmation, but the primary restore action looks available before the safety snapshot and confirmation are complete.",
+      "issues": [
+        {
+          "image": "screenshots/SYS-007.png",
+          "severity": "minor",
+          "observation": "Restore local data is styled as an available primary action even though the screen reports 5 of 6 checks, Safety snapshot 'Not yet created', and the confirmation form is incomplete."
+        }
+      ],
+      "batch_id": "batch-007",
+      "reviewed_at": "2026-10-21T04:26:58Z"
+    },
+    {
+      "screen_id": "SET-001",
+      "name": "Appearance settings",
+      "section": "Settings",
+      "feature": "Settings",
+      "spec": "Screens/SET-001-appearance-settings.md",
+      "html": "prototype/screens/SET-001.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SET-001.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 142794,
+          "sha256": "0bbb147e0ce2d0788583e2fd6e70b1c39a1d40b5f767c3a98aab72a2681fd382",
+          "error": null
+        },
+        {
+          "path": "screenshots/SET-001-dark.png",
+          "kind": "dark",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 139785,
+          "sha256": "301ea959eb9db98e5443a66767fa70757efec29eafdf3a2fa2826268e0e4df77",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "6419594e1579a62d0c0548130a14b91b6ded04bf63c18bb55be0640b766ff9c7",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Appearance settings are clean and consistent in both themes, but the dark variant still displays Light as the selected theme.",
+      "issues": [
+        {
+          "image": "screenshots/SET-001-dark.png",
+          "severity": "minor",
+          "observation": "The interface renders in dark mode while the Theme control still shows Light selected and Dark unselected, contradicting the applied appearance."
+        }
+      ],
+      "batch_id": "batch-007",
+      "reviewed_at": "2026-10-21T04:26:58Z"
+    },
+    {
+      "screen_id": "SET-002",
+      "name": "Notification settings",
+      "section": "Settings",
+      "feature": "Settings",
+      "spec": "Screens/SET-002-notification-settings.md",
+      "html": "prototype/screens/SET-002.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SET-002.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 156408,
+          "sha256": "810600a24a60712e7d6519f16000fb555146f06891eb83baa258c7bd5e1888e4",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "1f2123c2ab291a6ea0ffd9e3d4f99fbb45d0ce9cac36ab34a96d221e7a6b4f24",
+      "review_status": "reviewed_pass",
+      "verdict": "pass",
+      "summary": "Complete, legible notification settings screen with consistent shell, cards and controls; no patient data is exposed.",
+      "issues": [],
+      "batch_id": "batch-008",
+      "reviewed_at": "2026-10-21T04:25:25Z"
+    },
+    {
+      "screen_id": "SET-003",
+      "name": "Security & sessions",
+      "section": "Settings",
+      "feature": "Settings",
+      "spec": "Screens/SET-003-security-sessions.md",
+      "html": "prototype/screens/SET-003.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SET-003.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 145473,
+          "sha256": "aae59902fc8b45342c59c7dbe6fddea10011be0327ab7210f9aac201ee0902b6",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "aeae4affe803fa44231d877f1596c685bd1271fba78a8469537cca27be017624",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Complete security settings screen with clear hierarchy and consistent styling. Minor note: its save action sits below the card instead of in the top-right header used by sibling screens.",
+      "issues": [
+        {
+          "image": "screenshots/SET-003.png",
+          "severity": "minor",
+          "observation": "The primary save button is centered below the card, while sibling settings screens place save actions in the top-right page header."
+        }
+      ],
+      "batch_id": "batch-008",
+      "reviewed_at": "2026-10-21T04:25:25Z"
+    },
+    {
+      "screen_id": "SET-004",
+      "name": "Clinic & safety settings",
+      "section": "Settings",
+      "feature": "Settings",
+      "spec": "Screens/SET-004-clinic-safety-settings.md",
+      "html": "prototype/screens/SET-004.html",
+      "screenshots": [
+        {
+          "path": "screenshots/SET-004.png",
+          "kind": "base",
+          "exists": true,
+          "readable": true,
+          "width": 1366,
+          "height": 768,
+          "expected_width": 1366,
+          "expected_height": 768,
+          "dimension_ok": true,
+          "blank": false,
+          "bytes": 160639,
+          "sha256": "88135e467427dd23eb6d59ff8ab8abc115f7acf5411d832167645fa50850696a",
+          "error": null
+        }
+      ],
+      "bundle_sha256": "302fb471a0599c9ab47382701e5c861109134dcbfba4a1e9fd8d7eafab639da0",
+      "review_status": "reviewed_pass_with_notes",
+      "verdict": "pass_with_notes",
+      "summary": "Complete clinic and safety form with consistent layout and controls. Two numeric fields duplicate their unit suffixes, showing '10 doses doses' and '30 days days'.",
+      "issues": [
+        {
+          "image": "screenshots/SET-004.png",
+          "severity": "minor",
+          "observation": "Low-stock threshold shows '10 doses' plus a second 'doses' suffix, and expiry warning shows '30 days' plus a second 'days' suffix."
+        }
+      ],
+      "batch_id": "batch-008",
+      "reviewed_at": "2026-10-21T04:25:25Z"
+    }
+  ],
+  "batches": [
+    {
+      "batch_id": "batch-001",
+      "image_count": 10,
+      "max_images": 10,
+      "screen_ids": [
+        "AUTH-001",
+        "AUTH-002",
+        "AUTH-003",
+        "AUTH-004",
+        "AUTH-005",
+        "SHELL-001",
+        "DASH-001"
+      ],
+      "images": [
+        {
+          "screen_id": "AUTH-001",
+          "screen_name": "Sign in",
+          "path": "screenshots/AUTH-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "ca1ec7ce23de1dfa7f0f30adc3a687d051e6a69a5ca98f1cdb8d37ea65100083"
+        },
+        {
+          "screen_id": "AUTH-001",
+          "screen_name": "Sign in",
+          "path": "screenshots/AUTH-001-wide.png",
+          "kind": "wide",
+          "width": 1920,
+          "height": 1080,
+          "sha256": "b54c5dff6e58ae167328ff2f556887d70aff487a1d4bb2929d98207b88b671af"
+        },
+        {
+          "screen_id": "AUTH-002",
+          "screen_name": "Restoring session",
+          "path": "screenshots/AUTH-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "ea3d1557b229318bdde4d7c0c5b9588f2644db96ea168ef311c2f2d6281760ed"
+        },
+        {
+          "screen_id": "AUTH-003",
+          "screen_name": "Session expired",
+          "path": "screenshots/AUTH-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "c9981668309c096f3820485a9f8257e986aa8ef6ccfd4c9cbab02e0a53c38986"
+        },
+        {
+          "screen_id": "AUTH-004",
+          "screen_name": "Access denied",
+          "path": "screenshots/AUTH-004.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "6f8cdd1877ded576cd78f8c465a9d5bdb76601010d8b5ad7270d8a23338bc94c"
+        },
+        {
+          "screen_id": "AUTH-005",
+          "screen_name": "Sign out with pending writes",
+          "path": "screenshots/AUTH-005.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "27693c2d9568709e33d05696e6a1dc7bd1b63368a66f3108034be0f6e86ca405"
+        },
+        {
+          "screen_id": "SHELL-001",
+          "screen_name": "Global search",
+          "path": "screenshots/SHELL-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "bb9e259f963aa9bb5630a502eac5c8aeddc44259bee68ef15717bcc2784f3257"
+        },
+        {
+          "screen_id": "DASH-001",
+          "screen_name": "Dashboard",
+          "path": "screenshots/DASH-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "b3b623a867b0f7090a5cdb48d77be31390bfb7ec497e73e4f0d3777a343d3156"
+        },
+        {
+          "screen_id": "DASH-001",
+          "screen_name": "Dashboard",
+          "path": "screenshots/DASH-001-dark.png",
+          "kind": "dark",
+          "width": 1366,
+          "height": 768,
+          "sha256": "20c60d04928508c241cd4b560890318cbd8acee3f191abcf1d53305b58eff1b1"
+        },
+        {
+          "screen_id": "DASH-001",
+          "screen_name": "Dashboard",
+          "path": "screenshots/DASH-001-wide.png",
+          "kind": "wide",
+          "width": 1920,
+          "height": 1080,
+          "sha256": "bebca0cdce237fbd0f17bea15c97e16fe61956f73580d19017103b2a01db5f56"
+        }
+      ],
+      "prompt": "review/prompts/batch-001.md",
+      "result": "review/results/batch-001.json",
+      "status": "complete"
+    },
+    {
+      "batch_id": "batch-002",
+      "image_count": 10,
+      "max_images": 10,
+      "screen_ids": [
+        "PAT-001",
+        "PAT-002",
+        "PAT-003",
+        "PAT-004",
+        "PAT-005",
+        "PAT-006",
+        "PAT-007",
+        "VAC-001",
+        "VAC-002"
+      ],
+      "images": [
+        {
+          "screen_id": "PAT-001",
+          "screen_name": "Patient list",
+          "path": "screenshots/PAT-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "00e3a5a6bc06084526c1759a7a69082ac54467da3be3ae0e8da190b3a4f8a061"
+        },
+        {
+          "screen_id": "PAT-001",
+          "screen_name": "Patient list",
+          "path": "screenshots/PAT-001-dark.png",
+          "kind": "dark",
+          "width": 1366,
+          "height": 768,
+          "sha256": "752050bd6d16736fb8fc99c511e64acfe456ff3e4a3e6a8a90dcfb9fbc8012c7"
+        },
+        {
+          "screen_id": "PAT-002",
+          "screen_name": "Register patient",
+          "path": "screenshots/PAT-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "656503ff458924f371c4e4a62b3f73fe00b136b9e6c7678a1acf797bb458ace8"
+        },
+        {
+          "screen_id": "PAT-003",
+          "screen_name": "Patient profile",
+          "path": "screenshots/PAT-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "dd53a904773a4b8aae586db6455972dc4571bc7ec6461b23086dc77fdb4e3d52"
+        },
+        {
+          "screen_id": "PAT-004",
+          "screen_name": "Edit patient",
+          "path": "screenshots/PAT-004.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "a3dfac376ce9b38cb9f3c93b6a169254387a86ce14b8ffb4b6dce22d50611619"
+        },
+        {
+          "screen_id": "PAT-005",
+          "screen_name": "Duplicate warning",
+          "path": "screenshots/PAT-005.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "8970e8780b3ec371f691b909d6b310165a88face8ed323798e3e246c9baf4912"
+        },
+        {
+          "screen_id": "PAT-006",
+          "screen_name": "Merge patients",
+          "path": "screenshots/PAT-006.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "400452c9143c3a0e57de5c0c4c1028182da9ccc1c3b4fc014066c1e902210dad"
+        },
+        {
+          "screen_id": "PAT-007",
+          "screen_name": "Archive patient",
+          "path": "screenshots/PAT-007.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "cd528f45a04daabedc03eff695821119f58df5be1939c887d812f5bd2390f46a"
+        },
+        {
+          "screen_id": "VAC-001",
+          "screen_name": "Vaccination visits",
+          "path": "screenshots/VAC-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "2be60b7da21ea642aec3d97dee848c5f1999f7b8e3cadb1ee0ad42a47ebb6907"
+        },
+        {
+          "screen_id": "VAC-002",
+          "screen_name": "Record vaccination",
+          "path": "screenshots/VAC-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "f71dcc3b553ece3e959e9b84049c26d7b4a25f4d63d22467343dbab049093d1f"
+        }
+      ],
+      "prompt": "review/prompts/batch-002.md",
+      "result": "review/results/batch-002.json",
+      "status": "complete"
+    },
+    {
+      "batch_id": "batch-003",
+      "image_count": 10,
+      "max_images": 10,
+      "screen_ids": [
+        "VAC-003",
+        "VAC-004",
+        "VAC-005",
+        "CON-001",
+        "CON-002",
+        "CON-003",
+        "CON-004",
+        "INV-001",
+        "INV-002",
+        "INV-003"
+      ],
+      "images": [
+        {
+          "screen_id": "VAC-003",
+          "screen_name": "Batch selection",
+          "path": "screenshots/VAC-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "84a2f1aa82bfd86c4ac30690ceecd430d7b595d0db18a57fa239560f7be14000"
+        },
+        {
+          "screen_id": "VAC-004",
+          "screen_name": "Vaccination visit detail",
+          "path": "screenshots/VAC-004.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "ab21556bf985ee2fd098b876c2297b83fb7261421bd6c722a44a7f381ea55911"
+        },
+        {
+          "screen_id": "VAC-005",
+          "screen_name": "Correct or delete vaccination",
+          "path": "screenshots/VAC-005.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "ddd748464398240f7e1289764a1d66b84fab327fa35d095bc7f10ac8dba8d2d8"
+        },
+        {
+          "screen_id": "CON-001",
+          "screen_name": "Consultations",
+          "path": "screenshots/CON-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "876e931d2c2e22b721937935798be561fac965520d5c9b8a47f561373d92e16f"
+        },
+        {
+          "screen_id": "CON-002",
+          "screen_name": "New consultation",
+          "path": "screenshots/CON-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "2fe1644aac7a83b3cf87f5a61de037fc2283dc1f00497eb0f8e94500f47fdd1a"
+        },
+        {
+          "screen_id": "CON-003",
+          "screen_name": "Consultation detail",
+          "path": "screenshots/CON-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "3ebd57e3eada7afc2538562697118e21735538c6d144bd76aa540cb623d19cc7"
+        },
+        {
+          "screen_id": "CON-004",
+          "screen_name": "Delete consultation",
+          "path": "screenshots/CON-004.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "5e45b397cbfae8220cc1f4eca50a6cda8bb084e283f6a7649eaafc3dca694fd4"
+        },
+        {
+          "screen_id": "INV-001",
+          "screen_name": "Inventory overview",
+          "path": "screenshots/INV-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "5a0a5d1d1a30f8e9a5c045ea2fc05ba616396f4be0fdff6ada3efe4eb4a0e024"
+        },
+        {
+          "screen_id": "INV-002",
+          "screen_name": "Vaccine catalogue",
+          "path": "screenshots/INV-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "4bf750f64283c616fe98bcba880fa6bd5989cf928b35e9f8f0b4f7f19fc9dc09"
+        },
+        {
+          "screen_id": "INV-003",
+          "screen_name": "Edit vaccine catalogue",
+          "path": "screenshots/INV-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "74b4929ba8bd888d9bc0170e228cf4e1462d86e8f03efe6acc6550940b859863"
+        }
+      ],
+      "prompt": "review/prompts/batch-003.md",
+      "result": "review/results/batch-003.json",
+      "status": "complete"
+    },
+    {
+      "batch_id": "batch-004",
+      "image_count": 10,
+      "max_images": 10,
+      "screen_ids": [
+        "INV-004",
+        "INV-005",
+        "INV-006",
+        "WAS-001",
+        "WAS-002",
+        "BRW-001",
+        "BRW-002",
+        "BRW-003",
+        "REM-001",
+        "REM-002"
+      ],
+      "images": [
+        {
+          "screen_id": "INV-004",
+          "screen_name": "Batch detail",
+          "path": "screenshots/INV-004.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "cdaa79f918551e2e0f822c322484b5c4662116b387facac0db4889da4a1abb19"
+        },
+        {
+          "screen_id": "INV-005",
+          "screen_name": "Receive stock",
+          "path": "screenshots/INV-005.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "522731251fa89f8c56cbe5450759fa42ba9b5d141807474903be627f95664b36"
+        },
+        {
+          "screen_id": "INV-006",
+          "screen_name": "Adjust stock",
+          "path": "screenshots/INV-006.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "e6d8537e92f1ab8333a4d330e2f23908906a75877cbc2938ecf02ea72cc4f33a"
+        },
+        {
+          "screen_id": "WAS-001",
+          "screen_name": "Wastage overview",
+          "path": "screenshots/WAS-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "ca81e1bf902114ed2b11c8dd79ee44aba1cfff091cdf93418383f3dfd4d2080f"
+        },
+        {
+          "screen_id": "WAS-002",
+          "screen_name": "Record wastage",
+          "path": "screenshots/WAS-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "051072ec7b24dc4aa15deb61850f07e6231759474b2ea5a5ffaa4fde2c8e8ef3"
+        },
+        {
+          "screen_id": "BRW-001",
+          "screen_name": "Borrow & return",
+          "path": "screenshots/BRW-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "8414a9bcf6bfeba7fbf5a60a93705c2115e182f693e29c5fb08200ecca1c413d"
+        },
+        {
+          "screen_id": "BRW-002",
+          "screen_name": "Record borrow / lend",
+          "path": "screenshots/BRW-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "e91d65765901b3a2ecdb6fb61679e92d2b617a88907f6e9b67d6de4017c059c9"
+        },
+        {
+          "screen_id": "BRW-003",
+          "screen_name": "Record return",
+          "path": "screenshots/BRW-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "83ba549b7de54e1277866c590cd826ad2b38203dd684788ac28b3eb1cefabe4e"
+        },
+        {
+          "screen_id": "REM-001",
+          "screen_name": "Due vaccinations",
+          "path": "screenshots/REM-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "cdbd8b9691605feefbecf47210ef878fffbbd05e6925e8ec0245e60d8793af9a"
+        },
+        {
+          "screen_id": "REM-002",
+          "screen_name": "Vaccination reminder detail",
+          "path": "screenshots/REM-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "103effdec26f66b92f43985833e34580a5e5f9b6ad6a9a1acb5337abd505da50"
+        }
+      ],
+      "prompt": "review/prompts/batch-004.md",
+      "result": "review/results/batch-004.json",
+      "status": "complete"
+    },
+    {
+      "batch_id": "batch-005",
+      "image_count": 10,
+      "max_images": 10,
+      "screen_ids": [
+        "REM-003",
+        "REM-004",
+        "FIN-001",
+        "FIN-002",
+        "FIN-003",
+        "FIN-004",
+        "FIN-005",
+        "FIN-006",
+        "RCP-001",
+        "RCP-002"
+      ],
+      "images": [
+        {
+          "screen_id": "REM-003",
+          "screen_name": "Personal reminders",
+          "path": "screenshots/REM-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "2fdfb82fd181930c4336b5625fbb47b2195056d545571a14a65897354d10b5cf"
+        },
+        {
+          "screen_id": "REM-004",
+          "screen_name": "Create personal reminder",
+          "path": "screenshots/REM-004.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "8a3647b40e10e24905d31f0a7b4b709a2cd4d4a9ebca9d7d2dc1061acb18a586"
+        },
+        {
+          "screen_id": "FIN-001",
+          "screen_name": "Finance overview",
+          "path": "screenshots/FIN-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "17865a1e797b435a181e5041f997bc2f4357bbb2f00f61edece4d45d002a6c63"
+        },
+        {
+          "screen_id": "FIN-002",
+          "screen_name": "Transactions",
+          "path": "screenshots/FIN-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "ab3e4ab38f9a5df587e157f43f5caafd0257037ee42edaf2bb1e11d883201451"
+        },
+        {
+          "screen_id": "FIN-003",
+          "screen_name": "Payment detail",
+          "path": "screenshots/FIN-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "0b493c8aed6611744b0be43c8a4a6281e2bcf53b9dbf3144f6ed74b3553163f5"
+        },
+        {
+          "screen_id": "FIN-004",
+          "screen_name": "Record payment",
+          "path": "screenshots/FIN-004.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "4f1afaade7d29fc0259c21549e83d5c48eade1847e6e8546bcdd58508e16ba86"
+        },
+        {
+          "screen_id": "FIN-005",
+          "screen_name": "Expenses",
+          "path": "screenshots/FIN-005.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "020916b8872bbf61a4788ac0dc093422f84ed3c2aaa52dfb127c0cbf41c299ea"
+        },
+        {
+          "screen_id": "FIN-006",
+          "screen_name": "Record expense",
+          "path": "screenshots/FIN-006.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "90e6dc1123ab7e86d54eefd1584566499b94091abde1c07e83cb35abca25341f"
+        },
+        {
+          "screen_id": "RCP-001",
+          "screen_name": "Receipt preview",
+          "path": "screenshots/RCP-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "1735eb56b8452788ba8814134b4484dea7813adce168edec943e56b19a986d07"
+        },
+        {
+          "screen_id": "RCP-002",
+          "screen_name": "Print queue error",
+          "path": "screenshots/RCP-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "658b178081da74aac5530e3f22fc7b908b974bc268c620e7a6f7f8da79e7af57"
+        }
+      ],
+      "prompt": "review/prompts/batch-005.md",
+      "result": "review/results/batch-005.json",
+      "status": "complete"
+    },
+    {
+      "batch_id": "batch-006",
+      "image_count": 10,
+      "max_images": 10,
+      "screen_ids": [
+        "RCP-003",
+        "RPT-001",
+        "RPT-002",
+        "RPT-003",
+        "RPT-004",
+        "STF-001",
+        "STF-002",
+        "STF-003",
+        "STF-004",
+        "AUD-001"
+      ],
+      "images": [
+        {
+          "screen_id": "RCP-003",
+          "screen_name": "Reprint receipt",
+          "path": "screenshots/RCP-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "9fa01d71a446268ead3c07f051278b1fe33668e55baf9cbc150886630737e6d5"
+        },
+        {
+          "screen_id": "RPT-001",
+          "screen_name": "Statistics overview",
+          "path": "screenshots/RPT-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "eb24791dcfaec1b963c43c83a3928e1cbbcb3286d2b11615b2acf54f012d4a5b"
+        },
+        {
+          "screen_id": "RPT-002",
+          "screen_name": "Vaccination report",
+          "path": "screenshots/RPT-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "1ee7192ef7ac0441178f57129173bab2bf6e8406eab89a7b2d03d0d664b336ad"
+        },
+        {
+          "screen_id": "RPT-003",
+          "screen_name": "Finance report",
+          "path": "screenshots/RPT-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "bcf7a7c6e3e892aa4062335b4e74a5c8a1a189ba14a4d6119e1bc17d6797c065"
+        },
+        {
+          "screen_id": "RPT-004",
+          "screen_name": "Patient milestone report",
+          "path": "screenshots/RPT-004.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "e5f295928d70e09b1695b4704bfb8cf591261b6fffe82a45e2cdec057fa003d9"
+        },
+        {
+          "screen_id": "STF-001",
+          "screen_name": "Staff list",
+          "path": "screenshots/STF-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "3b86bed265b35962bfcbd1ecf6cc115f4b9f2f58dce629c4ea69f0f2b9b450b2"
+        },
+        {
+          "screen_id": "STF-002",
+          "screen_name": "Add staff member",
+          "path": "screenshots/STF-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "41b7b355029f364ddb5fb2487ff3b35d41285213767a00471bb943f8d627b955"
+        },
+        {
+          "screen_id": "STF-003",
+          "screen_name": "Deactivate staff",
+          "path": "screenshots/STF-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "69e06771b9dd6888fead335e64edf7b36a386973efcd9e69da04e572a0d89315"
+        },
+        {
+          "screen_id": "STF-004",
+          "screen_name": "Reset staff password",
+          "path": "screenshots/STF-004.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "651a2897fd28303d8891d6f7572e990a5627a2016fb28e283ae4ece8bce1897c"
+        },
+        {
+          "screen_id": "AUD-001",
+          "screen_name": "Audit log",
+          "path": "screenshots/AUD-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "da02cde37cd3991bd8e9f82bb2f9c28b7a23a54e9a42ed1c2405afe14436ee4c"
+        }
+      ],
+      "prompt": "review/prompts/batch-006.md",
+      "result": "review/results/batch-006.json",
+      "status": "complete"
+    },
+    {
+      "batch_id": "batch-007",
+      "image_count": 10,
+      "max_images": 10,
+      "screen_ids": [
+        "AUD-002",
+        "SYS-001",
+        "SYS-002",
+        "SYS-003",
+        "SYS-004",
+        "SYS-005",
+        "SYS-006",
+        "SYS-007",
+        "SET-001"
+      ],
+      "images": [
+        {
+          "screen_id": "AUD-002",
+          "screen_name": "Audit event detail",
+          "path": "screenshots/AUD-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "7fe96e5766b0289856fb40921adebf9ab7cd2516861e5fa6d01775179a9fa13e"
+        },
+        {
+          "screen_id": "SYS-001",
+          "screen_name": "Sync center",
+          "path": "screenshots/SYS-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "140c7f9d1fa83fa2faf47026a0de3a460eca820e2ed5439f74619f76db82fd49"
+        },
+        {
+          "screen_id": "SYS-002",
+          "screen_name": "Resolve sync conflict",
+          "path": "screenshots/SYS-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "f2c84f92da3173568d26597d93f24d42d3613b1bffc52628969fc7045fc6eb3c"
+        },
+        {
+          "screen_id": "SYS-003",
+          "screen_name": "Local data & recovery",
+          "path": "screenshots/SYS-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "245f4291e9f98cac7d28070a73ce625bf2725db9595f9bfcb99e3ae247b76d31"
+        },
+        {
+          "screen_id": "SYS-004",
+          "screen_name": "Application update",
+          "path": "screenshots/SYS-004.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "dfc3a8d29df8bf06d631c0d19030cdc06e58d579ab175f01b3559ad241bb42aa"
+        },
+        {
+          "screen_id": "SYS-005",
+          "screen_name": "Backups",
+          "path": "screenshots/SYS-005.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "8f2589c8ccd48f9a86c0956c6b5358bd99ddc03fdf060708325c01f31e73fe1d"
+        },
+        {
+          "screen_id": "SYS-006",
+          "screen_name": "Create encrypted backup",
+          "path": "screenshots/SYS-006.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "910017377bc8824d52872524068795074b1e865d32b8f71674ea1de5641a9d7e"
+        },
+        {
+          "screen_id": "SYS-007",
+          "screen_name": "Restore backup preview",
+          "path": "screenshots/SYS-007.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "76a35f30c9863283f6bcb0ac829948fecb57ef15798d104a1c3a942b8038344a"
+        },
+        {
+          "screen_id": "SET-001",
+          "screen_name": "Appearance settings",
+          "path": "screenshots/SET-001.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "0bbb147e0ce2d0788583e2fd6e70b1c39a1d40b5f767c3a98aab72a2681fd382"
+        },
+        {
+          "screen_id": "SET-001",
+          "screen_name": "Appearance settings",
+          "path": "screenshots/SET-001-dark.png",
+          "kind": "dark",
+          "width": 1366,
+          "height": 768,
+          "sha256": "301ea959eb9db98e5443a66767fa70757efec29eafdf3a2fa2826268e0e4df77"
+        }
+      ],
+      "prompt": "review/prompts/batch-007.md",
+      "result": "review/results/batch-007.json",
+      "status": "complete"
+    },
+    {
+      "batch_id": "batch-008",
+      "image_count": 3,
+      "max_images": 10,
+      "screen_ids": [
+        "SET-002",
+        "SET-003",
+        "SET-004"
+      ],
+      "images": [
+        {
+          "screen_id": "SET-002",
+          "screen_name": "Notification settings",
+          "path": "screenshots/SET-002.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "810600a24a60712e7d6519f16000fb555146f06891eb83baa258c7bd5e1888e4"
+        },
+        {
+          "screen_id": "SET-003",
+          "screen_name": "Security & sessions",
+          "path": "screenshots/SET-003.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "aae59902fc8b45342c59c7dbe6fddea10011be0327ab7210f9aac201ee0902b6"
+        },
+        {
+          "screen_id": "SET-004",
+          "screen_name": "Clinic & safety settings",
+          "path": "screenshots/SET-004.png",
+          "kind": "base",
+          "width": 1366,
+          "height": 768,
+          "sha256": "88135e467427dd23eb6d59ff8ab8abc115f7acf5411d832167645fa50850696a"
+        }
+      ],
+      "prompt": "review/prompts/batch-008.md",
+      "result": "review/results/batch-008.json",
+      "status": "complete"
+    }
+  ]
+}

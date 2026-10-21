@@ -1,0 +1,145 @@
+{
+  "batch_id": "batch-004",
+  "images_reviewed": 10,
+  "reviewed_at": "2026-10-21T09:47:42+05:30",
+  "notes": "Most inventory, wastage and reminder screens hold up at 1366x768. The main blockers are the collapsed Record borrow/lend form and repeated clipping or overflow at table and dialog edges in the borrow/return views.",
+  "screens": [
+    {
+      "screen_id": "INV-004",
+      "verdict": "pass_with_notes",
+      "summary": "Batch detail is complete and legible, with KPIs, ledger and batch facts aligned. Ledger dates and one reference truncate, and the Batch controls panel appears empty.",
+      "issues": [
+        {
+          "image": "screenshots/INV-004.png",
+          "severity": "minor",
+          "observation": "Ledger date cells truncate to '20 Oct 2026 ...' and the supplier reference to 'Supplier: Bharat Biote...', slightly reducing scanability."
+        },
+        {
+          "image": "screenshots/INV-004.png",
+          "severity": "minor",
+          "observation": "The 'Batch controls' card shows a heading but no controls or empty-state copy in the viewport."
+        }
+      ]
+    },
+    {
+      "screen_id": "INV-005",
+      "verdict": "pass",
+      "summary": "Receive-stock form is clean and complete, with legible fields, helper text and clear primary and cancel actions consistent with the shell.",
+      "issues": []
+    },
+    {
+      "screen_id": "INV-006",
+      "verdict": "pass_with_notes",
+      "summary": "Adjust-stock data reconciles (28 - 2 = 26), but a detached select chevron renders outside the dialog edge and the action footer sits below the viewport.",
+      "issues": [
+        {
+          "image": "screenshots/INV-006.png",
+          "severity": "major",
+          "observation": "A detached white select/chevron fragment renders outside the dialog's right edge over the dimmed backdrop near the Reason field."
+        },
+        {
+          "image": "screenshots/INV-006.png",
+          "severity": "major",
+          "observation": "The dialog extends past the bottom of the 768px viewport, so no Cancel or Apply action is visible."
+        }
+      ]
+    },
+    {
+      "screen_id": "WAS-001",
+      "verdict": "pass_with_notes",
+      "summary": "Wastage overview is well structured, with consistent KPIs, filters and chart. One reason cell clips 'Cold-chain breakage' mid-word.",
+      "issues": [
+        {
+          "image": "screenshots/WAS-001.png",
+          "severity": "minor",
+          "observation": "The 15 Oct reason cell clips 'Cold-chain breakage' to 'Cold-chain breakd' without an ellipsis."
+        }
+      ]
+    },
+    {
+      "screen_id": "WAS-002",
+      "verdict": "pass",
+      "summary": "Record-wastage form is coherent and legible; batch context, quantity math (28 - 2 = 26) and audit copy all read correctly.",
+      "issues": []
+    },
+    {
+      "screen_id": "BRW-001",
+      "verdict": "pass_with_notes",
+      "summary": "Borrow/return overview is legible, but status chips clip at the table edge, the active Open tab shows closed records, and BR-1042's due date conflicts with its overdue flag.",
+      "issues": [
+        {
+          "image": "screenshots/BRW-001.png",
+          "severity": "major",
+          "observation": "The STATUS column clips 'Partially returned' chips at the card's right edge on multiple rows."
+        },
+        {
+          "image": "screenshots/BRW-001.png",
+          "severity": "major",
+          "observation": "The active 'Open 4' tab lists Closed records and the footer says '1-6 of 25 records', contradicting the selected filter."
+        },
+        {
+          "image": "screenshots/BRW-001.png",
+          "severity": "minor",
+          "observation": "BR-1042 is due 24 Oct 2026 yet is flagged as overdue by 4 days while the screens are dated 20 Oct 2026."
+        }
+      ]
+    },
+    {
+      "screen_id": "BRW-002",
+      "verdict": "fail",
+      "summary": "Record borrow/lend layout is broken: the direction and counterparty grid collapses, squeezing inputs to a few characters wide and wrapping helper text one word per line.",
+      "issues": [
+        {
+          "image": "screenshots/BRW-002.png",
+          "severity": "blocking",
+          "observation": "Counterparty, contact and reference fields collapse to roughly 40-60px, so entered values wrap one word per line and the direction toggle stacks vertically; the form is not usable."
+        },
+        {
+          "image": "screenshots/BRW-002.png",
+          "severity": "major",
+          "observation": "The first card leaves a large empty area while the 'Vaccine & quantity' card is cut off at the viewport, compounding the broken grid."
+        }
+      ]
+    },
+    {
+      "screen_id": "BRW-003",
+      "verdict": "pass_with_notes",
+      "summary": "Return dialog content and stock math are clear, but its confirm action is below the 768px fold, background status chips clip, and the due date is labelled overdue despite being in the future.",
+      "issues": [
+        {
+          "image": "screenshots/BRW-003.png",
+          "severity": "major",
+          "observation": "The dialog extends below the viewport; no primary 'Record return' action is visible at 1366x768."
+        },
+        {
+          "image": "screenshots/BRW-003.png",
+          "severity": "major",
+          "observation": "The dialog states 'Due 24 Oct 2026 - overdue' on 20 Oct 2026, which contradicts the date."
+        },
+        {
+          "image": "screenshots/BRW-003.png",
+          "severity": "minor",
+          "observation": "Partially returned status chips in the underlying table are clipped at the right edge."
+        }
+      ]
+    },
+    {
+      "screen_id": "REM-001",
+      "verdict": "pass",
+      "summary": "Due-vaccinations list is complete and well structured; counts, statuses, patient rows and pagination are legible with no visible defects.",
+      "issues": []
+    },
+    {
+      "screen_id": "REM-002",
+      "verdict": "pass_with_notes",
+      "summary": "Reminder side panel is readable and matches Aarav Sharma's row, but no completion action is visible within the 768px viewport.",
+      "issues": [
+        {
+          "image": "screenshots/REM-002.png",
+          "severity": "major",
+          "observation": "The 'Complete this reminder' section ends with the note field and no visible submit or complete action at 1366x768."
+        }
+      ]
+    }
+  ]
+}

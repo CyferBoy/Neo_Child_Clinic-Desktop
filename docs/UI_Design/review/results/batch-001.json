@@ -1,0 +1,78 @@
+{
+  "batch_id": "batch-001",
+  "images_reviewed": 10,
+  "reviewed_at": "2026-10-21T04:11:40Z",
+  "notes": "Ten images across seven screens: base and dark states are strong and consistent. Both 1920 wide captures are severely clipped and incomplete.",
+  "screens": [
+    {
+      "screen_id": "AUTH-001",
+      "verdict": "fail",
+      "summary": "Sign-in base is clean and complete, but the 1920 wide variant is broken: the form is clipped at 1366px, the panel stops at 768px high and most of the canvas is blank.",
+      "issues": [
+        {
+          "image": "screenshots/AUTH-001-wide.png",
+          "severity": "blocking",
+          "observation": "Wide capture is severely clipped: heading, supporting copy, fields and button are cut off at 1366px, the dark panel ends at 768px height, and the lower and right areas of the 1920x1080 canvas are empty."
+        }
+      ]
+    },
+    {
+      "screen_id": "AUTH-002",
+      "verdict": "pass",
+      "summary": "Session-restore screen is complete and legible, with clear progress, step states and balanced centring.",
+      "issues": []
+    },
+    {
+      "screen_id": "AUTH-003",
+      "verdict": "pass",
+      "summary": "Session-expired dialog is complete and readable; background dimming, fields and both actions fit cleanly.",
+      "issues": []
+    },
+    {
+      "screen_id": "AUTH-004",
+      "verdict": "pass",
+      "summary": "Access-denied state is complete and consistent, with clear guidance, visible actions and no broken data.",
+      "issues": []
+    },
+    {
+      "screen_id": "AUTH-005",
+      "verdict": "pass",
+      "summary": "Pending-writes sign-out dialog fits cleanly; grouped changes, conflict warning and all three actions are legible.",
+      "issues": []
+    },
+    {
+      "screen_id": "SHELL-001",
+      "verdict": "pass_with_notes",
+      "summary": "Search overlay is complete and legible; only the wrapped footer key hint is a minor cosmetic flaw.",
+      "issues": [
+        {
+          "image": "screenshots/SHELL-001.png",
+          "severity": "minor",
+          "observation": "Footer hint \"Up/Down to move - Enter to open\" wraps \"open\" onto a second line, so the left hint is two lines while the right note remains one."
+        }
+      ]
+    },
+    {
+      "screen_id": "DASH-001",
+      "verdict": "fail",
+      "summary": "Base and dark dashboards look polished, but the wide variant loses the right column, fourth KPI, actions and status pills, leaving most of the canvas empty.",
+      "issues": [
+        {
+          "image": "screenshots/DASH-001-wide.png",
+          "severity": "blocking",
+          "observation": "Wide dashboard is confined to the top-left area: today's collections KPI, Needs attention and Due today cards, header actions and row status badges are missing, with large empty areas right and below."
+        },
+        {
+          "image": "screenshots/DASH-001.png",
+          "severity": "minor",
+          "observation": "Today's clinic header says \"6 of 18 visits shown\" but only five visit rows are visible and there is no scroll affordance."
+        },
+        {
+          "image": "screenshots/DASH-001-dark.png",
+          "severity": "minor",
+          "observation": "Patient avatar initials are very low contrast against the teal circles in dark mode."
+        }
+      ]
+    }
+  ]
+}

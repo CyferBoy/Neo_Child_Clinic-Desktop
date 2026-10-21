@@ -1,0 +1,112 @@
+{
+  "batch_id": "batch-005",
+  "image_count": 10,
+  "max_images": 10,
+  "screen_ids": [
+    "REM-003",
+    "REM-004",
+    "FIN-001",
+    "FIN-002",
+    "FIN-003",
+    "FIN-004",
+    "FIN-005",
+    "FIN-006",
+    "RCP-001",
+    "RCP-002"
+  ],
+  "images": [
+    {
+      "screen_id": "REM-003",
+      "screen_name": "Personal reminders",
+      "path": "screenshots/REM-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "2fdfb82fd181930c4336b5625fbb47b2195056d545571a14a65897354d10b5cf"
+    },
+    {
+      "screen_id": "REM-004",
+      "screen_name": "Create personal reminder",
+      "path": "screenshots/REM-004.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "8a3647b40e10e24905d31f0a7b4b709a2cd4d4a9ebca9d7d2dc1061acb18a586"
+    },
+    {
+      "screen_id": "FIN-001",
+      "screen_name": "Finance overview",
+      "path": "screenshots/FIN-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "17865a1e797b435a181e5041f997bc2f4357bbb2f00f61edece4d45d002a6c63"
+    },
+    {
+      "screen_id": "FIN-002",
+      "screen_name": "Transactions",
+      "path": "screenshots/FIN-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "ab3e4ab38f9a5df587e157f43f5caafd0257037ee42edaf2bb1e11d883201451"
+    },
+    {
+      "screen_id": "FIN-003",
+      "screen_name": "Payment detail",
+      "path": "screenshots/FIN-003.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "0b493c8aed6611744b0be43c8a4a6281e2bcf53b9dbf3144f6ed74b3553163f5"
+    },
+    {
+      "screen_id": "FIN-004",
+      "screen_name": "Record payment",
+      "path": "screenshots/FIN-004.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "4f1afaade7d29fc0259c21549e83d5c48eade1847e6e8546bcdd58508e16ba86"
+    },
+    {
+      "screen_id": "FIN-005",
+      "screen_name": "Expenses",
+      "path": "screenshots/FIN-005.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "020916b8872bbf61a4788ac0dc093422f84ed3c2aaa52dfb127c0cbf41c299ea"
+    },
+    {
+      "screen_id": "FIN-006",
+      "screen_name": "Record expense",
+      "path": "screenshots/FIN-006.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "90e6dc1123ab7e86d54eefd1584566499b94091abde1c07e83cb35abca25341f"
+    },
+    {
+      "screen_id": "RCP-001",
+      "screen_name": "Receipt preview",
+      "path": "screenshots/RCP-001.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "1735eb56b8452788ba8814134b4484dea7813adce168edec943e56b19a986d07"
+    },
+    {
+      "screen_id": "RCP-002",
+      "screen_name": "Print queue error",
+      "path": "screenshots/RCP-002.png",
+      "kind": "base",
+      "width": 1366,
+      "height": 768,
+      "sha256": "658b178081da74aac5530e3f22fc7b908b974bc268c620e7a6f7f8da79e7af57"
+    }
+  ],
+  "prompt": "review/prompts/batch-005.md",
+  "result": "review/results/batch-005.json",
+  "status": "complete"
+}

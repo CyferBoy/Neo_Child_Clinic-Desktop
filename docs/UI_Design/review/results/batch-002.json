@@ -1,0 +1,68 @@
+{
+  "batch_id": "batch-002",
+  "images_reviewed": 10,
+  "reviewed_at": "2026-10-21T04:15:08Z",
+  "notes": "All ten renders are complete, shell-consistent and free of broken data, with fictional patient content clearly labelled. The only non-blocking concern is the dark-mode active filter chip label on PAT-001.",
+  "screens": [
+    {
+      "screen_id": "PAT-001",
+      "verdict": "pass_with_notes",
+      "summary": "Base list is complete and well aligned; the dark variant is coherent but its active 'All patients' filter chip loses its text label.",
+      "issues": [
+        {
+          "image": "screenshots/PAT-001-dark.png",
+          "severity": "minor",
+          "observation": "The first filter chip in the dark render appears as an icon-only stub; unlike the base render, the 'All patients' label is not visible. Restore the label's visibility and contrast."
+        }
+      ]
+    },
+    {
+      "screen_id": "PAT-002",
+      "verdict": "pass",
+      "summary": "Register form is complete: header actions, required fields, guidance rail and duplicate-check status all fit without clipping.",
+      "issues": []
+    },
+    {
+      "screen_id": "PAT-003",
+      "verdict": "pass",
+      "summary": "Profile overview is complete; summary card, tabs and chronological timeline remain legible with aligned timestamps and status chips.",
+      "issues": []
+    },
+    {
+      "screen_id": "PAT-004",
+      "verdict": "pass",
+      "summary": "Edit drawer overlays the profile cleanly; fields, record metadata and footer actions are fully visible and aligned.",
+      "issues": []
+    },
+    {
+      "screen_id": "PAT-005",
+      "verdict": "pass",
+      "summary": "Duplicate warning modal is complete and centred; candidate cards, override reason field and actions fit without clipping.",
+      "issues": []
+    },
+    {
+      "screen_id": "PAT-006",
+      "verdict": "pass",
+      "summary": "Merge dialog fits the viewport; primary and secondary summary cards and the resolve table align with no clipped columns.",
+      "issues": []
+    },
+    {
+      "screen_id": "PAT-007",
+      "verdict": "pass",
+      "summary": "Archive confirmation is complete; patient context, linked-record warning, reason field and destructive action are clearly presented.",
+      "issues": []
+    },
+    {
+      "screen_id": "VAC-001",
+      "verdict": "pass",
+      "summary": "Vaccination visit list is complete; KPI cards, filters and the seven-column table fit with consistent chips and totals.",
+      "issues": []
+    },
+    {
+      "screen_id": "VAC-002",
+      "verdict": "pass",
+      "summary": "Record vaccination is complete; patient banner, two-row vaccine table, totals and reminder form are legible and aligned.",
+      "issues": []
+    }
+  ]
+}
