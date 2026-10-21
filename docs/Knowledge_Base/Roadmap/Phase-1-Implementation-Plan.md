@@ -1,8 +1,8 @@
 ---
 title: Phase 1 Implementation Plan
 doc_status: proposed
-evidence: 22 feature specifications + audit
-updated: 2026-10-20
+evidence: 22 feature specifications + audit + Phase 0C Supabase metadata exports (no SQL executed)
+updated: 2026-10-21
 ---
 
 # Phase 1 Implementation Plan
@@ -30,8 +30,28 @@ Deliverables: existing Git repository; add `AGENTS.md`, issue/PR templates, docs
 Gate: clean clone builds a hello-world Wails app and docs validation runs; no secrets committed.
 
 ### Step 1 — Make the existing backend verifiable
-Deliverables: approved non-destructive access to the existing Supabase project, real schema/grants/policies capture, baseline migration/reconciliation, RLS test harness, synthetic seed data.
-Gate: baseline evidence reviewed; role matrix tests pass; no new project or remote database; no production data mutation; no production credentials in the desktop test client; local SQLite is expected.
+Deliverables: approved non-destructive access to the existing Supabase project; reconcile the 2026-10-21 metadata exports against the catalog, migrations, and Android contract; confirm or remediate the anon/legacy-policy path; inventory explicit table/function grants; baseline migration/reconciliation; RLS test harness; synthetic seed data.
+Gate: **Phase 0C critical findings are confirmed or disproved and closed or formally risk-accepted**; baseline evidence reviewed; role matrix tests pass for `anon`, non-staff authenticated, active staff, and server-side paths; explicit grants verified for new tables and functions; no new project or remote database; no production data mutation; no production credentials in the desktop test client; local SQLite is expected.
+
+### Phase 0C backend-readiness matrix
+
+The exports make the schema **structurally known**, but they do not certify runtime security. No Step 2 trust-boundary work should start until the critical items below are closed or explicitly accepted by the owners.
+
+| Area | Phase 0C evidence | Status | Required before desktop connection |
+|---|---|---|---|
+| Schema shape | 24 tables/416 columns/77 constraints/93 indexes reported; two column exports agree | **PARTIAL** | Approve the reviewed catalog/baseline; record the six live-only columns |
+| Baseline/reproducibility | 15 tables lack `CREATE TABLE`; six columns not reproducible; `todo_notification_events` absent | **BLOCKED** | Reviewed baseline migration and clean-rebuild or signed exception |
+| RLS/legacy policies | 179 policies; 13 tables retain `{public}` policies; 10 pass for anon | **BLOCKED — critical** | Confirm with anon test; remove/replace legacy policies; fail closed |
+| Table grants | 22 tables full anon/auth; `receipt_sequences` four DML; `api_write_rate_limits` none | **BLOCKED** | Least-privilege reconciliation; anon no business access |
+| Default ACL/Oct 30 | Seven migration-created tables have no explicit grant; broad default ACLs | **BLOCKED** | Forward grants for seven tables including `service_role`; re-export after 2026-10-30 |
+| Functions | 21 functions anon-executable; two `SECURITY DEFINER` without `search_path` | **BLOCKED** | Revoke/allowlist; verify `handle_new_user` and signup role path |
+| Stock | Two triggers, old function; `20261017` guard fails as written | **BLOCKED** | Exactly one writer; corrected function; replay/reconciliation |
+| Scheduling contract | `doctor_slot_exceptions` lacks `start_minute`/`end_minute` that Android sends | **BLOCKED** | Approve schema addition or stop sending the fields; test upsert |
+| Storage/Realtime | One `storage.objects` policy; no buckets; 23 published tables | **PARTIAL** | List buckets, verify private access, review publication necessity and Realtime RLS |
+| Project identity | No URL/ref/issuer in exports | **BLOCKED** | Approved config + redacted same-project fingerprint |
+| Auth/migration history | Signup state, trigger attachment, migration ledger not exported | **UNKNOWN** | Verify Auth settings, trigger, and `schema_migrations` |
+
+**Gate rule:** any row marked **BLOCKED — critical** or **BLOCKED** that affects PHI, stock, receipts, or the same-project contract cannot be waived silently. A written owner acceptance must state the exposure, the interim control, and the expiry/review date.
 
 ### Step 2 — Prove the trust boundary
 Deliverables: auth spike, keychain storage, typed Wails binding, local DB open/migrate, PHI-safe logging.
@@ -93,11 +113,14 @@ No production data migration is authorized by this plan. If local Android data m
 
 - All 22 module specs accepted.
 - P0 risks closed or explicitly accepted.
-- Desktop tests and RLS tests green.
+- Phase 0C blockers B-0C-01–B-0C-10 closed or formally risk-accepted; anon has no PHI/inventory access and `reminders` is staff-scoped.
+- Explicit grants verified for every new table/function, including after the 2026-10-30 Data API change.
+- Stock has exactly one verified writer and ledger/batch reconciliation passes.
+- Desktop tests and RLS/role tests green.
 - Backup restore drill passed.
 - Signed build and rollback passed.
 - Pilot acceptance signed by clinical, operations, and security owners.
 
 ## Related
 
-[[Roadmap/Desktop-Roadmap|Desktop Roadmap]] · [[Roadmap/Dependencies-and-Milestones|Dependencies and Milestones]] · [[Roadmap/Requirements-Traceability|Requirements Traceability]] · [[Releases/Release-Checklist|Release Checklist]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]
+[[Roadmap/Desktop-Roadmap|Desktop Roadmap]] · [[Roadmap/Dependencies-and-Milestones|Dependencies and Milestones]] · [[Roadmap/Requirements-Traceability|Requirements Traceability]] · [[Releases/Release-Checklist|Release Checklist]] · [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]

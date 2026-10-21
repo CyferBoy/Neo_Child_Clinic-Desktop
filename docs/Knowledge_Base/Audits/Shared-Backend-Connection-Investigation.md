@@ -1,13 +1,15 @@
 ---
 title: Shared Backend Connection Investigation
 doc_status: baseline
-evidence: Android source at ca4bed4 + 23 migrations + two CSV snapshots + desktop filesystem
-updated: 2026-10-20
+evidence: Android source at ca4bed4 + 23 migrations + two CSV snapshots + Phase 0C Supabase metadata exports + desktop filesystem; no SQL executed
+updated: 2026-10-21
 ---
 
 # Shared Backend Connection Investigation
 
 > **Read-only investigation.** No application source, schema, migration, RLS policy, grant, trigger, database setting, or production data was changed. No credential value is reproduced in this note. Live Supabase access was not available.
+
+> **Phase 0C addendum (2026-10-21).** The original 2026-10-20 CSV investigation is retained. A separate 16-file metadata export now reports keys, constraints, indexes, RLS, policies, table/default ACLs, functions, triggers, and Realtime membership. Statements below that the **desktop column CSV** has no keys/policies are still true of that CSV, not of the new export set. Crucially, the new evidence still contains **no project URL/ref**, so same-project identity remains unproven. See [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]].
 
 **Pass date:** 2026-10-20
 **Android reference:** `/data/data/com.termux/files/home/Neo_Child_Clinic` — `main` @ `ca4bed406bfd246ad83878fff9a4e178ebc5670f`, clean worktree
@@ -40,7 +42,7 @@ Neither CSV contains a project URL, project reference, authentication setting, g
 | Ordinal completeness | Gaps exist | Gaps exist | Gaps are consistent with dropped columns and are not proof of omitted rows. The concrete completeness gap is missing keys/indexes/policies/grants. |
 | `todo_notification_events` | Absent | Absent | Migration `20261016_rls_index_and_stock_trigger_hardening.sql` references this table as created by a migration not present in the repository. Its live status is unknown. |
 
-**Conclusion:** the Android repo CSV is an older snapshot; the desktop CSV is newer but remains a column-only snapshot with no keys, indexes, policies, or grants. Neither is a connection configuration. The CSV must not be used to prove which Supabase project the Android app uses.
+**Conclusion:** the Android repo CSV is an older snapshot; the desktop column CSV is newer but remains a column-only snapshot with no keys, indexes, policies, or grants. The separate 2026-10-21 metadata exports now report those objects, but neither the column CSVs nor the exports are connection configuration. They must not be used to prove which Supabase project the Android app uses.
 
 `[INFERRED, high]` The exact 55-row difference is explained by migration chronology: 15 tables × 3 soft-delete columns (45), `doctor_slot_exceptions`/`expenses` × 2 additional soft-delete columns (4), `waste_records` 8 renames plus 3 additions (+3 net), and `api_write_rate_limits` (3). The Android snapshot predates `20260919`; the desktop snapshot is after `20260929`. See [[Database/Schema-Reconciliation|Schema Reconciliation]].
 
@@ -185,15 +187,17 @@ All paths below are Android-repository-relative unless stated otherwise.
 | Project URL | No URL field in either CSV | `BuildConfig.SUPABASE_URL` is injected from `.env.local` or environment by `app/build.gradle.kts:12–22,46`; the actual value is absent from the clean worktree and the environment inspected | **Unknown** — no value to compare; no live connection attempted |
 | Supabase project | No project reference, project ID, or connection string in either CSV | `supabase/config.toml` has a CLI `project_id`, but it is not the Android runtime source; no remote section or hosted identity match was verified | **Unknown** — cannot prove the CSV and Android point at the same hosted project |
 | Authentication | No auth provider, user, token, or setting in either CSV | `SupabaseModule` installs `Auth`; `AuthViewModel.login` uses email/password `signInWith(Email)`; session is encrypted and restored | **Verified in source; live behavior unknown** |
-| Database access | 24 tables / 416 columns (desktop snapshot); 23 / 361 (Android repo snapshot); no keys, indexes, grants, or relationships | 22 client-accessed public tables through PostgREST; `SyncUploader` registry; no `.rpc`; 9 of 24 tables are created from zero in migrations | **Partially verified in source; live schema unknown** |
+| Database access | 24 tables / 416 columns (desktop snapshot); 23 / 361 (Android repo snapshot); those column CSVs carry no keys, indexes, grants, or relationships | 22 client-accessed public tables through PostgREST; `SyncUploader` registry; no `.rpc`; 9 of 24 tables are created from zero in migrations | **Partially verified in source; schema reported by the Phase 0C export, runtime and project identity unverified** |
 | RLS | No policies, roles, grants, or enforcement settings | `is_active_staff()` and `is_admin()` are defined in migrations; active-staff CRUD policies, role carve-outs, append-only audit, owner-scoped devices, private Storage policy | **Verified SQL intent; live enforcement untested** |
 | Storage / RPC / Realtime | No bucket, function, RPC, or channel entries | Storage `patient-docs`; no RPC; Edge Function `manage-staff`; Realtime channels for patients/visits/consultations and todo tables; `notify-update` server-only | **Verified in source; live configuration unknown** |
+
+`[REPORTED]` Phase 0C supplements the column comparison: 77 constraints, 93 indexes, 179 policies, 744 ACL rows, 61 triggers, 21 functions, and 23 Realtime-published tables. It still has no Storage bucket rows, project URL/ref, or runtime role test. The exports therefore narrow the schema/security gaps but do not establish same-project identity.
 
 ## 5. Existing tables and access patterns verified from evidence
 
 ### 5.1 Server-side table set
 
-The newer desktop CSV lists 24 public tables. The Android repository CSV lists 23. The live project may contain more; `todo_notification_events` is referenced by migration but absent from both CSVs.
+The newer desktop CSV and the 2026-10-21 metadata export list 24 public tables. The Android repository CSV lists 23. The export may omit objects outside its filter; `todo_notification_events` is referenced by migration but absent from both column CSVs and the 24-table relation export.
 
 | Group | Tables in the newer snapshot | Android access pattern |
 |---|---|---|
@@ -215,7 +219,7 @@ The newer desktop CSV lists 24 public tables. The Android repository CSV lists 2
 
 `api_write_rate_limits`, `borrow_returns`, `consultation_todos`, `doctor_slot_exceptions`, `doctor_weekly_slots`, `expenses`, `personal_vaccine_reminders`, `receipt_sequences`, `vaccination_todos`.
 
-The other tables are altered by migrations but assumed to pre-exist. There is no baseline migration. A clean database cannot be rebuilt from this repository alone, and a desktop schema generator must not pretend otherwise.
+The other tables are altered by migrations but assumed to pre-exist. There is no baseline migration, and the Phase 0C export reports six live-only columns on four of the “created” tables (`borrow_returns.updated_at`, doctor-slot `is_synced` ×2, and three `receipt_sequences` audit columns). A clean database cannot be rebuilt from this repository alone, and a desktop schema generator must not pretend otherwise.
 
 ### 5.4 Query and write patterns that the desktop must preserve
 
@@ -249,7 +253,7 @@ The other tables are altered by migrations but assumed to pre-exist. There is no
 - `doctor_weekly_slots` and `doctor_slot_exceptions` are readable by authenticated users and writable by the owning doctor or an admin.
 - `profiles` is broadly readable by active staff; client self-update exists, but a trigger blocks privileged fields unless the actor is an admin; lifecycle operations are server-side.
 - `user_devices` is owner-scoped; insert/update owner policies were removed to prevent a deactivated user re-enabling their own device.
-- `receipt_sequences` and `api_write_rate_limits` are revoked from `anon`/`authenticated` and are server-only.
+- `receipt_sequences` and `api_write_rate_limits` are revoked from `anon`/`authenticated` by the migrations and are intended to be server-only. Phase 0C reports that the `receipt_sequences` grants survived (four DML privileges for anon/auth); `api_write_rate_limits` remains unexposed.
 - `api_write_rate_limits` enforces 600 client writes per user per minute; service-role operations bypass it.
 - `patient-docs` is private, with active-staff-wide object access.
 - `is_admin()` checks active/non-deleted profile plus the JWT `app_metadata.role = 'admin'`.
@@ -280,10 +284,10 @@ A post-investigation push added the Git repository, `.gitignore`, and the reposi
 | ID | Finding | Evidence | Impact | Required disposition |
 |---|---|---|---|---|
 | CONN-001 | Actual project URL/project identity and publishable key are absent from the worktree and inspection environment | `.env.local`, `.env`, `local.properties` absent; `SUPABASE_URL`, `SUPABASE_PUBLISHABLE_KEY`, and `BACKUP_WORKER_URL` unset; CSV has no connection fields | Cannot prove desktop would use the same project; wrong-project risk | Obtain approved configuration through a secure channel; verify a redacted project fingerprint; never print the values |
-| CONN-002 | Android repo CSV is stale and would generate the wrong contract | 23 tables/361 columns; camelCase `waste_records`; missing soft-delete columns and `api_write_rate_limits`; migration `20260919_waste_records_snake_case.sql` supersedes it | Desktop model/query drift; broken waste sync; missing soft-delete fields and deletion contract | Do not use the old CSV; use a live catalog or the newer snapshot plus schema verification |
-| CONN-003 | Both CSVs are incomplete for a schema contract | No keys/indexes/policies/grants; ordinal gaps are not omission proof; `todo_notification_events` absent but referenced by migration | Missing columns/tables/policies; false confidence | Capture live read-only catalog, constraints, indexes, grants, policies, triggers |
-| CONN-004 | Repository cannot reproduce the schema from zero | Only 9 of 24 tables created; no baseline | No clean desktop test environment or disaster-recovery proof | Reconcile a baseline against the existing project; do not invent tables |
-| CONN-005 | Live RLS/grants/Storage policies unverified | No live access; SQL tests not run; policy SQL is intent | Desktop could expose or corrupt data even if Android works | Run read-only verification and role tests with approved test accounts; no production mutation |
+| CONN-002 | Android repo CSV is stale and would generate the wrong contract | 23 tables/361 columns; camelCase `waste_records`; missing soft-delete columns and `api_write_rate_limits`; migration `20260919_waste_records_snake_case.sql` supersedes it | Desktop model/query drift; broken waste sync; missing soft-delete fields and deletion contract | Do not use the old CSV; use the reviewed Phase 0C export plus runtime/schema verification |
+| CONN-003 | Column CSVs are incomplete for a schema contract; the new export is not runtime proof | Column CSVs lack keys/indexes/policies/grants; the 2026-10-21 export adds them but omits Storage buckets, migration history, and runtime tests; `todo_notification_events` is absent but referenced | Missing columns/tables/policies; false confidence | Reconcile the export to a live read-only catalog and role test; do not treat either CSV as authority |
+| CONN-004 | Repository cannot reproduce the schema from zero | Only 9 of 24 tables created; no baseline; six live-only columns | No clean desktop test environment or disaster-recovery proof | Reconcile a baseline against the existing project; do not invent tables |
+| CONN-005 | Runtime RLS/grants/Storage policies unverified; exported state is critical | Exports report 22 full anon/auth ACLs, ten anon-reachable tables, `reminders` true, and no bucket rows; SQL/HTTP tests not run | Desktop could expose or corrupt data even if Android works | Run read-only verification and anon/non-staff role tests with synthetic data; no production mutation |
 | CONN-006 | The desktop has no connection code | No source, build, config, or tests | All connection status is Missing, not “working” | Implement only after ADR-0008 and the verification gate are approved |
 | CONN-007 | Local-only and server-side tables can be confused | `sync_queue`, `widget_due_cache`, `inventory_deductions`, `backup_history` are Room-only; `api_write_rate_limits` and `receipt_sequences` are server-only | Parallel tables or failed queries if copied across the boundary | Explicit allowlist/denylist in the desktop schema generator and migration tests |
 | CONN-008 | Server-side service-role use must remain server-side | `manage-staff` and `notify-update` read `SUPABASE_SERVICE_ROLE_KEY` in Deno; Android source contains no service-role literal | A desktop service-role key would bypass all RLS | Never ship it; use existing Edge Functions or an approved trusted server component |
@@ -413,11 +417,11 @@ Implementation should not start until:
 
 1. ADR-0008 is recorded as Accepted. It is now recorded; the user’s direction is the authority.
 2. The actual existing project identity and configuration are supplied through an approved channel, without reproducing secrets in documentation or logs.
-3. A read-only schema/grants/policies/triggers capture is reviewed against the CSVs and migrations.
+3. The 2026-10-21 metadata exports are reconciled to the migrations and Android contract, and the critical anon/legacy-policy, grant, and stock findings are confirmed or disproved with synthetic tests.
 4. A non-destructive verification path is approved. If a separate test harness is ever proposed, it must be explicitly approved and must never become the desktop backend.
 5. ADR-0001 through ADR-0007 are reviewed and accepted; ADR-0008 remains binding.
-6. The desktop connection spike proves same-project auth, RLS, cross-client reads, and no service-role key.
+6. The desktop connection spike proves same-project auth, no anon access, cross-client reads, and no service-role key.
 
 ## Related
 
-[[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008 — Shared Supabase Backend]] · [[Database/Database-Architecture|Database Architecture]] · [[Database/Schema-Reconciliation|Schema Reconciliation]] · [[Database/Live-Verification-Queries|Live Verification Queries]] · [[Database/Access-Patterns|Database Access Patterns]] · [[Security/Security-Model|Security Model]] · [[Architecture/System-Architecture|System Architecture]] · [[Roadmap/Desktop-Roadmap|Desktop Roadmap]] · [[Testing/Test-Strategy|Test Strategy]] · [[Audits/Final-Report|Final Report]]
+[[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008 — Shared Supabase Backend]] · [[Database/Database-Architecture|Database Architecture]] · [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]] · [[Database/Schema-Reconciliation|Schema Reconciliation]] · [[Database/Live-Verification-Queries|Live Verification Queries]] · [[Database/Access-Patterns|Database Access Patterns]] · [[Security/Security-Model|Security Model]] · [[Architecture/System-Architecture|System Architecture]] · [[Roadmap/Desktop-Roadmap|Desktop Roadmap]] · [[Testing/Test-Strategy|Test Strategy]] · [[Audits/Final-Report|Final Report]]

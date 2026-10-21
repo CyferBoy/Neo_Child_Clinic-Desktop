@@ -29,7 +29,7 @@ updated: 2026-10-20
 | Patients | Unverified | Missing | Gap | Historical validation defects fixed; no supported stale-history defect remains; runtime unverified |
 | Vaccinations | Unverified | Missing | Gap | Historical stock/retry defects fixed; runtime unverified |
 | Consultations | Unverified | Missing | Gap | No clinical note or linked payment workflow |
-| Inventory | Partially implemented | Missing | Gap | Historical sorting/lost-update/trigger defects fixed; NCC-027/NCC-030 low-severity gaps remain |
+| Inventory | Partially implemented | Missing | Gap | Android client sorting/lost-update/trigger defects fixed at `ca4bed4`; NCC-027/NCC-030 low-severity gaps remain. **Exported DB still has two stock triggers and the old function (Phase 0C).** |
 | Wastage | Unverified | Missing | Gap | No waste ledger or stock reconciliation |
 | Borrow/return | Unverified | Missing | Gap | No batch-linked borrow/return lifecycle |
 | Vaccination reminders | Partially implemented | Missing | Gap | Historical timezone/notification defects fixed; no deletion/absence contract (NCC-023) |

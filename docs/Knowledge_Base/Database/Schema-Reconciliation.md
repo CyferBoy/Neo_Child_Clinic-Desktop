@@ -1,15 +1,34 @@
 ---
-title: Schema Reconciliation — Phase 0B
-doc_status: baseline
-evidence: desktop CSV 24/416 + Android CSV 23/361 + 23 repository migrations + Android Kotlin/Room/PostgREST + security SQL; no live access
-updated: 2026-10-20
+title: Schema Reconciliation — Phase 0B/0C
+doc_status: review
+evidence: 16 Supabase metadata exports (24 tables/416 columns/77 constraints/93 indexes/179 policies/744 ACL rows) + desktop and Android column CSVs + 23 repository migrations + Android Kotlin/Room/PostgREST; no SQL executed
+updated: 2026-10-21
 ---
 
-# Schema Reconciliation — Phase 0B
+# Schema Reconciliation — Phase 0B/0C
 
-> **Read-only reconciliation.** No database, migration, schema, RLS policy, grant, trigger, Supabase setting, Android file, or application dependency was changed. No live query was run. The CSVs are snapshots, not live catalog exports.
+> **Read-only reconciliation.** No database, migration, schema, RLS policy, grant, trigger, Supabase setting, Android file, or application dependency was changed. No live query was run. The CSVs are snapshots, not a connection or a runtime test.
 
-## 1. Scope and evidence
+## 0. Phase 0C update — metadata exports reviewed (2026-10-21)
+
+A second, much broader export set is now available under `docs/Schemas/`. It covers **24 public tables, 416 columns, 77 constraints, 93 indexes, 179 policies, 61 triggers, 21 functions, 744 table ACL rows, 32 relations, and 23 Realtime publication members**. The two column exports (2026-10-20 and 2026-10-21) agree on all 416 keys and values.
+
+The full table-by-table review is [[Audits/Phase-0C-Schema-Export-Review|Phase 0C — Live Schema Export Review]]. The Phase 0B sections below are retained as the historical column-snapshot reconciliation; where they say “keys/indexes/policies are unknown,” the Phase 0C export now supplies them.
+
+| Phase 0C finding | Consequence |
+|---|---|
+| All 24 tables have RLS enabled; **none forced** | The control is policies + grants, not forced RLS |
+| `anon` and `authenticated` have **all eight table privileges on 22 tables**; `receipt_sequences` has four DML privileges; `api_write_rate_limits` has none | Table GRANT is broadly permissive; RLS must carry the row boundary |
+| **10 core tables still have `{public}` policies that pass for `anon`** because `get_my_role()` falls back to `'nurse'` | Critical PHI/inventory exposure with the public anon key; see Phase 0C §4 |
+| `reminders` has an `{authenticated}` `ALL` policy with `USING (true)` | Any authenticated user can read/write all reminders |
+| **No migration contains a table-level `GRANT`**; default ACLs grant future objects | The seven business tables created by migrations are not Oct 30, 2026-ready |
+| `inventory_transactions` has **two** stock triggers and the **old** `update_batch_stock()` body | Stock movements are still double-applied; `20261017` did not take effect |
+| Six live columns are not reproducible from migrations | `create table if not exists` masked pre-existing shapes |
+| Duplicate unique indexes/constraints on `patients`, `reminders`, `profiles`, `user_devices` | Upsert conflict targets and write overhead need review |
+
+**Phase 0C verdict:** the schema is now **structurally known** from a coherent export, but it is **not a certified contract**. Project identity, migration history, runtime role behaviour, Storage buckets, Auth signup state, and the post-October-30 default ACLs remain unverified. Do not generate desktop models from the older Android CSV, and do not treat these exports as proof that the migrations reproduce production.
+
+## 1. Scope and evidence (Phase 0B)
 
 | Source | What it proves | What it does not prove |
 |---|---|---|
@@ -126,7 +145,7 @@ This chronology explains the table/column counts without assuming missing produc
 
 - Migration SQL has 18 literal `ENABLE ROW LEVEL SECURITY` statements and policy loops; the union is 25 named public tables (24 CSV tables plus conditional `todo_notification_events`).
 - Twenty tables are in the active-staff baseline loop: the 16 `AS-CRUD` tables above plus `audit_logs`, `expenses`, `doctor_weekly_slots`, `doctor_slot_exceptions`.
-- `profiles` and `user_devices` have separate policies; `receipt_sequences` and `api_write_rate_limits` are enabled and revoked; `todo_notification_events` is conditionally enabled/forced and revoked.
+- `profiles` and `user_devices` have separate policies; `receipt_sequences` and `api_write_rate_limits` are enabled and revoked in migration SQL (the Phase 0C export reports that the `receipt_sequences` anon/auth grants survived); `todo_notification_events` is conditionally enabled/forced and revoked.
 - The deployed policy set, `pg_policies` expressions, policy permissiveness, grants, and trigger/function state are **not** verified. Static `CREATE POLICY` text is not a live count.
 
 ## 7. Live evidence still required

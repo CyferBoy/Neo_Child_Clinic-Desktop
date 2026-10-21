@@ -1,13 +1,15 @@
 ---
 title: Documentation Validation — Second Pass
 doc_status: baseline
-evidence: validation and correction pass against Android source at ca4bed4, 23 migrations, two CSV snapshots, repository state + Phase 0B recheck
-updated: 2026-10-20
+evidence: validation and correction pass against Android source at ca4bed4, 23 migrations, two CSV snapshots, repository state + Phase 0B recheck + Phase 0C metadata exports (addendum)
+updated: 2026-10-21
 ---
 
 # Documentation Validation — Second Pass
 
 > **Validation and correction pass.** This pass checked every pre-existing desktop Knowledge Base note (63) and every installed skill (17) against Android source at `ca4bed4`, repository migrations, the two CSV snapshots, tests, and the desktop Git state. Verified documentation and skill corrections were applied; no application source, schema, migration, RLS policy, or dependency was changed.
+
+> **Phase 0C addendum (2026-10-21).** The PASS/PARTIAL/FAIL verdicts below are retained as the 2026-10-20 pre-correction snapshot. A 16-file metadata export now narrows several blocked live-evidence items and changes two material conclusions: the **live database still has duplicate stock triggers/the old function**, despite the client-side fix noted under VAL-011; and the exported RLS/ACL state contains a critical anon path. The current evidence layer is [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]]; this note is not a current security certification.
 
 > **Verdict convention.** `PASS` means the document's claims were supported and its links/structure were valid. `PARTIAL` means the document was usable but had a stale reference, imprecise status, or ambiguity. `FAIL` means a material claim was wrong, unsupported, or internally contradictory. `BLOCKED` is reserved for claims that require live Supabase or GitHub metadata that was unavailable. Verdicts below are the **pre-correction** result; the correction column records the applied fix.
 
@@ -50,7 +52,7 @@ No document was marked `BLOCKED` merely because it correctly labels live state a
 
 | Document | Verdict | Severity | Evidence checked | Correction applied |
 |---|---|---|---|---|
-| [[Database/Access-Patterns|Access Patterns]] | FAIL | High | PostgREST call count; `refreshPatients`; trigger migrations; RLS intent | Removed stale N+1 and trigger-double-apply claims; replaced tombstone pull steps; clarified local SQLite |
+| [[Database/Access-Patterns|Access Patterns]] | FAIL | High | PostgREST call count; `refreshPatients`; trigger migrations; RLS intent | Removed stale N+1 claim; retained the trigger double-apply as unresolved and Phase 0C now reports it live; replaced tombstone pull steps; clarified local SQLite |
 | [[Database/Data-Dictionary|Data Dictionary]] | PASS | — | Desktop CSV: 24 tables, 416 columns; section counts | No change |
 | [[Database/Database-Architecture|Database Architecture]] | FAIL | Medium | 23 migrations; RLS loops; policy occurrences; CSV tables | Corrected RLS coverage to 25 tables; replaced unreliable 37-policy count; fixed tombstone and remote-contract wording |
 
@@ -160,7 +162,7 @@ All 17 skills use the V2 directory form `.opencode/skills/<id>/SKILL.md` with va
 | VAL-008 | Android backup was said to have no automated tests and several crypto/atomicity gaps | `BackupCryptoTest`, `BackupValidatorTest`; NCC-037 fixed | Medium | Specified no end-to-end restore test; crypto/validator tests exist | Corrected |
 | VAL-009 | Branch protection was reported absent | Repository contents cannot prove GitHub settings | Medium | Changed to “not verifiable; confirm in GitHub settings” | Corrected |
 | VAL-010 | `refreshPatients` N+1 was reported as current | Fixed at `b27d945`; batched source | Low | Marked historical; retained set-based guidance | Corrected |
-| VAL-011 | Trigger double-apply was reported as current | Fixed in 2026-10 trigger hardening | Low | Marked historical; retained deployed-trigger verification | Corrected |
+| VAL-011 | Trigger double-apply was reported as current | 2026-10-20 migration review appeared to fix it; the Phase 0C export reports two live stock triggers and the old `update_batch_stock()` | High | Reclassified from fixed to unresolved: `20261017` did not take effect and its guard would fail as written; keep inventory writes blocked | Reopened |
 | VAL-012 | M8 critical path omitted M7 while the milestone table required it | Roadmap graph/table | Medium | Added the M6/M7 gate before M8 | Corrected |
 | VAL-013 | “Server receipt RPC” implied an RPC call | No `postgrest.rpc` calls; receipt logic is trigger/function driven | Low | Renamed to server receipt numbering | Corrected |
 | VAL-014 | NSC-013 was described generically | It is the live-only legacy `get_my_role()`; 13 migration functions pin `search_path` | Low | Named the function and recorded the migration fact | Corrected |

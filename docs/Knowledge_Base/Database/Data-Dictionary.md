@@ -1,17 +1,17 @@
 ---
 title: Data Dictionary
 doc_status: baseline
-evidence: desktop user-supplied Supabase column CSV (416 rows, 24 tables) + older Android-repo snapshot (361 rows, 23 tables)
-updated: 2026-10-20
+evidence: 16 Supabase metadata exports (24 tables/416 columns/77 constraints/93 indexes) + desktop and Android column snapshots + 23 repository migrations + Android source; no SQL executed
+updated: 2026-10-21
 ---
 
 # Data Dictionary
 
-> **Source: user-supplied CSV, not a live query.** The desktop file `Supabase Snippet List Public Table Columns.csv` lists 24 public tables and 416 columns. Its capture time and environment are unstated. Nullability/defaults are reproduced as supplied. This document does **not** invent column semantics.
+> **Source: user-supplied metadata exports, not a live query.** The 2026-10-20 and 2026-10-21 column exports list 24 public tables and 416 columns; the newer export set also reports primary/foreign/unique/check constraints, indexes, RLS, grants, functions, triggers, and Realtime membership. Project identity, capture environment, and runtime behaviour are unstated. Nullability/defaults are reproduced as supplied. This document does **not** invent column semantics.
 >
-> **The older Android-repository CSV is stale.** It lists 23 tables and 361 columns and uses camelCase `waste_records` fields. Current migrations/source use snake_case and soft-delete fields. Do not generate desktop models from the old snapshot. Neither CSV contains a project URL, auth setting, policy, or credential; see [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Connection Investigation]].
+> **The older Android-repository CSV is stale.** It lists 23 tables and 361 columns and uses camelCase `waste_records` fields. Current migrations/source use snake_case and soft-delete fields. Do not generate desktop models from the old snapshot. Neither column CSV contains a project URL, auth setting, policy, or credential; see [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Connection Investigation]].
 
-> **Snapshot limits.** Some tables have ordinal-position gaps (for example `patients` jumps from 9 to 12), even though the row count equals the reported column count. Those gaps are consistent with dropped columns; they do not prove omitted rows. The CSV still has no keys, indexes, policies, or grants and remains a partial schema catalog. See [[Database/Schema-Reconciliation|Schema Reconciliation]] for the exact 55-row delta and chronology.
+> **Snapshot limits.** Some tables have ordinal-position gaps (for example `patients` jumps from 9 to 12), even though the row count equals the reported column count. Those gaps are consistent with dropped columns; they do not prove omitted rows. The newer export now supplies keys, constraints, indexes, policies, table ACLs, and trigger metadata, but it still has **no views, enums, domains, sequences, schema/sequence/column ACLs, runtime test, or migration history**. It is a coherent metadata snapshot, not a certified deployed contract. See [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]] for the exact counts and drift.
 
 ## Table summary
 
@@ -41,6 +41,44 @@ updated: 2026-10-20
 | 22 | `receipt_sequences` | 6 | Per-financial-year receipt number sequence. |
 | 23 | `doctor_weekly_slots` | 14 | Recurring doctor availability. |
 | 24 | `doctor_slot_exceptions` | 14 | Doctor availability exceptions. |
+
+## Keys, constraints, and indexes
+
+> **Evidence `L`, not a runtime test.** The 2026-10-21 metadata export reports **77 constraints** (24 primary keys, 38 foreign keys, 3 unique, 12 check), **93 indexes** (33 unique, including primary/unique constraints), and all 24 tables with RLS enabled and none forced. The table below condenses those rows; names and `ON DELETE` actions are omitted unless they affect the client contract. The exact definitions are in `docs/Schemas/` and [[Audits/Phase-0C-Schema-Export-Review|Phase 0C §3]].
+
+| Table | Primary key | Reported foreign keys / unique / check constraints | Indexes |
+|---|---|---|---:|
+| `profiles` | `id` | `id → auth.users` CASCADE; UNIQUE `email`; role-list CHECK | 3 |
+| `user_devices` | `id` | `user_id → profiles` CASCADE; two identical UNIQUE FCM indexes | 4 |
+| `api_write_rate_limits` | `(user_id, window_started_at)` | none | 1 |
+| `audit_logs` | `id` | `patient_id → patients` | 3 |
+| `patients` | `id` | UNIQUE `patient_clinic_id`; duplicate unique indexes | 5 |
+| `patient_notes` | `id` | `patient_id → patients` CASCADE | 2 |
+| `patient_visits` | `id` | `patient_id → patients` CASCADE; `availability_slot_id` SET NULL; unique receipt index | 5 |
+| `consultations` | `id` | `patient_id`/`visit_id` CASCADE; `availability_slot_id` SET NULL | 4 |
+| `consultation_todos` | `id` | `patient_id`/`doctor_id`/`availability_slot_id`, all SET NULL | 6 |
+| `vaccination_items` | `id` | `vaccination_id → patient_visits` CASCADE; `vaccine_id`; `batch_id` | 3 |
+| `vaccination_todos` | `id` | `patient_id`/`doctor_id`/`availability_slot_id`, all SET NULL | 6 |
+| `reminders` | `id` | `patient_id`/`original_visit_id` CASCADE; duplicate natural UNIQUE key | 4 |
+| `personal_vaccine_reminders` | `id` | `patient_id` CASCADE; `vaccine_id` SET NULL; 2 CHECKs | 6 |
+| `vaccines` | `id` | none | 2 |
+| `vaccine_batches` | `id` | `vaccine_id → vaccines` CASCADE | 2 |
+| `inventory_transactions` | `id` | `vaccine_id`/`batch_id`/`patient_id`/`visit_id` | 7 |
+| `waste_records` | `id` | `vaccine_id`; `batch_id` | 2 |
+| `borrow_records` | `id` | `vaccine_id`; `batch_id` | 3 |
+| `borrow_returns` | `id` | `borrow_record_id`/`batch_id` CASCADE; CHECK `quantity > 0` | 4 |
+| `finance_transactions` | `id` | `patient_id`; `visit_id` | 4 |
+| `expenses` | `id` (text) | 3 CHECKs: category, payment method, amount | 6 |
+| `receipt_sequences` | `financial_year` | none | 1 |
+| `doctor_weekly_slots` | `id` | `doctor_id → profiles` CASCADE; 3 CHECKs | 5 |
+| `doctor_slot_exceptions` | `id` | `doctor_id`/`weekly_slot_id` CASCADE; CHECK type/slot consistency | 5 |
+
+**Drift and contract cautions:**
+
+- **Six reported columns are not reproducible from repository migrations:** `borrow_returns.updated_at`, `doctor_weekly_slots.is_synced`, `doctor_slot_exceptions.is_synced`, and `receipt_sequences.created_at`/`created_by`/`updated_by`. `CREATE TABLE IF NOT EXISTS` masked pre-existing shapes.
+- **Android and the database disagree on doctor exceptions.** `DoctorSlotExceptionEntity` sends `start_minute` and `end_minute`; the reported table has neither. A desktop model generated from Android Room would be wrong; do not send those fields until the backend contract changes.
+- **Duplicate unique indexes/constraints** exist for `patients`, `reminders`, `profiles`, and `user_devices`. Upsert conflict targets must be reviewed; do not assume a single canonical unique key.
+- **All tables are owned by `postgres`, RLS enabled, not forced.** Table grants are broadly permissive on 22 tables. See [[Security/Security-Model|Security Model]] before treating a column-level design as an authorization boundary.
 
 ## Reading the tables
 
@@ -636,38 +674,43 @@ Doctor availability exceptions.
 | 14 | `deleted_at` | timestamp with time zone | YES | null |
 | 15 | `deleted_by` | text | YES | null |
 
-## Inferred relationships
+## Relationships
 
-These relationships are inferred from names, the Android data model, and migration SQL. They are **not** a substitute for live foreign-key constraints.
+The 2026-10-21 export reports **38 foreign keys**. The rows below are reported relationships unless marked “inferred”; Android Room foreign keys and column names are supporting evidence, not server constraints.
 
-| Parent | Child | Likely key | Confidence |
+| Parent | Child | Key | Basis |
 |---|---|---|---|
-| `patients` | `patient_visits` | `patient_id` | High |
-| `patients` | `patient_notes` | `patient_id` | High |
-| `patients` | `finance_transactions` | `patient_id` | High |
-| `patients` | `consultations` | `patient_id` | High |
-| `patients` | `reminders` | `patient_id` | High |
-| `patient_visits` | `vaccination_items` | `vaccination_id` | High |
-| `patient_visits` | `consultations` | `visit_id` | High |
-| `vaccines` | `vaccine_batches` | `vaccine_id` | High |
-| `vaccine_batches` | `inventory_transactions` | `batch_id` | High |
-| `vaccine_batches` | `waste_records` | `batch_id` | High |
-| `vaccine_batches` | `borrow_records` | `batch_id` | High |
-| `borrow_records` | `borrow_returns` | `borrow_record_id` | High |
-| `patient_visits` | `finance_transactions` | `visit_id` | High |
-| `profiles` | `user_devices` | `user_id` | High |
-| `doctor_weekly_slots` | `doctor_slot_exceptions` | `doctor_id` + date | Medium |
+| `patients` | `patient_visits` | `patient_id` | Reported FK |
+| `patients` | `patient_notes` | `patient_id` | Reported FK |
+| `patients` | `finance_transactions` | `patient_id` | Reported FK |
+| `patients` | `consultations` | `patient_id` | Reported FK |
+| `patients` | `reminders` | `patient_id` | Reported FK |
+| `patients` | `consultation_todos` | `patient_id` | Reported FK |
+| `patients` | `vaccination_todos` | `patient_id` | Reported FK |
+| `patient_visits` | `vaccination_items` | `vaccination_id` | Reported FK |
+| `patient_visits` | `consultations` | `visit_id` | Reported FK |
+| `patient_visits` | `finance_transactions` | `visit_id` | Reported FK |
+| `vaccines` | `vaccine_batches` | `vaccine_id` | Reported FK |
+| `vaccine_batches` | `inventory_transactions` | `batch_id` | Reported FK |
+| `vaccine_batches` | `waste_records` | `batch_id` | Reported FK |
+| `vaccine_batches` | `borrow_records` | `batch_id` | Reported FK |
+| `borrow_records` | `borrow_returns` | `borrow_record_id` | Reported FK |
+| `profiles` | `user_devices` | `user_id` | Reported FK |
+| `profiles` | `doctor_weekly_slots` | `doctor_id` | Reported FK |
+| `doctor_weekly_slots` | `doctor_slot_exceptions` | `weekly_slot_id` | Reported FK |
+| `doctor_weekly_slots` | `doctor_slot_exceptions` | `doctor_id` + date | **Inferred**; no matching date FK |
 
 ## Known gaps
 
-- No live primary-key/foreign-key/index catalog was available.
-- Ordinal-position gaps are consistent with dropped columns and do not prove omitted columns; the missing keys/indexes/policies are the concrete completeness gap. Do not treat either CSV as complete.
+- The metadata export reports keys, constraints, and indexes, but it is not a runtime certification. There are no views, enums, domains, sequences, schema/sequence/column ACLs, or migration-history rows in the set; Storage bucket settings and runtime role behaviour are not proven.
+- Ordinal-position gaps are consistent with dropped columns and do not prove omitted columns. The reported 416-column shape is corroborated by two independent exports, but neither is a complete schema authority.
 - `vaccination_items` has `vaccination_id`, not `patient_id`; the supported relationship is `patient_visits → vaccination_items`, then to the patient through the visit.
 - `sync_queue`, `widget_due_cache`, `inventory_deductions`, and `backup_history` are local-only Room entities in Android; they are not in this 24-table server snapshot and must not be created remotely for desktop.
-- `todo_notification_events` appears in migration SQL but not in this snapshot; its live status is `[UNKNOWN]`.
-- `receipt_sequences` is present, but the RPC/function definitions and grants must be verified live.
+- `todo_notification_events` appears in migration SQL but not in the 24-table export; its live status is `[UNKNOWN]`.
+- `receipt_sequences` is present with six columns. The reported anon/authenticated DML grants contradict the repository revoke, and the RPC remains anon-executable; do not use direct table access or compute receipts client-side.
+- `doctor_slot_exceptions.start_minute`/`end_minute` are absent from the reported table. The Android sync contract is therefore not a safe desktop contract.
 - Column-level descriptions are not documented; support/clinical owners must approve semantics before using this as a training document.
-- The actual live schema may contain legacy columns/tables not present in either CSV.
+- The actual live schema may contain legacy columns/tables not present in either export, and the reported data may change after 2026-10-30.
 
 ## Related
 

@@ -11,7 +11,9 @@ updated: 2026-10-20
 # 07. Vaccine and Batch Inventory
 
 > **Desktop status: Missing.** No desktop implementation exists. This is a Phase 1 specification, not a claim of completion.
-> **Android reference status:** Partially implemented. Evidence: `feature/inventory/`, Android KB `Inventory Management`. Historical sorting/lost-update/trigger findings are fixed; NCC-027 and NCC-030 remain open low-severity gaps.
+> **Android reference status:** Partially implemented. Evidence: `feature/inventory/`, Android KB `Inventory Management`. Historical client sorting/lost-update/trigger findings are fixed; NCC-027 and NCC-030 remain open low-severity gaps.
+>
+> **Backend warning (Phase 0C, exported metadata):** the database is **not** in the fixed state. It still has two `inventory_transactions` stock triggers and the old `update_batch_stock()` body, and `20261017` did not take effect. Do not enable desktop inventory writes until exactly one writer is verified. See [[Audits/Phase-0C-Schema-Export-Review|Phase 0C §5.2]].
 
 **Requirement IDs:** `INV-001`, `INV-002`, `INV-003`, `INV-004`, `INV-005`, `INV-006`, `INV-007`
 

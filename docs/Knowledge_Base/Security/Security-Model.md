@@ -1,13 +1,15 @@
 ---
 title: Security Model
 doc_status: proposed
-evidence: Android security register + shared-backend connection investigation + target architecture
-updated: 2026-10-20
+evidence: Android security register + Phase 0C Supabase metadata exports + shared-backend connection investigation + target architecture; no SQL executed
+updated: 2026-10-21
 ---
 
 # Security Model
 
-> **No desktop security control is implemented.** This is a target model. The Android security register is used as evidence of backend risks that the desktop will inherit unless they are fixed.
+> **No desktop security control is implemented.** This is a target model. The Android security register and the 2026-10-21 Supabase metadata exports are evidence of backend risks that the desktop will inherit unless they are fixed.
+
+> **Critical exported-state finding — not a runtime certification.** The metadata exports report that `anon` has full table privileges on 22 public tables and that ten core tables have `{public}` policies that pass for an unauthenticated request because `get_my_role()` returns `'nurse'` when no profile exists. If the export is accurate and current, the public anon key can read and write patient, visit, note, consultation, vaccination, and inventory rows without a login. No desktop client should connect until this is confirmed and remediated. See [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]] §4.
 
 > **Accepted backend constraint `[DECISION]`:** Android and desktop must use the same existing Supabase project, PostgreSQL schema, Auth users, Storage buckets, and Edge Functions. No new project, separate remote PostgreSQL database, duplicate remote tables, or parallel remote schema is approved. Local SQLite is expected. See [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]] and [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Connection Investigation]].
 
@@ -55,7 +57,7 @@ updated: 2026-10-20
 - `manage-staff` and `notify-update` read the service-role key only in server-side Edge Functions.
 - The repository has read-only security verification SQL and an RLS role test, but neither was run in this pass.
 
-`[UNKNOWN]` The live project's grants, policies, triggers, Storage rules, and actual configuration remain unverified. The CSV files contain no connection or policy fields and are not proof.
+`[PARTIAL — EXPORTED METADATA]` The 2026-10-21 exports report grants, policies, triggers, and function metadata, and they contradict several repository assumptions. They do **not** prove runtime JWT behaviour, project identity, Auth signup state, Storage bucket settings, or migration history. The column CSVs alone still contain no connection or policy fields and are not proof.
 
 ## Authorization
 
@@ -118,14 +120,61 @@ These are recorded in the Android KB; they are not claims about the live desktop
 | ID | Risk | Desktop implication |
 |---|---|---|
 | NSC-001 | `profiles` broadly readable by active staff | Do not assume profile fields are private; minimize display and exports |
-| NSC-002 | Legacy permissive policies may defeat role migration | Verify live policies; do not rely on role claims alone |
-| NSC-005 | No comprehensive table-level `GRANT`; auto-expose removed | Live grants must be verified before release |
-| NSC-006 | `user_devices(user_id)` unindexed | Query performance and rate-limit behaviour |
+| NSC-002 | Legacy permissive policies may defeat role migration | **Confirmed by export:** 13 tables retain `{public}` policies; ten pass for `anon` via the `'nurse'` fallback. Runtime not tested. |
+| NSC-005 | No comprehensive table-level `GRANT`; auto-expose removed | **Confirmed and extended:** 22 tables have full `anon`/`authenticated` ACLs; the seven migration-created business tables have no explicit `GRANT`, so they are not Oct 30-ready. |
+| NSC-006 | `user_devices(user_id)` unindexed | Query performance and rate-limit behaviour; the export's four indexes are not mapped to this access path |
 | NSC-007 | `expenses` lacks accountability trigger | Desktop must stamp actor/time explicitly and audit |
 | NSC-008 | Some Android routes lack nav guards | Desktop must guard routes and backend calls |
 | NSC-009 | `manage-staff` self-guard gap for profile update | Fix before reusing the function for desktop |
 | NSC-012 | Write rate limiter counts rows, not requests | Desktop batch writes may hit unexpected limits |
-| NSC-013 | Live-only legacy `get_my_role()` is `SECURITY DEFINER` without `search_path`; all 13 migration-authored `SECURITY DEFINER` functions pin it | Verify the live definition; do not copy the legacy function into desktop code |
+| NSC-013 | Live-only legacy `get_my_role()` is `SECURITY DEFINER` without `search_path`; all 13 migration-authored `SECURITY DEFINER` functions pin it | **Confirmed by exported definition:** no `search_path`, fail-open `'nurse'`, and anon-executable. Do not copy it into desktop code. |
+
+### Phase 0C exported-state findings
+
+These are **reported by the exports**, not verified by a query or an HTTP request. `GRANT` and RLS are separate controls: a table grant permits reachability through PostgREST; a policy decides which rows/commands pass. Neither one is a substitute for the other.
+
+| Control | Reported state | Consequence |
+|---|---|---|
+| Table `GRANT` | 22 tables: `anon`/`authenticated`/`service_role`/`postgres` each have all eight privileges (`SELECT, INSERT, UPDATE, DELETE, TRUNCATE, REFERENCES, TRIGGER, MAINTAIN`); `receipt_sequences`: four DML privileges for anon/auth; `api_write_rate_limits`: none for anon/auth | `anon` can reach nearly every business table before RLS is evaluated |
+| RLS enable/force | All 24 public tables enabled; none forced; owner `postgres` | The row boundary depends entirely on correct policies; `service_role`/owner bypass is by design |
+| Policies | 179 rows: 178 public + one `storage.objects`; 13 public tables have `{public}` policies | Legacy policies were never removed; permissive `true` policy exists on `reminders` |
+| Function `EXECUTE` | All 21 functions executable by `anon` and `authenticated` | Receipt burn, stock recalculation, rate-limit deletion, and helper exposure; `SECURITY DEFINER` functions use owner rights |
+| Default ACL | New `public` tables/functions/sequences still receive broad `anon`/`authenticated`/`service_role` grants | Future-table exposure is not fixed by this snapshot; the Supabase change is enforced 2026-10-30 |
+| Schema `USAGE` | Not exported | Cannot prove complete reachability or absence of other schemas |
+
+| ID | Finding | Required response |
+|---|---|---|
+| SEC-0C-01 | **Anon fail-open:** `get_my_role()` returns `COALESCE(role, 'nurse')`; ten `{public}` `ALL`/`SELECT` policies then pass for `anon`: `patients`, `patient_visits`, `patient_notes`, `consultations`, `vaccination_items`, `vaccines`, `vaccine_batches`, `inventory_transactions`, `waste_records`, `borrow_records` | Confirm with an anon-key read against synthetic data; drop/replace legacy policies or make the helper fail closed; verify both GRANT and RLS |
+| SEC-0C-02 | **`reminders`:** `{authenticated}` `ALL` with `USING (true)` / `WITH CHECK (true)` | Any authenticated account, including non-staff, can read/write all reminders. Replace with active-staff predicates and test a non-staff account. |
+| SEC-0C-03 | **Role-source split:** `is_admin()` uses `app_metadata.role`, but legacy `profiles` policies use `profiles.role` via `get_my_role()`/`check_is_admin()`; `handle_new_user()` may copy `raw_user_meta_data->>'role'` | Reconcile to one server-controlled role authority; remove legacy admin policies; verify signup cannot choose a role |
+| SEC-0C-04 | **Audit forgery:** `audit_logs` has a `{public}` INSERT policy with `auth.uid() IS NOT NULL` | Any authenticated user can insert audit rows. Restrict insert to active staff/server paths; keep update/delete denied. |
+| SEC-0C-05 | **Deactivated-device path:** legacy `user_devices` owner policies do not require active staff | A user with a valid JWT can manage their device row after deactivation until token expiry. Require active staff and verify with a deactivated account. |
+| SEC-0C-06 | **Function exposure:** all 21 functions are anon-executable, including `neo_next_receipt_number()` (sequence burn) and `recalculate_all_stocks()` (stock write path) | Revoke from `PUBLIC`, `anon`, and `authenticated`, then grant only an allowlisted role/function set; verify with `has_function_privilege` |
+| SEC-0C-07 | **Definer hardening:** `get_my_role()` and `handle_new_user()` are `SECURITY DEFINER` without `search_path` | Pin `search_path`; retain schema-qualified references and verify the functions after any migration. |
+| SEC-0C-08 | **Signup role path:** `handle_new_user()` copies `raw_user_meta_data->>'role'` into `profiles.role`, defaulting to `nurse` | Confirm public signup is disabled or the trigger is safe; prevent user metadata from selecting an authorization role. |
+| SEC-0C-09 | **Receipt path:** `receipt_sequences` retains anon/auth DML grants despite the revoke, and `neo_next_receipt_number()` is anon-executable | Remove direct grants and revoke function EXECUTE from client roles; keep receipt numbering server-side. |
+| SEC-0C-10 | **Realtime:** 23 tables are published, including `profiles`, `user_devices`, `receipt_sequences`, and clinical tables | Remove unnecessary publication membership and verify Realtime authorization separately. |
+| SEC-0C-11 | **Storage:** only one `storage.objects` policy is visible and no bucket rows were exported | Verify the `patient-docs` bucket is private, with expected limits and ownership, before any upload. |
+| SEC-0C-12 | **Forced RLS:** all tables have `rls_forced = false` | Never use the table owner or `service_role` from the desktop; test all client roles and keep RLS enabled. |
+| MIG-0C-01 | **Default ACL / Oct 30:** the seven migration-created business tables (`consultation_todos`, `vaccination_todos`, `personal_vaccine_reminders`, `borrow_returns`, `expenses`, `doctor_weekly_slots`, `doctor_slot_exceptions`) have no explicit table grant | Add least-privilege grants in a reviewed migration, including `service_role`; do not assume the platform default survives. |
+
+### Required roles and privileges — target, not deployed
+
+`[PROPOSED]` This matrix is a design requirement. It does not authorize a blanket grant and does not describe the exported state.
+
+| Role | Table/function intent | Explicitly not allowed |
+|---|---|---|
+| `anon` | No business-table access; no business RPC; Auth signup only if the clinic enables it | Patient/inventory/finance reads or writes; receipt sequence; stock recalculation |
+| `authenticated` (non-staff) | No business-table access; no business RPC | Any clinic data, reminders, audit insert |
+| Active staff | Row access through active-staff RLS; table grants limited to needed verbs; RPC allowlist | Broad `ALL` grants, `TRUNCATE`/`REFERENCES`/`TRIGGER`, service-role behavior |
+| `service_role` | Server-side Edge Functions only | Desktop binary, renderer, or client-side logs |
+| `postgres` | Migration/admin only | Application runtime |
+
+### Authentication and trigger unknowns
+
+- `[UNKNOWN]` Public signup state, whether `handle_new_user` is attached to `auth.users`, and whether a signup can influence `profiles.role`.
+- `[VERIFIED]` Exported `handle_new_user()` is `SECURITY DEFINER` without `search_path` and defaults copied roles to `'nurse'`. This is a privilege path if public signup is enabled and the legacy `profiles` policies remain.
+- `[PROPOSED]` The desktop must require a validated `app_metadata.role` and an active/non-deleted profile; it must never fall back to a default role or trust `profiles.role` for authorization.
 
 ### Connection-specific risks
 
@@ -142,17 +191,23 @@ These are recorded in the Android KB; they are not claims about the live desktop
 |---|---|
 | SEC-001 | No service-role or database credential is present in the desktop client. |
 | SEC-002 | Refresh tokens live only in the OS keychain; renderer never receives them. |
-| SEC-003 | RLS is verified with real roles before release. |
+| SEC-003 | RLS **and** table/function grants are verified with real roles, including `anon`, before release. A GRANT is not accepted as proof of RLS, or vice versa. |
 | SEC-004 | Local PHI is encrypted at rest and cleared on logout/lock. |
-| SEC-005 | Audit is append-only and attributable to the authenticated actor. |
+| SEC-005 | Audit is append-only and attributable to the authenticated actor; only approved server/active-staff paths may insert. |
 | SEC-006 | Backups and exports are encrypted and explicitly initiated. |
 | SEC-007 | Updates are signed and rollback-capable. |
 | SEC-008 | No PHI or token appears in logs, crash reports, or telemetry. |
+| SEC-009 | `anon` has no business-table or business-RPC access; legacy `{public}` policies and the `'nurse'` fallback are removed or fail closed. |
+| SEC-010 | Every new table/function has explicit least-privilege grants, including the intended `service_role` path, and is re-verified after the 2026-10-30 Data API change. |
+| SEC-011 | Role authority is server-controlled; client-writable metadata and `profiles.role` cannot grant privileges. |
 
 ## Open questions
 
 - Who supplies and owns the approved existing-project configuration?
+- Who owns remediation of the exported anon/legacy-policy findings, and what is the approved migration/review path?
 - What non-destructive verification path is approved for RLS, grants, and Storage?
+- Is public signup disabled, and is `handle_new_user` attached? If signup is enabled, what prevents role selection through user metadata?
+- Which project grants survive the 2026-10-30 Data API change, and when will they be re-exported?
 - Which local encryption product/approach is approved?
 - Is a hardware-backed key available on all target devices?
 - What is the incident-response and breach-notification process?

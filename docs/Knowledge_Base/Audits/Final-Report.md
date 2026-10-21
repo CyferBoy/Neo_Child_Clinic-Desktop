@@ -1,17 +1,19 @@
 ---
 title: Final Report
 doc_status: baseline
-evidence: nine-stage discovery, audit, specification, architecture, roadmap, validation pass, shared-backend connection investigation + Phase 0B blocker/architecture review
-updated: 2026-10-20
+evidence: nine-stage discovery, audit, specification, architecture, roadmap, validation pass, shared-backend connection investigation + Phase 0B blocker/architecture review + Phase 0C Supabase metadata export review (no SQL executed)
+updated: 2026-10-21
 ---
 
 # Final Report
 
-> **Completion boundary:** the documentation baseline is complete, and a second read-only validation pass corrected verified documentation errors. A Phase 0B recheck then reconciled the CSV/migration discrepancy and prepared the architecture decision review. The desktop application is not implemented. No application source, schema, dependency, production data, or Android Git history was changed. A subsequent user-requested push initialized the desktop Git repository and pushed documentation only.
+> **Completion boundary:** the documentation baseline is complete, and a second read-only validation pass corrected verified documentation errors. A Phase 0B recheck reconciled the column-snapshot/migration discrepancy; Phase 0C then reviewed the 2026-10-20/21 metadata exports and found critical exported security/schema drift. The desktop application is not implemented. No application source, schema, dependency, production data, or Android Git history was changed. A subsequent user-requested push initialized the desktop Git repository and pushed documentation only.
 >
 > **Shared-backend addendum:** [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]] is now accepted by explicit user direction. Android and desktop must reuse the **same existing Supabase project and schema**. Any earlier “disposable Supabase project” wording in this baseline is superseded for backend selection: a disposable harness is not the desktop backend and requires explicit approval. Connection evidence is in [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Connection Investigation]].
+>
+> **Phase 0C addendum (2026-10-21):** 16 Supabase metadata exports now report 24 tables, 416 columns, 77 constraints, 93 indexes, 179 policies, 744 table ACL rows, 61 triggers, and 21 functions. The headline is not the count — it is that the exported state is **not production-safe as reported**: anon can reach ten clinical/inventory tables through legacy `{public}` policies and the `get_my_role()` `'nurse'` fallback; `reminders` allows any authenticated user all operations; all 21 functions are anon-executable; 22 tables have full anon/auth ACLs; and seven migration-created business tables have no explicit grants. This is metadata evidence, not an executed exploit test. The stock fix is also not deployed: two triggers and the old function remain. See [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]]. The Phase 0B sections below remain the historical baseline; Phase 0C is the current evidence layer.
 
-**Pass date:** 2026-10-20
+**Pass date:** 2026-10-20; **Phase 0C review:** 2026-10-21
 **Android reference:** `/data/data/com.termux/files/home/Neo_Child_Clinic` — `main` @ `ca4bed406bfd246ad83878fff9a4e178ebc5670f`
 **Desktop project:** `/storage/emulated/0/Neo_Child_Clinic_Desktop`
 **Knowledge Base:** `/storage/emulated/0/Neo_Child_Clinic_Desktop/docs/Knowledge_Base`
@@ -19,14 +21,14 @@ updated: 2026-10-20
 
 ## 1. Discovery
 
-- The desktop project contains 17 installed `.opencode/skills/*/SKILL.md` files and one user-supplied `Supabase Snippet List Public Table Columns.csv`.
+- The desktop project contains 17 installed `.opencode/skills/*/SKILL.md` files and, as of Phase 0C, 16 user-supplied metadata exports under `docs/Schemas/`.
 - It contains no `go.mod`, `wails.json`, `package.json`, `src/`, `app/`, tests, CI, or build output. A Git repository now exists and `main` is pushed to GitHub.
 - The Android repository is the only application source available. It is clean at `ca4bed4` with 583 tracked files: 352 main Kotlin files, 41 unit test files, 8 instrumented test files, 23 SQL migrations, and 37 Knowledge Base notes.
 - No Go/Wails/React desktop source was found under the home or shared-storage locations searched.
 - The Android Knowledge Base was read for verified behavior and confirmed defects. It was not modified.
-- The user-supplied desktop CSV was preserved at the project root. It lists 24 public tables and 416 columns; its provenance and capture time are unknown.
+- The user-supplied desktop column CSV is now under `docs/Schemas/` (moved from the project root). It lists 24 public tables and 416 columns; the 2026-10-21 column export corroborates every key/value. Provenance and capture environment remain unstated.
 - A second CSV is tracked in the Android repository at `supabase/migrations/`; it lists 23 tables and 361 columns and is stale against current migrations. A byte-identical copy exists under `/storage/emulated/0/Neo_Child_Clinic-main/`.
-- Neither CSV contains a project URL, project reference, auth setting, policy, Storage/Realtime/RPC configuration, or credential. The actual Android connection values are build-time inputs absent from the worktree.
+- Neither column CSV contains a project URL, project reference, auth setting, policy, Storage/Realtime/RPC configuration, or credential. The broader metadata export adds policies/ACLs but still has no project URL/ref, Storage bucket rows, or Auth settings. The actual Android connection values are build-time inputs absent from the worktree.
 - The desktop has no connection implementation; its connection status is **Missing**, not working.
 
 ## 2. Audit results
@@ -38,13 +40,15 @@ updated: 2026-10-20
 | Medium | 6 | Stale Android KB, path collision risk, column-only CSV without keys/policies, no packaging, table-list drift |
 | Low | 1 | Internal Android KB count inconsistencies |
 
-The full finding register is in [[Audits/Initial-Audit|Initial Audit]]. The risk register has 20 risks; the debt register has 15 items.
+The full finding register is in [[Audits/Initial-Audit|Initial Audit]]. The risk register has 24 risks after Phase 0C (RISK-021–024); the debt register has 15 items.
 
 **Most important audit finding:** repository migrations create only 9 of the 24 tables in the supplied snapshot. Fifteen are baseline tables present in both snapshots, and at least one migration is missing (`todo_notification_events`). A clean database cannot be rebuilt from the repository alone. This blocks reproducible tests and disaster recovery.
 
 **Phase 0B reconciliation:** the 24-vs-23 and 416-vs-361 differences are explained by snapshot timing plus the known soft-delete/waste/API migrations, not by 15 missing production tables. The live contract is still unverified. See [[Database/Schema-Reconciliation|Schema Reconciliation]].
 
-**Second most important:** the live Supabase project is unavailable, so RLS, grants, triggers, and data behavior are not verified. The actual Android project URL/key are also absent from the worktree, so the desktop cannot yet prove it targets the same project. Existing Android security findings (NSC-001, NSC-002, NSC-005, NSC-013) must be treated as inherited risks, not resolved facts.
+**Phase 0C reconciliation:** the 16-export set corroborates 24 tables/416 columns and adds keys, indexes, RLS, ACLs, functions, and triggers. It also establishes material drift: six live-only columns, duplicate indexes/policies, two stock triggers with the old function, and the critical anon/legacy-policy path. The export does not certify runtime behavior, Storage buckets, Auth signup, migration history, or project identity. See [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]].
+
+**Second most important:** the live Supabase project's runtime behavior is unavailable, so the anon/role path, Storage, Realtime, Auth signup, and migration history are not executed-tested. The actual Android project URL/key are absent from the worktree, so the desktop cannot prove it targets the same project. The exported policies/ACLs now show that NSC-002, NSC-005, and NSC-013 are not hypothetical; they require remediation before connection.
 
 ## 3. Implementation status and parity
 
@@ -52,22 +56,26 @@ The full finding register is in [[Audits/Initial-Audit|Initial Audit]]. The risk
 - **Android reference:** 5 partially implemented (inventory, reminders, local persistence, sync, backup), 17 unverified in this pass, 0 claimed fully verified.
 - **Parity:** 0 of 22 modules have verified desktop parity.
 
-The Android reference is source-backed and functionally substantial. At `ca4bed4`, the earlier waiter, unbounded work-chain, unreachable-conflict, patient-validation, stock/trigger, inventory-sorting, statistics, and backup TOCTOU defects are fixed and retained as regression targets. Current gaps are deletion/absence reconciliation (NCC-023), sync queue priority (NCC-025), low-severity inventory guards (NCC-027/030), the local-only ledger (NCC-038), the duplicate database singleton (NCC-039), and missing end-to-end restore coverage. The earlier `PatientCache` stale-history claim is not supported by current source.
+The Android reference is source-backed and functionally substantial. At `ca4bed4`, the earlier Android-side waiter, unbounded work-chain, unreachable-conflict, patient-validation, stock/trigger, inventory-sorting, statistics, and backup TOCTOU defects are fixed and retained as regression targets; Phase 0C separately reports that the database-side stock trigger defect remains live. Current gaps are deletion/absence reconciliation (NCC-023), sync queue priority (NCC-025), low-severity inventory guards (NCC-027/030), the local-only ledger (NCC-038), the duplicate database singleton (NCC-039), and missing end-to-end restore coverage. The earlier `PatientCache` stale-history claim is not supported by current source.
 
 See [[Product/Feature-Inventory|Feature Inventory]] and [[Product/Android-Desktop-Parity|Android-Desktop Parity]].
 
 ## 4. Security and data risks
 
 Critical/high risks:
-- No reproducible schema or baseline migration.
-- Live RLS/grants unverified; broad active-staff access and possible legacy permissive policies.
+- **Exported anon path to ten clinical/inventory tables** (legacy `{public}` policies plus `get_my_role()` fallback), and full anon/auth table grants on 22 tables.
+- **`reminders` open to any authenticated user**, and `audit_logs` insert open to any authenticated user.
+- **All 21 functions anon-executable**, including receipt-sequence and stock paths.
+- No reproducible schema or baseline migration; six live-only columns and two stock triggers.
+- Runtime RLS/grants/Storage/Auth still unverified.
 - Desktop could target the wrong project or create a parallel backend because the actual project identity/configuration is not yet verified.
-- The stale Android CSV could generate the wrong desktop schema/models.
+- The stale Android CSV or unreviewed export could generate the wrong desktop schema/models.
 - Stolen laptop exposing local PHI; no encryption/key-management decision.
 - Refresh-token theft through a renderer boundary.
 - Duplicate/corrupt stock or payment writes from non-idempotent sync.
 - Deleted records resurrecting on pull because no deletion/absence contract exists.
 - Duplicate or altered receipt numbers.
+- Seven migration-created business tables lack explicit grants and are not October 30-ready.
 - Destructive backup restore without an end-to-end automated test.
 - No signed update/rollback design.
 - No privacy retention or local PHI policy.
@@ -106,6 +114,10 @@ No dates or effort estimates are asserted; there is no desktop code to measure. 
 
 [[Audits/Phase-0B-Architecture-Review|Phase 0B Architecture Review]] records 14 unresolved decisions (D1–D14), options/pros/cons, recommendations, prerequisites, and the nine-gate readiness matrix. ADR-0008 remains accepted; ADR-0001–ADR-0007 remain proposed. The review conclusion is **BLOCKED ON SPECIFIED EVIDENCE**, not a critical design failure.
 
+### Phase 0C schema/security review
+
+[[Audits/Phase-0C-Schema-Export-Review|Phase 0C]] reviewed all 16 exports. It adds a 24-row structural reconciliation, table-level ACL/RLS matrix, migration-drift findings, the October 30 readiness verdict, and ten implementation blockers. The [[Roadmap/Phase-1-Implementation-Plan|Phase 1 Plan]] now has a Phase 0C readiness matrix; the [[Audits/Risk-Register|Risk Register]] adds RISK-021–024. **No remediation was executed.** The critical anon/legacy-policy path, the grant gap, the stock duplicate, and the doctor-slot contract must be resolved or formally accepted before any desktop connection.
+
 ## 7. Open decisions
 
 - The consolidated D1–D14 decisions and recommendations in [[Audits/Phase-0B-Architecture-Review|Phase 0B Architecture Review]] are the authoritative review list; the items below are retained as the original open-decision inventory.
@@ -134,8 +146,10 @@ No dates or effort estimates are asserted; there is no desktop code to measure. 
 | Android Gradle unit tests | Not run |
 | Android instrumented tests | Not run — no emulator evidence |
 | Live Supabase/RLS/Storage tests | Not run — actual project access unavailable |
+| Phase 0C metadata exports | 16 files reviewed read-only; counts cross-checked against both column exports, migrations, and Android source; no SQL or HTTP request executed |
+| Anon/non-staff runtime test | Not run — no project/key or approved synthetic test path |
 | Shared-backend file/config audit | Complete read-only; actual URL/key absent from worktree; no secret values printed |
-| Documentation link/fence/frontmatter validation | 67 notes, 739 wikilinks, 0 missing links, 0 unbalanced fences, 0 frontmatter errors |
+| Documentation link/fence/frontmatter validation | 67 notes, 739 wikilinks, 0 missing links, 0 unbalanced fences, 0 frontmatter errors (Phase 0B snapshot; Phase 0C adds one note and does not re-run the validator) |
 | Existing Android doc validator | Not run against the desktop vault; Android KB unchanged |
 | Mermaid blocks | 11 fenced blocks, fences balanced; not render-tested |
 | Secret scan | Custom JWT/key/URL/PostgreSQL-URI/secret-assignment scan; no literal secret found. CSV value-pattern scan also found no URL/key/JWT/service-role/password fields. |
@@ -152,7 +166,9 @@ The Android Knowledge Base's historical 277-unit-test result was **not** re-run.
 
 **Phase 0B state (2026-10-20):** three new notes were added; the database/audit/index notes listed below, the Product Vision/Technical Debt money wording, and ADR-0007's evidence context were extended. No application source, schema, migration, RLS policy, grant, Supabase setting, dependency, Android file, or credential was changed. The documentation set was committed as `ab6f2b5` and pushed to `origin/main`.
 
-**Markdown files in vault:** 67 (63 pre-existing + 1 validation note + 3 Phase 0B notes).
+**Phase 0C state (2026-10-21):** one note was added (`Audits/Phase-0C-Schema-Export-Review.md`); 18 existing notes were modified: `Home.md`, `README.md`, `Audits/Documentation-Validation.md`, `Audits/Final-Report.md`, `Audits/Initial-Audit.md`, `Audits/Phase-0B-Architecture-Review.md`, `Audits/Risk-Register.md`, `Audits/Shared-Backend-Connection-Investigation.md`, `Audits/Technical-Debt.md`, `Database/Access-Patterns.md`, `Database/Data-Dictionary.md`, `Database/Database-Architecture.md`, `Database/Live-Verification-Queries.md`, `Database/Schema-Reconciliation.md`, `Features/07-Vaccine-and-Batch-Inventory.md`, `Product/Android-Desktop-Parity.md`, `Roadmap/Phase-1-Implementation-Plan.md`, and `Security/Security-Model.md`. The 16 source exports were moved from the project root into `docs/Schemas/` (root CSV deleted, directory untracked); `.obsidian/workspace-mobile.json` was already modified before this pass. No application source, schema, migration, RLS policy, grant, Supabase setting, dependency, Android file, or credential was changed. No SQL was executed.
+
+**Markdown files in vault:** 68 (63 pre-existing + 1 validation + 3 Phase 0B + 1 Phase 0C).
 
 ### Root
 - `docs/Knowledge_Base/Home.md`
@@ -259,16 +275,19 @@ The Android Knowledge Base's historical 277-unit-test result was **not** re-run.
 | 10. Shared-backend investigation | CSV comparison, Android connection map, desktop status, RLS evidence, risk update |
 | 11. Documentation validation | 63 pre-existing notes checked (20 PASS, 25 PARTIAL, 18 FAIL); 17 skills checked (17 PARTIAL); 16 material findings corrected; live evidence remains blocked |
 | 12. Phase 0B blocker/architecture review | 18 FAIL/25 PARTIAL rechecked; 55-row CSV delta reconciled; Data Dictionary key rows and money-type wording corrected; 3 new evidence/decision notes; live security and stock mode remain blocked |
+| 13. Phase 0C schema/export review | 16 exports reviewed; 24-table structural/security reconciliation; 77 constraints/93 indexes/179 policies/744 ACL rows; critical anon path, grant gap, stock duplicate, and doctor-slot drift documented; no SQL executed |
 
 ## 13. Next gate
 
 Do not start feature implementation until:
 1. `AGENTS.md` and CI exist in the now-initialized desktop repository, and branch protection is confirmed/configured through GitHub settings (it is not verifiable from repository contents).
 2. The existing Supabase project identity is verified with a redacted fingerprint; the desktop resolves the same project as Android.
-3. The read-only [[Database/Live-Verification-Queries|Live Verification Queries]] export is reviewed against the CSVs and migrations, including the 15 baseline tables, `todo_notification_events`, RLS/ACLs, Storage/Realtime, and the live stock/receipt triggers.
-4. The live stock mode is resolved (trigger or absolute writer); desktop will not dual-write.
-5. ADR-0001 through ADR-0007 are accepted or rejected through the D1–D14 review; ADR-0008 remains accepted. A deletion/absence reconciliation contract is approved as part of ADR-0003.
-6. The auth/local-DB/sync spike passes replay, deletion-reconciliation, token, stock, and cross-client tests through the approved path.
-7. Local PHI encryption, key recovery, retention, and backup/restore are approved and tested.
+3. The exported anon/legacy-policy path is confirmed or disproved with synthetic data and closed: `anon` has no PHI/inventory access, `reminders` is staff-scoped, audit insert is restricted, and function execution is allowlisted.
+4. Table/function grants are explicit and least-privilege, including the seven migration-created tables and `service_role`; the post-2026-10-30 ACL state is re-exported.
+5. The stock duplicate is removed and the corrected function verified; exactly one writer remains, with ledger/batch reconciliation.
+6. The 15 baseline tables and six live-only columns are covered by a reviewed baseline, and the doctor-slot contract is resolved.
+7. ADR-0001 through ADR-0007 are accepted or rejected through the D1–D14 review; ADR-0008 remains accepted. A deletion/absence reconciliation contract is approved as part of ADR-0003.
+8. The auth/local-DB/sync spike passes replay, deletion-reconciliation, token, stock, and cross-client tests through the approved path.
+9. Local PHI encryption, key recovery, retention, and backup/restore are approved and tested.
 
-**Bottom line:** the documentation baseline is corrected and the 55-row schema discrepancy is reconciled at file level; the shared-backend constraint is accepted. The desktop product is not built, its connection is **Missing**, and the Phase 0B conclusion is **BLOCKED ON SPECIFIED EVIDENCE** pending live catalog/security evidence, stock-trigger resolution, the deletion contract, and D1–D14 approvals.
+**Bottom line:** the 55-row column discrepancy is reconciled and Phase 0C supplies a coherent metadata picture, but the exported state is **not production-safe as reported**. The critical anon path, permissive `reminders`, anon-executable functions, missing explicit grants, duplicate stock triggers, and doctor-slot drift are implementation blockers. The desktop product is not built, its connection is **Missing**, and Phase 0C remains **BLOCKED ON CRITICAL SECURITY/SCHEMA EVIDENCE**, not documentation polish.

@@ -1,11 +1,13 @@
 ---
 title: Phase 0B — Blocker Resolution and Architecture Review
 doc_status: proposed
-evidence: second-pass validation + Phase 0B recheck + schema reconciliation + Android source/migrations + no live access
-updated: 2026-10-20
+evidence: second-pass validation + Phase 0B recheck + schema reconciliation + Android source/migrations + Phase 0C metadata exports (banner only); no SQL executed
+updated: 2026-10-21
 ---
 
 # Phase 0B — Blocker Resolution and Architecture Review
+
+> **Phase 0C addendum (2026-10-21).** The original Phase 0B review is retained as the historical decision baseline. A new 16-export metadata set now reports keys, constraints, indexes, RLS, policies, table/default ACLs, functions, triggers, and Realtime membership, and it changes several 0B statements: the live stock mode is evident (two triggers, old function), table grants are broadly permissive, ten tables have an anon-reachable policy path, and seven migration-created tables lack explicit grants. **These are exported-state findings, not runtime certification.** Read [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]] and the updated [[Audits/Risk-Register|Risk Register]] / [[Roadmap/Phase-1-Implementation-Plan|Phase 1 Plan]] alongside this note. The 0B decision cards and D1–D14 approvals remain the decision record; no approval status was changed by this banner.
 
 > **Decision-ready review, not an implementation.** This pass rechecked the failed/partial notes, reconciled the two CSV snapshots against migrations and Android source, and evaluated the unresolved architecture decisions. No desktop application, Android source, database schema, migration, RLS policy, grant, Supabase setting, or dependency was changed. No credential, project URL, JWT, or patient data is reproduced.
 
@@ -113,6 +115,8 @@ No live query was run. No table, policy, grant, function, trigger, Storage rule,
 | Deployed catalog/RLS/ACL | Requires authorized read-only export | `[UNKNOWN]` |
 | Deployed stock mode | Trigger vs client absolute-batch writer | `[UNKNOWN]` — critical |
 | Project identity | Requires approved configuration + redacted fingerprint | `[UNKNOWN]` |
+
+> **Phase 0C update:** the deployed catalog/RLS/ACL rows above are now **reported** by the 2026-10-21 exports, and the stock mode is evidenced as trigger-based with a **duplicate** trigger and old function. Runtime behaviour, project identity, Storage, Auth, and migration history remain `[UNKNOWN]`. Treat the Phase 0C report as the current evidence layer; this section remains the 0B snapshot.
 
 ### 3.3 Exact export and reconciliation
 

@@ -9,3 +9,6 @@ secrets.properties
 *.log
 .DS_Store
 Thumbs.db
+
+# User-supplied schema exports
+docs/Schemas/

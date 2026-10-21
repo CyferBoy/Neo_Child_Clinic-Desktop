@@ -1,13 +1,15 @@
 ---
 title: Live Verification Queries — Read Only
 doc_status: proposed
-evidence: repository security SQL + PostgreSQL catalog inspection design; no live access
-updated: 2026-10-20
+evidence: repository security SQL + PostgreSQL catalog inspection design + Phase 0C metadata exports; no SQL executed
+updated: 2026-10-21
 ---
 
 # Live Verification Queries — Read Only
 
-> **Status: not run.** No `psql`, Supabase CLI, database driver, MCP database resource, project URL, or publishable key was available in the inspection environment. These are the exact queries to run through an authorized administrative session. They are catalog/metadata reads only; they do not read patient rows, test production data, or change settings.
+> **Status: not run by this review.** No `psql`, Supabase CLI, database driver, MCP database resource, project URL, or publishable key was available in the inspection environment. A 16-file metadata export set was supplied on 2026-10-21 and reviewed separately; it covers most catalog/ACL/policy items below but is **not** a runtime test. These queries remain the way to verify project identity, migration history, Storage buckets, Auth settings, post-October-30 ACLs, and actual role behavior. They are catalog/metadata reads only and do not read patient rows.
+
+> **Phase 0C context.** The exports already report 24 tables, 77 constraints, 93 indexes, 179 policy rows, 744 ACL rows, 61 triggers, and 21 functions. Do not treat a re-run as a formality: it is required to confirm the exports are current, to inspect the missing function definitions and Storage metadata, and to prove whether the anon path actually returns rows. See [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]].
 
 ## 1. Safety rules
 
@@ -405,11 +407,11 @@ Expected review points: `patient-docs` is private; Storage object policies are a
 3. **Check `todo_notification_events`.** If present, capture its columns, keys, policies, and trigger writer. If absent, record that the conditional migration did not apply.
 4. **Resolve keys.** Replace Room-inferred relationships with live `pg_constraint` facts. Do not generate desktop models from the old CSV or from Room FKs alone.
 5. **Review RLS and ACLs.** Compare `pg_policies` and effective privileges with the migration union. Record policy drift and any `anon`/`authenticated` table privileges.
-6. **Resolve stock mode.** From the trigger/function results, determine whether the live database uses the `update_batch_stock()` trigger or the client absolute-batch writer. Do not implement both. Record the mode as an architecture input.
+6. **Resolve stock mode.** The 2026-10-21 export reports **two** stock triggers and the old `update_batch_stock()` body. Confirm both trigger names and the function body, then treat the database as trigger-mode but **unsafe** until the duplicate is removed, the corrected function is installed, and exactly one stock trigger remains. Do not apply `20261017` unchanged; its guard would raise on unrelated triggers.
 7. **Resolve receipts.** Confirm the server receipt trigger and immutability. The desktop must never compute a receipt number.
 8. **Review Storage/Realtime.** Confirm bucket privacy, object policy scope, publication membership, and no second write path.
 9. **Update evidence.** Add dated `[VERIFIED-LIVE]` notes to the Knowledge Base. Do not add credentials, project URLs, JWTs, or patient data.
-10. **Close or narrow gates.** Update the Phase 0B readiness matrix only for items the export actually proves.
+10. **Close or narrow gates.** Update the Phase 0C backend-readiness matrix and risk register only for items the export or test actually proves. A catalog read cannot close the anon runtime gate; an anon-key request against synthetic data is required.
 
 ## 9. What this export cannot prove
 
@@ -420,4 +422,4 @@ Expected review points: `patient-docs` is private; Storage object policies are a
 
 ## 10. Related
 
-[[Database/Schema-Reconciliation|Schema Reconciliation]] · [[Database/Database-Architecture|Database Architecture]] · [[Audits/Phase-0B-Architecture-Review|Phase 0B Architecture Review]] · [[Security/Security-Model|Security Model]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]]
+[[Database/Schema-Reconciliation|Schema Reconciliation]] · [[Database/Database-Architecture|Database Architecture]] · [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]] · [[Audits/Phase-0B-Architecture-Review|Phase 0B Architecture Review]] · [[Security/Security-Model|Security Model]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]]
