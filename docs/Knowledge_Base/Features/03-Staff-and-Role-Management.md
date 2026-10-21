@@ -4,8 +4,8 @@ feature_id: STF
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 03. Staff and Role Management
@@ -20,6 +20,12 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Allow an admin to create staff accounts, edit profiles, change roles, deactivate/reactivate, and trigger password reset, while preventing self-privilege changes and stale tokens.
+
+### User stories
+
+- As an admin, I can create a staff account and assign a server-controlled role.
+- As an admin, I can change or deactivate a staff member without deleting their historical records.
+- As an admin, I cannot change my own role or deactivate myself into an unsafe state.
 
 ## 2. Actors
 
@@ -126,10 +132,18 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-STF-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/02-Authentication-and-Session|Authentication]]
 - [[Database/Access-Patterns|Access Patterns]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+`profiles`; Supabase Auth users through the server-side `manage-staff` function; `audit_logs`.
 
 ## 15. Open questions
 

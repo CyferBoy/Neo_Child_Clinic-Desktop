@@ -2,7 +2,7 @@
 
 A cross-platform desktop application for Neo Child Clinic, planned around Go, Wails, React, TypeScript, and the existing Supabase backend.
 
-> **Project status: documentation and architecture baseline — not implemented.** No Go/Wails/React application source, build configuration, or desktop test suite exists yet. Consult the [Feature Inventory](docs/Knowledge_Base/Product/Feature-Inventory.md) and [Roadmap](docs/Knowledge_Base/Roadmap/Desktop-Roadmap.md) for verified status.
+> **Project status: documentation and architecture review package complete — not implemented.** No Go/Wails/React application source, build configuration, or desktop test suite exists yet. The [Documentation Completion Report](docs/Knowledge_Base/Audits/Documentation-Completion-Report.md) records what was reviewed, changed, and left blocked. Consult the [Feature Inventory](docs/Knowledge_Base/Product/Feature-Inventory.md) and [Roadmap](docs/Knowledge_Base/Roadmap/Desktop-Roadmap.md) for verified status.
 
 ## About
 
@@ -14,9 +14,9 @@ See [ADR-0008](docs/Knowledge_Base/Decisions/ADR-0008-Shared-Supabase-Backend.md
 
 ## Overview
 
-The repository currently contains the product and technical baseline for the desktop application. It does not contain application code. The Android application remains the only implementation available for reference.
+The repository currently contains the product, architecture, security, and delivery baseline for the desktop application. It does not contain application code. The Android application remains the only implementation available for reference.
 
-Feature status must be verified against the source code and documented requirements. The current baseline records **22 proposed desktop modules, 0 implemented modules, and 0 desktop tests**.
+Feature status must be verified against the source code and documented requirements. The current baseline records **22 proposed desktop modules, 0 implemented modules, 150 requirements, 126 planned tests, 0 implemented tests, and 0 desktop test runs**. The documentation package is complete for architecture review; live Supabase verification and security remediation are deferred to a separate phase.
 
 ## Features
 
@@ -75,7 +75,7 @@ The intended architecture is:
 - A local SQLite working copy and outbox support offline-first operation.
 - The desktop never opens a direct PostgreSQL connection and never ships a service-role key.
 
-See the [System Architecture](docs/Knowledge_Base/Architecture/System-Architecture.md), [Go Backend Architecture](docs/Knowledge_Base/Architecture/Go-Backend-Architecture.md), and [Offline and Sync Design](docs/Knowledge_Base/Architecture/Offline-and-Sync-Design.md) for verified components, proposed designs, and unresolved decisions.
+See the [System Architecture](docs/Knowledge_Base/Architecture/System-Architecture.md), [Android Reference Architecture](docs/Knowledge_Base/Architecture/Android-Reference-Architecture.md), [Go Backend Architecture](docs/Knowledge_Base/Architecture/Go-Backend-Architecture.md), and [Offline and Sync Design](docs/Knowledge_Base/Architecture/Offline-and-Sync-Design.md) for verified components, proposed designs, and unresolved decisions.
 
 ## Requirements
 
@@ -95,12 +95,12 @@ Do not infer versions or installation instructions before the project configurat
 This repository is currently a documentation project. To review it:
 
 1. Clone the repository.
-2. Open [the Knowledge Base](docs/Knowledge_Base/Home.md).
-3. Read the [Final Report](docs/Knowledge_Base/Audits/Final-Report.md), [Phase 0B Architecture Review](docs/Knowledge_Base/Audits/Phase-0B-Architecture-Review.md), and [Shared Backend Investigation](docs/Knowledge_Base/Audits/Shared-Backend-Connection-Investigation.md).
-4. Use the [Schema Reconciliation](docs/Knowledge_Base/Database/Schema-Reconciliation.md) for the CSV/migration delta and the [Live Verification Queries](docs/Knowledge_Base/Database/Live-Verification-Queries.md) for the read-only evidence still required.
-5. Consult the [Phase 1 Implementation Plan](docs/Knowledge_Base/Roadmap/Phase-1-Implementation-Plan.md) before starting implementation.
+2. Open [the Knowledge Base](docs/Knowledge_Base/Home.md) and the [Documentation Completion Report](docs/Knowledge_Base/Audits/Documentation-Completion-Report.md).
+3. Read the [Repository Inventory](docs/Knowledge_Base/Product/Repository-Inventory.md), [Business Rules](docs/Knowledge_Base/Product/Business-Rules.md), and [Phase 0C Schema Export Review](docs/Knowledge_Base/Audits/Phase-0C-Schema-Export-Review.md).
+4. Use the [Schema Reconciliation](docs/Knowledge_Base/Database/Schema-Reconciliation.md) for the export/migration delta and the [Live Verification Queries](docs/Knowledge_Base/Database/Live-Verification-Queries.md) for the read-only evidence still required.
+5. Consult the [Phase 1 Implementation Plan](docs/Knowledge_Base/Roadmap/Phase-1-Implementation-Plan.md) and [Decision Log](docs/Knowledge_Base/Decisions/README.md) before starting implementation.
 
-Application setup, build, and test commands will be added after the Go/Wails toolchain is initialized and verified. Do not publish placeholder commands as working instructions.
+Application setup, build, and test commands will be added after the Go/Wails toolchain is initialized and verified. Do not publish placeholder commands as working instructions. No CI configuration or `AGENTS.md` exists yet; their absence is not a claim that the project is unbuildable, because there is no application to build.
 
 ## Configuration and database
 
@@ -114,7 +114,7 @@ The desktop application must use the existing Neo Child Clinic Supabase project.
 - Storage policies
 - Offline synchronization behavior, if implemented
 
-Never commit passwords, service-role keys, access tokens, or other secrets. The repository ignores common local environment files. The actual project URL, publishable key, and hosted identity are not present in this repository.
+Never commit passwords, service-role keys, access tokens, or other secrets. The repository ignores common local environment files. The actual project URL, publishable key, and hosted identity are not present in this repository. The user-supplied metadata exports are kept under `docs/Schemas/`, which is Git-ignored; they contain no project identity or credentials.
 
 Run the read-only [Live Verification Queries](docs/Knowledge_Base/Database/Live-Verification-Queries.md) through an authorized administrative session to capture the current catalog, RLS/ACLs, functions/triggers, Storage, and Realtime state. Do not run the non-read-only `rls_role_test.sql` without separate approval and synthetic test data.
 
@@ -130,11 +130,11 @@ Do not create a new production database or duplicate the existing schema. See th
 - Review database migrations and security-policy changes before applying them.
 - Treat the Android security findings as inherited risks until they are verified or fixed.
 
-See the [Security Model](docs/Knowledge_Base/Security/Security-Model.md), [Threat Model](docs/Knowledge_Base/Security/Threat-Model.md), and [Privacy and Backup](docs/Knowledge_Base/Security/Privacy-and-Backup.md).
+See the [Security Model](docs/Knowledge_Base/Security/Security-Model.md), [Threat Model](docs/Knowledge_Base/Security/Threat-Model.md), and [Privacy and Backup](docs/Knowledge_Base/Security/Privacy-and-Backup.md). Report vulnerabilities privately under [SECURITY.md](SECURITY.md); do not open a public issue containing PHI, credentials, or reproduction data.
 
 ## Development
 
-Verified development commands are not available yet because the application source and toolchain are missing.
+Verified development commands are not available yet because the application source and toolchain are missing. No build, test, lint, migration, Supabase, packaging, CI, or release command is claimed.
 
 When implementation begins, document and verify commands for:
 
@@ -152,18 +152,21 @@ Documentation changes can be reviewed directly in `docs/Knowledge_Base/`.
 
 ```text
 README.md                         This repository entry point
+SECURITY.md                       Private reporting and authorized-testing boundaries
+CONTRIBUTING.md                   Documentation contribution and evidence rules
 LICENSE                           Apache License 2.0
-.gitignore                        Local secret and OS-file exclusions
-.opencode/skills/                 Documentation-maintenance skill definitions
-docs/Knowledge_Base/              Desktop Knowledge Base and specifications
-Supabase Snippet List ...csv      User-supplied public table-column snapshot
+.gitignore                        Local secrets, OS files, docs/Schemas/
+.opencode/skills/                 17 project documentation/audit skill definitions
+docs/Knowledge_Base/              Desktop vault, 22 specifications, audits, ADRs
+docs/Schemas/                     16 local metadata exports; Git-ignored, absent from a clone
+docs/UI_Design/                   Screens, prototype, screenshots, review manifests
 ```
 
-Application directories such as `cmd/`, `internal/`, `frontend/`, and `build/` do not exist yet and are not listed as if they did.
+Application directories such as `cmd/`, `internal/`, `frontend/`, `build/`, and CI configuration do not exist yet and are not listed as if they did. `docs/Schemas/` is a local evidence directory; it is not present in a clean clone.
 
 ## OpenCode skills
 
-Project-specific OpenCode skills are maintained under `.opencode/skills/` when present. They cover repository audits, feature specifications, architecture documentation, database analysis, security review, roadmap planning, testing strategy, and release documentation.
+Seventeen project-specific OpenCode skills are maintained under `.opencode/skills/`. They cover repository audits, feature specifications, architecture documentation, database analysis, security review, roadmap planning, testing strategy, performance review, and release documentation.
 
 Follow project instructions and review proposed changes before implementation.
 
@@ -173,28 +176,32 @@ Detailed documentation is maintained in [docs/Knowledge_Base](docs/Knowledge_Bas
 
 Key entry points:
 
-- [Final Report](docs/Knowledge_Base/Audits/Final-Report.md)
-- [Phase 0B Architecture Review](docs/Knowledge_Base/Audits/Phase-0B-Architecture-Review.md)
+- [Documentation Completion Report](docs/Knowledge_Base/Audits/Documentation-Completion-Report.md)
+- [Repository Inventory](docs/Knowledge_Base/Product/Repository-Inventory.md)
+- [Business Rules](docs/Knowledge_Base/Product/Business-Rules.md)
+- [Phase 0C Schema Export Review](docs/Knowledge_Base/Audits/Phase-0C-Schema-Export-Review.md)
 - [Schema Reconciliation](docs/Knowledge_Base/Database/Schema-Reconciliation.md)
 - [Live Verification Queries](docs/Knowledge_Base/Database/Live-Verification-Queries.md)
 - [Shared Backend Investigation](docs/Knowledge_Base/Audits/Shared-Backend-Connection-Investigation.md)
-- [ADR-0008 — Shared Supabase Backend](docs/Knowledge_Base/Decisions/ADR-0008-Shared-Supabase-Backend.md)
+- [Decision Log](docs/Knowledge_Base/Decisions/README.md)
 - [Feature Inventory](docs/Knowledge_Base/Product/Feature-Inventory.md)
 - [Desktop Roadmap](docs/Knowledge_Base/Roadmap/Desktop-Roadmap.md)
-- [Test Strategy](docs/Knowledge_Base/Testing/Test-Strategy.md)
+- [Test Case Catalog](docs/Knowledge_Base/Testing/Test-Case-Catalog.md)
+- [Performance Review](docs/Knowledge_Base/Audits/Performance-Review.md)
+- [Glossary](docs/Knowledge_Base/Glossary.md)
 
 ## Roadmap
 
-- **Phase 0:** Discovery, architecture, shared-backend verification, security review, and testing foundation.
-- **Phase 1:** Core desktop clinic-management functionality.
-- **Phase 2:** Advanced desktop productivity and reporting.
-- **Phase 3:** Additional clinical and automation capabilities.
+- **Phase 0 — Audit and readiness:** Discovery, architecture, shared-backend verification, security review, and testing foundation.
+- **Phase 1 — Desktop foundation and core feature parity:** Shell, auth, clinical, inventory, money, and insight modules.
+- **Phase 2 — Reliability and desktop productivity:** Hardening, performance, accessibility, packaging, and recovery drills.
+- **Phase 3 — Future enhancements (approval required):** Candidate capabilities; none is approved or committed.
 
 These phases are planning targets, not claims that features are implemented. See the [Desktop Roadmap](docs/Knowledge_Base/Roadmap/Desktop-Roadmap.md) for exit gates.
 
 ## Testing
 
-There is currently no desktop test suite. The Android reference has 41 unit-test files and 8 instrumented test files, but those tests were not run in this baseline and are not desktop results.
+There is currently no desktop test suite. The Android reference has 41 unit-test files and 8 instrumented test files, but those tests were not run in this baseline and are not desktop results. The [Test Case Catalog](docs/Knowledge_Base/Testing/Test-Case-Catalog.md) defines 126 planned cases; none is implemented or executed.
 
 Future tests must prioritize:
 
@@ -206,22 +213,22 @@ Future tests must prioritize:
 - Synchronization replay and deletion/absence reconciliation (contract TBD)
 - Backup and restore
 
-See the [Test Strategy](docs/Knowledge_Base/Testing/Test-Strategy.md) and [Regression Matrix](docs/Knowledge_Base/Testing/Regression-Matrix.md).
+See the [Test Strategy](docs/Knowledge_Base/Testing/Test-Strategy.md), [Test Case Catalog](docs/Knowledge_Base/Testing/Test-Case-Catalog.md), and [Regression Matrix](docs/Knowledge_Base/Testing/Regression-Matrix.md).
 
 ## Troubleshooting
 
 There is no application build yet, so installation and runtime troubleshooting is not available.
 
-Known baseline blockers are documented in the [Final Report](docs/Knowledge_Base/Audits/Final-Report.md), [Phase 0B Architecture Review](docs/Knowledge_Base/Audits/Phase-0B-Architecture-Review.md), and [Home](docs/Knowledge_Base/Home.md): missing desktop source, unverified same-project configuration, no reproducible live schema baseline, unverified live RLS and Storage, unresolved stock-trigger mode, no approved deletion contract, and no approved local encryption/backup design. The Phase 0B conclusion is **BLOCKED ON SPECIFIED EVIDENCE**.
+Known baseline blockers are documented in the [Documentation Completion Report](docs/Knowledge_Base/Audits/Documentation-Completion-Report.md), [Phase 0C Schema Export Review](docs/Knowledge_Base/Audits/Phase-0C-Schema-Export-Review.md), and [Home](docs/Knowledge_Base/Home.md): missing desktop source, unverified same-project configuration, no reproducible live schema baseline, unverified live RLS and Storage, exported anon-reachable policies, duplicate stock triggers, no approved deletion contract, and no approved local encryption/backup design. The implementation gate is **BLOCKED ON CRITICAL SECURITY/SCHEMA EVIDENCE**.
 
 ## Contributing
 
 - Preserve unrelated user changes.
-- Follow the documented architecture and coding conventions.
-- Add tests for business-critical changes.
+- Follow [CONTRIBUTING.md](CONTRIBUTING.md) for documentation scope, evidence labels, and validation.
+- Do not modify the Android reference repository or commit the ignored schema exports.
 - Update the Knowledge Base when requirements or architecture change.
-- Review database and security changes before applying them.
 - Do not commit secrets, production data, or generated credentials.
+- Report security issues under [SECURITY.md](SECURITY.md), not in a public issue.
 
 Implementation is gated on approval of the shared-backend verification path and the proposed architecture decisions.
 

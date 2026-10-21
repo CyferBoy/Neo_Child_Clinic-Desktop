@@ -4,8 +4,8 @@ feature_id: RCP
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 13. Receipts and Printing
@@ -18,6 +18,11 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Assign an immutable server-side receipt number, render a clear receipt, and print/reprint safely without exposing PHI or duplicating numbers.
+
+### User stories
+
+- As a receptionist, I can issue and reprint a receipt with the server-assigned number.
+- As an admin, I can audit receipt use without exposing patient details in logs.
 
 ## 2. Actors
 
@@ -120,11 +125,19 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-RCP-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/12-Finance-and-Payments|Finance]]
 - [[Features/05-Vaccination-Management|Vaccination]]
 - [[Features/17-Supabase-Sync|Sync]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+`patient_visits`; `finance_transactions`; `consultations`; `receipt_sequences` (server-only); `audit_logs`.
 
 ## 15. Open questions
 

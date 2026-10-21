@@ -4,8 +4,8 @@ feature_id: PER
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 11. Personal Reminders
@@ -18,6 +18,11 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Track non-clinical personal follow-ups (for example a staff reminder to call a patient), with patient link, vaccine interest, advance amount, date, and status.
+
+### User stories
+
+- As a receptionist, I can set a non-clinical callback reminder for a patient.
+- As a staff member, I can complete or cancel it without changing a clinical due date.
 
 ## 2. Actors
 
@@ -117,10 +122,18 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-PER-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/10-Vaccination-Reminders|Vaccination Reminders]]
 - [[Features/12-Finance-and-Payments|Finance]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+`personal_vaccine_reminders`; `patients`; `vaccines`; `audit_logs`.
 
 ## 15. Open questions
 

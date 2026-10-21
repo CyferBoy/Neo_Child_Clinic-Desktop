@@ -2,12 +2,12 @@
 title: ADR-0007 Money, Dates, and Identity
 doc_status: proposed
 evidence: Android/schema type findings + Phase 0B CSV/type reconciliation
-updated: 2026-10-20
+updated: 2026-10-21
 ---
 
 # ADR-0007 — Money, Dates, and Identity
 
-**Status:** Proposed.
+**Status:** Proposed — awaiting approval.
 
 ## Context
 
@@ -57,4 +57,4 @@ Negative / risks:
 
 ## Related
 
-[[Architecture/Offline-and-Sync-Design|Offline and Sync]] · [[Database/Database-Architecture|Database Architecture]] · [[Database/Schema-Reconciliation|Schema Reconciliation]] · [[Features/04-Patient-Management|Patient Management]] · [[Audits/Phase-0B-Architecture-Review|Phase 0B Architecture Review]]
+[[Architecture/Offline-and-Sync-Design|Offline and Sync]] · [[Database/Database-Architecture|Database Architecture]] · [[Database/Schema-Reconciliation|Schema Reconciliation]] · [[Features/04-Patient-Management|Patient Management]] · [[Features/12-Finance-and-Payments|Finance]] · [[Decisions/ADR-0009-Inventory-and-Financial-Integrity|ADR-0009]] · [[Audits/Phase-0B-Architecture-Review|Phase 0B Architecture Review]]

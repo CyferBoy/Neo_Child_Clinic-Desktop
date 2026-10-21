@@ -4,8 +4,8 @@ feature_id: AUTH
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 02. Authentication and Session
@@ -21,9 +21,15 @@ updated: 2026-10-20
 
 Authenticate staff with Supabase Auth, keep tokens outside the renderer, resolve the authorization role from app_metadata, and handle expiry, revocation, account switch, and offline cold start safely.
 
+### User stories
+
+- As a staff member, I can sign in and remain signed in across restarts without exposing tokens to the UI.
+- As an admin, I can deactivate an account and know its refresh capability is revoked, not merely hidden in the UI.
+
 ## 2. Actors
 
 - All staff
+- Admin (account lifecycle)
 
 ## 3. Verified reference behavior
 
@@ -125,11 +131,19 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-AUTH-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/01-Desktop-Shell-and-Navigation|Shell]]
 - [[Features/17-Supabase-Sync|Sync]]
 - [[Decisions/ADR-0004-Authentication-and-Session|ADR-0004]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+Supabase Auth; `profiles`; local session store. Authorization must use validated `app_metadata.role`, not user-editable metadata.
 
 ## 15. Open questions
 

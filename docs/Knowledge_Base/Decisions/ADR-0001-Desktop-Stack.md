@@ -7,7 +7,7 @@ updated: 2026-10-20
 
 # ADR-0001 — Desktop Stack
 
-**Status:** Proposed. The high-level stack is fixed by project direction; version and library choices remain open.
+**Status:** Proposed — awaiting approval. The high-level stack is fixed by project direction; version and library choices remain open.
 
 ## Context
 

@@ -4,8 +4,8 @@ feature_id: OFF
 doc_status: proposed
 desktop_status: Missing
 android_status: Partially implemented
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 16. Local Persistence and Offline Operation
@@ -18,6 +18,11 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Provide durable local storage, transactional writes, schema migrations, encryption, and recovery so clinical work continues without a network.
+
+### User stories
+
+- As a nurse, I can continue recording care when the network is down and see what has not synced.
+- As support, I can recover from a crash or failed migration without silent data loss.
 
 ## 2. Actors
 
@@ -120,10 +125,18 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-OFF-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Decisions/ADR-0002-Local-Persistence|ADR-0002]]
 - [[Features/17-Supabase-Sync|Sync]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+Local SQLite business tables, outbox, sync cursors, and migration metadata. No remote table is written outside the sync path.
 
 ## 15. Open questions
 

@@ -2,12 +2,13 @@
 title: ADR-0003 Offline Sync
 doc_status: proposed
 evidence: Android sync reference + confirmed failure modes
-updated: 2026-10-20
+updated: 2026-10-21
 ---
 
 # ADR-0003 — Offline Sync
 
-**Status:** Proposed.
+**Status:** Proposed — awaiting approval.
+**Depends on:** [[Decisions/ADR-0002-Local-Persistence|ADR-0002]], [[Decisions/ADR-0007-Money-Dates-and-Identity|ADR-0007]], [[Decisions/ADR-0009-Inventory-and-Financial-Integrity|ADR-0009]].
 
 ## Context
 
@@ -65,4 +66,4 @@ Negative / risks:
 
 ## Related
 
-[[Architecture/Offline-and-Sync-Design|Offline and Sync Design]] · [[Features/17-Supabase-Sync|Supabase Sync]] · [[Audits/Risk-Register|Risk Register]]
+[[Architecture/Offline-and-Sync-Design|Offline and Sync Design]] · [[Features/17-Supabase-Sync|Supabase Sync]] · [[Decisions/ADR-0002-Local-Persistence|ADR-0002]] · [[Decisions/ADR-0007-Money-Dates-and-Identity|ADR-0007]] · [[Decisions/ADR-0009-Inventory-and-Financial-Integrity|ADR-0009]] · [[Audits/Risk-Register|Risk Register]]

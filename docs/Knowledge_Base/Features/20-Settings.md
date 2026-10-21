@@ -4,8 +4,8 @@ feature_id: SET
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 20. Settings
@@ -18,6 +18,11 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Manage device preferences and approved clinic settings without mixing secrets, PHI, or unauthorized policy changes.
+
+### User stories
+
+- As a staff member, I can set device preferences without changing clinic-wide policy.
+- As an admin, I can change approved clinic settings with validation and an audit trail.
 
 ## 2. Actors
 
@@ -115,10 +120,18 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-SET-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/01-Desktop-Shell-and-Navigation|Shell]]
 - [[Features/02-Authentication-and-Session|Auth]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+Local settings store; `profiles` for current-user display. No clinic-wide server settings table is evidenced.
 
 ## 15. Open questions
 

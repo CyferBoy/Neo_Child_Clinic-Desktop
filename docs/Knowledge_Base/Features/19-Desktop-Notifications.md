@@ -4,8 +4,8 @@ feature_id: NOT
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 19. Desktop Notifications
@@ -18,6 +18,11 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Notify staff about due vaccinations and personal reminders without leaking PHI, spamming duplicates, or using the wrong timezone.
+
+### User stories
+
+- As a staff member, I receive a due reminder without patient details in the notification preview.
+- As a staff member, I can disable notifications without changing the underlying due list.
 
 ## 2. Actors
 
@@ -116,10 +121,18 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-NOT-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/10-Vaccination-Reminders|Reminders]]
 - [[Features/11-Personal-Reminders|Personal Reminders]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+`reminders`; `personal_vaccine_reminders`; local notification settings. No notification table is evidenced in the 24-table export.
 
 ## 15. Open questions
 

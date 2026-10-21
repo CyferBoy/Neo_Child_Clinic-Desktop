@@ -2,12 +2,12 @@
 title: ADR-0006 Testing and Release
 doc_status: proposed
 evidence: audit + release risk
-updated: 2026-10-20
+updated: 2026-10-21
 ---
 
 # ADR-0006 — Testing and Release
 
-**Status:** Proposed.
+**Status:** Proposed — awaiting approval.
 
 ## Context
 
@@ -64,4 +64,4 @@ Negative / risks:
 
 ## Related
 
-[[Testing/Test-Strategy|Test Strategy]] · [[Releases/Release-Checklist|Release Checklist]] · [[Roadmap/Phase-1-Implementation-Plan|Phase 1 Plan]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]
+[[Testing/Test-Strategy|Test Strategy]] · [[Testing/Test-Case-Catalog|Test Case Catalog]] · [[Releases/Release-Checklist|Release Checklist]] · [[Decisions/ADR-0010-Backup-and-Restore|ADR-0010]] · [[Roadmap/Phase-1-Implementation-Plan|Phase 1 Plan]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]

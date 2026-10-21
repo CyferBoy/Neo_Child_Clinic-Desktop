@@ -35,6 +35,25 @@ updated: 2026-10-21
 | Update feed → binary | Supply-chain compromise | Signed manifest and artifact, pinned keys, rollback |
 | Staff → data | Insider over-access, curiosity browsing | Least privilege, RLS, audit review, no shared accounts |
 
+## Review coverage
+
+This is a map of the required security concerns to their current evidence. **No desktop control is implemented, and no control in this table is verified against live configuration.**
+
+| Concern | Requirement(s) | Evidence reviewed | Current status |
+|---|---|---|---|
+| Authentication and session | SEC-002, SEC-011 | Android auth/keychain source; feature 02; ADR-0004 | Design proposed; no desktop implementation |
+| Authorization and RLS | SEC-003, SEC-009, SEC-011 | Phase 0C exports, Access Patterns, RLS SQL | Exported defects observed; live behaviour unverified |
+| Local storage encryption | SEC-004 | Android SQLCipher/Keystore source; ADR-0002, ADR-0010 | Desktop design proposed; no implementation |
+| Backup and restore | SEC-006 | Android backup source; Privacy and Backup; ADR-0010 | Desktop design proposed; no test |
+| Logging, crash, telemetry | SEC-008 | Threat Model; feature 21; audit requirements | Rules proposed; no instrumentation |
+| Printing and export | SEC-006, SEC-008 | Feature 13; Privacy and Backup; print threat | Rules proposed; no printer test |
+| Application updates | SEC-007 | ADR-0006; feature 22 | Signing/rollback proposed; no package |
+| Shared backend identity | SEC-001, SEC-003 | Shared Backend Investigation | Project identity unproven |
+| Storage buckets | SEC-003 | Phase 0C SEC-0C-11 | Bucket/policy state unverified |
+| Realtime authorization | SEC-003 | Phase 0C SEC-0C-10 | Publication reported; authorization unverified |
+| Receipt/stock functions | SEC-009, SEC-010 | Phase 0C SEC-0C-06, SEC-0C-09 | Anon-executable functions observed; remediation deferred |
+| Future object grants | SEC-010 | Phase 0C default ACL, migration gaps | Broad defaults observed; live post-Oct-30 state unknown |
+
 ## Authentication
 
 `[PROPOSED]`
@@ -129,6 +148,19 @@ These are recorded in the Android KB; they are not claims about the live desktop
 | NSC-012 | Write rate limiter counts rows, not requests | Desktop batch writes may hit unexpected limits |
 | NSC-013 | Live-only legacy `get_my_role()` is `SECURITY DEFINER` without `search_path`; all 13 migration-authored `SECURITY DEFINER` functions pin it | **Confirmed by exported definition:** no `search_path`, fail-open `'nurse'`, and anon-executable. Do not copy it into desktop code. |
 
+### Finding status vocabulary
+
+| Status label | Meaning in this review |
+|---|---|
+| **Confirmed in repository source** | Directly proven by source/migration SQL or a repository artifact. |
+| **Observed in an export** | Present in the 2026-10-21 metadata export; not exercised against the live API. |
+| **Verified against live configuration** | Checked against the running project by an approved method. **No finding currently has this status.** |
+| **Potential risk requiring verification** | A plausible impact derived from the evidence, not a demonstrated live exploit. |
+| **Deferred by user** | Live verification or remediation is intentionally postponed to a later phase. |
+| **Resolved with evidence** | The defect is fixed and verified. **No finding currently has this status.** |
+
+An export is metadata evidence, not a runtime certification. Do not describe any row below as a confirmed production exposure.
+
 ### Phase 0C exported-state findings
 
 These are **reported by the exports**, not verified by a query or an HTTP request. `GRANT` and RLS are separate controls: a table grant permits reachability through PostgREST; a policy decides which rows/commands pass. Neither one is a substitute for the other.
@@ -142,21 +174,23 @@ These are **reported by the exports**, not verified by a query or an HTTP reques
 | Default ACL | New `public` tables/functions/sequences still receive broad `anon`/`authenticated`/`service_role` grants | Future-table exposure is not fixed by this snapshot; the Supabase change is enforced 2026-10-30 |
 | Schema `USAGE` | Not exported | Cannot prove complete reachability or absence of other schemas |
 
-| ID | Finding | Required response |
-|---|---|---|
-| SEC-0C-01 | **Anon fail-open:** `get_my_role()` returns `COALESCE(role, 'nurse')`; ten `{public}` `ALL`/`SELECT` policies then pass for `anon`: `patients`, `patient_visits`, `patient_notes`, `consultations`, `vaccination_items`, `vaccines`, `vaccine_batches`, `inventory_transactions`, `waste_records`, `borrow_records` | Confirm with an anon-key read against synthetic data; drop/replace legacy policies or make the helper fail closed; verify both GRANT and RLS |
-| SEC-0C-02 | **`reminders`:** `{authenticated}` `ALL` with `USING (true)` / `WITH CHECK (true)` | Any authenticated account, including non-staff, can read/write all reminders. Replace with active-staff predicates and test a non-staff account. |
-| SEC-0C-03 | **Role-source split:** `is_admin()` uses `app_metadata.role`, but legacy `profiles` policies use `profiles.role` via `get_my_role()`/`check_is_admin()`; `handle_new_user()` may copy `raw_user_meta_data->>'role'` | Reconcile to one server-controlled role authority; remove legacy admin policies; verify signup cannot choose a role |
-| SEC-0C-04 | **Audit forgery:** `audit_logs` has a `{public}` INSERT policy with `auth.uid() IS NOT NULL` | Any authenticated user can insert audit rows. Restrict insert to active staff/server paths; keep update/delete denied. |
-| SEC-0C-05 | **Deactivated-device path:** legacy `user_devices` owner policies do not require active staff | A user with a valid JWT can manage their device row after deactivation until token expiry. Require active staff and verify with a deactivated account. |
-| SEC-0C-06 | **Function exposure:** all 21 functions are anon-executable, including `neo_next_receipt_number()` (sequence burn) and `recalculate_all_stocks()` (stock write path) | Revoke from `PUBLIC`, `anon`, and `authenticated`, then grant only an allowlisted role/function set; verify with `has_function_privilege` |
-| SEC-0C-07 | **Definer hardening:** `get_my_role()` and `handle_new_user()` are `SECURITY DEFINER` without `search_path` | Pin `search_path`; retain schema-qualified references and verify the functions after any migration. |
-| SEC-0C-08 | **Signup role path:** `handle_new_user()` copies `raw_user_meta_data->>'role'` into `profiles.role`, defaulting to `nurse` | Confirm public signup is disabled or the trigger is safe; prevent user metadata from selecting an authorization role. |
-| SEC-0C-09 | **Receipt path:** `receipt_sequences` retains anon/auth DML grants despite the revoke, and `neo_next_receipt_number()` is anon-executable | Remove direct grants and revoke function EXECUTE from client roles; keep receipt numbering server-side. |
-| SEC-0C-10 | **Realtime:** 23 tables are published, including `profiles`, `user_devices`, `receipt_sequences`, and clinical tables | Remove unnecessary publication membership and verify Realtime authorization separately. |
-| SEC-0C-11 | **Storage:** only one `storage.objects` policy is visible and no bucket rows were exported | Verify the `patient-docs` bucket is private, with expected limits and ownership, before any upload. |
-| SEC-0C-12 | **Forced RLS:** all tables have `rls_forced = false` | Never use the table owner or `service_role` from the desktop; test all client roles and keep RLS enabled. |
-| MIG-0C-01 | **Default ACL / Oct 30:** the seven migration-created business tables (`consultation_todos`, `vaccination_todos`, `personal_vaccine_reminders`, `borrow_returns`, `expenses`, `doctor_weekly_slots`, `doctor_slot_exceptions`) have no explicit table grant | Add least-privilege grants in a reviewed migration, including `service_role`; do not assume the platform default survives. |
+| ID | Severity | Evidence | Potential impact | Affected components | Verification status | Recommended action |
+|---|---|---|---|---|---|---|
+| SEC-0C-01 | Critical | `L`: `get_my_role()` definition and the `{public}` policies on ten tables | **If current and reachable**, an unauthenticated request could read/write patient, visit, note, consultation, vaccination, vaccine, batch, inventory, waste, and borrow rows. This was not exercised. | Auth helper, RLS, PostgREST, ten clinical/inventory tables | Observed in an export; potential risk requiring verification; live verification deferred by user | Fail the helper closed, remove/replace legacy policies, then test anon and staff roles |
+| SEC-0C-02 | High | `L`: `{authenticated}` `ALL` on `reminders` with `USING (true)` / `WITH CHECK (true)` | Any authenticated account, including non-staff, could read/write all reminders if reachable. | RLS, reminders, Auth-to-profile gate | Observed in an export; potential risk requiring verification; live verification deferred by user | Replace with active-staff predicates; test a non-staff account |
+| SEC-0C-03 | High | `L`/`A`: `is_admin()` uses `app_metadata.role`; legacy profile policies use `profiles.role`; `handle_new_user()` may copy raw user metadata | Two role authorities can disagree; a user-controlled value may influence authorization. | Auth, profiles, role helpers, RLS | Observed in an export + confirmed in repository source; potential risk requiring verification | Reconcile to one server-controlled authority; remove legacy admin policies |
+| SEC-0C-04 | High | `L`: `audit_logs` `{public}` INSERT with `auth.uid() IS NOT NULL` | Any authenticated user could forge audit rows, weakening accountability. | Audit table, RLS, audit feature | Observed in an export; potential risk requiring verification; live verification deferred by user | Restrict insert to approved server/active-staff paths; keep update/delete denied |
+| SEC-0C-05 | Medium | `L`: legacy `user_devices` owner policies | A deactivated account with a still-valid JWT may manage its device row until expiry. | RLS, user_devices, account lifecycle | Observed in an export; potential risk requiring verification; live verification deferred by user | Require active staff; test a deactivated account |
+| SEC-0C-06 | Critical | `L`: all 21 functions executable by `anon`/`authenticated`; definitions for receipt and stock functions | Receipt-sequence burn and stock mutation paths may be callable without appropriate staff authorization. | Functions, ACLs, receipts, inventory, rate limits | Observed in an export; potential risk requiring verification; live verification deferred by user | Revoke `PUBLIC`/`anon` execution; grant only allowlisted server/staff paths |
+| SEC-0C-07 | High | `L`: `get_my_role()` and `handle_new_user()` are `SECURITY DEFINER` without pinned `search_path` | A definer function can be hijacked through object resolution; the role fallback worsens it. | Functions, schema resolution, auth path | Observed in an export; potential risk requiring verification | Pin `search_path`, schema-qualify references, and retest |
+| SEC-0C-08 | High | `L`: `handle_new_user()` copies `raw_user_meta_data->>'role'` into `profiles.role` | A signup could select a stored role if public signup and legacy policies are active. | Auth trigger, profiles, role authority | Observed in an export; potential risk requiring verification; live verification deferred by user | Disable public signup or prevent user metadata from selecting an authorization role |
+| SEC-0C-09 | High | `L`: `receipt_sequences` anon/auth DML grants; receipt function anon-executable | Receipt numbers could be consumed or altered, breaking audit and billing continuity. | Receipt sequence, function, grants, finance | Observed in an export; potential risk requiring verification; live verification deferred by user | Remove direct grants and revoke client execution; keep numbering server-side |
+| SEC-0C-10 | High | `L`: 23 tables published to Realtime, including profiles, user_devices, receipt_sequences, clinical tables | Publication membership may expose change events; Realtime authorization is not proven. | Realtime, publication, RLS | Observed in an export; potential risk requiring verification; live verification deferred by user | Remove unnecessary membership and test Realtime authorization with each role |
+| SEC-0C-11 | Medium | `L`: one `storage.objects` policy visible; no bucket rows exported | `patient-docs` privacy/limits/ownership cannot be verified; a misconfigured bucket could expose documents. | Storage, bucket policy, patient documents | Observed gap in an export; potential risk requiring verification; live verification deferred by user | Verify bucket privacy, limits, and object policies before upload |
+| SEC-0C-12 | Medium | `L`: all 24 tables have `rls_forced = false` | Owner/service-role bypass is expected, but accidental owner execution would bypass RLS. | RLS, deployment role | Observed in an export; potential risk requiring verification | Never use owner/service_role at runtime; test all client roles with RLS enabled |
+| MIG-0C-01 | High | `L`/`M`: seven migration-created tables lack explicit grants | Future access may fail or rely on broad defaults; the 2026-10-30 change makes this unsafe. | Grants, default ACLs, seven tables | Observed in an export; potential risk requiring verification; live verification deferred by user | Add reviewed least-privilege grants and role tests |
+
+**No row above is `Verified against live configuration` or `Resolved with evidence`.** Those statuses require an approved live check or a completed, verified fix.
 
 ### Required roles and privileges — target, not deployed
 
@@ -216,4 +250,4 @@ These are **reported by the exports**, not verified by a query or an HTTP reques
 
 ## Related
 
-[[Security/Threat-Model|Threat Model]] · [[Security/Privacy-and-Backup|Privacy and Backup]] · [[Database/Access-Patterns|Access Patterns]] · [[Audits/Risk-Register|Risk Register]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]
+[[Security/Threat-Model|Threat Model]] · [[Security/Privacy-and-Backup|Privacy and Backup]] · [[Database/Access-Patterns|Access Patterns]] · [[Product/Business-Rules|Business Rules]] · [[Audits/Risk-Register|Risk Register]] · [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]] · [[Audits/Documentation-Completion-Report|Documentation Completion Report]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]] · [[Decisions/ADR-0009-Inventory-and-Financial-Integrity|ADR-0009]] · [[Decisions/ADR-0010-Backup-and-Restore|ADR-0010]]

@@ -4,8 +4,8 @@ feature_id: FIN
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 12. Finance and Payments
@@ -18,6 +18,11 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Record visit income with cash/online/mixed splits, expenses, and reconciliation to receipts and reports without double-counting or floating-point errors.
+
+### User stories
+
+- As a receptionist, I can take a cash, online, or split payment and see it reconcile to the visit.
+- As an admin, I can review daily income and expenses without double-counting a visit.
 
 ## 2. Actors
 
@@ -127,12 +132,20 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-FIN-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/05-Vaccination-Management|Vaccination]]
 - [[Features/06-Consultation-Management|Consultation]]
 - [[Features/13-Receipts-and-Printing|Receipts]]
 - [[Features/15-Statistics-and-Reports|Reports]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+`finance_transactions`; `expenses`; `patient_visits`; `consultations`; `receipt_sequences` (server-only); `audit_logs`.
 
 ## 15. Open questions
 

@@ -11,7 +11,7 @@ updated: 2026-10-21
 
 ## 0. Phase 0C update — metadata exports reviewed (2026-10-21)
 
-A second, much broader export set is now available under `docs/Schemas/`. It covers **24 public tables, 416 columns, 77 constraints, 93 indexes, 179 policies, 61 triggers, 21 functions, 744 table ACL rows, 32 relations, and 23 Realtime publication members**. The two column exports (2026-10-20 and 2026-10-21) agree on all 416 keys and values.
+A second, much broader export set is now available under `docs/Schemas/`. It covers **24 public tables, 416 columns, 77 constraints, 93 indexes, 179 policies, 61 triggers, 21 functions, 744 table ACL rows, 32 relations, 23 public Realtime tables, and 7 `realtime.messages_*` publication members (30 rows)**. The two column exports (2026-10-20 and 2026-10-21) agree on all 416 keys and values.
 
 The full table-by-table review is [[Audits/Phase-0C-Schema-Export-Review|Phase 0C — Live Schema Export Review]]. The Phase 0B sections below are retained as the historical column-snapshot reconciliation; where they say “keys/indexes/policies are unknown,” the Phase 0C export now supplies them.
 

@@ -4,8 +4,8 @@ feature_id: RPT
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 15. Statistics and Reports
@@ -18,6 +18,11 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Produce trustworthy operational and financial reports with explicit date windows, IST semantics, soft-delete filtering, and single-count income rules.
+
+### User stories
+
+- As an admin, I can run a date-bounded financial report that counts each visit once.
+- As a doctor, I can review vaccination and patient trends with deleted records excluded.
 
 ## 2. Actors
 
@@ -122,11 +127,19 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-RPT-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/12-Finance-and-Payments|Finance]]
 - [[Features/05-Vaccination-Management|Vaccination]]
 - [[Features/07-Vaccine-and-Batch-Inventory|Inventory]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+Read-only projections over `finance_transactions`; `expenses`; `patient_visits`; `vaccination_items`; `vaccines`; `patients`; `waste_records`.
 
 ## 15. Open questions
 

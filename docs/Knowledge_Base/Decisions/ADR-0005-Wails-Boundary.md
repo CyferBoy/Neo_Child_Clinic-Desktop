@@ -7,7 +7,7 @@ updated: 2026-10-20
 
 # ADR-0005 — Wails Boundary
 
-**Status:** Proposed.
+**Status:** Proposed — awaiting approval.
 
 ## Context
 

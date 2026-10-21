@@ -676,29 +676,103 @@ Doctor availability exceptions.
 
 ## Relationships
 
-The 2026-10-21 export reports **38 foreign keys**. The rows below are reported relationships unless marked “inferred”; Android Room foreign keys and column names are supporting evidence, not server constraints.
+The 2026-10-21 export reports **38 foreign keys** across the 24 public tables. All entries below are **reported by the export**; none is a live constraint check. A foreign key proves a declared relationship, not that the desktop has permission to traverse it or that the referenced row is readable.
 
-| Parent | Child | Key | Basis |
-|---|---|---|---|
-| `patients` | `patient_visits` | `patient_id` | Reported FK |
-| `patients` | `patient_notes` | `patient_id` | Reported FK |
-| `patients` | `finance_transactions` | `patient_id` | Reported FK |
-| `patients` | `consultations` | `patient_id` | Reported FK |
-| `patients` | `reminders` | `patient_id` | Reported FK |
-| `patients` | `consultation_todos` | `patient_id` | Reported FK |
-| `patients` | `vaccination_todos` | `patient_id` | Reported FK |
-| `patient_visits` | `vaccination_items` | `vaccination_id` | Reported FK |
-| `patient_visits` | `consultations` | `visit_id` | Reported FK |
-| `patient_visits` | `finance_transactions` | `visit_id` | Reported FK |
-| `vaccines` | `vaccine_batches` | `vaccine_id` | Reported FK |
-| `vaccine_batches` | `inventory_transactions` | `batch_id` | Reported FK |
-| `vaccine_batches` | `waste_records` | `batch_id` | Reported FK |
-| `vaccine_batches` | `borrow_records` | `batch_id` | Reported FK |
-| `borrow_records` | `borrow_returns` | `borrow_record_id` | Reported FK |
-| `profiles` | `user_devices` | `user_id` | Reported FK |
-| `profiles` | `doctor_weekly_slots` | `doctor_id` | Reported FK |
-| `doctor_weekly_slots` | `doctor_slot_exceptions` | `weekly_slot_id` | Reported FK |
-| `doctor_weekly_slots` | `doctor_slot_exceptions` | `doctor_id` + date | **Inferred**; no matching date FK |
+### Core relationship map
+
+```mermaid
+erDiagram
+    AUTH_USERS ||--|| PROFILES : owns
+    PROFILES ||--o{ USER_DEVICES : registers
+    PROFILES ||--o{ DOCTOR_WEEKLY_SLOTS : works
+    DOCTOR_WEEKLY_SLOTS ||--o{ DOCTOR_SLOT_EXCEPTIONS : overrides
+    DOCTOR_WEEKLY_SLOTS ||--o{ PATIENT_VISITS : schedules
+    DOCTOR_WEEKLY_SLOTS ||--o{ CONSULTATIONS : schedules
+    DOCTOR_WEEKLY_SLOTS ||--o{ CONSULTATION_TODOS : slots
+    DOCTOR_WEEKLY_SLOTS ||--o{ VACCINATION_TODOS : slots
+    PATIENTS ||--o{ PATIENT_VISITS : attends
+    PATIENTS ||--o{ PATIENT_NOTES : has
+    PATIENTS ||--o{ CONSULTATIONS : has
+    PATIENTS ||--o{ FINANCE_TRANSACTIONS : pays
+    PATIENTS ||--o{ REMINDERS : due
+    PATIENTS ||--o{ PERSONAL_VACCINE_REMINDERS : due
+    PATIENTS ||--o{ AUDIT_LOGS : audited
+    PATIENTS ||--o{ CONSULTATION_TODOS : todo
+    PATIENTS ||--o{ VACCINATION_TODOS : todo
+    PATIENTS ||--o{ INVENTORY_TRANSACTIONS : stock
+    PATIENT_VISITS ||--o{ VACCINATION_ITEMS : contains
+    PATIENT_VISITS ||--o{ CONSULTATIONS : contains
+    PATIENT_VISITS ||--o{ INVENTORY_TRANSACTIONS : stock
+    PATIENT_VISITS ||--o{ FINANCE_TRANSACTIONS : pays
+    PATIENT_VISITS ||--o{ REMINDERS : originates
+    VACCINES ||--o{ VACCINE_BATCHES : batches
+    VACCINES ||--o{ VACCINATION_ITEMS : used
+    VACCINES ||--o{ INVENTORY_TRANSACTIONS : stock
+    VACCINES ||--o{ BORROW_RECORDS : borrows
+    VACCINES ||--o{ WASTE_RECORDS : wastes
+    VACCINES ||--o{ PERSONAL_VACCINE_REMINDERS : due
+    VACCINE_BATCHES ||--o{ INVENTORY_TRANSACTIONS : stock
+    VACCINE_BATCHES ||--o{ VACCINATION_ITEMS : used
+    VACCINE_BATCHES ||--o{ WASTE_RECORDS : wastes
+    VACCINE_BATCHES ||--o{ BORROW_RECORDS : borrows
+    VACCINE_BATCHES ||--o{ BORROW_RETURNS : returns
+    BORROW_RECORDS ||--o{ BORROW_RETURNS : settles
+```
+
+`||--o{` means one parent to zero-or-many children. The export does not prove whether each child foreign key is nullable, whether a child row is required for every parent, or whether the relationship is used by the Android/desktop client. Those are application rules, not FK facts.
+
+### Complete reported foreign-key list
+
+| Child table | Child column | Parent table | Parent column | On delete |
+|---|---|---|---|---|
+| `profiles` | `id` | `auth.users` | `id` | ON DELETE CASCADE |
+| `borrow_returns` | `borrow_record_id` | `borrow_records` | `id` | ON DELETE CASCADE |
+| `consultation_todos` | `availability_slot_id` | `doctor_weekly_slots` | `id` | ON DELETE SET NULL |
+| `consultations` | `availability_slot_id` | `doctor_weekly_slots` | `id` | ON DELETE SET NULL |
+| `doctor_slot_exceptions` | `weekly_slot_id` | `doctor_weekly_slots` | `id` | ON DELETE CASCADE |
+| `patient_visits` | `availability_slot_id` | `doctor_weekly_slots` | `id` | ON DELETE SET NULL |
+| `vaccination_todos` | `availability_slot_id` | `doctor_weekly_slots` | `id` | ON DELETE SET NULL |
+| `consultations` | `visit_id` | `patient_visits` | `id` | ON DELETE CASCADE |
+| `finance_transactions` | `visit_id` | `patient_visits` | `id` | NO ACTION |
+| `inventory_transactions` | `visit_id` | `patient_visits` | `id` | NO ACTION |
+| `reminders` | `original_visit_id` | `patient_visits` | `id` | ON DELETE CASCADE |
+| `vaccination_items` | `vaccination_id` | `patient_visits` | `id` | ON DELETE CASCADE |
+| `audit_logs` | `patient_id` | `patients` | `id` | NO ACTION |
+| `consultation_todos` | `patient_id` | `patients` | `id` | ON DELETE SET NULL |
+| `consultations` | `patient_id` | `patients` | `id` | ON DELETE CASCADE |
+| `finance_transactions` | `patient_id` | `patients` | `id` | NO ACTION |
+| `inventory_transactions` | `patient_id` | `patients` | `id` | NO ACTION |
+| `patient_notes` | `patient_id` | `patients` | `id` | ON DELETE CASCADE |
+| `patient_visits` | `patient_id` | `patients` | `id` | ON DELETE CASCADE |
+| `personal_vaccine_reminders` | `patient_id` | `patients` | `id` | ON DELETE CASCADE |
+| `reminders` | `patient_id` | `patients` | `id` | ON DELETE CASCADE |
+| `vaccination_todos` | `patient_id` | `patients` | `id` | ON DELETE SET NULL |
+| `consultation_todos` | `doctor_id` | `profiles` | `id` | ON DELETE SET NULL |
+| `doctor_slot_exceptions` | `doctor_id` | `profiles` | `id` | ON DELETE CASCADE |
+| `doctor_weekly_slots` | `doctor_id` | `profiles` | `id` | ON DELETE CASCADE |
+| `user_devices` | `user_id` | `profiles` | `id` | ON DELETE CASCADE |
+| `vaccination_todos` | `doctor_id` | `profiles` | `id` | ON DELETE SET NULL |
+| `borrow_records` | `batch_id` | `vaccine_batches` | `id` | NO ACTION |
+| `borrow_returns` | `batch_id` | `vaccine_batches` | `id` | ON DELETE CASCADE |
+| `inventory_transactions` | `batch_id` | `vaccine_batches` | `id` | ON DELETE CASCADE |
+| `vaccination_items` | `batch_id` | `vaccine_batches` | `id` | NO ACTION |
+| `waste_records` | `batch_id` | `vaccine_batches` | `id` | NO ACTION |
+| `borrow_records` | `vaccine_id` | `vaccines` | `id` | NO ACTION |
+| `inventory_transactions` | `vaccine_id` | `vaccines` | `id` | ON DELETE CASCADE |
+| `personal_vaccine_reminders` | `vaccine_id` | `vaccines` | `id` | ON DELETE SET NULL |
+| `vaccination_items` | `vaccine_id` | `vaccines` | `id` | NO ACTION |
+| `vaccine_batches` | `vaccine_id` | `vaccines` | `id` | ON DELETE CASCADE |
+| `waste_records` | `vaccine_id` | `vaccines` | `id` | NO ACTION |
+
+### Relationship caveats
+
+- `profiles.id → auth.users.id` crosses from `public` into the `auth` schema. The exporting role's visibility into `auth` is not proven.
+- `patient_visits` is the clinical visit. The local Android entity/table name is `visits`; do not confuse it with `patient_visits` in the server export.
+- `vaccination_items` links to `patient_visits` through `vaccination_id`, not directly to a patient. Patient identity is reached through the visit.
+- `finance_transactions.patient_id`/`visit_id` are reported foreign keys, but historical Android data may contain missing links. Referential integrity is not a substitute for business reconciliation.
+- `doctor_slot_exceptions` has a `doctor_id` FK and a `weekly_slot_id` FK. The older inferred “doctor + date” relationship is not a separate FK and is omitted from the 38.
+- The absence of a FK is also evidence: local-only tables such as `sync_queue`, `backup_history`, `widget_due_cache`, and `inventory_deductions` do not appear in this server snapshot and must not be created remotely for desktop.
+- Local database tables may add indexes or foreign keys that the shared backend does not have. Do not “fix” the shared schema to match Room.
 
 ## Known gaps
 

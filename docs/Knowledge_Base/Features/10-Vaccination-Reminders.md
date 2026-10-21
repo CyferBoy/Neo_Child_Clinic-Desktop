@@ -4,8 +4,8 @@ feature_id: REM
 doc_status: proposed
 desktop_status: Missing
 android_status: Partially implemented
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 10. Vaccination Reminders
@@ -18,6 +18,12 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Create, schedule, view, complete, dismiss, and reschedule due vaccination reminders with IST date semantics and reliable notifications.
+
+### User stories
+
+- As a receptionist, I can see due and overdue vaccination reminders for today in IST.
+- As a nurse, I can complete, dismiss, or reschedule a reminder with an audit trail.
+- As a doctor, I can review the reminder history without a stale sync reopening a completed reminder.
 
 ## 2. Actors
 
@@ -124,11 +130,19 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-REM-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/05-Vaccination-Management|Vaccination]]
 - [[Features/19-Desktop-Notifications|Notifications]]
 - [[Features/17-Supabase-Sync|Sync]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+`reminders`; `patients`; `patient_visits`; `vaccination_items`; `audit_logs`.
 
 ## 15. Open questions
 

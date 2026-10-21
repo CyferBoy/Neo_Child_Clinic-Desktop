@@ -7,7 +7,7 @@ updated: 2026-10-20
 
 # ADR-0004 — Authentication and Session
 
-**Status:** Proposed.
+**Status:** Proposed — awaiting approval.
 
 ## Context
 

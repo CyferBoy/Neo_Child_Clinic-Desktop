@@ -4,8 +4,8 @@ feature_id: UPD
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 22. Application Updates
@@ -18,6 +18,11 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Check for, verify, install, and roll back desktop updates safely without interrupting clinical work or exposing the update channel to tampering.
+
+### User stories
+
+- As a staff member, I can defer an update until my current work is safe.
+- As an admin, I can verify a signed update and recover from a failed release.
 
 ## 2. Actors
 
@@ -118,10 +123,18 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-UPD-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Releases/Release-Checklist|Release Checklist]]
 - [[Decisions/ADR-0006-Testing-and-Release|ADR-0006]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+No business table. Update manifest/version metadata and the application binary only.
 
 ## 15. Open questions
 

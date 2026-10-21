@@ -4,8 +4,8 @@ feature_id: PLAT
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 01. Desktop Shell and Navigation
@@ -18,6 +18,12 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Provide the signed-in desktop frame: single-instance window, navigation, global search entry, sync/offline status, update prompts, and safe session transitions.
+
+### User stories
+
+- As a receptionist, I can move between patients, vaccinations, inventory, and reports without losing unsaved work.
+- As a nurse, I can see whether my work is local-only, syncing, failed, or acknowledged before I close the app.
+- As any staff member, I can start work offline without the shell blocking a local clinical write.
 
 ## 2. Actors
 
@@ -115,11 +121,19 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-PLAT-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/02-Authentication-and-Session|Authentication]]
 - [[Features/16-Local-Persistence-and-Offline-Operation|Local Persistence]]
 - [[Features/17-Supabase-Sync|Sync]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+No primary clinical table. The shell reads local session/app state and may query `patients` for global search only after authorization.
 
 ## 15. Open questions
 

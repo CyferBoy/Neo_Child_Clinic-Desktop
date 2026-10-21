@@ -54,6 +54,33 @@ updated: 2026-10-21
 
 ## Query patterns
 
+### Android query dependency map
+
+`[VERIFIED]` The Android source contains these feature/query surfaces. The table names are the reported server dependencies or the local data they project; it is a dependency map, not a claim that every request uses every table.
+
+| Android surface | Source evidence | Primary server/local data | Notes |
+|---|---|---|---|
+| Authentication/session | `core/security/`, `feature/auth/` | Supabase Auth, `profiles` | Role from `app_metadata.role`; session storage is Keystore-backed |
+| Staff management | `feature/staff/`, `manage-staff` function | `profiles`, `audit_logs` | Server function owns privileged Auth/profile changes |
+| Patients | `feature/patient/`, `PatientDao` | `patients`, `patient_visits`, `patient_notes`, patient todo tables, Storage documents | Search is broad `LIKE`; merges affect dependents |
+| Vaccinations | `feature/vaccination/` | `patient_visits`, `vaccination_items`, `vaccines`, `vaccine_batches`, `inventory_transactions`, `reminders`, `finance_transactions` | Visit aggregate; stock/reminder/payment effects |
+| Consultations | `feature/consultation/` | `consultations`, `patient_visits`, `finance_transactions`, consultation todos | Linked to visit/patient |
+| Inventory | `feature/inventory/` | `vaccines`, `vaccine_batches`, `inventory_transactions` | Ledger + batch projection |
+| Wastage | `feature/waste/` | `waste_records`, `vaccine_batches`, `inventory_transactions` | Reason and batch required |
+| Borrow/return | `feature/borrowed/` | `borrow_records`, `borrow_returns`, `vaccine_batches`, `inventory_transactions` | Partial returns and outstanding balance |
+| Vaccination reminders | `feature/reminder/` | `reminders`, `patients`, `patient_visits`, `vaccination_items` | IST due classification; terminal states |
+| Personal reminders | `feature/personalreminder/` | `personal_vaccine_reminders`, `patients`, `vaccines` | Separate from clinical reminders |
+| Finance | `feature/finance/` | `finance_transactions`, `expenses`, `patient_visits`, `consultations` | Split payment and one-income identity |
+| Receipts | Receipt service/function | `receipt_sequences`, `patient_visits`, `finance_transactions` | Server-assigned number; anon execution is a reported defect |
+| Dashboard | `feature/dashboard/` | Projections over patients, visits, reminders, batches, finance, todos | Read-only; must match detail definitions |
+| Statistics/reports | `feature/statistics/` | Patients, visits, vaccination items, vaccines, finance, expenses, waste | Date-bounded, deleted rows excluded |
+| Sync | `core/sync/` | Public tables in the sync contract plus local outbox/cursors | Pull/push boundaries are not fully documented |
+| Audit | `feature/audit/` | `audit_logs` | Append-only intent; exported insert policy is too broad |
+| Storage | `SupabaseModule`, patient document code | `storage.objects`, `patient-docs` bucket | Bucket policy unverified |
+| Realtime | `RealtimeChangeSubscriptions` | Published tables | Debounced refresh; authorization unverified |
+| Updates | `feature/update/`, `notify-update` function | No business table; release metadata | Signature/rollback not verified |
+| Settings | `feature/settings/` | Local preferences; server policy not evidenced | No clinic-settings table in export |
+
 ### Patient search
 - Search by name, clinic ID, phone.
 - Current Android search uses `LIKE` patterns; an unindexed address is a confirmed low-severity finding.

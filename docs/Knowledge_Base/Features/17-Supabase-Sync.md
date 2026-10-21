@@ -4,8 +4,8 @@ feature_id: SYNC
 doc_status: proposed
 desktop_status: Missing
 android_status: Partially implemented
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 17. Supabase Synchronization
@@ -20,6 +20,11 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Converge local writes with Supabase safely: outbox groups, idempotent uploads, paged pulls, an approved deletion/absence contract, retries, auth handling, and visible conflicts.
+
+### User stories
+
+- As a staff member, I can see pending, failed, and conflicted writes and retry them safely.
+- As an admin, I can resolve a sync conflict without duplicating a payment or stock movement.
 
 ## 2. Actors
 
@@ -130,11 +135,19 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-SYNC-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Architecture/Offline-and-Sync-Design|Offline and Sync]]
 - [[Decisions/ADR-0003-Offline-Sync|ADR-0003]]
 - [[Features/16-Local-Persistence-and-Offline-Operation|Local Persistence]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+The public tables in the sync contract; local outbox and cursors; `audit_logs`. The complete syncable set is not evidenced because the deletion contract is open.
 
 ## 15. Open questions
 

@@ -4,8 +4,8 @@ feature_id: BRW
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 09. Borrowed and Lent Vaccines
@@ -18,6 +18,12 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Track vaccines lent to or borrowed from another clinic/doctor by batch, including partial returns and outstanding balances.
+
+### User stories
+
+- As a nurse, I can lend or borrow a batch and see the outstanding balance.
+- As an inventory manager, I can record a partial return without closing the record.
+- As an admin, I can mark a lost or damaged balance without creating phantom stock.
 
 ## 2. Actors
 
@@ -116,9 +122,17 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-BRW-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/07-Vaccine-and-Batch-Inventory|Inventory]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+`borrow_records`; `borrow_returns`; `vaccine_batches`; `inventory_transactions`; `audit_logs`.
 
 ## 15. Open questions
 

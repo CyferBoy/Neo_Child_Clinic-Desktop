@@ -2,12 +2,12 @@
 title: ADR-0002 Local Persistence
 doc_status: proposed
 evidence: offline-first requirement + Android Room reference
-updated: 2026-10-20
+updated: 2026-10-21
 ---
 
 # ADR-0002 — Local Persistence
 
-**Status:** Proposed.
+**Status:** Proposed — awaiting approval.
 
 ## Context
 
@@ -63,4 +63,4 @@ Negative / risks:
 
 ## Related
 
-[[Architecture/Go-Backend-Architecture|Go Backend]] · [[Architecture/Offline-and-Sync-Design|Offline and Sync]] · [[Security/Privacy-and-Backup|Privacy and Backup]]
+[[Architecture/Go-Backend-Architecture|Go Backend]] · [[Architecture/Offline-and-Sync-Design|Offline and Sync]] · [[Security/Privacy-and-Backup|Privacy and Backup]] · [[Decisions/ADR-0010-Backup-and-Restore|ADR-0010]]

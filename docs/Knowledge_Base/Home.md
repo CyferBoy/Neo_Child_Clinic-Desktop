@@ -7,7 +7,7 @@ updated: 2026-10-21
 
 # Neo Child Clinic Desktop — Knowledge Base
 
-> **Baseline, not a completion claim.** The desktop application has **no source code**. This vault documents the verified Android reference, the target desktop design, the 22 Phase 1 specifications, the audit, and the roadmap. Every statement is tagged by evidence type.
+> **Current baseline, not an implementation claim.** The documentation package is complete for architecture review; the desktop application has **no source code**. This vault documents the verified Android reference, the target desktop design, the 22 Phase 1 specifications, the audit, and the roadmap. Every statement is tagged by evidence type.
 
 **Audit date:** 2026-10-20 (Phase 0B); **Phase 0C review:** 2026-10-21
 **Android reference:** `/data/data/com.termux/files/home/Neo_Child_Clinic` — `main` @ `ca4bed406bfd246ad83878fff9a4e178ebc5670f`
@@ -22,6 +22,11 @@ updated: 2026-10-21
 | | |
 |---|---|
 | Desktop modules specified | **22 of 22** |
+| Documentation completion review | **Complete for this phase** — see [[Audits/Documentation-Completion-Report|Completion Report]] |
+| Knowledge Base documents | **77 Markdown notes** (includes this completion pass) |
+| Requirements traceable | **150** (126 module + 24 cross-cutting) |
+| Planned test cases | **126**, none implemented or executed |
+| ADRs | **10 records: 1 accepted (ADR-0008), 9 awaiting approval** |
 | Desktop modules implemented | **0 of 22** |
 | Desktop tests | **0** (no suite) |
 | Android reference feature modules | 22 |
@@ -53,10 +58,14 @@ updated: 2026-10-21
 | If you want to… | Read |
 |---|---|
 | Use a plain-Markdown entry point | [[README|Knowledge Base Entry]] |
+| See the repository inventory and commands | [[Product/Repository-Inventory|Repository Inventory]] |
+| Review the final documentation deliverable | [[Audits/Documentation-Completion-Report|Documentation Completion Report]] |
 | Understand the product and scope | [[Product/Product-Vision|Product Vision]] · [[Product/Product-Scope|Product Scope]] |
 | See the 22-module status | [[Product/Feature-Inventory|Feature Inventory]] · [[Product/Android-Desktop-Parity|Android-Desktop Parity]] |
+| Review cross-cutting business rules | [[Product/Business-Rules|Business Rules]] |
 | Understand roles and permissions | [[Product/Personas-and-Roles|Personas and Roles]] |
 | Understand the target system | [[Architecture/System-Architecture|System Architecture]] |
+| Understand the current Android reference | [[Architecture/Android-Reference-Architecture|Android Reference Architecture]] |
 | Understand offline/sync | [[Architecture/Offline-and-Sync-Design|Offline and Sync Design]] |
 | Understand the backend/schema | [[Database/Database-Architecture|Database Architecture]] · [[Database/Schema-Reconciliation|Schema Reconciliation]] · [[Database/Data-Dictionary|Data Dictionary]] |
 | Review the current schema/security evidence | [[Audits/Phase-0C-Schema-Export-Review|Phase 0C Schema Export Review]] |
@@ -67,7 +76,8 @@ updated: 2026-10-21
 | Read the audit | [[Audits/Initial-Audit|Initial Audit]] · [[Audits/Risk-Register|Risk Register]] |
 | Read the end-to-end report | [[Audits/Final-Report|Final Report]] |
 | Plan the build | [[Roadmap/Desktop-Roadmap|Desktop Roadmap]] · [[Roadmap/Phase-1-Implementation-Plan|Phase 1 Plan]] |
-| Test the build | [[Testing/Test-Strategy|Test Strategy]] · [[Testing/Regression-Matrix|Regression Matrix]] |
+| Test the build | [[Testing/Test-Strategy|Test Strategy]] · [[Testing/Test-Case-Catalog|Test Case Catalog]] · [[Testing/Regression-Matrix|Regression Matrix]] |
+| Review performance findings | [[Audits/Performance-Review|Performance Review]] |
 | Review decisions | [[Decisions/README|Decision Log]] |
 | Prepare a release | [[Releases/Release-Checklist|Release Checklist]] |
 
@@ -78,10 +88,14 @@ updated: 2026-10-21
 - [[Product/Personas-and-Roles|Personas and Roles]]
 - [[Product/Feature-Inventory|Feature Inventory]]
 - [[Product/Android-Desktop-Parity|Android-Desktop Parity]]
+- [[Product/Business-Rules|Business Rules]]
+- [[Product/Repository-Inventory|Repository Inventory]]
+- [[Glossary|Glossary]]
 
 ## Architecture
 
 - [[Architecture/System-Architecture|System Architecture]]
+- [[Architecture/Android-Reference-Architecture|Android Reference Architecture]]
 - [[Architecture/Frontend-Architecture|Frontend Architecture]]
 - [[Architecture/Go-Backend-Architecture|Go Backend Architecture]]
 - [[Architecture/Data-Flows|Data Flows]]
@@ -131,6 +145,7 @@ updated: 2026-10-21
 ## Testing
 
 - [[Testing/Test-Strategy|Test Strategy]]
+- [[Testing/Test-Case-Catalog|Test Case Catalog]]
 - [[Testing/Regression-Matrix|Regression Matrix]]
 
 ## Audit and risk
@@ -142,6 +157,8 @@ updated: 2026-10-21
 - [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Connection Investigation]]
 - [[Audits/Risk-Register|Risk Register]]
 - [[Audits/Technical-Debt|Technical Debt]]
+- [[Audits/Performance-Review|Performance Review]]
+- [[Audits/Documentation-Completion-Report|Documentation Completion Report]]
 
 ## Roadmap and decisions
 
@@ -158,6 +175,8 @@ updated: 2026-10-21
   - [[Decisions/ADR-0006-Testing-and-Release|ADR-0006 — Testing and Release]]
   - [[Decisions/ADR-0007-Money-Dates-and-Identity|ADR-0007 — Money, Dates, and Identity]]
   - [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008 — Shared Supabase Backend]] — **Accepted**
+  - [[Decisions/ADR-0009-Inventory-and-Financial-Integrity|ADR-0009 — Inventory and Financial Integrity]] — Proposed
+  - [[Decisions/ADR-0010-Backup-and-Restore|ADR-0010 — Backup and Restore]] — Proposed
 - [[Releases/Release-Checklist|Release Checklist]]
 
 ## What is actually verified
@@ -166,7 +185,7 @@ updated: 2026-10-21
 - The Android repository is clean at `ca4bed4` with 583 tracked files, 352 main Kotlin files, 41 unit test files, 8 instrumented test files, and 23 SQL migrations.
 - The desktop project now has a Git repository with `main` pushed to GitHub; it still has no application source, `go.mod`, `wails.json`, `package.json`, test suite, or build configuration.
 - The existing Android Knowledge Base has 37 Markdown notes and was not modified.
-- The 2026-10-20 and 2026-10-21 column exports both list 24 public tables and 416 columns and agree on all 416 keys/values. The broader 2026-10-21 set reports 77 constraints, 93 indexes, 179 policy rows, 744 table ACL rows, 61 triggers, 21 functions, and 23 Realtime members. See [[Audits/Phase-0C-Schema-Export-Review|Phase 0C]].
+- The 2026-10-20 and 2026-10-21 column exports both list 24 public tables and 416 columns and agree on all 416 keys/values. The broader 2026-10-21 set reports 77 constraints, 93 indexes, 179 policy rows, 744 table ACL rows, 61 triggers, 21 functions, and 23 public Realtime tables (plus 7 message partitions). See [[Audits/Phase-0C-Schema-Export-Review|Phase 0C]].
 - The older Android-repository CSV lists 23 tables and 361 columns, uses camelCase `waste_records` names, and is superseded. The 55-column difference is fully explained by soft-delete fields, the waste rename, and `api_write_rate_limits`.
 - The exports contain no project URL, project reference, auth setting, key, or credential. They are metadata snapshots, not proof of runtime behavior, and no SQL was executed for this review.
 - Repository migrations create only 9 of the 24 newer-snapshot tables from zero; the other 15 are baseline tables present in both snapshots. Six reported columns are not reproducible from migrations, `todo_notification_events` is absent, and at least one migration is missing. A live catalog and baseline plan are still required.
@@ -206,18 +225,18 @@ updated: 2026-10-21
 6. Seven migration-created business tables have no explicit grants and are not October 30-ready.
 7. The Android `doctor_slot_exceptions` contract sends columns the reported table does not have.
 8. No approved deletion/absence contract; no server tombstone feed is evidenced.
-9. No approved local encryption, key recovery, backup/retention, sync, or auth design; ADR-0001–0007 remain proposed.
+9. No approved local encryption, key recovery, backup/retention, sync, auth, inventory, or financial-integrity design; ADR-0001–0007, ADR-0009, and ADR-0010 remain proposed.
 10. No desktop toolchain, test/release pipeline, or approved Phase 1 pilot scope.
 
 ## Immediate next actions
 
-1. Add `AGENTS.md` and CI to the existing desktop repository; confirm and configure branch protection through authenticated GitHub settings.
+1. Decide whether to add `AGENTS.md`, CI, issue/PR templates, and branch protection as a separate project-setup phase; do not claim they exist.
 2. Obtain the approved existing-project configuration through a secure channel and verify a redacted project fingerprint; do not print or commit the values.
 3. Confirm the exported anon/legacy-policy path with synthetic data, then remediate and re-test `anon` plus a non-staff authenticated account. Do not use real PHI.
 4. Reconcile table/function grants, including the seven business tables and `service_role`; plan a post-2026-10-30 ACL re-export.
 5. Fix the stock duplicate/guard and verify exactly one writer; reconcile ledger to physical stock before enabling inventory writes.
 6. Resolve the doctor-slot contract and approve a reviewed baseline covering the six live-only columns.
-7. Review and approve or reject D1–D14 in [[Audits/Phase-0B-Architecture-Review|Phase 0B Architecture Review]]; ADR-0008 is already accepted.
+7. Review ADRs 0001–0007, 0009, and 0010; approve or reject each explicitly. Review D1–D14 in [[Audits/Phase-0B-Architecture-Review|Phase 0B Architecture Review]]; ADR-0008 is already accepted.
 8. Approve the deletion/absence contract and the local encryption/backup/retention policy.
 9. Implement the trust-boundary spike only after approvals: same-project auth, keychain, local DB, typed binding, redacted logging.
 10. Keep the Phase 0C backend-readiness matrix current; re-run link and secret checks before handoff.
@@ -240,4 +259,4 @@ This desktop vault **links by path reference** rather than duplicating those not
 
 ---
 
-**Bottom line:** the 55-row column discrepancy is reconciled, and Phase 0C now gives a coherent metadata picture: 24 tables, 416 columns, 77 constraints, 93 indexes, 179 policies, and 744 ACL rows. That picture is **not production-safe as reported** — anon can reach ten clinical/inventory tables through legacy policies, `reminders` is open to any authenticated user, and all functions are anon-executable. The stock fix is not deployed; seven business tables lack explicit grants. The desktop implementation remains unstarted and connection **Missing**. The Phase 0C conclusion is **BLOCKED ON CRITICAL SECURITY/SCHEMA EVIDENCE**, not on documentation polish.
+**Bottom line:** the documentation package is complete for architecture review: 77 notes, 22 feature specifications with user stories and data dependencies, 10 ADRs with explicit status, 126 planned tests, and a full validation report. Phase 0C still gives a coherent but unsafe metadata picture: 24 tables, 416 columns, 77 constraints, 93 indexes, 179 policies, and 744 ACL rows. **As reported**, anon can reach ten clinical/inventory tables through legacy policies, `reminders` is open to any authenticated user, and all functions are anon-executable. The stock fix is not deployed; seven business tables lack explicit grants. The desktop implementation remains unstarted and connection **Missing**. The gate is **BLOCKED ON CRITICAL SECURITY/SCHEMA EVIDENCE**, not on documentation polish.

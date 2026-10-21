@@ -2,12 +2,12 @@
 title: Feature Inventory
 doc_status: baseline
 evidence: Android source tree + existing Android KB
-updated: 2026-10-20
+updated: 2026-10-21
 ---
 
 # Feature Inventory
 
-> **Desktop status: all 22 Phase 1 modules are Missing.** No desktop source, Wails configuration, Go module, React application, or desktop test exists in `/storage/emulated/0/Neo_Child_Clinic_Desktop`. The Android reference is the only available implementation.
+> **Desktop status: all 22 Phase 1 modules are Missing.** No desktop source, Wails configuration, Go module, React application, or desktop test exists in `/storage/emulated/0/Neo_Child_Clinic_Desktop`. The Android reference is the only available implementation. Each specification now includes user stories and reported database dependencies; cross-cutting rules are indexed in [[Product/Business-Rules|Business Rules]].
 >
 > **Shared backend:** every module must target the **existing** Supabase project/schema under [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]. No module may create a new project, separate remote PostgreSQL database, duplicate remote tables, or parallel remote schema. Local SQLite is expected.
 

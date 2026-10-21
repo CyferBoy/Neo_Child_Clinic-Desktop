@@ -1,8 +1,8 @@
 ---
 title: Test Strategy
 doc_status: proposed
-evidence: Android test baseline + target architecture
-updated: 2026-10-20
+evidence: Android test baseline + target architecture + Test Case Catalog
+updated: 2026-10-21
 ---
 
 # Test Strategy
@@ -34,7 +34,7 @@ updated: 2026-10-20
 | Printing | Preview, failure, retry, no PHI leak | Manual + integration | Pre-release |
 | Update | Signature, version, rollback | Harness | Pre-release |
 | Accessibility | Keyboard, focus, labels, contrast | Automated + manual | Pre-release |
-| Performance | Large lists, slow disk, sync backlog | Benchmarks | Pre-release |
+| Performance | Large lists, slow disk, sync backlog; see [[Audits/Performance-Review|Performance Review]] | Benchmarks | Pre-release |
 
 ## Critical scenarios
 
@@ -60,6 +60,16 @@ updated: 2026-10-20
 20. Android-created patient/visit is read and updated by desktop; desktop-created row is read by Android; no duplicate records.
 21. Desktop contains no service-role key, database password, or direct PostgreSQL connection; privileged staff changes go through the existing Edge Function.
 22. Desktop does not create remote tables, run production migrations, or use a second remote PostgreSQL database. Local SQLite tables and migrations are expected.
+23. Borrowed vaccine partial return decreases the outstanding balance once and leaves the record open until fully settled.
+24. A visit with both vaccination and consultation payment is counted once in finance, dashboard, and reports.
+25. The exported duplicate stock-trigger state blocks inventory writes; after an approved fix, one stock movement is applied once.
+26. Receipts at a financial-year boundary use the server-assigned series and never a client-invented number.
+
+## Test case catalog
+
+[[Testing/Test-Case-Catalog|Test Case Catalog]] contains 126 stable planned IDs, grouped by module and cross-cutting security/database concern. It is the source for the IDs referenced by [[Roadmap/Requirements-Traceability|Requirements Traceability]].
+
+A catalog entry is not a test implementation. Each future test must record its actual file/symbol, run date, build hash, dataset, and result. Changing a scenario requires a new ID; do not reuse a retired ID for a different assertion.
 
 ## Test data
 
@@ -105,4 +115,4 @@ No arbitrary percentage target is asserted. Coverage is risk-based:
 
 ## Related
 
-[[Testing/Regression-Matrix|Regression Matrix]] · [[Roadmap/Phase-1-Implementation-Plan|Phase 1 Plan]] · [[Audits/Initial-Audit|Initial Audit]] · [[Releases/Release-Checklist|Release Checklist]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]
+[[Testing/Test-Case-Catalog|Test Case Catalog]] · [[Testing/Regression-Matrix|Regression Matrix]] · [[Audits/Performance-Review|Performance Review]] · [[Roadmap/Phase-1-Implementation-Plan|Phase 1 Plan]] · [[Audits/Initial-Audit|Initial Audit]] · [[Releases/Release-Checklist|Release Checklist]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]

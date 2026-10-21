@@ -1,8 +1,8 @@
 ---
 title: Desktop Roadmap
 doc_status: proposed
-evidence: audit + Android feature footprint + target architecture
-updated: 2026-10-20
+evidence: audit + Android feature footprint + target architecture + documentation completion review
+updated: 2026-10-21
 ---
 
 # Desktop Roadmap
@@ -22,18 +22,18 @@ updated: 2026-10-20
 
 Ordering principle: **security and data integrity before workflow breadth, workflow breadth before reporting polish.**
 
-## Phase 0 — Foundation (P0)
+## Phase 0 — Audit and readiness (P0)
 
 Exit criteria are verifiable outcomes, not elapsed time.
 
 | Work item | Deliverable | Exit criterion | Depends on |
 |---|---|---|---|
-| Repository and instructions | Existing desktop Git repository; add `AGENTS.md`, CI, issue/PR templates; confirm/configure branch protection in GitHub settings | Clean clone builds and docs checks run; branch protection confirmed | Git repository initialized |
+| Repository and documentation | Existing desktop Git repository and documentation baseline; future `AGENTS.md`, CI, issue/PR templates, and branch protection require separate approval | Docs links/validation pass; no application build is claimed; future configuration is explicitly gated | Git repository initialized |
 | Toolchain | Pinned Go, Wails, Node/package manager, linter, formatter | Reproducible build on a clean machine | Repo |
 | CI | Build, lint, unit tests, docs validation, dependency scan | CI required on every change | Toolchain |
 | Shared-backend verification | Approved non-destructive access path to the **existing** Supabase project; test-account and synthetic-data protocol | Same project identity proven by a redacted fingerprint; no new backend; no production data mutation | Security approval |
 | Schema baseline | Reviewed baseline migration + live catalog/grants/policies snapshot | Baseline reconciliation evidence; RLS suite runs; no parallel schema | Shared-backend verification |
-| ADRs | Local persistence, sync, auth, Wails boundary, money/date, testing/release | ADRs reviewed and status recorded; ADR-0008 remains accepted | Architecture review |
+| ADRs | Stack, local persistence, sync, auth, Wails boundary, money/date, inventory/financial integrity, backup/restore, testing/release | All ADRs reviewed; statuses recorded; ADR-0008 remains accepted; others awaiting approval | Architecture review |
 | Auth spike | Login, refresh, revoke, role claim, inactive account | Works offline cold start and online refresh against the existing project | Shared-backend verification |
 | Local DB spike | SQLite, migrations, WAL, transaction/outbox | Kill/restart preserves committed data | ADR-0002 |
 | Sync contract | Outbox/group/idempotency/deletion-reconciliation design | Replay and duplicate tests pass; deletion contract approved and tested on a spike | ADR-0003 |
@@ -42,9 +42,9 @@ Exit criteria are verifiable outcomes, not elapsed time.
 
 **Backend rule:** ADR-0008 forbids creating a new Supabase project or separate remote PostgreSQL database. The verification row must use the existing project, test accounts, and synthetic/reversible data unless a separate harness is explicitly approved. A separate harness must never become the desktop backend, and local SQLite remains expected.
 
-**Phase 0 is not done while the schema cannot be rebuilt or RLS cannot be tested.**
+**Phase 0 is not done while the schema cannot be rebuilt or RLS cannot be tested.** The documentation review is complete; live backend verification and remediation remain deferred to a separate phase.
 
-## Phase 1 — Clinic workflow (P0/P1)
+## Phase 1 — Desktop foundation and core feature parity (P0/P1)
 
 | Wave | Modules | Priority | Value | Reference footprint | Key dependencies | Main risk | Acceptance gate | Effort |
 |---|---|---|---|---|---|---|---|---|
@@ -71,7 +71,7 @@ A module is done only when:
 9. Documentation and traceability are updated.
 10. A manual acceptance record exists with evidence.
 
-## Phase 2 — Pilot hardening (P1)
+## Phase 2 — Reliability and desktop productivity (P1)
 
 - Multi-workstation conflict drills and repair tooling.
 - Performance under clinic-sized data and slow disks.
@@ -84,7 +84,9 @@ A module is done only when:
 - Security review and penetration test.
 - Data migration/backfill runbook if existing local data must move.
 
-## Phase 3 — Enhancements (P2/P3)
+## Phase 3 — Future enhancements (approval required; P2/P3)
+
+> **No Phase 3 item is approved.** This list is a candidate register only. Each item requires an explicit owner decision, a security/privacy review, and a specification before it can enter a delivery phase. It is not committed scope.
 
 - Additional reports and trend analysis.
 - Deeper inventory forecasting.
@@ -99,11 +101,11 @@ Not in Phase 1: patient portal, telemedicine, insurance, payroll, tax filing.
 
 | Phase | Status |
 |---|---|
-| Phase 0 | Proposed, not started |
-| Phase 1 | Specifications drafted, implementation missing |
-| Phase 2 | Proposed |
-| Phase 3 | Proposed |
+| Phase 0 | Documentation review complete; live verification/remediation deferred; implementation gates open |
+| Phase 1 | 22 specifications drafted; implementation missing |
+| Phase 2 | Proposed; blocked by Phase 1 and pilot evidence |
+| Phase 3 | Candidate only; none approved |
 
 ## Related
 
-[[Roadmap/Phase-1-Implementation-Plan|Phase 1 Implementation Plan]] · [[Roadmap/Dependencies-and-Milestones|Dependencies and Milestones]] · [[Roadmap/Requirements-Traceability|Requirements Traceability]] · [[Audits/Risk-Register|Risk Register]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]
+[[Roadmap/Phase-1-Implementation-Plan|Phase 1 Implementation Plan]] · [[Roadmap/Dependencies-and-Milestones|Dependencies and Milestones]] · [[Roadmap/Requirements-Traceability|Requirements Traceability]] · [[Testing/Test-Case-Catalog|Test Case Catalog]] · [[Audits/Performance-Review|Performance Review]] · [[Audits/Documentation-Completion-Report|Documentation Completion Report]] · [[Audits/Risk-Register|Risk Register]] · [[Audits/Shared-Backend-Connection-Investigation|Shared Backend Investigation]] · [[Decisions/ADR-0008-Shared-Supabase-Backend|ADR-0008]]

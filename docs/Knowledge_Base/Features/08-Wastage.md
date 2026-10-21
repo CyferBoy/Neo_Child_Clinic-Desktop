@@ -4,8 +4,8 @@ feature_id: WAS
 doc_status: proposed
 desktop_status: Missing
 android_status: Unverified
-evidence: Android source + Knowledge Base
-updated: 2026-10-20
+evidence: Android source + Knowledge Base + Phase 0C export metadata
+updated: 2026-10-21
 ---
 
 # 08. Wastage
@@ -18,6 +18,11 @@ updated: 2026-10-20
 ## 1. Purpose and scope
 
 Record vaccine wastage against a specific batch, reduce available stock exactly once, capture a reason, and preserve an audit trail.
+
+### User stories
+
+- As a nurse, I can record wastage against a batch with a reason.
+- As an inventory manager, I can reconcile wasted stock without a manual quantity correction.
 
 ## 2. Actors
 
@@ -111,10 +116,18 @@ The Android reference contains this feature surface. Source inspection and the e
 
 No desktop test exists yet. Android tests were not run in this pass. See [[Testing/Test-Strategy|Test Strategy]].
 
+Planned test cases: [[Testing/Test-Case-Catalog|Test Case Catalog]] (`TC-WAS-*`). No test is implemented or executed.
+
 ## 14. Dependencies
 
 - [[Features/07-Vaccine-and-Batch-Inventory|Inventory]]
 - [[Features/21-Audit-Logging|Audit]]
+
+### Database dependencies
+
+`[REPORTED]` The following table names are reported by the 2026-10-21 metadata export or migration evidence; live access is not verified. See [[Database/Data-Dictionary|Data Dictionary]].
+
+`waste_records`; `vaccine_batches`; `inventory_transactions`; `audit_logs`.
 
 ## 15. Open questions
 
