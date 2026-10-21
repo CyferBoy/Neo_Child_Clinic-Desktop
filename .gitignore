@@ -12,3 +12,6 @@ Thumbs.db
 
 # User-supplied schema exports
 docs/Schemas/
+
+# Third-party Archify skill (MIT) — kept locally, not committed
+.opencode/skills/archify/
