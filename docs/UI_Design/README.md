@@ -11,6 +11,7 @@ This package defines a complete desktop design direction, screen set, component 
 | Screen specifications | [`Screens/`](Screens/) | 68 |
 | Standalone HTML prototype | [`prototype/screens/`](prototype/screens/) | 68 pages |
 | Gallery and index | [`prototype/index.html`](prototype/index.html) | 1 |
+| Prototype preview guide | [`prototype/README.md`](prototype/README.md) | — |
 | Rendered PNG references | [`screenshots/`](screenshots/) | 73 |
 | Screen inventory | [`Screen-Inventory.md`](Screen-Inventory.md) | 68 rows |
 | Design system | [`Design-System.md`](Design-System.md) | — |
@@ -46,7 +47,7 @@ The design targets the two documented desktop sizes:
 
 ## How to review the prototype
 
-1. Open [`prototype/index.html`](prototype/index.html) in a browser. It links to all 68 pages.
+1. Open [`prototype/index.html`](prototype/index.html) in a browser. It links to all 68 pages. For exact direct-file and local-server commands, see [`prototype/README.md`](prototype/README.md).
 2. Open any page under [`prototype/screens/`](prototype/screens/). Pages are static HTML and use only local assets, local fonts and local fictional data.
 3. Use the theme control in the shell to inspect light/dark behaviour where implemented.
 4. Use the search field or `Ctrl/Cmd+K` to focus the global search affordance.
