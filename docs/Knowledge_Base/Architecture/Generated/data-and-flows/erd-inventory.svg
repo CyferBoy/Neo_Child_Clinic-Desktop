@@ -1,0 +1,275 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1180" height="750" viewBox="0 0 1180 750" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect width="1180" height="750" fill="#fffbeb"/>
+<text x="28" y="44" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="22" fill="#1c1917" text-anchor="start" font-weight="700">ERD — Inventory and Stock Schema</text>
+<text x="28" y="68" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" fill="#78716c" text-anchor="start" font-weight="400">Vaccine catalog, batches, movements, waste, and the borrow/return ledger.</text>
+<text x="28" y="88" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#9a3412" text-anchor="start" font-weight="600">[SCHEMA-EXPORT] Reported by docs/Schemas CSV exports; not exercised against live Supabase.</text>
+<marker id="ah-open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,1 L10,6 L0,11" fill="none" stroke="#1c1917" stroke-width="1.6"/></marker>
+<rect x="50" y="120" width="320" height="352" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="50" y="120" width="320" height="28" rx="8" fill="#9a3412"/>
+<text x="62" y="139" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">vaccines</text>
+<text x="360" y="139" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#fed7aa" text-anchor="end" font-weight="700">RLS</text>
+<text x="62" y="166" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#ea580c" text-anchor="start" font-weight="700">PK</text>
+<text x="90" y="166" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">id *</text>
+<text x="360" y="166" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="90" y="183" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">type</text>
+<text x="360" y="183" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">brand_name</text>
+<text x="360" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="217" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">company_name</text>
+<text x="360" y="217" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="234" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">manufacturer</text>
+<text x="360" y="234" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="251" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">category</text>
+<text x="360" y="251" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="268" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">dose_schedule</text>
+<text x="360" y="268" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="285" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">storage_details</text>
+<text x="360" y="285" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="302" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">mrp</text>
+<text x="360" y="302" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">numeric</text>
+<text x="90" y="319" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">net_rate</text>
+<text x="360" y="319" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">numeric</text>
+<text x="90" y="336" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">last_updated</text>
+<text x="360" y="336" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="353" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_at *</text>
+<text x="360" y="353" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="90" y="370" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_at *</text>
+<text x="360" y="370" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="90" y="387" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_by</text>
+<text x="360" y="387" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="404" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_by</text>
+<text x="360" y="404" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="421" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">is_deleted *</text>
+<text x="360" y="421" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">boolean</text>
+<text x="90" y="438" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">deleted_at</text>
+<text x="360" y="438" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="90" y="455" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">deleted_by</text>
+<text x="360" y="455" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<rect x="430" y="120" width="320" height="437" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="430" y="120" width="320" height="28" rx="8" fill="#9a3412"/>
+<text x="442" y="139" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">vaccine_batches</text>
+<text x="740" y="139" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#fed7aa" text-anchor="end" font-weight="700">RLS</text>
+<text x="442" y="166" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#ea580c" text-anchor="start" font-weight="700">PK</text>
+<text x="470" y="166" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">id *</text>
+<text x="740" y="166" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="442" y="183" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#047857" text-anchor="start" font-weight="700">FK</text>
+<text x="470" y="183" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">vaccine_id</text>
+<text x="740" y="183" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="470" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">batch_number</text>
+<text x="740" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="217" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">manufacturer</text>
+<text x="740" y="217" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="234" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">purchase_date</text>
+<text x="740" y="234" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="251" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">expiry_date</text>
+<text x="740" y="251" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="268" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">purchase_quantity</text>
+<text x="740" y="268" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="470" y="285" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">remaining_quantity</text>
+<text x="740" y="285" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="470" y="302" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">reserved_quantity</text>
+<text x="740" y="302" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="470" y="319" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">used_quantity</text>
+<text x="740" y="319" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="470" y="336" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">wasted_quantity</text>
+<text x="740" y="336" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="470" y="353" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">borrowed_quantity</text>
+<text x="740" y="353" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="470" y="370" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">supplier</text>
+<text x="740" y="370" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="387" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">purchase_cost</text>
+<text x="740" y="387" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">numeric</text>
+<text x="470" y="404" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">selling_price</text>
+<text x="740" y="404" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">numeric</text>
+<text x="470" y="421" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">status</text>
+<text x="740" y="421" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="438" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_at</text>
+<text x="740" y="438" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="455" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_at *</text>
+<text x="740" y="455" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="470" y="472" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_by</text>
+<text x="740" y="472" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="489" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_by</text>
+<text x="740" y="489" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="506" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">is_deleted *</text>
+<text x="740" y="506" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">boolean</text>
+<text x="470" y="523" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">deleted_at</text>
+<text x="740" y="523" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="470" y="540" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">deleted_by</text>
+<text x="740" y="540" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<rect x="810" y="120" width="320" height="352" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="810" y="120" width="320" height="28" rx="8" fill="#9a3412"/>
+<text x="822" y="139" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">inventory_transactions</text>
+<text x="1120" y="139" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#fed7aa" text-anchor="end" font-weight="700">RLS</text>
+<text x="822" y="166" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#ea580c" text-anchor="start" font-weight="700">PK</text>
+<text x="850" y="166" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">id *</text>
+<text x="1120" y="166" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="822" y="183" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#047857" text-anchor="start" font-weight="700">FK</text>
+<text x="850" y="183" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">vaccine_id</text>
+<text x="1120" y="183" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="822" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#047857" text-anchor="start" font-weight="700">FK</text>
+<text x="850" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">batch_id</text>
+<text x="1120" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="822" y="217" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#047857" text-anchor="start" font-weight="700">FK</text>
+<text x="850" y="217" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">patient_id</text>
+<text x="1120" y="217" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="822" y="234" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#047857" text-anchor="start" font-weight="700">FK</text>
+<text x="850" y="234" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">visit_id</text>
+<text x="1120" y="234" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="850" y="251" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">transaction_type</text>
+<text x="1120" y="251" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="850" y="268" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">quantity *</text>
+<text x="1120" y="268" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="850" y="285" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">previous_quantity</text>
+<text x="1120" y="285" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="850" y="302" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">current_quantity</text>
+<text x="1120" y="302" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="850" y="319" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">timestamp</text>
+<text x="1120" y="319" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="850" y="336" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">user</text>
+<text x="1120" y="336" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="850" y="353" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">notes</text>
+<text x="1120" y="353" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="850" y="370" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">is_synced</text>
+<text x="1120" y="370" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">boolean</text>
+<text x="850" y="387" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">status</text>
+<text x="1120" y="387" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="850" y="404" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_at *</text>
+<text x="1120" y="404" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="850" y="421" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_at *</text>
+<text x="1120" y="421" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="850" y="438" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_by</text>
+<text x="1120" y="438" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="850" y="455" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_by</text>
+<text x="1120" y="455" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<rect x="50" y="420" width="320" height="335" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="50" y="420" width="320" height="28" rx="8" fill="#9a3412"/>
+<text x="62" y="439" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">waste_records</text>
+<text x="360" y="439" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#fed7aa" text-anchor="end" font-weight="700">RLS</text>
+<text x="62" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#ea580c" text-anchor="start" font-weight="700">PK</text>
+<text x="90" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">id *</text>
+<text x="360" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="62" y="483" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#047857" text-anchor="start" font-weight="700">FK</text>
+<text x="90" y="483" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">vaccine_id</text>
+<text x="360" y="483" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="62" y="500" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#047857" text-anchor="start" font-weight="700">FK</text>
+<text x="90" y="500" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">batch_id</text>
+<text x="360" y="500" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="90" y="517" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">brand_name</text>
+<text x="360" y="517" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="534" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">batch_number</text>
+<text x="360" y="534" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="551" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">expiry_date</text>
+<text x="360" y="551" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="568" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">date_wasted</text>
+<text x="360" y="568" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="585" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">reason</text>
+<text x="360" y="585" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="602" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">quantity</text>
+<text x="360" y="602" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="90" y="619" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_at</text>
+<text x="360" y="619" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="636" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">is_synced</text>
+<text x="360" y="636" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">boolean</text>
+<text x="90" y="653" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_at *</text>
+<text x="360" y="653" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="90" y="670" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_by</text>
+<text x="360" y="670" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="687" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_by</text>
+<text x="360" y="687" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="90" y="704" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">is_deleted *</text>
+<text x="360" y="704" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">boolean</text>
+<text x="90" y="721" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">deleted_at</text>
+<text x="360" y="721" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="90" y="738" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">deleted_by</text>
+<text x="360" y="738" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<rect x="430" y="420" width="320" height="352" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="430" y="420" width="320" height="28" rx="8" fill="#9a3412"/>
+<text x="442" y="439" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">borrow_records</text>
+<text x="740" y="439" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#fed7aa" text-anchor="end" font-weight="700">RLS</text>
+<text x="442" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#ea580c" text-anchor="start" font-weight="700">PK</text>
+<text x="470" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">id *</text>
+<text x="740" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="470" y="483" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">doctor_name</text>
+<text x="740" y="483" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="442" y="500" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#047857" text-anchor="start" font-weight="700">FK</text>
+<text x="470" y="500" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">vaccine_id</text>
+<text x="740" y="500" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="442" y="517" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#047857" text-anchor="start" font-weight="700">FK</text>
+<text x="470" y="517" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">batch_id</text>
+<text x="740" y="517" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="470" y="534" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">borrowed_date</text>
+<text x="740" y="534" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="551" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">quantity</text>
+<text x="740" y="551" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="470" y="568" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">is_returned</text>
+<text x="740" y="568" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">boolean</text>
+<text x="470" y="585" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">returned_date</text>
+<text x="740" y="585" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="602" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">type</text>
+<text x="740" y="602" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="619" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">notes</text>
+<text x="740" y="619" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="636" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">is_synced</text>
+<text x="740" y="636" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">boolean</text>
+<text x="470" y="653" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_at *</text>
+<text x="740" y="653" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="470" y="670" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_at *</text>
+<text x="740" y="670" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="470" y="687" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_by</text>
+<text x="740" y="687" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="704" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_by</text>
+<text x="740" y="704" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="470" y="721" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">is_deleted *</text>
+<text x="740" y="721" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">boolean</text>
+<text x="470" y="738" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">deleted_at</text>
+<text x="740" y="738" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="470" y="755" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">deleted_by</text>
+<text x="740" y="755" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<rect x="810" y="420" width="320" height="284" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="810" y="420" width="320" height="28" rx="8" fill="#9a3412"/>
+<text x="822" y="439" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">borrow_returns</text>
+<text x="1120" y="439" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#fed7aa" text-anchor="end" font-weight="700">RLS</text>
+<text x="822" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#ea580c" text-anchor="start" font-weight="700">PK</text>
+<text x="850" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">id *</text>
+<text x="1120" y="466" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="822" y="483" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#047857" text-anchor="start" font-weight="700">FK</text>
+<text x="850" y="483" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">borrow_record_id *</text>
+<text x="1120" y="483" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="822" y="500" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#047857" text-anchor="start" font-weight="700">FK</text>
+<text x="850" y="500" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">batch_id *</text>
+<text x="1120" y="500" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">uuid</text>
+<text x="850" y="517" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">quantity *</text>
+<text x="1120" y="517" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">integer</text>
+<text x="850" y="534" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">returned_date *</text>
+<text x="1120" y="534" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">date</text>
+<text x="850" y="551" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">notes</text>
+<text x="1120" y="551" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="850" y="568" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_at *</text>
+<text x="1120" y="568" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="850" y="585" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">is_synced *</text>
+<text x="1120" y="585" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">boolean</text>
+<text x="850" y="602" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">created_by</text>
+<text x="1120" y="602" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="850" y="619" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_by</text>
+<text x="1120" y="619" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<text x="850" y="636" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">updated_at *</text>
+<text x="1120" y="636" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="850" y="653" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">is_deleted *</text>
+<text x="1120" y="653" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">boolean</text>
+<text x="850" y="670" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">deleted_at</text>
+<text x="1120" y="670" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">timestamp with time zone</text>
+<text x="850" y="687" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">deleted_by</text>
+<text x="1120" y="687" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="9" fill="#78716c" text-anchor="end" font-weight="400">text</text>
+<line x1="430" y1="338.5" x2="370" y2="296.0" stroke="#9a3412" stroke-width="1.6" marker-end="url(#ah-diamond)"/>
+<line x1="810" y1="296.0" x2="750" y2="338.5" stroke="#9a3412" stroke-width="1.6" marker-end="url(#ah-diamond)"/>
+<line x1="810" y1="296.0" x2="370" y2="296.0" stroke="#9a3412" stroke-width="1.6" marker-end="url(#ah-diamond)"/>
+<line x1="370" y1="587.5" x2="430" y2="338.5" stroke="#9a3412" stroke-width="1.6" marker-end="url(#ah-diamond)"/>
+<line x1="210.0" y1="755" x2="210.0" y2="120" stroke="#9a3412" stroke-width="1.6" marker-end="url(#ah-diamond)"/>
+<line x1="590.0" y1="772" x2="590.0" y2="120" stroke="#9a3412" stroke-width="1.6" marker-end="url(#ah-diamond)"/>
+<line x1="430" y1="596.0" x2="370" y2="296.0" stroke="#9a3412" stroke-width="1.6" marker-end="url(#ah-diamond)"/>
+<line x1="810" y1="562.0" x2="750" y2="338.5" stroke="#9a3412" stroke-width="1.6" marker-end="url(#ah-diamond)"/>
+<line x1="810" y1="562.0" x2="750" y2="596.0" stroke="#9a3412" stroke-width="1.6" marker-end="url(#ah-diamond)"/>
+<text x="50" y="724" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">PK primary key · FK foreign key · * not-null · lines show foreign-key relationships (diamond = many-to-one). get_my_role() falls back to 'nurse'.</text>
+<a href="../index.html" style="text-decoration:none"><rect x="14" y="14" width="156" height="30" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.2"/><text x="30" y="33" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#1c1917">&#8592; Diagram index</text></a>
+</svg>

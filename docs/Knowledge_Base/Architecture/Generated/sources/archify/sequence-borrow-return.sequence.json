@@ -1,0 +1,122 @@
+{
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Sequence \u2014 Partial and Full Vaccine Return",
+    "subtitle": "[ANDROID-SOURCE] Verified return path with an outstanding-quantity cap and a derived final status.",
+    "quality_profile": "standard",
+    "viewBox": [
+      676,
+      745
+    ]
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Cap before write",
+      "items": [
+        "The outstanding quantity is computed before anything is written",
+        "A return above the cap throws and nothing persists",
+        "Status is derived from the sum of return rows, not stored"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Cross-batch",
+      "items": [
+        "A return into a new batch writes a release row on the original",
+        "Stock is restored on the target batch in the same transaction",
+        "No idempotency key exists on the return path"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "ui",
+      "type": "frontend",
+      "label": "Return Dialog",
+      "sublabel": "qty + batch"
+    },
+    {
+      "id": "vm",
+      "type": "backend",
+      "label": "Borrowed VM",
+      "sublabel": "revalidates"
+    },
+    {
+      "id": "repo",
+      "type": "backend",
+      "label": "Borrow Repo",
+      "sublabel": "tx owner"
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "Local DB",
+      "sublabel": "borrow tables"
+    },
+    {
+      "id": "queue",
+      "type": "messagebus",
+      "label": "Sync Queue",
+      "sublabel": "enqueued"
+    }
+  ],
+  "messages": [
+    {
+      "from": "ui",
+      "to": "vm",
+      "y": 185,
+      "label": "submitReturn(qty)",
+      "variant": "emphasis"
+    },
+    {
+      "from": "vm",
+      "to": "repo",
+      "y": 271,
+      "label": "submitReturn()",
+      "variant": "emphasis"
+    },
+    {
+      "from": "repo",
+      "to": "db",
+      "y": 314,
+      "label": "BEGIN tx",
+      "variant": "emphasis"
+    },
+    {
+      "from": "db",
+      "to": "repo",
+      "y": 357,
+      "label": "record + sum",
+      "variant": "return"
+    },
+    {
+      "from": "repo",
+      "to": "db",
+      "y": 443,
+      "label": "restore stock",
+      "variant": "emphasis"
+    },
+    {
+      "from": "repo",
+      "to": "db",
+      "y": 486,
+      "label": "insert return row"
+    },
+    {
+      "from": "db",
+      "to": "repo",
+      "y": 572,
+      "label": "COMMIT",
+      "variant": "return"
+    },
+    {
+      "from": "repo",
+      "to": "queue",
+      "y": 615,
+      "label": "enqueue RETURN",
+      "variant": "dashed"
+    }
+  ],
+  "schema_version": 1
+}

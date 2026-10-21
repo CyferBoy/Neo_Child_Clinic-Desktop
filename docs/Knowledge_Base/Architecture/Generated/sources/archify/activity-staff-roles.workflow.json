@@ -1,0 +1,126 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Activity \u2014 Staff and Role Management",
+    "subtitle": "[ANDROID-SOURCE] Verified client-side role gating. The real boundary is the manage-staff Edge Function and RLS, both export-reported.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Client gating is UX only",
+      "items": [
+        "AdminGuard wraps the staff routes in the navigation graph",
+        "The drawer hides non-admin entries by role",
+        "Comments state the server is the real boundary"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Export-reported",
+      "items": [
+        "All staff writes route through the manage-staff Edge Function",
+        "No PostgREST or local write exists in the staff repository",
+        "Function authorization has not been observed [UNKNOWN]"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "admin-ui",
+      "label": "Admin Ui"
+    },
+    {
+      "id": "client-gate",
+      "label": "Client Gate"
+    },
+    {
+      "id": "denial",
+      "label": "Denial"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "action",
+      "col": 0,
+      "type": "external",
+      "label": "Admin Action",
+      "sublabel": "create / reset / role",
+      "lane": "admin-ui"
+    },
+    {
+      "id": "rolecheck",
+      "col": 0,
+      "type": "security",
+      "label": "Role Claim",
+      "sublabel": "admin only",
+      "tag": "UX only",
+      "lane": "client-gate"
+    },
+    {
+      "id": "guardwrap",
+      "col": 2,
+      "type": "security",
+      "label": "AdminGuard",
+      "sublabel": "route wrapper",
+      "lane": "client-gate"
+    },
+    {
+      "id": "invoke",
+      "col": 4,
+      "type": "backend",
+      "label": "manage-staff",
+      "sublabel": "Edge Function",
+      "lane": "client-gate"
+    },
+    {
+      "id": "access",
+      "col": 0,
+      "type": "security",
+      "label": "Access Denied",
+      "sublabel": "screen",
+      "lane": "denial"
+    }
+  ],
+  "edges": [
+    {
+      "id": "m1",
+      "from": "action",
+      "to": "rolecheck",
+      "label": "submit",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "m2",
+      "from": "rolecheck",
+      "to": "guardwrap",
+      "label": "is admin",
+      "variant": "emphasis"
+    },
+    {
+      "id": "m3",
+      "from": "guardwrap",
+      "to": "invoke",
+      "label": "invoke",
+      "variant": "security"
+    },
+    {
+      "id": "m4",
+      "from": "rolecheck",
+      "to": "access",
+      "label": "not admin",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop",
+      "labelAt": [
+        87,
+        292
+      ]
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,139 @@
+{
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "State Machine \u2014 Sync Queue Item",
+    "subtitle": "[ANDROID-SOURCE] Verified SyncStatus enum and the transitions implemented in the sync repository.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Four states",
+      "items": [
+        "PENDING on enqueue",
+        "SYNCING while a group is in flight",
+        "SYNCED after the server acknowledges",
+        "FAILED after the retry budget is exhausted"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Recovery",
+      "items": [
+        "Transient faults return the item to PENDING with a higher retryCount",
+        "Stale SYNCING rows are requeued after five minutes",
+        "A session deferral returns items to PENDING without counting a failure"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Risk",
+      "items": [
+        "No unique constraint covers entity plus operation",
+        "Duplicate rows are cleaned opportunistically, not prevented"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Sync progression"
+    },
+    {
+      "id": "terminal",
+      "label": "Outcome"
+    }
+  ],
+  "states": [
+    {
+      "id": "pending",
+      "type": "start",
+      "label": "PENDING",
+      "sublabel": "enqueued",
+      "col": 0,
+      "step": "01",
+      "tag": "durable",
+      "lane": "main"
+    },
+    {
+      "id": "syncing",
+      "type": "active",
+      "label": "SYNCING",
+      "sublabel": "group in flight",
+      "col": 1,
+      "step": "02",
+      "tag": "owned",
+      "lane": "main"
+    },
+    {
+      "id": "requeue",
+      "type": "waiting",
+      "label": "Requeue",
+      "sublabel": "retryCount + 1",
+      "col": 3,
+      "tag": "backoff",
+      "lane": "main"
+    },
+    {
+      "id": "synced",
+      "type": "success",
+      "label": "SYNCED",
+      "sublabel": "acknowledged",
+      "col": 0,
+      "step": "03",
+      "tag": "terminal",
+      "lane": "terminal"
+    },
+    {
+      "id": "failed",
+      "type": "failure",
+      "label": "FAILED",
+      "sublabel": "manual retry only",
+      "col": 2,
+      "tag": "terminal",
+      "lane": "terminal"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "pending",
+      "to": "syncing",
+      "label": "dequeue",
+      "variant": "emphasis",
+      "labelDy": 58
+    },
+    {
+      "from": "syncing",
+      "to": "requeue",
+      "label": "5xx, retry < 5",
+      "variant": "security",
+      "route": "drop",
+      "labelDy": 58
+    },
+    {
+      "from": "requeue",
+      "to": "pending",
+      "label": "backoff elapsed",
+      "variant": "dashed",
+      "route": "bottom-channel",
+      "labelDy": 40
+    },
+    {
+      "from": "syncing",
+      "to": "synced",
+      "label": "2xx",
+      "variant": "emphasis",
+      "route": "drop",
+      "labelDy": 58
+    },
+    {
+      "from": "syncing",
+      "to": "failed",
+      "label": "budget spent",
+      "variant": "security",
+      "route": "drop",
+      "labelDy": 58
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="520" viewBox="0 0 940 520" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect width="940" height="520" fill="#fffbeb"/>
+<text x="28" y="44" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="22" fill="#1c1917" text-anchor="start" font-weight="700">Protocol State Machine — Sync Item Protocol</text>
+<text x="28" y="68" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" fill="#78716c" text-anchor="start" font-weight="400">Signatures and guards that constrain when a sync item may accept a trigger.</text>
+<text x="28" y="88" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#9a3412" text-anchor="start" font-weight="600">[ANDROID-SOURCE] Protocol view of the verified SyncStatus transitions.</text>
+<marker id="ah-open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,1 L10,6 L0,11" fill="none" stroke="#1c1917" stroke-width="1.6"/></marker>
+<rect x="70" y="180" width="160" height="70" rx="10" fill="#fff7ed" stroke="#ea580c" stroke-width="2"/>
+<rect x="70" y="180" width="160" height="28" rx="10" fill="#ea580c"/>
+<text x="150.0" y="199" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700">PENDING</text>
+<text x="82" y="230" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#78716c" text-anchor="start" font-weight="400">in: enqueue()</text>
+<rect x="300" y="180" width="160" height="70" rx="10" fill="#fff7ed" stroke="#9a3412" stroke-width="2"/>
+<rect x="300" y="180" width="160" height="28" rx="10" fill="#9a3412"/>
+<text x="380.0" y="199" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700">SYNCING</text>
+<text x="312" y="230" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#78716c" text-anchor="start" font-weight="400">in: dequeue()</text>
+<rect x="530" y="130" width="160" height="70" rx="10" fill="#fff7ed" stroke="#047857" stroke-width="2"/>
+<rect x="530" y="130" width="160" height="28" rx="10" fill="#047857"/>
+<text x="610.0" y="149" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700">SYNCED</text>
+<text x="542" y="180" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#78716c" text-anchor="start" font-weight="400">in: ack()</text>
+<rect x="530" y="300" width="160" height="70" rx="10" fill="#fff7ed" stroke="#9f1239" stroke-width="2"/>
+<rect x="530" y="300" width="160" height="28" rx="10" fill="#9f1239"/>
+<text x="610.0" y="319" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700">FAILED</text>
+<text x="542" y="350" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#78716c" text-anchor="start" font-weight="400">in: budgetSpent()</text>
+<rect x="300" y="360" width="160" height="70" rx="10" fill="#fff7ed" stroke="#9a3412" stroke-width="2"/>
+<rect x="300" y="360" width="160" height="28" rx="10" fill="#9a3412"/>
+<text x="380.0" y="379" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700">REQUEUE</text>
+<text x="312" y="410" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#78716c" text-anchor="start" font-weight="400">in: retry()</text>
+<circle cx="70" cy="215" r="8" fill="#047857"/>
+<line x1="78" y1="215" x2="70" y2="215" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<line x1="230" y1="215" x2="300" y2="215" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="265.0" y="209.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">dequeue</text>
+<line x1="460" y1="200" x2="530" y2="165" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="495.0" y="176.5" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">2xx</text>
+<line x1="460" y1="230" x2="530" y2="330" stroke="#9f1239" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="495.0" y="274.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#9f1239" text-anchor="middle" font-weight="400">5xx / retry&lt;5</text>
+<line x1="460" y1="215" x2="530" y2="215" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<line x1="380" y1="360" x2="380" y2="250" stroke="#1c1917" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah-open)"/>
+<text x="380.0" y="299.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">backoff</text>
+<line x1="530" y1="335" x2="460" y2="360" stroke="#9f1239" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah-open)"/>
+<text x="495.0" y="341.5" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#9f1239" text-anchor="middle" font-weight="400">budget spent</text>
+<text x="70" y="470" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">Protocol constrains accepted events per state; a stale SYNCING may be requeued by the 5-minute guard without counting a failure.</text>
+<a href="../index.html" style="text-decoration:none"><rect x="14" y="14" width="156" height="30" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.2"/><text x="30" y="33" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#1c1917">&#8592; Diagram index</text></a>
+</svg>

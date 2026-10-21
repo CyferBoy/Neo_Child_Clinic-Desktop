@@ -1,0 +1,105 @@
+{
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "State Machine \u2014 Personal Reminder",
+    "subtitle": "[ANDROID-SOURCE] Verified PersonalReminderStatus enum and the documented flow PENDING to READY to COMPLETED.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Documented flow",
+      "items": [
+        "PENDING is the creation default",
+        "READY marks a reminder as prepared",
+        "COMPLETED is terminal for the happy path"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Side paths",
+      "items": [
+        "PENDING may go straight to CANCELLED",
+        "READY may return to PENDING",
+        "A cancelled reminder is not deleted"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Happy path"
+    },
+    {
+      "id": "terminal",
+      "label": "Outcome"
+    }
+  ],
+  "states": [
+    {
+      "id": "pending",
+      "type": "start",
+      "label": "PENDING",
+      "sublabel": "created",
+      "col": 0,
+      "step": "01",
+      "tag": "default",
+      "lane": "main"
+    },
+    {
+      "id": "ready",
+      "type": "active",
+      "label": "READY",
+      "sublabel": "prepared",
+      "col": 1,
+      "step": "02",
+      "tag": "active",
+      "lane": "main"
+    },
+    {
+      "id": "cancelled",
+      "type": "failure",
+      "label": "CANCELLED",
+      "sublabel": "called off",
+      "col": 3,
+      "tag": "terminal",
+      "lane": "main"
+    },
+    {
+      "id": "completed",
+      "type": "success",
+      "label": "COMPLETED",
+      "sublabel": "done",
+      "col": 0,
+      "step": "03",
+      "tag": "terminal",
+      "lane": "terminal"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "pending",
+      "to": "ready",
+      "label": "mark ready",
+      "variant": "emphasis",
+      "labelDy": 58
+    },
+    {
+      "from": "ready",
+      "to": "completed",
+      "label": "mark completed",
+      "variant": "emphasis",
+      "route": "drop",
+      "labelDy": 58
+    },
+    {
+      "from": "ready",
+      "to": "cancelled",
+      "label": "cancel",
+      "variant": "security",
+      "route": "drop",
+      "labelDy": 58
+    }
+  ],
+  "schema_version": 1
+}

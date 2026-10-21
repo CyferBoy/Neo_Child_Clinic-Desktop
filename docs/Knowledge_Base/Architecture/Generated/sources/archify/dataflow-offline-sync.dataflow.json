@@ -1,0 +1,192 @@
+{
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Offline Capture and Sync Data Flow",
+    "subtitle": "[ANDROID-SOURCE] Verified Android path, and the same contract the desktop must honor. Remote authorization is export-reported only.",
+    "quality_profile": "standard",
+    "viewBox": [
+      1235,
+      760
+    ],
+    "views": [
+      {
+        "id": "capture",
+        "label": "Capture and queue",
+        "focus": [
+          "screen",
+          "svc",
+          "sqlite",
+          "queue"
+        ],
+        "note": "Writes land in SQLite and a sync_queue row in one transaction."
+      },
+      {
+        "id": "push",
+        "label": "Push to authority",
+        "focus": [
+          "queue",
+          "worker",
+          "supabase"
+        ],
+        "note": "The worker pushes outbound items before pulling inbound changes."
+      }
+    ]
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Local first",
+      "items": [
+        "Writes land in SQLite and a sync_queue row in one transaction",
+        "The UI never waits on the network to confirm a save",
+        "sync_queue carries operation, priority, retryCount, groupId"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Push then pull",
+      "items": [
+        "Reconciler pushes outbound items first, then pulls inbound",
+        "Groups are ordered by priority; DELETE runs negative priority",
+        "Stale SYNCING rows are requeued after 5 minutes"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Unverified",
+      "items": [
+        "RLS evaluation at runtime is export-reported, not observed [UNKNOWN]",
+        "Realtime authorization has not been exercised [UNKNOWN]"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "Capture"
+    },
+    {
+      "label": "Queue"
+    },
+    {
+      "label": "Push"
+    },
+    {
+      "label": "Authority"
+    },
+    {
+      "label": "Pull"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "screen",
+      "type": "frontend",
+      "label": "Screen",
+      "sublabel": "validated input",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "svc",
+      "type": "backend",
+      "label": "Service",
+      "sublabel": "domain rules",
+      "stage": 0,
+      "row": 3,
+      "tag": "atomic"
+    },
+    {
+      "id": "sqlite",
+      "type": "database",
+      "label": "SQLite",
+      "sublabel": "working copy",
+      "stage": 1,
+      "row": 1
+    },
+    {
+      "id": "queue",
+      "type": "messagebus",
+      "label": "sync_queue",
+      "sublabel": "PENDING rows",
+      "stage": 1,
+      "row": 3,
+      "tag": "no unique idx"
+    },
+    {
+      "id": "worker",
+      "type": "backend",
+      "label": "Sync Worker",
+      "sublabel": "grouped upload",
+      "stage": 2,
+      "row": 2,
+      "tag": "retry < 5"
+    },
+    {
+      "id": "supabase",
+      "type": "cloud",
+      "label": "Supabase",
+      "sublabel": "shared authority",
+      "stage": 3,
+      "row": 2,
+      "tag": "RLS"
+    },
+    {
+      "id": "merge",
+      "type": "database",
+      "label": "Merge",
+      "sublabel": "last-write-wins",
+      "stage": 4,
+      "row": 2
+    }
+  ],
+  "flows": [
+    {
+      "id": "f1",
+      "from": "screen",
+      "to": "svc",
+      "label": "validated",
+      "classification": "no PHI at rest",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f2",
+      "from": "svc",
+      "to": "sqlite",
+      "label": "one tx",
+      "classification": "atomic write",
+      "variant": "emphasis"
+    },
+    {
+      "id": "f3",
+      "from": "svc",
+      "to": "queue",
+      "label": "enqueue",
+      "classification": "durable intent",
+      "fromSide": "bottom",
+      "toSide": "bottom"
+    },
+    {
+      "id": "f4",
+      "from": "queue",
+      "to": "worker",
+      "label": "drain",
+      "classification": "ordered"
+    },
+    {
+      "id": "f5",
+      "from": "worker",
+      "to": "supabase",
+      "label": "upsert",
+      "classification": "authenticated",
+      "variant": "security"
+    },
+    {
+      "id": "f6",
+      "from": "supabase",
+      "to": "merge",
+      "label": "server rows",
+      "classification": "last-write-wins"
+    }
+  ],
+  "schema_version": 1
+}

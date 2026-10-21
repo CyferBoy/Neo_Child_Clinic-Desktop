@@ -1,0 +1,129 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Activity \u2014 Due Vaccinations and Reminders",
+    "subtitle": "[ANDROID-SOURCE] Verified reminder pipeline. Due dates are entered by staff; no interval arithmetic exists in the codebase.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "amber",
+      "title": "Dates are entered, not computed",
+      "items": [
+        "No plusWeeks or schedule arithmetic exists under reminder or vaccination",
+        "A blank type or due date drops the reminder with a log line",
+        "Reschedule assigns a new date directly"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Classification",
+      "items": [
+        "Overdue, today, tomorrow, and future are derived at read time",
+        "The due list groups active reminders by patient and date",
+        "A unique index prevents duplicate reminder rows"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Notification limits",
+      "items": [
+        "Only a daily summary and a 24-hour personal worker are scheduled",
+        "There is no per-reminder exact-time scheduler",
+        "Desktop notification behavior is undesigned"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "write-path",
+      "label": "Write Path"
+    },
+    {
+      "id": "due-list",
+      "label": "Due List"
+    },
+    {
+      "id": "dropped",
+      "label": "Dropped"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "spec",
+      "col": 0,
+      "type": "external",
+      "label": "Next Dose",
+      "sublabel": "type + due date",
+      "lane": "write-path"
+    },
+    {
+      "id": "guard",
+      "col": 0,
+      "type": "backend",
+      "label": "Complete?",
+      "sublabel": "type and date",
+      "lane": "due-list"
+    },
+    {
+      "id": "classify",
+      "col": 2,
+      "type": "backend",
+      "label": "Classify",
+      "sublabel": "overdue / today",
+      "lane": "due-list"
+    },
+    {
+      "id": "summary",
+      "col": 4,
+      "type": "messagebus",
+      "label": "Daily Summary",
+      "sublabel": "hourly worker",
+      "lane": "due-list"
+    },
+    {
+      "id": "dismissed",
+      "col": 0,
+      "type": "security",
+      "label": "Dropped",
+      "sublabel": "logged, no row",
+      "lane": "dropped"
+    }
+  ],
+  "edges": [
+    {
+      "id": "z1",
+      "from": "spec",
+      "to": "guard",
+      "label": "submit",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "z2",
+      "from": "guard",
+      "to": "classify",
+      "label": "save + group",
+      "variant": "emphasis"
+    },
+    {
+      "id": "z3",
+      "from": "classify",
+      "to": "summary",
+      "label": "due or overdue"
+    },
+    {
+      "id": "z4",
+      "from": "guard",
+      "to": "dismissed",
+      "label": "blank field",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,150 @@
+{
+  "diagram_type": "dataflow",
+  "meta": {
+    "title": "Patient Registration While Offline",
+    "subtitle": "[DESKTOP-PROPOSED] Planned desktop offline registration path, mirroring verified Android behavior. Not implemented.",
+    "quality_profile": "standard",
+    "viewBox": [
+      1235,
+      760
+    ]
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Confirmed locally",
+      "items": [
+        "The form confirms the save without a network round trip",
+        "A temporary clinic id is replaced before the record is durable",
+        "The audit row is written inside the same transaction"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Deferred",
+      "items": [
+        "Upload waits for a reconnect with exponential backoff",
+        "Pending count surfaces on the dashboard sync chip"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Not designed",
+      "items": [
+        "Duplicate clinic-id collision handling on merge is open",
+        "Remote soft-delete vs local hard-delete semantics are open"
+      ]
+    }
+  ],
+  "stages": [
+    {
+      "label": "Form"
+    },
+    {
+      "label": "Local write"
+    },
+    {
+      "label": "Hold"
+    },
+    {
+      "label": "Upload"
+    },
+    {
+      "label": "Confirm"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "form",
+      "type": "frontend",
+      "label": "Patient Form",
+      "sublabel": "required fields",
+      "stage": 0,
+      "row": 1
+    },
+    {
+      "id": "validate",
+      "type": "backend",
+      "label": "Validation",
+      "sublabel": "name + dob",
+      "stage": 0,
+      "row": 3,
+      "tag": "fail closed"
+    },
+    {
+      "id": "sqlite",
+      "type": "database",
+      "label": "Local DB",
+      "sublabel": "patients row",
+      "stage": 1,
+      "row": 2,
+      "tag": "commit"
+    },
+    {
+      "id": "queue",
+      "type": "messagebus",
+      "label": "Pending Queue",
+      "sublabel": "offline intent",
+      "stage": 2,
+      "row": 2
+    },
+    {
+      "id": "upload",
+      "type": "backend",
+      "label": "Sync Upload",
+      "sublabel": "on reconnect",
+      "stage": 3,
+      "row": 2
+    },
+    {
+      "id": "supabase",
+      "type": "cloud",
+      "label": "Supabase",
+      "sublabel": "patients table",
+      "stage": 4,
+      "row": 2
+    }
+  ],
+  "flows": [
+    {
+      "id": "p1",
+      "from": "form",
+      "to": "validate",
+      "label": "fields",
+      "classification": "PHI in memory",
+      "variant": "emphasis"
+    },
+    {
+      "id": "p2",
+      "from": "validate",
+      "to": "sqlite",
+      "label": "accepted",
+      "classification": "PHI at rest",
+      "variant": "security"
+    },
+    {
+      "id": "p3",
+      "from": "sqlite",
+      "to": "queue",
+      "label": "enqueue",
+      "classification": "durable intent"
+    },
+    {
+      "id": "p4",
+      "from": "queue",
+      "to": "upload",
+      "label": "network up",
+      "classification": "retry",
+      "variant": "dashed"
+    },
+    {
+      "id": "p5",
+      "from": "upload",
+      "to": "supabase",
+      "label": "upsert",
+      "classification": "authenticated",
+      "variant": "security"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,130 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Activity \u2014 Dashboard Statistics and Filtering",
+    "subtitle": "[ANDROID-SOURCE] Verified local-first aggregation. No dashboard query reaches the network directly.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Local only",
+      "items": [
+        "Every tile is a Room flow, never a live remote query",
+        "A filter failure degrades to an empty filter, never a broken list",
+        "Statistics recompute reactively as rows change"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Refresh",
+      "items": [
+        "Refresh pushes pending items first, then pulls",
+        "A single-flight guard prevents overlapping refreshes",
+        "Realtime changes are debounced before they trigger a pull"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Desktop gap",
+      "items": [
+        "No desktop dashboard exists",
+        "Which tiles belong on the desktop dashboard is unresolved",
+        "Exported statistics functions are anon-executable"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "local-sources",
+      "label": "Local Sources"
+    },
+    {
+      "id": "presentation",
+      "label": "Presentation"
+    },
+    {
+      "id": "refresh",
+      "label": "Refresh"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "rooms",
+      "col": 0,
+      "type": "database",
+      "label": "Room Flows",
+      "sublabel": "patients visits stock",
+      "lane": "local-sources"
+    },
+    {
+      "id": "combine",
+      "col": 0,
+      "type": "backend",
+      "label": "Combine",
+      "sublabel": "reactive join",
+      "lane": "presentation"
+    },
+    {
+      "id": "tiles",
+      "col": 2,
+      "type": "frontend",
+      "label": "Tiles",
+      "sublabel": "counts + charts",
+      "lane": "presentation"
+    },
+    {
+      "id": "refine",
+      "col": 4,
+      "type": "frontend",
+      "label": "Refined View",
+      "sublabel": "filtered",
+      "lane": "presentation"
+    },
+    {
+      "id": "pull",
+      "col": 2,
+      "type": "cloud",
+      "label": "Pull Remote",
+      "sublabel": "push then pull",
+      "lane": "refresh"
+    }
+  ],
+  "edges": [
+    {
+      "id": "s1",
+      "from": "rooms",
+      "to": "combine",
+      "label": "flows",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "s2",
+      "from": "combine",
+      "to": "tiles",
+      "label": "state",
+      "variant": "emphasis"
+    },
+    {
+      "id": "s3",
+      "from": "tiles",
+      "to": "refine",
+      "label": "user filter",
+      "variant": "emphasis"
+    },
+    {
+      "id": "s4",
+      "from": "tiles",
+      "to": "pull",
+      "label": "refresh",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "schema_version": 1
+}

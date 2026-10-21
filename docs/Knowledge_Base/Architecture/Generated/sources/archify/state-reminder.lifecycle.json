@@ -1,0 +1,113 @@
+{
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "State Machine \u2014 Vaccination Reminder",
+    "subtitle": "[ANDROID-SOURCE] Verified ReminderStatus enum with a unique index that prevents duplicate rows.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Four states",
+      "items": [
+        "ACTIVE until acted on",
+        "COMPLETED when the dose is given",
+        "DISMISSED when staff declines",
+        "EXTERNAL for doses given elsewhere"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Guard",
+      "items": [
+        "A unique index on patient, visit, due date, type, and name blocks duplicates",
+        "Completion and dismissal each run in a transaction",
+        "Restore returns a dismissed reminder to ACTIVE"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Reminder path"
+    },
+    {
+      "id": "terminal",
+      "label": "Outcome"
+    }
+  ],
+  "states": [
+    {
+      "id": "active",
+      "type": "start",
+      "label": "ACTIVE",
+      "sublabel": "due list",
+      "col": 0,
+      "step": "01",
+      "tag": "open",
+      "lane": "main"
+    },
+    {
+      "id": "dismissed",
+      "type": "failure",
+      "label": "DISMISSED",
+      "sublabel": "declined, reversible",
+      "col": 2,
+      "tag": "reversible",
+      "lane": "main"
+    },
+    {
+      "id": "completed",
+      "type": "success",
+      "label": "COMPLETED",
+      "sublabel": "dose given",
+      "col": 0,
+      "step": "02",
+      "tag": "terminal",
+      "lane": "terminal"
+    },
+    {
+      "id": "external",
+      "type": "neutral",
+      "label": "EXTERNAL",
+      "sublabel": "given elsewhere",
+      "col": 2,
+      "tag": "terminal",
+      "lane": "terminal"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "active",
+      "to": "completed",
+      "label": "mark complete",
+      "variant": "emphasis",
+      "route": "drop",
+      "labelDy": 58
+    },
+    {
+      "from": "active",
+      "to": "dismissed",
+      "label": "dismiss",
+      "variant": "security",
+      "labelDy": 58
+    },
+    {
+      "from": "dismissed",
+      "to": "active",
+      "label": "restore",
+      "variant": "dashed",
+      "route": "bottom-channel",
+      "labelDy": 40
+    },
+    {
+      "from": "dismissed",
+      "to": "external",
+      "label": "given elsewhere",
+      "variant": "default",
+      "route": "drop",
+      "labelDy": 58
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,148 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Activity \u2014 Record a Vaccination",
+    "subtitle": "[ANDROID-SOURCE] Verified flow from ClinicalVaccinationService.recordVaccination. Desktop implementation does not exist.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "One transaction",
+      "items": [
+        "Visit, items, income, stock deduction, and reminders share one tx",
+        "The record lands whole or not at all",
+        "The sync queue is written inside the same transaction"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Stock shortfall",
+      "items": [
+        "An insufficient batch writes a FAILED ledger row instead of throwing",
+        "The visit still commits with a PARTIAL or FAILED inventory status",
+        "Stock is never silently driven negative"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Risks carried forward",
+      "items": [
+        "No idempotency key on stock deduction",
+        "The save button has no ViewModel in-flight guard",
+        "Receipt number is assigned server side, after commit"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "screen",
+      "label": "Screen"
+    },
+    {
+      "id": "clinical-write",
+      "label": "Clinical Write"
+    },
+    {
+      "id": "rejection",
+      "label": "Rejection"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "form",
+      "col": 0,
+      "type": "external",
+      "label": "Vacc Form",
+      "sublabel": "items + next dose",
+      "lane": "screen"
+    },
+    {
+      "id": "valid",
+      "col": 0,
+      "type": "backend",
+      "label": "Validate Rows",
+      "sublabel": "vaccine + batch",
+      "lane": "clinical-write"
+    },
+    {
+      "id": "tx",
+      "col": 2,
+      "type": "database",
+      "label": "One TX",
+      "sublabel": "visit + items + income",
+      "tag": "atomic",
+      "lane": "clinical-write"
+    },
+    {
+      "id": "stock",
+      "col": 4,
+      "type": "backend",
+      "label": "Deduct Stock",
+      "sublabel": "FEFO + ledger",
+      "lane": "clinical-write"
+    },
+    {
+      "id": "bad",
+      "col": 0,
+      "type": "security",
+      "label": "Rejected",
+      "sublabel": "no write",
+      "lane": "rejection"
+    },
+    {
+      "id": "short",
+      "col": 4,
+      "type": "security",
+      "label": "Shortfall",
+      "sublabel": "FAILED ledger",
+      "lane": "rejection"
+    }
+  ],
+  "edges": [
+    {
+      "id": "v1",
+      "from": "form",
+      "to": "valid",
+      "label": "save",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "v2",
+      "from": "valid",
+      "to": "tx",
+      "label": "rows ok",
+      "variant": "emphasis"
+    },
+    {
+      "id": "v3",
+      "from": "tx",
+      "to": "stock",
+      "label": "per item"
+    },
+    {
+      "id": "v4",
+      "from": "valid",
+      "to": "bad",
+      "label": "missing",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "v5",
+      "from": "stock",
+      "to": "short",
+      "label": "insufficient",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "schema_version": 1
+}

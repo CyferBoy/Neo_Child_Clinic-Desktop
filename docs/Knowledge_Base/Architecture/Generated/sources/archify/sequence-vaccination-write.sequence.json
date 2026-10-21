@@ -1,0 +1,170 @@
+{
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Sequence \u2014 Vaccination Write and Receipt Number",
+    "subtitle": "[ANDROID-SOURCE + SCHEMA-EXPORT] Local commit, queued sync, then a server-assigned receipt number read back into the local row.",
+    "quality_profile": "standard",
+    "viewBox": [
+      892,
+      864
+    ]
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Local commit first",
+      "items": [
+        "The visit, items, income, and stock move in one local transaction",
+        "The queue row is written inside that same transaction",
+        "The user is never blocked on the network"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Server-assigned identity",
+      "items": [
+        "The client uploads a blank receipt number",
+        "A database trigger assigns NEO-FY-NNNNNN on insert",
+        "The upsert reads the row back and stores the number locally"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Export-reported",
+      "items": [
+        "The receipt function is exposed to anon in the export",
+        "The counter table is locked and revoked, per the export",
+        "Trigger behavior has not been exercised live [UNKNOWN]"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "screen",
+      "type": "frontend",
+      "label": "Vacc Screen",
+      "sublabel": "form"
+    },
+    {
+      "id": "svc",
+      "type": "backend",
+      "label": "Clinical Svc",
+      "sublabel": "orchestrates"
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "Local DB",
+      "sublabel": "Room"
+    },
+    {
+      "id": "queue",
+      "type": "messagebus",
+      "label": "Sync Queue",
+      "sublabel": "PENDING"
+    },
+    {
+      "id": "worker",
+      "type": "backend",
+      "label": "Sync Worker",
+      "sublabel": "upload"
+    },
+    {
+      "id": "supa",
+      "type": "cloud",
+      "label": "Supabase",
+      "sublabel": "PostgREST"
+    },
+    {
+      "id": "trig",
+      "type": "security",
+      "label": "Trg Assign",
+      "sublabel": "receipt no."
+    }
+  ],
+  "messages": [
+    {
+      "from": "screen",
+      "to": "svc",
+      "y": 180,
+      "label": "recordVaccination()",
+      "variant": "emphasis"
+    },
+    {
+      "from": "svc",
+      "to": "db",
+      "y": 222,
+      "label": "BEGIN one tx",
+      "variant": "emphasis"
+    },
+    {
+      "from": "db",
+      "to": "queue",
+      "y": 348,
+      "label": "enqueue VISIT/TXN",
+      "variant": "dashed"
+    },
+    {
+      "from": "db",
+      "to": "svc",
+      "y": 390,
+      "label": "COMMIT",
+      "variant": "return"
+    },
+    {
+      "from": "svc",
+      "to": "screen",
+      "y": 432,
+      "label": "saved (blank rcpt)",
+      "variant": "return"
+    },
+    {
+      "from": "worker",
+      "to": "queue",
+      "y": 482,
+      "label": "drain by priority"
+    },
+    {
+      "from": "worker",
+      "to": "supa",
+      "y": 524,
+      "label": "upsert visit",
+      "variant": "security"
+    },
+    {
+      "from": "supa",
+      "to": "trig",
+      "y": 566,
+      "label": "BEFORE INSERT",
+      "variant": "security"
+    },
+    {
+      "from": "trig",
+      "to": "supa",
+      "y": 608,
+      "label": "NEO-26/27-0001",
+      "variant": "return"
+    },
+    {
+      "from": "supa",
+      "to": "worker",
+      "y": 650,
+      "label": "return saved row",
+      "variant": "return"
+    },
+    {
+      "from": "worker",
+      "to": "db",
+      "y": 692,
+      "label": "store receipt no.",
+      "variant": "emphasis"
+    },
+    {
+      "from": "worker",
+      "to": "queue",
+      "y": 734,
+      "label": "delete queue row"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,135 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Authentication and Authorization Flow",
+    "subtitle": "[SCHEMA-EXPORT + ANDROID-SOURCE] Sign-in, session, role, and RLS as reported by exports and Android code. Live enforcement is UNKNOWN.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Verified client side",
+      "items": [
+        "Role is read from the JWT app_metadata claim, not local state",
+        "A missing or unknown role maps to no UI privilege",
+        "Session restore resolves within a bounded timeout"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Export-reported backend",
+      "items": [
+        "get_my_role() falls back to 'nurse' when no profile matches",
+        "Ten core clinical and inventory tables carry {public} policies",
+        "All 21 functions are anon-executable in the export"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Unverified",
+      "items": [
+        "None of the above has been exercised against the live API [UNKNOWN]",
+        "Post-October-30 default ACLs are unknown [UNKNOWN]"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "sign-in",
+      "label": "Sign In"
+    },
+    {
+      "id": "role-and-rls",
+      "label": "Role And Rls"
+    },
+    {
+      "id": "denial",
+      "label": "Denial"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "creds",
+      "col": 0,
+      "type": "external",
+      "label": "Credentials",
+      "sublabel": "email + password",
+      "lane": "sign-in"
+    },
+    {
+      "id": "signin",
+      "col": 0,
+      "type": "security",
+      "label": "Sign In",
+      "sublabel": "issues JWT",
+      "lane": "role-and-rls"
+    },
+    {
+      "id": "role",
+      "col": 2,
+      "type": "backend",
+      "label": "Role Claim",
+      "sublabel": "app_metadata.role",
+      "tag": "source of truth",
+      "lane": "role-and-rls"
+    },
+    {
+      "id": "gate",
+      "col": 4,
+      "type": "security",
+      "label": "RLS Policy",
+      "sublabel": "per-table qual",
+      "tag": "get_my_role()",
+      "lane": "role-and-rls"
+    },
+    {
+      "id": "denied",
+      "col": 4,
+      "type": "security",
+      "label": "Denied",
+      "sublabel": "no rows + audit",
+      "lane": "denial"
+    }
+  ],
+  "edges": [
+    {
+      "id": "e1",
+      "from": "creds",
+      "to": "signin",
+      "label": "submit",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "e2",
+      "from": "signin",
+      "to": "role",
+      "label": "decode JWT",
+      "variant": "emphasis"
+    },
+    {
+      "id": "e3",
+      "from": "role",
+      "to": "gate",
+      "label": "request",
+      "variant": "security"
+    },
+    {
+      "id": "e4",
+      "from": "gate",
+      "to": "denied",
+      "label": "qual false",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop",
+      "labelAt": [
+        500,
+        292
+      ]
+    }
+  ],
+  "schema_version": 1
+}

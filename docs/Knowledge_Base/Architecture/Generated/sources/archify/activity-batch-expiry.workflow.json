@@ -1,0 +1,147 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Activity \u2014 Batch Selection and Expiry Handling",
+    "subtitle": "[ANDROID-SOURCE] Verified FEFO selection and expiry rules in the clinic timezone. Expiry is enforced at both UI and repository.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "FEFO",
+      "items": [
+        "Best batch = soonest expiry among unexpired, in-stock batches",
+        "The repository repeats the same filter on write",
+        "The UI dropdown and the write path agree on the rule"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Edge cases",
+      "items": [
+        "An unparseable expiry is deliberately treated as not expired",
+        "An edit may keep a batch that was already consumed",
+        "A same-day expiry is not yet expired"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Not verified",
+      "items": [
+        "Exported expiry formats were not parsed against live data",
+        "Timezone handling across devices is untested"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "selection",
+      "label": "Selection"
+    },
+    {
+      "id": "expiry-rules",
+      "label": "Expiry Rules"
+    },
+    {
+      "id": "refusal",
+      "label": "Refusal"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "vaccine",
+      "col": 0,
+      "type": "external",
+      "label": "Choose Vaccine",
+      "sublabel": "row on form",
+      "lane": "selection"
+    },
+    {
+      "id": "stocked",
+      "col": 0,
+      "type": "backend",
+      "label": "In-Stock Lots",
+      "sublabel": "remaining > 0",
+      "lane": "expiry-rules"
+    },
+    {
+      "id": "filter",
+      "col": 2,
+      "type": "backend",
+      "label": "Expired As Of?",
+      "sublabel": "vs given date",
+      "lane": "expiry-rules"
+    },
+    {
+      "id": "revalidate",
+      "col": 4,
+      "type": "security",
+      "label": "Write Gate",
+      "sublabel": "allowExpired",
+      "lane": "expiry-rules"
+    },
+    {
+      "id": "empty",
+      "col": 0,
+      "type": "security",
+      "label": "No Usable Lot",
+      "sublabel": "blocked",
+      "lane": "refusal"
+    },
+    {
+      "id": "block",
+      "col": 4,
+      "type": "security",
+      "label": "Blocked",
+      "sublabel": "expired on date",
+      "lane": "refusal"
+    }
+  ],
+  "edges": [
+    {
+      "id": "y1",
+      "from": "vaccine",
+      "to": "stocked",
+      "label": "load",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "y2",
+      "from": "stocked",
+      "to": "filter",
+      "label": "candidates",
+      "variant": "emphasis"
+    },
+    {
+      "id": "y3",
+      "from": "filter",
+      "to": "revalidate",
+      "label": "soonest first",
+      "variant": "emphasis"
+    },
+    {
+      "id": "y4",
+      "from": "stocked",
+      "to": "empty",
+      "label": "none",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "y5",
+      "from": "revalidate",
+      "to": "block",
+      "label": "expired",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,139 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Activity \u2014 Create a Patient",
+    "subtitle": "[ANDROID-SOURCE] Verified patient creation with clinic-id generation inside the transaction. Desktop equivalent is planned only.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Atomic",
+      "items": [
+        "Clinic-id generation, uniqueness check, insert, and enqueue share one tx",
+        "The audit row is written inside the same transaction",
+        "A conflict aborts before any row is durable"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Open questions",
+      "items": [
+        "Remote soft-delete vs local hard-delete semantics",
+        "Clinic-id collision handling when two devices assign offline",
+        "Whether desktop should keep the TEMP- prefix convention"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "form",
+      "label": "Form"
+    },
+    {
+      "id": "identity",
+      "label": "Identity"
+    },
+    {
+      "id": "rejection",
+      "label": "Rejection"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "fill",
+      "col": 0,
+      "type": "external",
+      "label": "Patient Form",
+      "sublabel": "name + dob",
+      "lane": "form"
+    },
+    {
+      "id": "check",
+      "col": 0,
+      "type": "backend",
+      "label": "Required Check",
+      "sublabel": "name + dob",
+      "lane": "identity"
+    },
+    {
+      "id": "tx",
+      "col": 2,
+      "type": "database",
+      "label": "One TX",
+      "sublabel": "id + insert + audit",
+      "tag": "atomic",
+      "lane": "identity"
+    },
+    {
+      "id": "uniq",
+      "col": 4,
+      "type": "backend",
+      "label": "Unique ID?",
+      "sublabel": "index check",
+      "lane": "identity"
+    },
+    {
+      "id": "missing",
+      "col": 0,
+      "type": "security",
+      "label": "Missing Field",
+      "sublabel": "blocked",
+      "lane": "rejection"
+    },
+    {
+      "id": "dupe",
+      "col": 4,
+      "type": "security",
+      "label": "Duplicate ID",
+      "sublabel": "aborts",
+      "lane": "rejection"
+    }
+  ],
+  "edges": [
+    {
+      "id": "q1",
+      "from": "fill",
+      "to": "check",
+      "label": "save",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "q2",
+      "from": "check",
+      "to": "tx",
+      "label": "complete",
+      "variant": "emphasis"
+    },
+    {
+      "id": "q3",
+      "from": "tx",
+      "to": "uniq",
+      "label": "probe"
+    },
+    {
+      "id": "q4",
+      "from": "check",
+      "to": "missing",
+      "label": "blank",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "q5",
+      "from": "uniq",
+      "to": "dupe",
+      "label": "collision",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "schema_version": 1
+}

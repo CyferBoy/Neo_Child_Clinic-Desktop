@@ -1,0 +1,163 @@
+{
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Sequence \u2014 Login and Session Restoration",
+    "subtitle": "[ANDROID-SOURCE] Verified Android login and startup restore. Desktop must reproduce the contract, not the class names.",
+    "quality_profile": "standard",
+    "viewBox": [
+      892,
+      780
+    ]
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Bounded startup",
+      "items": [
+        "Session resolution is awaited with a hard timeout",
+        "A resolved session routes to the dashboard; otherwise to login",
+        "An unresolved session with a cached user still opens the dashboard"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Account isolation",
+      "items": [
+        "Signing into a different account clears local data first",
+        "The switch is blocked while unacknowledged sync items remain",
+        "Sign-out is blocked for the same reason"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Authorization",
+      "items": [
+        "The role is read from the JWT app_metadata claim",
+        "A disabled account is rejected after the profile loads",
+        "Local profile role is display-only, never an authz source"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "Staff User",
+      "sublabel": "email + password"
+    },
+    {
+      "id": "ui",
+      "type": "frontend",
+      "label": "Login Screen",
+      "sublabel": "form"
+    },
+    {
+      "id": "authvm",
+      "type": "backend",
+      "label": "Auth Ctrl",
+      "sublabel": "client logic"
+    },
+    {
+      "id": "supaauth",
+      "type": "security",
+      "label": "Supa Auth",
+      "sublabel": "issues JWT"
+    },
+    {
+      "id": "profiles",
+      "type": "database",
+      "label": "profiles",
+      "sublabel": "role + active"
+    },
+    {
+      "id": "session",
+      "type": "database",
+      "label": "Session",
+      "sublabel": "encrypted prefs"
+    },
+    {
+      "id": "nav",
+      "type": "frontend",
+      "label": "Navigator",
+      "sublabel": "start dest"
+    }
+  ],
+  "messages": [
+    {
+      "from": "user",
+      "to": "ui",
+      "y": 180,
+      "label": "enter credentials",
+      "variant": "emphasis"
+    },
+    {
+      "from": "ui",
+      "to": "authvm",
+      "y": 222,
+      "label": "login(email, password)"
+    },
+    {
+      "from": "authvm",
+      "to": "supaauth",
+      "y": 264,
+      "label": "sign in",
+      "variant": "security"
+    },
+    {
+      "from": "supaauth",
+      "to": "session",
+      "y": 306,
+      "label": "persist session",
+      "variant": "dashed"
+    },
+    {
+      "from": "supaauth",
+      "to": "authvm",
+      "y": 348,
+      "label": "uid + JWT",
+      "variant": "return"
+    },
+    {
+      "from": "authvm",
+      "to": "profiles",
+      "y": 390,
+      "label": "load profile"
+    },
+    {
+      "from": "profiles",
+      "to": "authvm",
+      "y": 432,
+      "label": "role, is_active",
+      "variant": "return"
+    },
+    {
+      "from": "authvm",
+      "to": "nav",
+      "y": 516,
+      "label": "onLoginSuccess()",
+      "variant": "emphasis"
+    },
+    {
+      "from": "nav",
+      "to": "session",
+      "y": 566,
+      "label": "restore on start",
+      "variant": "dashed"
+    },
+    {
+      "from": "session",
+      "to": "authvm",
+      "y": 608,
+      "label": "resolved or null",
+      "variant": "return"
+    },
+    {
+      "from": "authvm",
+      "to": "nav",
+      "y": 650,
+      "label": "dash or login",
+      "variant": "emphasis"
+    }
+  ],
+  "schema_version": 1
+}

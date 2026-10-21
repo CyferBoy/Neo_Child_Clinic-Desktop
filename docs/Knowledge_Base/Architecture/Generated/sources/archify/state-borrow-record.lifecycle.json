@@ -1,0 +1,96 @@
+{
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "State Machine \u2014 Borrow Record",
+    "subtitle": "[ANDROID-SOURCE] Verified derived status. The stored flag is boolean; the three states are computed from the sum of return rows.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Derived, not stored",
+      "items": [
+        "BORROWED when the returned sum is zero",
+        "PARTIALLY_RETURNED when the sum is below the borrowed quantity",
+        "RETURNED when the sum meets it"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Stock coupling",
+      "items": [
+        "Each return restores stock in the same transaction",
+        "Deleting a record restores outstanding stock first",
+        "The stored boolean is only a coarse read filter"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Return progress"
+    },
+    {
+      "id": "terminal",
+      "label": "Terminal"
+    }
+  ],
+  "states": [
+    {
+      "id": "borrowed",
+      "type": "start",
+      "label": "BORROWED",
+      "sublabel": "stock deducted",
+      "col": 0,
+      "step": "01",
+      "tag": "out",
+      "lane": "main"
+    },
+    {
+      "id": "partial",
+      "type": "active",
+      "label": "PARTIALLY_RETURNED",
+      "sublabel": "sum < quantity",
+      "col": 2,
+      "step": "02",
+      "tag": "open",
+      "lane": "main"
+    },
+    {
+      "id": "returned",
+      "type": "success",
+      "label": "RETURNED",
+      "sublabel": "sum == quantity",
+      "col": 1,
+      "step": "03",
+      "tag": "terminal",
+      "lane": "terminal"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "borrowed",
+      "to": "partial",
+      "label": "partial return",
+      "variant": "emphasis",
+      "labelDy": 58
+    },
+    {
+      "from": "borrowed",
+      "to": "returned",
+      "label": "full return",
+      "variant": "emphasis",
+      "route": "drop",
+      "labelDy": 58
+    },
+    {
+      "from": "partial",
+      "to": "returned",
+      "label": "final return",
+      "variant": "emphasis",
+      "route": "drop",
+      "labelDy": 58
+    }
+  ],
+  "schema_version": 1
+}

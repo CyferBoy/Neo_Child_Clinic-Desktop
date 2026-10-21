@@ -1,0 +1,122 @@
+{
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Sequence \u2014 Dashboard Refresh and Realtime Trigger",
+    "subtitle": "[ANDROID-SOURCE] Verified pull-then-render refresh with a single-flight guard and debounced realtime hints.",
+    "quality_profile": "standard",
+    "viewBox": [
+      676,
+      673
+    ]
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Single flight",
+      "items": [
+        "An overlapping refresh returns immediately",
+        "Outbound push runs before the inbound pull",
+        "Realtime hints are debounced and only trigger a pull"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Unknown",
+      "items": [
+        "Realtime authorization has not been exercised live",
+        "Whether the desktop will subscribe to Realtime is undecided"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "ui",
+      "type": "frontend",
+      "label": "Dashboard",
+      "sublabel": "tiles"
+    },
+    {
+      "id": "vm",
+      "type": "backend",
+      "label": "Dash VM",
+      "sublabel": "guards refresh"
+    },
+    {
+      "id": "repo",
+      "type": "backend",
+      "label": "Sync + Ref",
+      "sublabel": "push then pull"
+    },
+    {
+      "id": "supa",
+      "type": "cloud",
+      "label": "Supabase",
+      "sublabel": "tables"
+    },
+    {
+      "id": "rt",
+      "type": "messagebus",
+      "label": "Realtime",
+      "sublabel": "change hints"
+    }
+  ],
+  "messages": [
+    {
+      "from": "ui",
+      "to": "vm",
+      "y": 185,
+      "label": "refresh()",
+      "variant": "emphasis"
+    },
+    {
+      "from": "vm",
+      "to": "repo",
+      "y": 271,
+      "label": "push pending first",
+      "variant": "emphasis"
+    },
+    {
+      "from": "repo",
+      "to": "supa",
+      "y": 314,
+      "label": "push groups",
+      "variant": "security"
+    },
+    {
+      "from": "repo",
+      "to": "supa",
+      "y": 357,
+      "label": "pull changed",
+      "variant": "emphasis"
+    },
+    {
+      "from": "supa",
+      "to": "vm",
+      "y": 400,
+      "label": "rows or failure",
+      "variant": "return"
+    },
+    {
+      "from": "vm",
+      "to": "ui",
+      "y": 443,
+      "label": "tiles or banner",
+      "variant": "return"
+    },
+    {
+      "from": "rt",
+      "to": "vm",
+      "y": 500,
+      "label": "change, debounced",
+      "variant": "dashed"
+    },
+    {
+      "from": "vm",
+      "to": "repo",
+      "y": 543,
+      "label": "pull only",
+      "variant": "dashed"
+    }
+  ],
+  "schema_version": 1
+}

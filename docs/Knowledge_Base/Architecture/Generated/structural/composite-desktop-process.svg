@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="900" height="540" viewBox="0 0 900 540" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect width="900" height="540" fill="#fffbeb"/>
+<text x="28" y="44" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="22" fill="#1c1917" text-anchor="start" font-weight="700">Composite Structure — Desktop Process Internals</text>
+<text x="28" y="68" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" fill="#78716c" text-anchor="start" font-weight="400">The single Wails process exposes provided ports to the renderer and requires the shared backend.</text>
+<text x="28" y="88" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#9a3412" text-anchor="start" font-weight="600">[DESKTOP-PROPOSED] One process hosts Go runtime + webview; nothing is deployed yet.</text>
+<marker id="ah-open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,1 L10,6 L0,11" fill="none" stroke="#1c1917" stroke-width="1.6"/></marker>
+<rect x="60" y="120" width="780" height="360" rx="14" fill="#fff7ed" stroke="#c2410c" stroke-width="2"/>
+<text x="76" y="146" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="15" fill="#9a3412" text-anchor="start" font-weight="700">Desktop Process (Wails v3)</text>
+<rect x="90" y="180" width="220" height="120" rx="10" fill="#ffffff" stroke="#ea580c" stroke-width="1.8"/>
+<rect x="90" y="180" width="220" height="30" rx="10" fill="#ea580c"/>
+<text x="102" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">React WebView</text>
+<text x="102" y="232" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">provides: UI events</text>
+<text x="102" y="254" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#78716c" text-anchor="start" font-weight="400">requires: bindings</text>
+<rect x="350" y="180" width="220" height="120" rx="10" fill="#ffffff" stroke="#9a3412" stroke-width="1.8"/>
+<rect x="350" y="180" width="220" height="30" rx="10" fill="#9a3412"/>
+<text x="362" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">Binding Layer</text>
+<text x="362" y="232" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">provides: typed methods</text>
+<text x="362" y="254" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#78716c" text-anchor="start" font-weight="400">requires: services</text>
+<rect x="610" y="180" width="200" height="120" rx="10" fill="#ffffff" stroke="#047857" stroke-width="1.8"/>
+<rect x="610" y="180" width="200" height="30" rx="10" fill="#047857"/>
+<text x="622" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">App Services</text>
+<text x="622" y="232" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">provides: use cases</text>
+<text x="622" y="254" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#78716c" text-anchor="start" font-weight="400">requires: store</text>
+<rect x="350" y="360" width="220" height="120" rx="10" fill="#ffffff" stroke="#9a3412" stroke-width="1.8"/>
+<rect x="350" y="360" width="220" height="30" rx="10" fill="#9a3412"/>
+<text x="362" y="380" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">Local Store (SQLite)</text>
+<text x="362" y="412" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">provides: repositories</text>
+<text x="362" y="434" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#78716c" text-anchor="start" font-weight="400">requires: SQLCipher?</text>
+<rect x="610" y="360" width="200" height="120" rx="10" fill="#ffffff" stroke="#047857" stroke-width="1.8"/>
+<rect x="610" y="360" width="200" height="30" rx="10" fill="#047857"/>
+<text x="622" y="380" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">Sync Worker</text>
+<text x="622" y="412" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="start" font-weight="400">provides: push/pull</text>
+<text x="622" y="434" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#78716c" text-anchor="start" font-weight="400">requires: network</text>
+<line x1="310" y1="230" x2="350" y2="230" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="330.0" y="224.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">call</text>
+<line x1="570" y1="230" x2="610" y2="230" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="590.0" y="224.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">use</text>
+<line x1="460" y1="300" x2="460" y2="360" stroke="#1c1917" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah-open)"/>
+<text x="460.0" y="324.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">SQL</text>
+<line x1="710" y1="300" x2="710" y2="360" stroke="#1c1917" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah-open)"/>
+<text x="710.0" y="324.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">queue</text>
+<line x1="810" y1="240" x2="830" y2="400" stroke="#9f1239" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="820.0" y="314.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#9f1239" text-anchor="middle" font-weight="400">HTTPS</text>
+<text x="60" y="512" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">The renderer crosses exactly one boundary (bindings). Encryption of the local store is pending ADR-0010.</text>
+<a href="../index.html" style="text-decoration:none"><rect x="14" y="14" width="156" height="30" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.2"/><text x="30" y="33" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#1c1917">&#8592; Diagram index</text></a>
+</svg>

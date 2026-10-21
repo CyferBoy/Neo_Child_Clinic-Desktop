@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light" data-preset="classic">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Neo Child Clinic Desktop — Architecture &amp; UML Diagram Suite</title>
+<style>
+:root{--bg:#0d1117;--surface:#161b22;--line:#30363d;--text:#e6edf3;--muted:#8b949e;
+--accent:#ea580c;--accent2:#c2410c;--ring:#f97316;--ok:#047857;--warn:#b45309;--bad:#be123c;}
+html[data-theme="light"]{--bg:#fffbeb;--surface:#fff7ed;--line:#fed7aa;--text:#1c1917;
+--muted:#9a7a5a;--accent:#ea580c;--accent2:#c2410c;--ring:#f97316;}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);
+font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.5}
+.wrap{max-width:1180px;margin:0 auto;padding:32px 20px 80px}
+header h1{font-size:26px;margin:0 0 6px;font-weight:700}
+header .sub{color:var(--muted);font-size:14px;max-width:78ch;margin:0 0 18px}
+.legend{display:flex;flex-wrap:wrap;gap:10px;margin:0 0 20px}
+.legend .k{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;
+padding:5px 11px;border-radius:20px;border:1px solid var(--line);background:var(--surface)}
+.dot{width:9px;height:9px;border-radius:50%}
+.dot.android{background:#0369a1}.dot.proposed{background:#c2410c}
+.dot.export{background:#047857}.dot.mixed{background:#a16207}
+.controls{position:sticky;top:0;z-index:20;background:var(--bg);padding:14px 0;
+border-bottom:1px solid var(--line);margin-bottom:22px}
+.search{width:100%;padding:11px 14px;border-radius:10px;border:1px solid var(--line);
+background:var(--surface);color:var(--text);font-size:14px;margin-bottom:12px}
+.search:focus{outline:2px solid var(--ring);outline-offset:1px}
+.filters{display:flex;flex-wrap:wrap;gap:18px}
+.fgroup{display:flex;flex-direction:column;gap:6px}
+.fgroup .lbl{font-size:11px;font-weight:700;letter-spacing:.04em;text-transform:uppercase;color:var(--muted)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font-size:12px;font-weight:600;padding:5px 11px;border-radius:16px;cursor:pointer;
+border:1px solid var(--line);background:var(--surface);color:var(--text)}
+.chip[aria-pressed="true"]{background:var(--accent);border-color:var(--accent);color:#fff}
+.count{font-size:12px;color:var(--muted);margin:14px 2px 16px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:16px}
+.card{display:block;text-decoration:none;color:inherit;background:var(--surface);
+border:1px solid var(--line);border-radius:12px;padding:16px 16px 14px;transition:.12s;
+border-left:4px solid var(--accent)}
+.card:hover{transform:translateY(-2px);border-color:var(--ring);box-shadow:0 6px 20px rgba(234,88,12,.12)}
+.card.android{border-left-color:#0369a1}.card.proposed{border-left-color:#c2410c}
+.card.export{border-left-color:#047857}.card.mixed{border-left-color:#a16207}
+.card h3{font-size:15px;margin:0 0 8px;font-weight:700}
+.badges{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:9px}
+.badge{font-size:10px;font-weight:700;letter-spacing:.03em;padding:3px 8px;border-radius:6px;
+border:1px solid var(--line)}
+.badge.type{background:var(--surface);color:var(--muted)}
+.badge.ev.android{background:#e0f2fe;color:#0369a1}.badge.ev.proposed{background:#ffedd5;color:#9a3412}
+.badge.ev.export{background:#d1fae5;color:#047857}.badge.ev.mixed{background:#fef3c7;color:#92400e}
+.badge.rend{background:var(--surface);color:var(--muted)}
+.card p{font-size:12.5px;color:var(--muted);margin:0}
+.empty{color:var(--muted);font-size:14px;padding:40px 0;text-align:center}
+footer{margin-top:44px;padding-top:20px;border-top:1px solid var(--line);
+font-size:12px;color:var(--muted)}
+footer a{color:var(--accent)}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header>
+  <h1>Neo Child Clinic Desktop — Architecture &amp; UML Diagram Suite</h1>
+  <p class="sub">Documentation-only. Every diagram labels its evidence on its face:
+    <b>[ANDROID-SOURCE]</b> verified against Android source at commit ca4bed4 (reference implementation),
+    <b>[DESKTOP-PROPOSED]</b> planned design from the Knowledge Base (NOT implemented),
+    <b>[SCHEMA-EXPORT]</b> reported by docs/Schemas CSV exports (not exercised against live Supabase),
+    <b>[UNKNOWN]</b> could not be verified. The desktop repository contains no application code.</p>
+  <div class="legend">
+    <span class="k"><span class="dot android"></span>Android reference (verified)</span>
+    <span class="k"><span class="dot proposed"></span>Desktop proposed (not implemented)</span>
+    <span class="k"><span class="dot export"></span>Schema export (not live-verified)</span>
+    <span class="k"><span class="dot mixed"></span>Mixed / unknown</span>
+  </div>
+</header>
+
+<div class="controls">
+  <input id="q" class="search" type="search" placeholder="Search diagrams by title, type, or summary…" autocomplete="off"/>
+  <div class="filters">
+    <div class="fgroup"><span class="lbl">Category</span><div class="chips" data-dim="cat">
+      <button class="chip" data-v="structural" aria-pressed="false">Structural</button><button class="chip" data-v="behavioral" aria-pressed="false">Behavioral</button><button class="chip" data-v="data-and-flows" aria-pressed="false">Data & Flows</button><button class="chip" data-v="features" aria-pressed="false">Feature Workflows</button>
+    </div></div>
+    <div class="fgroup"><span class="lbl">UML type</span><div class="chips" data-dim="utype">
+      <button class="chip" data-v="Activity" aria-pressed="false">Activity</button><button class="chip" data-v="Activity (auth)" aria-pressed="false">Activity (auth)</button><button class="chip" data-v="Activity (build)" aria-pressed="false">Activity (build)</button><button class="chip" data-v="Activity (error)" aria-pressed="false">Activity (error)</button><button class="chip" data-v="Class" aria-pressed="false">Class</button><button class="chip" data-v="Communication" aria-pressed="false">Communication</button><button class="chip" data-v="Component" aria-pressed="false">Component</button><button class="chip" data-v="Component (layered)" aria-pressed="false">Component (layered)</button><button class="chip" data-v="Composite Structure" aria-pressed="false">Composite Structure</button><button class="chip" data-v="Data Flow (DFD)" aria-pressed="false">Data Flow (DFD)</button><button class="chip" data-v="Deployment" aria-pressed="false">Deployment</button><button class="chip" data-v="Entity Relationship (ERD)" aria-pressed="false">Entity Relationship (ERD)</button><button class="chip" data-v="Interaction Overview" aria-pressed="false">Interaction Overview</button><button class="chip" data-v="Object" aria-pressed="false">Object</button><button class="chip" data-v="Package" aria-pressed="false">Package</button><button class="chip" data-v="Protocol State Machine" aria-pressed="false">Protocol State Machine</button><button class="chip" data-v="Sequence" aria-pressed="false">Sequence</button><button class="chip" data-v="State Machine" aria-pressed="false">State Machine</button><button class="chip" data-v="System Context (non-UML)" aria-pressed="false">System Context (non-UML)</button><button class="chip" data-v="Timing" aria-pressed="false">Timing</button><button class="chip" data-v="Use Case" aria-pressed="false">Use Case</button>
+    </div></div>
+    <div class="fgroup"><span class="lbl">Evidence</span><div class="chips" data-dim="ev">
+      <button class="chip" data-v="ANDROID-SOURCE" aria-pressed="false">ANDROID-SOURCE</button><button class="chip" data-v="DESKTOP-PROPOSED" aria-pressed="false">DESKTOP-PROPOSED</button><button class="chip" data-v="SCHEMA-EXPORT" aria-pressed="false">SCHEMA-EXPORT</button><button class="chip" data-v="MIXED / UNKNOWN" aria-pressed="false">MIXED / UNKNOWN</button>
+    </div></div>
+    <div class="fgroup"><span class="lbl">Renderer</span><div class="chips" data-dim="renderer">
+      <button class="chip" data-v="archify" aria-pressed="false">Archify</button>
+      <button class="chip" data-v="svg" aria-pressed="false">Supplementary SVG</button>
+    </div></div>
+  </div>
+</div>
+
+<div class="count" id="count"></div>
+<div class="grid" id="grid"></div>
+<div class="empty" id="empty" style="display:none">No diagrams match the current filters.</div>
+
+<footer>
+  Generated by the Archify skill (renderers) plus a local SVG generator for UML types Archify cannot produce.
+  Source evidence: Android source at ca4bed4; docs/Schemas metadata CSV exports; Knowledge Base baseline.
+  Static, offline, no CDN. See <a href="UML-COVERAGE.md">UML-COVERAGE.md</a> for the diagram-type matrix and
+  <a href="DIAGRAM-INDEX.md">DIAGRAM-INDEX.md</a> for the flat index.
+</footer>
+</div>
+
+<script>
+const DATA = [{"id": "system-context", "title": "System Context \u2014 Desktop & Shared Backend", "path": "structural/system-context.html", "cat": "structural", "utype": "System Context (non-UML)", "ev": "DESKTOP-PROPOSED", "evcls": "proposed", "renderer": "archify", "rendererLabel": "Archify", "summary": "Staff actors, the proposed desktop shell, and the shared Supabase project."}, {"id": "application-architecture", "title": "Application Architecture \u2014 Desktop Layers", "path": "structural/application-architecture.html", "cat": "structural", "utype": "Component (layered)", "ev": "DESKTOP-PROPOSED", "evcls": "proposed", "renderer": "archify", "rendererLabel": "Archify", "summary": "React renderer \u2192 Wails bindings \u2192 services \u2192 repositories \u2192 SQLite + sync."}, {"id": "deployment-desktop", "title": "Deployment \u2014 Desktop Runtime", "path": "structural/deployment-desktop.html", "cat": "structural", "utype": "Deployment", "ev": "DESKTOP-PROPOSED", "evcls": "proposed", "renderer": "archify", "rendererLabel": "Archify", "summary": "Single Wails process, webview, local SQLite file, shared Supabase."}, {"id": "component-android-reference", "title": "Android Reference Components", "path": "structural/component-android-reference.html", "cat": "structural", "utype": "Component", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Verified app/core/data/domain/feature module structure at ca4bed4."}, {"id": "build-packaging-android", "title": "Build & Packaging (Android reference)", "path": "structural/build-packaging-android.html", "cat": "structural", "utype": "Activity (build)", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Gradle pipeline; no desktop build, signing, or CI exists."}, {"id": "class-android-reference", "title": "Class Diagram \u2014 Android Reference Model", "path": "structural/class-android-reference.svg", "cat": "structural", "utype": "Class", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "Representative Room entities, DAOs, repositories, and services."}, {"id": "class-desktop-proposed", "title": "Class Diagram \u2014 Desktop Proposed Layering", "path": "structural/class-desktop-proposed.svg", "cat": "structural", "utype": "Class", "ev": "DESKTOP-PROPOSED", "evcls": "proposed", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "Planned Go + React classes mirroring Android contracts; not implemented."}, {"id": "package-android-reference", "title": "Package Diagram \u2014 Android Modules", "path": "structural/package-android-reference.svg", "cat": "structural", "utype": "Package", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "Verified Gradle module and package layout at ca4bed4."}, {"id": "package-desktop-proposed", "title": "Package Diagram \u2014 Desktop Proposed Modules", "path": "structural/package-desktop-proposed.svg", "cat": "structural", "utype": "Package", "ev": "DESKTOP-PROPOSED", "evcls": "proposed", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "Planned Go module layout; no go.mod/wails.json exists yet."}, {"id": "object-sync-queue-snapshot", "title": "Object Diagram \u2014 Sync Queue Snapshot", "path": "structural/object-sync-queue-snapshot.svg", "cat": "structural", "utype": "Object", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "Instance view of sync_queue rows during one vaccination upload."}, {"id": "composite-desktop-process", "title": "Composite Structure \u2014 Desktop Process", "path": "structural/composite-desktop-process.svg", "cat": "structural", "utype": "Composite Structure", "ev": "DESKTOP-PROPOSED", "evcls": "proposed", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "Internal parts and ports of the single Wails process."}, {"id": "auth-authorization-flow", "title": "Authentication & Authorization Flow", "path": "behavioral/auth-authorization-flow.html", "cat": "behavioral", "utype": "Activity (auth)", "ev": "MIXED / UNKNOWN", "evcls": "mixed", "renderer": "archify", "rendererLabel": "Archify", "summary": "Sign-in, JWT role claim, RLS gate. Live enforcement UNKNOWN."}, {"id": "error-recovery-flow", "title": "Error Handling & Recovery", "path": "behavioral/error-recovery-flow.html", "cat": "behavioral", "utype": "Activity (error)", "ev": "DESKTOP-PROPOSED", "evcls": "proposed", "renderer": "archify", "rendererLabel": "Archify", "summary": "Fail-closed taxonomy with bounded retry; desktop code does not exist."}, {"id": "use-case-clinic-roles", "title": "Use Case \u2014 Roles & Clinic Use Cases", "path": "behavioral/use-case-clinic-roles.svg", "cat": "behavioral", "utype": "Use Case", "ev": "MIXED / UNKNOWN", "evcls": "mixed", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "Five roles and the core use cases; authorization is server-enforced."}, {"id": "communication-vaccination-write", "title": "Communication \u2014 Vaccination Write", "path": "behavioral/communication-vaccination-write.svg", "cat": "behavioral", "utype": "Communication", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "Numbered message links for one vaccination record."}, {"id": "interaction-overview-consultation", "title": "Interaction Overview \u2014 Consultation", "path": "behavioral/interaction-overview-consultation.svg", "cat": "behavioral", "utype": "Interaction Overview", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "Frame overview where each box references a detailed interaction."}, {"id": "timing-sync-retry", "title": "Timing \u2014 Sync Retry Backoff", "path": "behavioral/timing-sync-retry.svg", "cat": "behavioral", "utype": "Timing", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "Duration-constrained state changes under a transient 5xx."}, {"id": "protocol-state-sync-item", "title": "Protocol State Machine \u2014 Sync Item", "path": "behavioral/protocol-state-sync-item.svg", "cat": "behavioral", "utype": "Protocol State Machine", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "Signatures and guards constraining accepted events per state."}, {"id": "sequence-login-session", "title": "Sequence \u2014 Login & Session", "path": "behavioral/sequence-login-session.html", "cat": "behavioral", "utype": "Sequence", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Verified Android login and bounded startup session restore."}, {"id": "sequence-vaccination-write", "title": "Sequence \u2014 Vaccination & Receipt", "path": "behavioral/sequence-vaccination-write.html", "cat": "behavioral", "utype": "Sequence", "ev": "MIXED / UNKNOWN", "evcls": "mixed", "renderer": "archify", "rendererLabel": "Archify", "summary": "Local commit, queued sync, server-assigned receipt number."}, {"id": "sequence-sync-push-pull", "title": "Sequence \u2014 Sync Push/Conflict/Pull", "path": "behavioral/sequence-sync-push-pull.html", "cat": "behavioral", "utype": "Sequence", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Last-write-wins reconciliation, single-flight, bounded retry."}, {"id": "sequence-receipt-numbering", "title": "Sequence \u2014 Receipt Numbering", "path": "behavioral/sequence-receipt-numbering.html", "cat": "behavioral", "utype": "Sequence", "ev": "SCHEMA-EXPORT", "evcls": "export", "renderer": "archify", "rendererLabel": "Archify", "summary": "Server-side receipt assignment and counter locking (export-reported)."}, {"id": "sequence-borrow-return", "title": "Sequence \u2014 Borrow & Return", "path": "behavioral/sequence-borrow-return.html", "cat": "behavioral", "utype": "Sequence", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Return path with outstanding-quantity cap and derived status."}, {"id": "sequence-backup-restore", "title": "Sequence \u2014 Backup & Safe Restore", "path": "behavioral/sequence-backup-restore.html", "cat": "behavioral", "utype": "Sequence", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Export and restore with a staged safety snapshot."}, {"id": "sequence-dashboard-refresh", "title": "Sequence \u2014 Dashboard Refresh", "path": "behavioral/sequence-dashboard-refresh.html", "cat": "behavioral", "utype": "Sequence", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Pull-then-render refresh with single-flight guard and debounced realtime."}, {"id": "state-sync-queue", "title": "State Machine \u2014 Sync Queue Item", "path": "behavioral/state-sync-queue.html", "cat": "behavioral", "utype": "State Machine", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "PENDING \u2192 SYNCING \u2192 SYNCED / FAILED with requeue recovery."}, {"id": "state-reminder", "title": "State Machine \u2014 Vaccination Reminder", "path": "behavioral/state-reminder.html", "cat": "behavioral", "utype": "State Machine", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "ACTIVE / COMPLETED / DISMISSED / EXTERNAL with a duplicate guard."}, {"id": "state-personal-reminder", "title": "State Machine \u2014 Personal Reminder", "path": "behavioral/state-personal-reminder.html", "cat": "behavioral", "utype": "State Machine", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "PENDING \u2192 READY \u2192 COMPLETED with cancel and reverse side-paths."}, {"id": "state-borrow-record", "title": "State Machine \u2014 Borrow Record", "path": "behavioral/state-borrow-record.html", "cat": "behavioral", "utype": "State Machine", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Derived BORROWED / PARTIALLY_RETURNED / RETURNED status."}, {"id": "state-inventory-batch", "title": "State Machine \u2014 Inventory Batch", "path": "behavioral/state-inventory-batch.html", "cat": "behavioral", "utype": "State Machine", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Batch stock lifecycle and the history-based deletion guard."}, {"id": "state-finance-record", "title": "State Machine \u2014 Financial Transaction", "path": "behavioral/state-finance-record.html", "cat": "behavioral", "utype": "State Machine", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Append-only finance row with ambiguous-link failure."}, {"id": "state-session-readiness", "title": "State Machine \u2014 Session Readiness", "path": "behavioral/state-session-readiness.html", "cat": "behavioral", "utype": "State Machine", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "USABLE / RETRY_LATER / LOGGED_OUT gating a sync group."}, {"id": "dataflow-offline-sync", "title": "Data Flow \u2014 Offline Capture & Sync", "path": "data-and-flows/dataflow-offline-sync.html", "cat": "data-and-flows", "utype": "Data Flow (DFD)", "ev": "MIXED / UNKNOWN", "evcls": "mixed", "renderer": "archify", "rendererLabel": "Archify", "summary": "Local-first write, queue, push, authority, pull. RLS UNKNOWN."}, {"id": "dataflow-patient-registration-offline", "title": "Data Flow \u2014 Offline Registration", "path": "data-and-flows/dataflow-patient-registration-offline.html", "cat": "data-and-flows", "utype": "Data Flow (DFD)", "ev": "DESKTOP-PROPOSED", "evcls": "proposed", "renderer": "archify", "rendererLabel": "Archify", "summary": "Planned desktop offline registration path mirroring Android."}, {"id": "erd-core-clinical", "title": "ERD \u2014 Core Clinical Schema", "path": "data-and-flows/erd-core-clinical.svg", "cat": "data-and-flows", "utype": "Entity Relationship (ERD)", "ev": "SCHEMA-EXPORT", "evcls": "export", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "patients, visits, vaccination_items, consultations, notes."}, {"id": "erd-inventory", "title": "ERD \u2014 Inventory & Stock Schema", "path": "data-and-flows/erd-inventory.svg", "cat": "data-and-flows", "utype": "Entity Relationship (ERD)", "ev": "SCHEMA-EXPORT", "evcls": "export", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "vaccines, batches, transactions, waste, borrow/return ledger."}, {"id": "erd-finance", "title": "ERD \u2014 Finance & Receipt Schema", "path": "data-and-flows/erd-finance.svg", "cat": "data-and-flows", "utype": "Entity Relationship (ERD)", "ev": "SCHEMA-EXPORT", "evcls": "export", "renderer": "svg", "rendererLabel": "Supplementary SVG", "summary": "finance_transactions, expenses, receipt_sequences, reminders."}, {"id": "activity-vaccination-record", "title": "Activity \u2014 Record a Vaccination", "path": "features/activity-vaccination-record.html", "cat": "features", "utype": "Activity", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "One transaction across visit, items, income, stock, and queue."}, {"id": "activity-inventory-decrement", "title": "Activity \u2014 Inventory Decrement", "path": "features/activity-inventory-decrement.html", "cat": "features", "utype": "Activity", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "FEFO decrement with reconciliation ledger and duplicate risk."}, {"id": "activity-borrow-return", "title": "Activity \u2014 Borrow / Partial / Full Return", "path": "features/activity-borrow-return.html", "cat": "features", "utype": "Activity", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Borrow lifecycle with outstanding-quantity guard rails."}, {"id": "activity-patient-create", "title": "Activity \u2014 Create a Patient", "path": "features/activity-patient-create.html", "cat": "features", "utype": "Activity", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Clinic-id generation, uniqueness check, insert, and enqueue in one tx."}, {"id": "activity-consultation-record", "title": "Activity \u2014 Record a Consultation", "path": "features/activity-consultation-record.html", "cat": "features", "utype": "Activity", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Slot revalidation and an optional edit/no-change branch."}, {"id": "activity-batch-expiry", "title": "Activity \u2014 Batch Selection & Expiry", "path": "features/activity-batch-expiry.html", "cat": "features", "utype": "Activity", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "FEFO selection and expiry rules enforced at UI and repository."}, {"id": "activity-due-reminders", "title": "Activity \u2014 Due Vaccinations & Reminders", "path": "features/activity-due-reminders.html", "cat": "features", "utype": "Activity", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Reminder pipeline; due dates are entered, not computed."}, {"id": "activity-dashboard-stats", "title": "Activity \u2014 Dashboard Statistics", "path": "features/activity-dashboard-stats.html", "cat": "features", "utype": "Activity", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Local-first aggregation; no dashboard query reaches the network."}, {"id": "activity-staff-roles", "title": "Activity \u2014 Staff & Role Management", "path": "features/activity-staff-roles.html", "cat": "features", "utype": "Activity", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Client gating is UX only; the Edge Function is the real boundary."}, {"id": "activity-backup-restore", "title": "Activity \u2014 Backup & Restore", "path": "features/activity-backup-restore.html", "cat": "features", "utype": "Activity", "ev": "ANDROID-SOURCE", "evcls": "android", "renderer": "archify", "rendererLabel": "Archify", "summary": "Fail-closed backup and staged-safety restore; ADR-0010 pending."}];
+const grid = document.getElementById('grid');
+const countEl = document.getElementById('count');
+const emptyEl = document.getElementById('empty');
+const state = { q:'', cat:new Set(), utype:new Set(), ev:new Set(), renderer:new Set() };
+const dims = ['cat','utype','ev','renderer'];
+
+function matches(d){
+  if(state.q){
+    const s=(d.title+' '+d.utype+' '+d.summary+' '+d.ev).toLowerCase();
+    if(!s.includes(state.q)) return false;
+  }
+  for(const dim of dims){
+    if(state[dim].size && !state[dim].has(d[dim])) return false;
+  }
+  return true;
+}
+function render(){
+  const list = DATA.filter(matches);
+  grid.innerHTML = list.map(d => `
+    <a class="card ${d.evcls}" href="${d.path}">
+      <div class="badges">
+        <span class="badge type">${d.utype}</span>
+        <span class="badge ev ${d.evcls}">${d.ev}</span>
+        <span class="badge rend">${d.rendererLabel}</span>
+      </div>
+      <h3>${d.title}</h3>
+      <p>${d.summary}</p>
+    </a>`).join('');
+  countEl.textContent = `Showing ${list.length} of ${DATA.length} diagrams`;
+  emptyEl.style.display = list.length ? 'none' : 'block';
+}
+document.getElementById('q').addEventListener('input', e => { state.q = e.target.value.trim().toLowerCase(); render(); });
+document.querySelectorAll('.chips').forEach(box => {
+  const dim = box.dataset.dim;
+  box.querySelectorAll('.chip').forEach(chip => chip.addEventListener('click', () => {
+    const v = chip.dataset.v;
+    if(state[dim].has(v)){ state[dim].delete(v); chip.setAttribute('aria-pressed','false'); }
+    else { state[dim].add(v); chip.setAttribute('aria-pressed','true'); }
+    render();
+  });
+});
+render();
+</script>
+</body>
+</html>

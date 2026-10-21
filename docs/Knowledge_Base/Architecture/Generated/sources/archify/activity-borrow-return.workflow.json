@@ -1,0 +1,147 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Activity \u2014 Borrow, Partial Return, Full Return",
+    "subtitle": "[ANDROID-SOURCE] Verified borrow lifecycle. Status is derived at read time from the sum of return rows, not stored.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Derived status",
+      "items": [
+        "BORROWED when nothing is returned",
+        "PARTIALLY_RETURNED when some but not all is returned",
+        "RETURNED when the sum meets the borrowed quantity"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Transaction boundaries",
+      "items": [
+        "Borrow, return, and delete each run in one transaction",
+        "Cross-batch return writes a zero-quantity release row",
+        "Deleting a record restores outstanding stock first"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Guard rails",
+      "items": [
+        "A return may not exceed the outstanding quantity",
+        "A borrow must fit in a single unexpired batch",
+        "No idempotency key exists on the return path"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "action",
+      "label": "Action"
+    },
+    {
+      "id": "validation",
+      "label": "Validation"
+    },
+    {
+      "id": "rejection",
+      "label": "Rejection"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "choose",
+      "col": 0,
+      "type": "external",
+      "label": "Choose Action",
+      "sublabel": "borrow or return",
+      "lane": "action"
+    },
+    {
+      "id": "batch",
+      "col": 0,
+      "type": "backend",
+      "label": "Pick Batch",
+      "sublabel": "single unexpired",
+      "lane": "validation"
+    },
+    {
+      "id": "cap",
+      "col": 2,
+      "type": "backend",
+      "label": "Within Cap?",
+      "sublabel": "outstanding guard",
+      "lane": "validation"
+    },
+    {
+      "id": "derive",
+      "col": 4,
+      "type": "backend",
+      "label": "Derive Status",
+      "sublabel": "sum of returns",
+      "lane": "validation"
+    },
+    {
+      "id": "nobatch",
+      "col": 0,
+      "type": "security",
+      "label": "No Batch",
+      "sublabel": "insufficient",
+      "lane": "rejection"
+    },
+    {
+      "id": "over",
+      "col": 2,
+      "type": "security",
+      "label": "Over Return",
+      "sublabel": "rejected",
+      "lane": "rejection"
+    }
+  ],
+  "edges": [
+    {
+      "id": "n1",
+      "from": "choose",
+      "to": "batch",
+      "label": "borrow",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "n2",
+      "from": "batch",
+      "to": "cap",
+      "label": "record + deduct"
+    },
+    {
+      "id": "n3",
+      "from": "cap",
+      "to": "derive",
+      "label": "restored",
+      "variant": "emphasis"
+    },
+    {
+      "id": "n4",
+      "from": "batch",
+      "to": "nobatch",
+      "label": "none fit",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "n5",
+      "from": "cap",
+      "to": "over",
+      "label": "exceeds",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,6186 @@
+{
+ "evidence": {
+  "source": "docs/Schemas/*.csv (Supabase metadata exports)",
+  "export_dates": [
+   "2026-10-20",
+   "2026-10-21"
+  ],
+  "verification": "export-reported; not live-verified"
+ },
+ "tables": [
+  {
+   "name": "api_write_rate_limits",
+   "columns": [
+    {
+     "name": "user_id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "window_started_at",
+     "position": 2,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "request_count",
+     "position": 3,
+     "type": "integer",
+     "nullable": false,
+     "default": "0"
+    }
+   ],
+   "pk": [
+    "user_id",
+    "window_started_at"
+   ],
+   "fks": [],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "api_write_rate_limits_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX api_write_rate_limits_pkey ON public.api_write_rate_limits USING btree (user_id, window_started_at)"
+    }
+   ]
+  },
+  {
+   "name": "audit_logs",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "timestamp",
+     "position": 2,
+     "type": "text",
+     "nullable": true,
+     "default": "(now())::text"
+    },
+    {
+     "name": "user",
+     "position": 3,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "module",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "entity_type",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "entity_id",
+     "position": 6,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "action",
+     "position": 7,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "old_value",
+     "position": 8,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "new_value",
+     "position": 9,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "remarks",
+     "position": 10,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "device",
+     "position": 11,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "patient_id",
+     "position": 12,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_synced",
+     "position": 13,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "created_at",
+     "position": 14,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 15,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 16,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 17,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "audit_logs_patient_id_fkey",
+     "columns": [
+      "patient_id"
+     ],
+     "ref_table": "patients",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": null,
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "audit_logs_patient_timestamp_idx",
+     "unique": false,
+     "definition": "CREATE INDEX audit_logs_patient_timestamp_idx ON public.audit_logs USING btree (patient_id, \"timestamp\" DESC)"
+    },
+    {
+     "name": "audit_logs_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX audit_logs_pkey ON public.audit_logs USING btree (id)"
+    },
+    {
+     "name": "idx_audit_patient_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_audit_patient_id ON public.audit_logs USING btree (patient_id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Admins can view audit logs",
+     "roles": "{public}",
+     "cmd": "SELECT",
+     "using": "(get_my_role() = 'admin'::text)",
+     "with_check": "null"
+    },
+    {
+     "name": "Staff can record audit logs",
+     "roles": "{public}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "(auth.uid() IS NOT NULL)"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "audit_logs_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "audit_logs_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT ON audit_logs FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON audit_logs FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_audit_logs_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_audit_logs_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON audit_logs FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "borrow_records",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "doctor_name",
+     "position": 2,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "vaccine_id",
+     "position": 3,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "batch_id",
+     "position": 4,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "borrowed_date",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "quantity",
+     "position": 6,
+     "type": "integer",
+     "nullable": true,
+     "default": "1"
+    },
+    {
+     "name": "is_returned",
+     "position": 7,
+     "type": "boolean",
+     "nullable": true,
+     "default": "false"
+    },
+    {
+     "name": "returned_date",
+     "position": 8,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "type",
+     "position": 9,
+     "type": "text",
+     "nullable": true,
+     "default": "'BY'::text"
+    },
+    {
+     "name": "notes",
+     "position": 10,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_synced",
+     "position": 11,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "created_at",
+     "position": 12,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 13,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 15,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 16,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 17,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 18,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "borrow_records_batch_id_fkey",
+     "columns": [
+      "batch_id"
+     ],
+     "ref_table": "vaccine_batches",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": null,
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "borrow_records_vaccine_id_fkey",
+     "columns": [
+      "vaccine_id"
+     ],
+     "ref_table": "vaccines",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": null,
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "borrow_records_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX borrow_records_pkey ON public.borrow_records USING btree (id)"
+    },
+    {
+     "name": "idx_borrow_records_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_borrow_records_is_deleted ON public.borrow_records USING btree (is_deleted)"
+    },
+    {
+     "name": "idx_borrow_vaccine_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_borrow_vaccine_id ON public.borrow_records USING btree (vaccine_id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Staff can manage borrow",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'inventory_manager'::text, 'doctor'::text, 'nurse'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "borrow_records_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "borrow_records_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "borrow_records_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "borrow_records_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON borrow_records FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON borrow_records FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_borrow_records_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_borrow_records_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON borrow_records FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "borrow_returns",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "borrow_record_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "batch_id",
+     "position": 3,
+     "type": "uuid",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "quantity",
+     "position": 4,
+     "type": "integer",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "returned_date",
+     "position": 5,
+     "type": "date",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "notes",
+     "position": 6,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "created_at",
+     "position": 7,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "is_synced",
+     "position": 8,
+     "type": "boolean",
+     "nullable": false,
+     "default": "true"
+    },
+    {
+     "name": "created_by",
+     "position": 9,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 10,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_at",
+     "position": 11,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "is_deleted",
+     "position": 12,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 13,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "borrow_returns_batch_id_fkey",
+     "columns": [
+      "batch_id"
+     ],
+     "ref_table": "vaccine_batches",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": false,
+     "many_to_one": false,
+     "child_required": true
+    },
+    {
+     "name": "borrow_returns_borrow_record_id_fkey",
+     "columns": [
+      "borrow_record_id"
+     ],
+     "ref_table": "borrow_records",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": false,
+     "many_to_one": false,
+     "child_required": true
+    }
+   ],
+   "checks": [
+    {
+     "name": "borrow_returns_quantity_positive",
+     "definition": "CHECK (quantity > 0)"
+    }
+   ],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "borrow_returns_batch_id_idx",
+     "unique": false,
+     "definition": "CREATE INDEX borrow_returns_batch_id_idx ON public.borrow_returns USING btree (batch_id)"
+    },
+    {
+     "name": "borrow_returns_borrow_record_id_idx",
+     "unique": false,
+     "definition": "CREATE INDEX borrow_returns_borrow_record_id_idx ON public.borrow_returns USING btree (borrow_record_id)"
+    },
+    {
+     "name": "borrow_returns_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX borrow_returns_pkey ON public.borrow_returns USING btree (id)"
+    },
+    {
+     "name": "idx_borrow_returns_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_borrow_returns_is_deleted ON public.borrow_returns USING btree (is_deleted)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "borrow_returns_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "borrow_returns_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "borrow_returns_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "borrow_returns_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON borrow_returns FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON borrow_returns FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_borrow_returns_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_borrow_returns_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON borrow_returns FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "consultation_todos",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "patient_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "name",
+     "position": 3,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "mobile",
+     "position": 4,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "address",
+     "position": 5,
+     "type": "text",
+     "nullable": false,
+     "default": "''::text"
+    },
+    {
+     "name": "todo_date",
+     "position": 6,
+     "type": "date",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "status",
+     "position": 7,
+     "type": "text",
+     "nullable": false,
+     "default": "'PENDING'::text"
+    },
+    {
+     "name": "created_at",
+     "position": 8,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 9,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "is_synced",
+     "position": 10,
+     "type": "boolean",
+     "nullable": false,
+     "default": "true"
+    },
+    {
+     "name": "created_by",
+     "position": 11,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 12,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "doctor_id",
+     "position": 13,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "doctor_name",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "availability_slot_id",
+     "position": 15,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 16,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 17,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 18,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "consultation_todos_availability_slot_id_fkey",
+     "columns": [
+      "availability_slot_id"
+     ],
+     "ref_table": "doctor_weekly_slots",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "SET NULL",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "consultation_todos_doctor_id_fkey",
+     "columns": [
+      "doctor_id"
+     ],
+     "ref_table": "profiles",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "SET NULL",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "consultation_todos_patient_id_fkey",
+     "columns": [
+      "patient_id"
+     ],
+     "ref_table": "patients",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "SET NULL",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "consultation_todos_patient_id_idx",
+     "unique": false,
+     "definition": "CREATE INDEX consultation_todos_patient_id_idx ON public.consultation_todos USING btree (patient_id)"
+    },
+    {
+     "name": "consultation_todos_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX consultation_todos_pkey ON public.consultation_todos USING btree (id)"
+    },
+    {
+     "name": "consultation_todos_status_idx",
+     "unique": false,
+     "definition": "CREATE INDEX consultation_todos_status_idx ON public.consultation_todos USING btree (status)"
+    },
+    {
+     "name": "consultation_todos_todo_date_idx",
+     "unique": false,
+     "definition": "CREATE INDEX consultation_todos_todo_date_idx ON public.consultation_todos USING btree (todo_date)"
+    },
+    {
+     "name": "idx_consultation_todos_doctor_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_consultation_todos_doctor_id ON public.consultation_todos USING btree (doctor_id)"
+    },
+    {
+     "name": "idx_consultation_todos_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_consultation_todos_is_deleted ON public.consultation_todos USING btree (is_deleted)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "consultation_todos_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "consultation_todos_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "consultation_todos_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "consultation_todos_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON consultation_todos FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON consultation_todos FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_consultation_todos_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_consultation_todos_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON consultation_todos FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "consultations",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "visit_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "patient_id",
+     "position": 3,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "doctor_id",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "doctor_name",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "date",
+     "position": 6,
+     "type": "text",
+     "nullable": false,
+     "default": "(now())::text"
+    },
+    {
+     "name": "amount",
+     "position": 7,
+     "type": "numeric",
+     "nullable": false,
+     "default": "0.0"
+    },
+    {
+     "name": "cash_amount",
+     "position": 8,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "online_amount",
+     "position": 9,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "problem",
+     "position": 10,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "notes",
+     "position": 11,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "next_follow_up_date",
+     "position": 12,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "created_at",
+     "position": 13,
+     "type": "text",
+     "nullable": true,
+     "default": "(now())::text"
+    },
+    {
+     "name": "updated_at",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "(now())::text"
+    },
+    {
+     "name": "is_synced",
+     "position": 15,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "created_by",
+     "position": 16,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 17,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "availability_slot_id",
+     "position": 18,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 19,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 20,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 21,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "consultations_availability_slot_id_fkey",
+     "columns": [
+      "availability_slot_id"
+     ],
+     "ref_table": "doctor_weekly_slots",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "SET NULL",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "consultations_patient_id_fkey",
+     "columns": [
+      "patient_id"
+     ],
+     "ref_table": "patients",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "consultations_visit_id_fkey",
+     "columns": [
+      "visit_id"
+     ],
+     "ref_table": "patient_visits",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "consultations_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX consultations_pkey ON public.consultations USING btree (id)"
+    },
+    {
+     "name": "idx_consultations_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_consultations_is_deleted ON public.consultations USING btree (is_deleted)"
+    },
+    {
+     "name": "idx_consultations_patient_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_consultations_patient_id ON public.consultations USING btree (patient_id)"
+    },
+    {
+     "name": "idx_consultations_visit_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_consultations_visit_id ON public.consultations USING btree (visit_id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Staff can manage consultations",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'doctor'::text, 'nurse'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "consultations_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "consultations_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "consultations_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "consultations_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON consultations FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON consultations FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_consultations_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_consultations_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON consultations FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "doctor_slot_exceptions",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "doctor_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "exception_date",
+     "position": 3,
+     "type": "date",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "exception_type",
+     "position": 4,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "weekly_slot_id",
+     "position": 5,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "reason",
+     "position": 6,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "created_at",
+     "position": 8,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 9,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 10,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 11,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_synced",
+     "position": 12,
+     "type": "boolean",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 13,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 14,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 15,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "doctor_slot_exceptions_doctor_id_fkey",
+     "columns": [
+      "doctor_id"
+     ],
+     "ref_table": "profiles",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": false,
+     "many_to_one": false,
+     "child_required": true
+    },
+    {
+     "name": "doctor_slot_exceptions_weekly_slot_id_fkey",
+     "columns": [
+      "weekly_slot_id"
+     ],
+     "ref_table": "doctor_weekly_slots",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [
+    {
+     "name": "doctor_slot_exceptions_exception_type_check",
+     "definition": "CHECK (exception_type = ANY (ARRAY['FULL_DAY'::text, 'SLOT'::text]))"
+    },
+    {
+     "name": "doctor_slot_exceptions_slot_id_matches_type",
+     "definition": "CHECK (exception_type = 'FULL_DAY'::text AND weekly_slot_id IS NULL OR exception_type = 'SLOT'::text AND weekly_slot_id IS NOT NULL)"
+    }
+   ],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "doctor_slot_exceptions_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX doctor_slot_exceptions_pkey ON public.doctor_slot_exceptions USING btree (id)"
+    },
+    {
+     "name": "idx_doctor_slot_exceptions_date",
+     "unique": false,
+     "definition": "CREATE INDEX idx_doctor_slot_exceptions_date ON public.doctor_slot_exceptions USING btree (exception_date)"
+    },
+    {
+     "name": "idx_doctor_slot_exceptions_doctor_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_doctor_slot_exceptions_doctor_id ON public.doctor_slot_exceptions USING btree (doctor_id)"
+    },
+    {
+     "name": "idx_doctor_slot_exceptions_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_doctor_slot_exceptions_is_deleted ON public.doctor_slot_exceptions USING btree (is_deleted)"
+    },
+    {
+     "name": "idx_doctor_slot_exceptions_weekly_slot_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_doctor_slot_exceptions_weekly_slot_id ON public.doctor_slot_exceptions USING btree (weekly_slot_id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "doctor_slot_exceptions_select_authenticated",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "doctor_slot_exceptions_write_admin_or_own",
+     "roles": "{authenticated}",
+     "cmd": "ALL",
+     "using": "((doctor_id = auth.uid()) OR (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'admin'::text))",
+     "with_check": "((doctor_id = auth.uid()) OR (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'admin'::text))"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "trg_doctor_slot_exceptions_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_doctor_slot_exceptions_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON doctor_slot_exceptions FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "doctor_weekly_slots",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "doctor_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "day_of_week",
+     "position": 3,
+     "type": "smallint",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "start_minute",
+     "position": 4,
+     "type": "smallint",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "end_minute",
+     "position": 5,
+     "type": "smallint",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "is_active",
+     "position": 6,
+     "type": "boolean",
+     "nullable": false,
+     "default": "true"
+    },
+    {
+     "name": "created_at",
+     "position": 7,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 8,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 9,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 10,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_synced",
+     "position": 11,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "is_deleted",
+     "position": 12,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 13,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "doctor_weekly_slots_doctor_id_fkey",
+     "columns": [
+      "doctor_id"
+     ],
+     "ref_table": "profiles",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": false,
+     "many_to_one": false,
+     "child_required": true
+    }
+   ],
+   "checks": [
+    {
+     "name": "doctor_weekly_slots_check",
+     "definition": "CHECK (end_minute > start_minute AND end_minute <= 1440)"
+    },
+    {
+     "name": "doctor_weekly_slots_day_of_week_check",
+     "definition": "CHECK (day_of_week >= 1 AND day_of_week <= 7)"
+    },
+    {
+     "name": "doctor_weekly_slots_start_minute_check",
+     "definition": "CHECK (start_minute >= 0 AND start_minute < 1440)"
+    }
+   ],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "doctor_weekly_slots_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX doctor_weekly_slots_pkey ON public.doctor_weekly_slots USING btree (id)"
+    },
+    {
+     "name": "idx_doctor_weekly_slots_active",
+     "unique": false,
+     "definition": "CREATE INDEX idx_doctor_weekly_slots_active ON public.doctor_weekly_slots USING btree (is_active)"
+    },
+    {
+     "name": "idx_doctor_weekly_slots_day",
+     "unique": false,
+     "definition": "CREATE INDEX idx_doctor_weekly_slots_day ON public.doctor_weekly_slots USING btree (day_of_week)"
+    },
+    {
+     "name": "idx_doctor_weekly_slots_doctor_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_doctor_weekly_slots_doctor_id ON public.doctor_weekly_slots USING btree (doctor_id)"
+    },
+    {
+     "name": "idx_doctor_weekly_slots_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_doctor_weekly_slots_is_deleted ON public.doctor_weekly_slots USING btree (is_deleted)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "doctor_weekly_slots_select_authenticated",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "doctor_weekly_slots_write_admin_or_own",
+     "roles": "{authenticated}",
+     "cmd": "ALL",
+     "using": "((doctor_id = auth.uid()) OR (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'admin'::text))",
+     "with_check": "((doctor_id = auth.uid()) OR (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = 'admin'::text))"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "trg_doctor_weekly_slots_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_doctor_weekly_slots_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON doctor_weekly_slots FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "expenses",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "expense_date",
+     "position": 2,
+     "type": "date",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "category",
+     "position": 3,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "title",
+     "position": 4,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "description",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "amount_paise",
+     "position": 6,
+     "type": "bigint",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "payment_method",
+     "position": 7,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "reference_number",
+     "position": 8,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "attachment_path",
+     "position": 9,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 10,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "created_at",
+     "position": 11,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 12,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 13,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_synced",
+     "position": 15,
+     "type": "boolean",
+     "nullable": false,
+     "default": "true"
+    },
+    {
+     "name": "synced_at",
+     "position": 16,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_at",
+     "position": 17,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 18,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [],
+   "checks": [
+    {
+     "name": "expenses_amount_paise_check",
+     "definition": "CHECK (amount_paise > 0)"
+    },
+    {
+     "name": "expenses_category_check",
+     "definition": "CHECK (category = ANY (ARRAY['RENT'::text, 'ELECTRICITY'::text, 'WATER'::text, 'INTERNET'::text, 'STAFF_SALARY'::text, 'MEDICAL_SUPPLIES'::text, 'VACCINE_PURCHASE'::text, 'EQUIPMENT'::text, 'MAINTENANCE'::text, 'CLEANING'::text, 'STATIONERY'::text, 'TRANSPORTATION'::text, 'MARKETING'::text, 'SOFTWARE_SUBSCRIPTION'::text, 'OTHER'::text]))"
+    },
+    {
+     "name": "expenses_payment_method_check",
+     "definition": "CHECK (payment_method = ANY (ARRAY['CASH'::text, 'ONLINE_UPI'::text, 'BANK'::text]))"
+    }
+   ],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "expenses_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX expenses_pkey ON public.expenses USING btree (id)"
+    },
+    {
+     "name": "idx_expenses_category",
+     "unique": false,
+     "definition": "CREATE INDEX idx_expenses_category ON public.expenses USING btree (category)"
+    },
+    {
+     "name": "idx_expenses_created_by",
+     "unique": false,
+     "definition": "CREATE INDEX idx_expenses_created_by ON public.expenses USING btree (created_by)"
+    },
+    {
+     "name": "idx_expenses_expense_date",
+     "unique": false,
+     "definition": "CREATE INDEX idx_expenses_expense_date ON public.expenses USING btree (expense_date)"
+    },
+    {
+     "name": "idx_expenses_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_expenses_is_deleted ON public.expenses USING btree (is_deleted)"
+    },
+    {
+     "name": "idx_expenses_updated_at",
+     "unique": false,
+     "definition": "CREATE INDEX idx_expenses_updated_at ON public.expenses USING btree (updated_at)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Active staff can add expenses",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.is_deleted = false))))"
+    },
+    {
+     "name": "Active staff can view expenses",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "(EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.is_deleted = false))))",
+     "with_check": "null"
+    },
+    {
+     "name": "Admin or doctor can update expenses",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "((EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.is_deleted = false)))) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['admin'::text, 'doctor'::text])))",
+     "with_check": "((EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.is_deleted = false)))) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['admin'::text, 'doctor'::text])))"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "expenses_delete_admin_or_own",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "((EXISTS ( SELECT 1\n   FROM profiles p\n  WHERE ((p.id = auth.uid()) AND (p.is_active = true) AND (p.is_deleted = false)))) AND (((auth.jwt() -> 'app_metadata'::text) ->> 'role'::text) = ANY (ARRAY['admin'::text, 'doctor'::text])))",
+     "with_check": "null"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "trg_expenses_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_expenses_updated_at BEFORE UPDATE ON expenses FOR EACH ROW EXECUTE FUNCTION set_expenses_updated_at()"
+    },
+    {
+     "name": "trg_expenses_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_expenses_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON expenses FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "finance_transactions",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "timestamp",
+     "position": 2,
+     "type": "text",
+     "nullable": true,
+     "default": "(now())::text"
+    },
+    {
+     "name": "type",
+     "position": 3,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "category",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "amount",
+     "position": 5,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "cash_amount",
+     "position": 6,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "online_amount",
+     "position": 7,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "currency",
+     "position": 8,
+     "type": "text",
+     "nullable": true,
+     "default": "'INR'::text"
+    },
+    {
+     "name": "payment_method",
+     "position": 9,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "patient_id",
+     "position": 10,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "visit_id",
+     "position": 11,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "reference_number",
+     "position": 12,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "remarks",
+     "position": 13,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "recorded_by",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_synced",
+     "position": 15,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "created_at",
+     "position": 16,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 17,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 18,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 19,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "transaction_date",
+     "position": 20,
+     "type": "date",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 21,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 22,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 23,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "finance_transactions_patient_id_fkey",
+     "columns": [
+      "patient_id"
+     ],
+     "ref_table": "patients",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": null,
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "finance_transactions_visit_id_fkey",
+     "columns": [
+      "visit_id"
+     ],
+     "ref_table": "patient_visits",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": null,
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "finance_transactions_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX finance_transactions_pkey ON public.finance_transactions USING btree (id)"
+    },
+    {
+     "name": "idx_finance_patient_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_finance_patient_id ON public.finance_transactions USING btree (patient_id)"
+    },
+    {
+     "name": "idx_finance_transactions_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_finance_transactions_is_deleted ON public.finance_transactions USING btree (is_deleted)"
+    },
+    {
+     "name": "idx_finance_visit_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_finance_visit_id ON public.finance_transactions USING btree (visit_id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Staff can manage finance",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'receptionist'::text, 'doctor'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "finance_transactions_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "finance_transactions_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "finance_transactions_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "finance_transactions_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON finance_transactions FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON finance_transactions FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_finance_transactions_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_finance_transactions_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON finance_transactions FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "inventory_transactions",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "vaccine_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "batch_id",
+     "position": 3,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "patient_id",
+     "position": 4,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "visit_id",
+     "position": 5,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "transaction_type",
+     "position": 6,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "quantity",
+     "position": 7,
+     "type": "integer",
+     "nullable": false,
+     "default": "0"
+    },
+    {
+     "name": "previous_quantity",
+     "position": 8,
+     "type": "integer",
+     "nullable": true,
+     "default": "0"
+    },
+    {
+     "name": "current_quantity",
+     "position": 9,
+     "type": "integer",
+     "nullable": true,
+     "default": "0"
+    },
+    {
+     "name": "timestamp",
+     "position": 10,
+     "type": "text",
+     "nullable": true,
+     "default": "(now())::text"
+    },
+    {
+     "name": "user",
+     "position": 11,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "notes",
+     "position": 12,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_synced",
+     "position": 13,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "status",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "'COMPLETED'::text"
+    },
+    {
+     "name": "created_at",
+     "position": 15,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 16,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 17,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 18,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "inventory_transactions_batch_id_fkey",
+     "columns": [
+      "batch_id"
+     ],
+     "ref_table": "vaccine_batches",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "inventory_transactions_patient_id_fkey",
+     "columns": [
+      "patient_id"
+     ],
+     "ref_table": "patients",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": null,
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "inventory_transactions_vaccine_id_fkey",
+     "columns": [
+      "vaccine_id"
+     ],
+     "ref_table": "vaccines",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "inventory_transactions_visit_id_fkey",
+     "columns": [
+      "visit_id"
+     ],
+     "ref_table": "patient_visits",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": null,
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_inventory_batch_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_inventory_batch_id ON public.inventory_transactions USING btree (batch_id)"
+    },
+    {
+     "name": "idx_inventory_vaccination_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_inventory_vaccination_id ON public.inventory_transactions USING btree (visit_id)"
+    },
+    {
+     "name": "inventory_transactions_batch_timestamp_idx",
+     "unique": false,
+     "definition": "CREATE INDEX inventory_transactions_batch_timestamp_idx ON public.inventory_transactions USING btree (batch_id, \"timestamp\")"
+    },
+    {
+     "name": "inventory_transactions_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX inventory_transactions_pkey ON public.inventory_transactions USING btree (id)"
+    },
+    {
+     "name": "inventory_transactions_timestamp_desc_idx",
+     "unique": false,
+     "definition": "CREATE INDEX inventory_transactions_timestamp_desc_idx ON public.inventory_transactions USING btree (\"timestamp\" DESC)"
+    },
+    {
+     "name": "inventory_transactions_type_idx",
+     "unique": false,
+     "definition": "CREATE INDEX inventory_transactions_type_idx ON public.inventory_transactions USING btree (transaction_type)"
+    },
+    {
+     "name": "inventory_transactions_vaccine_timestamp_idx",
+     "unique": false,
+     "definition": "CREATE INDEX inventory_transactions_vaccine_timestamp_idx ON public.inventory_transactions USING btree (vaccine_id, \"timestamp\")"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Staff can manage transactions",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'inventory_manager'::text, 'doctor'::text, 'nurse'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "inventory_transactions_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "inventory_transactions_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "inventory_transactions_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "inventory_transactions_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "inventory_transactions_update_batch_stock",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER inventory_transactions_update_batch_stock AFTER INSERT OR DELETE OR UPDATE ON inventory_transactions FOR EACH ROW EXECUTE FUNCTION update_batch_stock()"
+    },
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON inventory_transactions FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON inventory_transactions FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "tr_update_batch_stock",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER tr_update_batch_stock AFTER INSERT OR DELETE ON inventory_transactions FOR EACH ROW EXECUTE FUNCTION update_batch_stock()"
+    },
+    {
+     "name": "trg_inventory_transactions_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_inventory_transactions_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON inventory_transactions FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "patient_notes",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "patient_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "content",
+     "position": 3,
+     "type": "text",
+     "nullable": false,
+     "default": "''::text"
+    },
+    {
+     "name": "author",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "timestamp",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "(now())::text"
+    },
+    {
+     "name": "is_synced",
+     "position": 6,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "created_at",
+     "position": 7,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 8,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 9,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 10,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 11,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 12,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 13,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "patient_notes_patient_id_fkey",
+     "columns": [
+      "patient_id"
+     ],
+     "ref_table": "patients",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_patient_notes_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_patient_notes_is_deleted ON public.patient_notes USING btree (is_deleted)"
+    },
+    {
+     "name": "patient_notes_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX patient_notes_pkey ON public.patient_notes USING btree (id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Staff can manage notes",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'doctor'::text, 'nurse'::text, 'receptionist'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "patient_notes_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "patient_notes_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "patient_notes_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "patient_notes_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON patient_notes FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON patient_notes FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_patient_notes_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_patient_notes_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON patient_notes FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "patient_visits",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "patient_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "date_given",
+     "position": 3,
+     "type": "text",
+     "nullable": false,
+     "default": "(now())::text"
+    },
+    {
+     "name": "doctor",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "vaccine_names",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "vaccine_ids",
+     "position": 6,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "batch_ids",
+     "position": 7,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "batch_numbers",
+     "position": 8,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "materials_used",
+     "position": 9,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "notes",
+     "position": 10,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "receipt_number",
+     "position": 11,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "total_paid",
+     "position": 12,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "payment_id",
+     "position": 13,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "nxt_vaccine_names",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "next_due_date",
+     "position": 15,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "cash_amount",
+     "position": 16,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "online_amount",
+     "position": 17,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "with_fees",
+     "position": 18,
+     "type": "boolean",
+     "nullable": true,
+     "default": "false"
+    },
+    {
+     "name": "doctors_acc",
+     "position": 19,
+     "type": "boolean",
+     "nullable": true,
+     "default": "false"
+    },
+    {
+     "name": "status",
+     "position": 20,
+     "type": "text",
+     "nullable": true,
+     "default": "'ACTIVE'::text"
+    },
+    {
+     "name": "source",
+     "position": 21,
+     "type": "text",
+     "nullable": true,
+     "default": "'CLINIC'::text"
+    },
+    {
+     "name": "visit_type",
+     "position": 22,
+     "type": "text",
+     "nullable": true,
+     "default": "'VACCINATION'::text"
+    },
+    {
+     "name": "inventory_status",
+     "position": 23,
+     "type": "text",
+     "nullable": true,
+     "default": "'PENDING'::text"
+    },
+    {
+     "name": "created_at",
+     "position": 24,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 25,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "is_synced",
+     "position": 26,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "doctor_id",
+     "position": 27,
+     "type": "text",
+     "nullable": true,
+     "default": "''::text"
+    },
+    {
+     "name": "created_by",
+     "position": 28,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 29,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "availability_slot_id",
+     "position": 30,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 31,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 32,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 33,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "patient_visits_availability_slot_id_fkey",
+     "columns": [
+      "availability_slot_id"
+     ],
+     "ref_table": "doctor_weekly_slots",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "SET NULL",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "patient_visits_patient_id_fkey",
+     "columns": [
+      "patient_id"
+     ],
+     "ref_table": "patients",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_patient_visits_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_patient_visits_is_deleted ON public.patient_visits USING btree (is_deleted)"
+    },
+    {
+     "name": "idx_visits_doctor_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_visits_doctor_id ON public.patient_visits USING btree (doctor_id)"
+    },
+    {
+     "name": "idx_visits_patient_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_visits_patient_id ON public.patient_visits USING btree (patient_id)"
+    },
+    {
+     "name": "patient_visits_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX patient_visits_pkey ON public.patient_visits USING btree (id)"
+    },
+    {
+     "name": "patient_visits_receipt_number_uidx",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX patient_visits_receipt_number_uidx ON public.patient_visits USING btree (receipt_number) WHERE ((receipt_number IS NOT NULL) AND (btrim(receipt_number) <> ''::text))"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Staff can manage visits",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'doctor'::text, 'nurse'::text, 'receptionist'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "patient_visits_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "patient_visits_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "patient_visits_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "patient_visits_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_assign_receipt_number",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_assign_receipt_number BEFORE INSERT OR UPDATE ON patient_visits FOR EACH ROW EXECUTE FUNCTION neo_assign_receipt_number()"
+    },
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON patient_visits FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON patient_visits FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_patient_visits_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_patient_visits_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON patient_visits FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "patients",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "patient_clinic_id",
+     "position": 2,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "name",
+     "position": 3,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "phone",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "alternate_phone",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "dob",
+     "position": 6,
+     "type": "date",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "gender",
+     "position": 7,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "address",
+     "position": 8,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "registration_date",
+     "position": 9,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "now()"
+    },
+    {
+     "name": "attachments",
+     "position": 12,
+     "type": "jsonb",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_at",
+     "position": 13,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "now()"
+    },
+    {
+     "name": "is_synced",
+     "position": 14,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "created_at",
+     "position": 15,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 16,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 17,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 18,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 19,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 20,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [],
+   "checks": [],
+   "uniques": [
+    {
+     "name": "patients_patient_clinic_id_key",
+     "columns": [
+      "patient_clinic_id"
+     ],
+     "definition": "UNIQUE (patient_clinic_id)"
+    }
+   ],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_patients_clinic_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_patients_clinic_id ON public.patients USING btree (patient_clinic_id)"
+    },
+    {
+     "name": "idx_patients_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_patients_is_deleted ON public.patients USING btree (is_deleted)"
+    },
+    {
+     "name": "patients_clinic_id_key",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX patients_clinic_id_key ON public.patients USING btree (patient_clinic_id) WHERE (patient_clinic_id IS NOT NULL)"
+    },
+    {
+     "name": "patients_patient_clinic_id_key",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX patients_patient_clinic_id_key ON public.patients USING btree (patient_clinic_id)"
+    },
+    {
+     "name": "patients_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX patients_pkey ON public.patients USING btree (id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Clinical staff can manage patients",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'doctor'::text, 'nurse'::text, 'receptionist'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "Staff can manage patients",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'doctor'::text, 'nurse'::text, 'receptionist'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "Staff can view everything",
+     "roles": "{public}",
+     "cmd": "SELECT",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'doctor'::text, 'nurse'::text, 'receptionist'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "patients_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "patients_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "patients_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "patients_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON patients FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON patients FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_patients_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_patients_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON patients FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "personal_vaccine_reminders",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "patient_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "vaccine_id",
+     "position": 3,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "vaccine_label",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "note",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "advance_received",
+     "position": 6,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "advance_amount",
+     "position": 7,
+     "type": "numeric",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "advance_date",
+     "position": 8,
+     "type": "date",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "reminder_date",
+     "position": 9,
+     "type": "date",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "status",
+     "position": 10,
+     "type": "text",
+     "nullable": false,
+     "default": "'PENDING'::text"
+    },
+    {
+     "name": "created_at",
+     "position": 11,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 12,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "completed_at",
+     "position": 13,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "cancelled_at",
+     "position": 14,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_synced",
+     "position": 15,
+     "type": "boolean",
+     "nullable": false,
+     "default": "true"
+    },
+    {
+     "name": "created_by",
+     "position": 16,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 17,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "patient_name",
+     "position": 18,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "patient_phone",
+     "position": 19,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 20,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 21,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 22,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "personal_vaccine_reminders_patient_id_fkey",
+     "columns": [
+      "patient_id"
+     ],
+     "ref_table": "patients",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "personal_vaccine_reminders_vaccine_id_fkey",
+     "columns": [
+      "vaccine_id"
+     ],
+     "ref_table": "vaccines",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "SET NULL",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [
+    {
+     "name": "personal_vaccine_reminders_advance_amount_check",
+     "definition": "CHECK (advance_amount IS NULL OR advance_amount >= 0::numeric)"
+    },
+    {
+     "name": "personal_vaccine_reminders_status_check",
+     "definition": "CHECK (status = ANY (ARRAY['PENDING'::text, 'READY'::text, 'COMPLETED'::text, 'CANCELLED'::text]))"
+    }
+   ],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_personal_vaccine_reminders_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_personal_vaccine_reminders_is_deleted ON public.personal_vaccine_reminders USING btree (is_deleted)"
+    },
+    {
+     "name": "personal_vaccine_reminders_patient_id_idx",
+     "unique": false,
+     "definition": "CREATE INDEX personal_vaccine_reminders_patient_id_idx ON public.personal_vaccine_reminders USING btree (patient_id)"
+    },
+    {
+     "name": "personal_vaccine_reminders_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX personal_vaccine_reminders_pkey ON public.personal_vaccine_reminders USING btree (id)"
+    },
+    {
+     "name": "personal_vaccine_reminders_reminder_date_idx",
+     "unique": false,
+     "definition": "CREATE INDEX personal_vaccine_reminders_reminder_date_idx ON public.personal_vaccine_reminders USING btree (reminder_date)"
+    },
+    {
+     "name": "personal_vaccine_reminders_status_idx",
+     "unique": false,
+     "definition": "CREATE INDEX personal_vaccine_reminders_status_idx ON public.personal_vaccine_reminders USING btree (status)"
+    },
+    {
+     "name": "personal_vaccine_reminders_vaccine_id_idx",
+     "unique": false,
+     "definition": "CREATE INDEX personal_vaccine_reminders_vaccine_id_idx ON public.personal_vaccine_reminders USING btree (vaccine_id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "personal_vaccine_reminders_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "personal_vaccine_reminders_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "personal_vaccine_reminders_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "personal_vaccine_reminders_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON personal_vaccine_reminders FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON personal_vaccine_reminders FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_personal_vaccine_reminders_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_personal_vaccine_reminders_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON personal_vaccine_reminders FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "profiles",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "email",
+     "position": 2,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "display_name",
+     "position": 3,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "phone_number",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "role",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "'nurse'::text"
+    },
+    {
+     "name": "is_active",
+     "position": 6,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "employee_id",
+     "position": 7,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "fcm_token",
+     "position": 8,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "created_at",
+     "position": 9,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 10,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "now()"
+    },
+    {
+     "name": "last_login",
+     "position": 11,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 12,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 13,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 14,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "created_by",
+     "position": 15,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 16,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "profiles_id_fkey",
+     "columns": [
+      "id"
+     ],
+     "ref_table": "users",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": false,
+     "many_to_one": true,
+     "child_required": true
+    }
+   ],
+   "checks": [
+    {
+     "name": "profiles_role_check",
+     "definition": "CHECK (role = ANY (ARRAY['admin'::text, 'doctor'::text, 'receptionist'::text, 'nurse'::text, 'inventory_manager'::text]))"
+    }
+   ],
+   "uniques": [
+    {
+     "name": "profiles_email_key",
+     "columns": [
+      "email"
+     ],
+     "definition": "UNIQUE (email)"
+    }
+   ],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "profiles_email_key",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX profiles_email_key ON public.profiles USING btree (email)"
+    },
+    {
+     "name": "profiles_email_lower_key",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX profiles_email_lower_key ON public.profiles USING btree (lower(email))"
+    },
+    {
+     "name": "profiles_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX profiles_pkey ON public.profiles USING btree (id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Active staff can view all profiles",
+     "roles": "{public}",
+     "cmd": "SELECT",
+     "using": "check_is_active()",
+     "with_check": "null"
+    },
+    {
+     "name": "Admins can manage all profiles",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = 'admin'::text)",
+     "with_check": "null"
+    },
+    {
+     "name": "Admins have full access",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "check_is_admin()",
+     "with_check": "null"
+    },
+    {
+     "name": "Users can update own profile",
+     "roles": "{public}",
+     "cmd": "UPDATE",
+     "using": "(auth.uid() = id)",
+     "with_check": "(auth.uid() = id)"
+    },
+    {
+     "name": "Users can view their own profile",
+     "roles": "{public}",
+     "cmd": "SELECT",
+     "using": "(auth.uid() = id)",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff select profiles",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "profiles_select_own_or_admin",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "(((id = auth.uid()) AND (is_deleted = false)) OR is_admin())",
+     "with_check": "null"
+    },
+    {
+     "name": "profiles_update_own",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "((id = auth.uid()) AND (is_deleted = false))",
+     "with_check": "((id = auth.uid()) AND (is_deleted = false))"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "protect_profile_privileged_fields",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER protect_profile_privileged_fields BEFORE UPDATE ON profiles FOR EACH ROW EXECUTE FUNCTION protect_profile_privileged_fields()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON profiles FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    }
+   ]
+  },
+  {
+   "name": "receipt_sequences",
+   "columns": [
+    {
+     "name": "financial_year",
+     "position": 1,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "last_number",
+     "position": 2,
+     "type": "integer",
+     "nullable": false,
+     "default": "0"
+    },
+    {
+     "name": "updated_at",
+     "position": 3,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_at",
+     "position": 4,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 5,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 6,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "financial_year"
+   ],
+   "fks": [],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "receipt_sequences_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX receipt_sequences_pkey ON public.receipt_sequences USING btree (financial_year)"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON receipt_sequences FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    }
+   ]
+  },
+  {
+   "name": "reminders",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "patient_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "original_visit_id",
+     "position": 3,
+     "type": "uuid",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "vaccine_name",
+     "position": 4,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "due_date",
+     "position": 5,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "status",
+     "position": 6,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "priority",
+     "position": 7,
+     "type": "text",
+     "nullable": true,
+     "default": "'NORMAL'::text"
+    },
+    {
+     "name": "reminder_enabled",
+     "position": 8,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "category",
+     "position": 9,
+     "type": "text",
+     "nullable": true,
+     "default": "'VACCINATION'::text"
+    },
+    {
+     "name": "type",
+     "position": 10,
+     "type": "text",
+     "nullable": true,
+     "default": "''::text"
+    },
+    {
+     "name": "nxt_vaccine_id",
+     "position": 11,
+     "type": "ARRAY",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "notes",
+     "position": 12,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "completion_date",
+     "position": 13,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "performed_by",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "dismissal_date",
+     "position": 15,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "dismissal_reason",
+     "position": 16,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "created_at",
+     "position": 17,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 18,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "now()"
+    },
+    {
+     "name": "is_synced",
+     "position": 19,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "created_by",
+     "position": 20,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 21,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 22,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 23,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 24,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "reminders_original_visit_id_fkey",
+     "columns": [
+      "original_visit_id"
+     ],
+     "ref_table": "patient_visits",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": false,
+     "many_to_one": false,
+     "child_required": true
+    },
+    {
+     "name": "reminders_patient_id_fkey",
+     "columns": [
+      "patient_id"
+     ],
+     "ref_table": "patients",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": false,
+     "many_to_one": false,
+     "child_required": true
+    }
+   ],
+   "checks": [],
+   "uniques": [
+    {
+     "name": "unique_reminder_event",
+     "columns": [
+      "patient_id",
+      "original_visit_id",
+      "vaccine_name",
+      "type"
+     ],
+     "definition": "UNIQUE (patient_id, original_visit_id, vaccine_name, type)"
+    }
+   ],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_reminders_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_reminders_is_deleted ON public.reminders USING btree (is_deleted)"
+    },
+    {
+     "name": "reminders_natural_key",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX reminders_natural_key ON public.reminders USING btree (patient_id, original_visit_id, vaccine_name, type)"
+    },
+    {
+     "name": "reminders_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX reminders_pkey ON public.reminders USING btree (id)"
+    },
+    {
+     "name": "unique_reminder_event",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX unique_reminder_event ON public.reminders USING btree (patient_id, original_visit_id, vaccine_name, type)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Enable all access for authenticated staff",
+     "roles": "{authenticated}",
+     "cmd": "ALL",
+     "using": "true",
+     "with_check": "true"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "reminders_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "reminders_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "reminders_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "reminders_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON reminders FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON reminders FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_reminders_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_reminders_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON reminders FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "user_devices",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "user_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "fcm_token",
+     "position": 3,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "device_name",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "platform",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "'Android'::text"
+    },
+    {
+     "name": "app_version",
+     "position": 6,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_active",
+     "position": 7,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "last_seen_at",
+     "position": 8,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "created_at",
+     "position": 9,
+     "type": "text",
+     "nullable": true,
+     "default": "(now())::text"
+    },
+    {
+     "name": "updated_at",
+     "position": 10,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 11,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 12,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "user_devices_user_id_fkey",
+     "columns": [
+      "user_id"
+     ],
+     "ref_table": "profiles",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_user_devices_fcm_token",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX idx_user_devices_fcm_token ON public.user_devices USING btree (fcm_token)"
+    },
+    {
+     "name": "idx_user_devices_user_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_user_devices_user_id ON public.user_devices USING btree (user_id)"
+    },
+    {
+     "name": "user_devices_fcm_token_uidx",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX user_devices_fcm_token_uidx ON public.user_devices USING btree (fcm_token)"
+    },
+    {
+     "name": "user_devices_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX user_devices_pkey ON public.user_devices USING btree (id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Admins can view all devices",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "(get_my_role() = 'admin'::text)",
+     "with_check": "null"
+    },
+    {
+     "name": "Users can delete their own devices",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "(auth.uid() = user_id)",
+     "with_check": "null"
+    },
+    {
+     "name": "Users can register their own devices",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "(auth.uid() = user_id)"
+    },
+    {
+     "name": "Users can update their own devices",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "(auth.uid() = user_id)",
+     "with_check": "(auth.uid() = user_id)"
+    },
+    {
+     "name": "Users can view their own devices",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "(auth.uid() = user_id)",
+     "with_check": "null"
+    },
+    {
+     "name": "owner delete devices",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "((auth.uid() = user_id) AND is_active_staff())",
+     "with_check": "null"
+    },
+    {
+     "name": "owner insert devices",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "((auth.uid() = user_id) AND is_active_staff())"
+    },
+    {
+     "name": "owner select devices",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "((auth.uid() = user_id) AND is_active_staff())",
+     "with_check": "null"
+    },
+    {
+     "name": "owner update devices",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "((auth.uid() = user_id) AND is_active_staff())",
+     "with_check": "((auth.uid() = user_id) AND is_active_staff())"
+    },
+    {
+     "name": "user_devices_delete_own",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "(user_id = auth.uid())",
+     "with_check": "null"
+    },
+    {
+     "name": "user_devices_select_own",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "(user_id = auth.uid())",
+     "with_check": "null"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON user_devices FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    }
+   ]
+  },
+  {
+   "name": "vaccination_items",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "vaccination_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "vaccine_id",
+     "position": 3,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "batch_id",
+     "position": 4,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "quantity",
+     "position": 5,
+     "type": "integer",
+     "nullable": true,
+     "default": "1"
+    },
+    {
+     "name": "mrp",
+     "position": 6,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "net_rate",
+     "position": 7,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "expiry_date",
+     "position": 8,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "vaccine_name",
+     "position": 9,
+     "type": "text",
+     "nullable": false,
+     "default": "''::text"
+    },
+    {
+     "name": "batch_number",
+     "position": 10,
+     "type": "text",
+     "nullable": false,
+     "default": "''::text"
+    },
+    {
+     "name": "created_at",
+     "position": 11,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 12,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 13,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 15,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 16,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 17,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "vaccination_items_batch_id_fkey",
+     "columns": [
+      "batch_id"
+     ],
+     "ref_table": "vaccine_batches",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": null,
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "vaccination_items_vaccination_id_fkey",
+     "columns": [
+      "vaccination_id"
+     ],
+     "ref_table": "patient_visits",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "vaccination_items_vaccine_id_fkey",
+     "columns": [
+      "vaccine_id"
+     ],
+     "ref_table": "vaccines",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": null,
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_vaccination_items_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_vaccination_items_is_deleted ON public.vaccination_items USING btree (is_deleted)"
+    },
+    {
+     "name": "idx_vaccination_items_vaccination_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_vaccination_items_vaccination_id ON public.vaccination_items USING btree (vaccination_id)"
+    },
+    {
+     "name": "vaccination_items_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX vaccination_items_pkey ON public.vaccination_items USING btree (id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Staff can manage vaccination items",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'doctor'::text, 'nurse'::text, 'receptionist'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "vaccination_items_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "vaccination_items_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "vaccination_items_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "vaccination_items_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON vaccination_items FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON vaccination_items FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_vaccination_items_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_vaccination_items_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON vaccination_items FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "vaccination_todos",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "patient_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "name",
+     "position": 3,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "mobile",
+     "position": 4,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "vaccine_names",
+     "position": 5,
+     "type": "text",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "address",
+     "position": 6,
+     "type": "text",
+     "nullable": false,
+     "default": "''::text"
+    },
+    {
+     "name": "todo_date",
+     "position": 7,
+     "type": "date",
+     "nullable": false,
+     "default": "null"
+    },
+    {
+     "name": "status",
+     "position": 8,
+     "type": "text",
+     "nullable": false,
+     "default": "'PENDING'::text"
+    },
+    {
+     "name": "created_at",
+     "position": 9,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 10,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "is_synced",
+     "position": 11,
+     "type": "boolean",
+     "nullable": false,
+     "default": "true"
+    },
+    {
+     "name": "created_by",
+     "position": 12,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 13,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "doctor_id",
+     "position": 14,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "doctor_name",
+     "position": 15,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "availability_slot_id",
+     "position": 16,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 17,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 18,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 19,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "vaccination_todos_availability_slot_id_fkey",
+     "columns": [
+      "availability_slot_id"
+     ],
+     "ref_table": "doctor_weekly_slots",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "SET NULL",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "vaccination_todos_doctor_id_fkey",
+     "columns": [
+      "doctor_id"
+     ],
+     "ref_table": "profiles",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "SET NULL",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "vaccination_todos_patient_id_fkey",
+     "columns": [
+      "patient_id"
+     ],
+     "ref_table": "patients",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "SET NULL",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_vaccination_todos_doctor_id",
+     "unique": false,
+     "definition": "CREATE INDEX idx_vaccination_todos_doctor_id ON public.vaccination_todos USING btree (doctor_id)"
+    },
+    {
+     "name": "idx_vaccination_todos_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_vaccination_todos_is_deleted ON public.vaccination_todos USING btree (is_deleted)"
+    },
+    {
+     "name": "vaccination_todos_patient_id_idx",
+     "unique": false,
+     "definition": "CREATE INDEX vaccination_todos_patient_id_idx ON public.vaccination_todos USING btree (patient_id)"
+    },
+    {
+     "name": "vaccination_todos_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX vaccination_todos_pkey ON public.vaccination_todos USING btree (id)"
+    },
+    {
+     "name": "vaccination_todos_status_idx",
+     "unique": false,
+     "definition": "CREATE INDEX vaccination_todos_status_idx ON public.vaccination_todos USING btree (status)"
+    },
+    {
+     "name": "vaccination_todos_todo_date_idx",
+     "unique": false,
+     "definition": "CREATE INDEX vaccination_todos_todo_date_idx ON public.vaccination_todos USING btree (todo_date)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "vaccination_todos_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "vaccination_todos_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "vaccination_todos_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "vaccination_todos_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON vaccination_todos FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON vaccination_todos FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_vaccination_todos_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_vaccination_todos_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON vaccination_todos FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "vaccine_batches",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "vaccine_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "batch_number",
+     "position": 3,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "manufacturer",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "purchase_date",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "expiry_date",
+     "position": 6,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "purchase_quantity",
+     "position": 7,
+     "type": "integer",
+     "nullable": true,
+     "default": "0"
+    },
+    {
+     "name": "remaining_quantity",
+     "position": 8,
+     "type": "integer",
+     "nullable": true,
+     "default": "0"
+    },
+    {
+     "name": "reserved_quantity",
+     "position": 9,
+     "type": "integer",
+     "nullable": true,
+     "default": "0"
+    },
+    {
+     "name": "used_quantity",
+     "position": 10,
+     "type": "integer",
+     "nullable": true,
+     "default": "0"
+    },
+    {
+     "name": "wasted_quantity",
+     "position": 11,
+     "type": "integer",
+     "nullable": true,
+     "default": "0"
+    },
+    {
+     "name": "borrowed_quantity",
+     "position": 12,
+     "type": "integer",
+     "nullable": true,
+     "default": "0"
+    },
+    {
+     "name": "supplier",
+     "position": 13,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "purchase_cost",
+     "position": 14,
+     "type": "numeric",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "selling_price",
+     "position": 15,
+     "type": "numeric",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "status",
+     "position": 16,
+     "type": "text",
+     "nullable": true,
+     "default": "'ACTIVE'::text"
+    },
+    {
+     "name": "updated_at",
+     "position": 17,
+     "type": "text",
+     "nullable": true,
+     "default": "(now())::text"
+    },
+    {
+     "name": "created_at",
+     "position": 18,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 19,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 20,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 21,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 22,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 23,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "vaccine_batches_vaccine_id_fkey",
+     "columns": [
+      "vaccine_id"
+     ],
+     "ref_table": "vaccines",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": "CASCADE",
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_vaccine_batches_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_vaccine_batches_is_deleted ON public.vaccine_batches USING btree (is_deleted)"
+    },
+    {
+     "name": "vaccine_batches_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX vaccine_batches_pkey ON public.vaccine_batches USING btree (id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Staff can manage batches",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'inventory_manager'::text, 'doctor'::text, 'nurse'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "vaccine_batches_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "vaccine_batches_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "vaccine_batches_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "vaccine_batches_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON vaccine_batches FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON vaccine_batches FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_vaccine_batches_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_vaccine_batches_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON vaccine_batches FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "vaccines",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "type",
+     "position": 2,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "brand_name",
+     "position": 3,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "company_name",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "manufacturer",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "category",
+     "position": 6,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "dose_schedule",
+     "position": 7,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "storage_details",
+     "position": 8,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "mrp",
+     "position": 9,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "net_rate",
+     "position": 10,
+     "type": "numeric",
+     "nullable": true,
+     "default": "0.0"
+    },
+    {
+     "name": "last_updated",
+     "position": 11,
+     "type": "text",
+     "nullable": true,
+     "default": "(now())::text"
+    },
+    {
+     "name": "created_at",
+     "position": 12,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "updated_at",
+     "position": 13,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 15,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 16,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 17,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 18,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_vaccines_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_vaccines_is_deleted ON public.vaccines USING btree (is_deleted)"
+    },
+    {
+     "name": "vaccines_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX vaccines_pkey ON public.vaccines USING btree (id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Staff can manage inventory",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'inventory_manager'::text, 'doctor'::text, 'nurse'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "vaccines_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "vaccines_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "vaccines_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "vaccines_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON vaccines FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "set_updated_at",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER set_updated_at BEFORE UPDATE ON vaccines FOR EACH ROW EXECUTE FUNCTION set_updated_at()"
+    },
+    {
+     "name": "trg_vaccines_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_vaccines_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON vaccines FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  },
+  {
+   "name": "waste_records",
+   "columns": [
+    {
+     "name": "id",
+     "position": 1,
+     "type": "uuid",
+     "nullable": false,
+     "default": "gen_random_uuid()"
+    },
+    {
+     "name": "vaccine_id",
+     "position": 2,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "batch_id",
+     "position": 3,
+     "type": "uuid",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "brand_name",
+     "position": 4,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "batch_number",
+     "position": 5,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "expiry_date",
+     "position": 6,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "date_wasted",
+     "position": 7,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "reason",
+     "position": 8,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "quantity",
+     "position": 9,
+     "type": "integer",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_at",
+     "position": 10,
+     "type": "text",
+     "nullable": true,
+     "default": "now()"
+    },
+    {
+     "name": "is_synced",
+     "position": 11,
+     "type": "boolean",
+     "nullable": true,
+     "default": "true"
+    },
+    {
+     "name": "created_at",
+     "position": 12,
+     "type": "timestamp with time zone",
+     "nullable": false,
+     "default": "now()"
+    },
+    {
+     "name": "created_by",
+     "position": 13,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "updated_by",
+     "position": 14,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "is_deleted",
+     "position": 15,
+     "type": "boolean",
+     "nullable": false,
+     "default": "false"
+    },
+    {
+     "name": "deleted_at",
+     "position": 16,
+     "type": "timestamp with time zone",
+     "nullable": true,
+     "default": "null"
+    },
+    {
+     "name": "deleted_by",
+     "position": 17,
+     "type": "text",
+     "nullable": true,
+     "default": "null"
+    }
+   ],
+   "pk": [
+    "id"
+   ],
+   "fks": [
+    {
+     "name": "waste_records_batchId_fkey",
+     "columns": [
+      "batch_id"
+     ],
+     "ref_table": "vaccine_batches",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": null,
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    },
+    {
+     "name": "waste_records_vaccine_id_fkey",
+     "columns": [
+      "vaccine_id"
+     ],
+     "ref_table": "vaccines",
+     "ref_columns": [
+      "id"
+     ],
+     "on_delete": null,
+     "on_update": null,
+     "nullable": true,
+     "many_to_one": false,
+     "child_required": false
+    }
+   ],
+   "checks": [],
+   "uniques": [],
+   "rls_enabled": true,
+   "indexes": [
+    {
+     "name": "idx_waste_records_is_deleted",
+     "unique": false,
+     "definition": "CREATE INDEX idx_waste_records_is_deleted ON public.waste_records USING btree (is_deleted)"
+    },
+    {
+     "name": "waste_records_pkey",
+     "unique": true,
+     "definition": "CREATE UNIQUE INDEX waste_records_pkey ON public.waste_records USING btree (id)"
+    }
+   ],
+   "policies": [
+    {
+     "name": "Staff can manage waste",
+     "roles": "{public}",
+     "cmd": "ALL",
+     "using": "(get_my_role() = ANY (ARRAY['admin'::text, 'inventory_manager'::text, 'doctor'::text, 'nurse'::text]))",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "active staff select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "active staff update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "waste_records_staff_delete",
+     "roles": "{authenticated}",
+     "cmd": "DELETE",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "waste_records_staff_insert",
+     "roles": "{authenticated}",
+     "cmd": "INSERT",
+     "using": "null",
+     "with_check": "is_active_staff()"
+    },
+    {
+     "name": "waste_records_staff_select",
+     "roles": "{authenticated}",
+     "cmd": "SELECT",
+     "using": "is_active_staff()",
+     "with_check": "null"
+    },
+    {
+     "name": "waste_records_staff_update",
+     "roles": "{authenticated}",
+     "cmd": "UPDATE",
+     "using": "is_active_staff()",
+     "with_check": "is_active_staff()"
+    }
+   ],
+   "triggers": [
+    {
+     "name": "neo_stamp_accountability",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER neo_stamp_accountability BEFORE INSERT OR UPDATE ON waste_records FOR EACH ROW EXECUTE FUNCTION neo_stamp_accountability()"
+    },
+    {
+     "name": "trg_waste_records_write_rate_limit",
+     "enabled": "O",
+     "definition": "CREATE TRIGGER trg_waste_records_write_rate_limit BEFORE INSERT OR DELETE OR UPDATE ON waste_records FOR EACH ROW EXECUTE FUNCTION enforce_write_rate_limit()"
+    }
+   ]
+  }
+ ],
+ "functions": [
+  {
+   "schema": "public",
+   "name": "check_is_active",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "check_is_admin",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "cleanup_write_rate_limits",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "enforce_write_rate_limit",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "get_my_role",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "handle_new_user",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "is_active_staff",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "s"
+  },
+  {
+   "schema": "public",
+   "name": "is_admin",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "s"
+  },
+  {
+   "schema": "public",
+   "name": "neo_assign_receipt_number",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "neo_current_staff_label",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "s"
+  },
+  {
+   "schema": "public",
+   "name": "neo_financial_year_label",
+   "arguments": "d date",
+   "security_definer": false,
+   "provolatile": "i"
+  },
+  {
+   "schema": "public",
+   "name": "neo_next_receipt_number",
+   "arguments": "txn_date date",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "neo_parse_visit_date",
+   "arguments": "raw text",
+   "security_definer": false,
+   "provolatile": "i"
+  },
+  {
+   "schema": "public",
+   "name": "neo_stamp_accountability",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "notify_todays_patient",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "protect_profile_privileged_fields",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "recalculate_all_stocks",
+   "arguments": "",
+   "security_definer": false,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "rls_auto_enable",
+   "arguments": "",
+   "security_definer": true,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "set_expenses_updated_at",
+   "arguments": "",
+   "security_definer": false,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "set_updated_at",
+   "arguments": "",
+   "security_definer": false,
+   "provolatile": "v"
+  },
+  {
+   "schema": "public",
+   "name": "update_batch_stock",
+   "arguments": "",
+   "security_definer": false,
+   "provolatile": "v"
+  }
+ ]
+}

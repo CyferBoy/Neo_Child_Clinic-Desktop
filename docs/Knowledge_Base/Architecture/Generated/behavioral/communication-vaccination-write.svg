@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="520" viewBox="0 0 940 520" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect width="940" height="520" fill="#fffbeb"/>
+<text x="28" y="44" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="22" fill="#1c1917" text-anchor="start" font-weight="700">Communication Diagram — Vaccination Write</text>
+<text x="28" y="68" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" fill="#78716c" text-anchor="start" font-weight="400">Numbered message flows between objects for one vaccination record, mirroring the sequence view.</text>
+<text x="28" y="88" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#9a3412" text-anchor="start" font-weight="600">[ANDROID-SOURCE] Same verified contract as sequence-vaccination-write.</text>
+<marker id="ah-open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,1 L10,6 L0,11" fill="none" stroke="#1c1917" stroke-width="1.6"/></marker>
+<circle cx="120" cy="200" r="52" fill="#fff7ed" stroke="#c2410c" stroke-width="1.8"/>
+<text x="120" y="204" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="600">screen</text>
+<circle cx="360" cy="120" r="52" fill="#fff7ed" stroke="#c2410c" stroke-width="1.8"/>
+<text x="360" y="124" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="600">service</text>
+<circle cx="600" cy="200" r="52" fill="#fff7ed" stroke="#c2410c" stroke-width="1.8"/>
+<text x="600" y="204" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="600">localDB</text>
+<circle cx="600" cy="380" r="52" fill="#fff7ed" stroke="#c2410c" stroke-width="1.8"/>
+<text x="600" y="384" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="600">syncQueue</text>
+<circle cx="360" cy="380" r="52" fill="#fff7ed" stroke="#c2410c" stroke-width="1.8"/>
+<text x="360" y="384" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="600">worker</text>
+<line x1="172" y1="200" x2="308" y2="150" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="240.0" y="169.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">1: recordVacc()</text>
+<line x1="412" y1="150" x2="548" y2="190" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="480.0" y="164.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">2: beginTx</text>
+<line x1="600" y1="252" x2="600" y2="328" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="600.0" y="284.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">3: enqueue</text>
+<line x1="548" y1="380" x2="412" y2="380" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="480.0" y="374.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">4: drain</text>
+<line x1="412" y1="380" x2="308" y2="220" stroke="#9f1239" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah-open)"/>
+<text x="360.0" y="294.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#9f1239" text-anchor="middle" font-weight="400">5: upsert</text>
+<text x="120" y="470" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">Numbered arrows show link traversal order; the local commit (steps 2–3) never waits on the network (steps 4–5).</text>
+<a href="../index.html" style="text-decoration:none"><rect x="14" y="14" width="156" height="30" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.2"/><text x="30" y="33" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#1c1917">&#8592; Diagram index</text></a>
+</svg>

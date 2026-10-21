@@ -1,0 +1,211 @@
+{
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "System Context \u2014 Neo Child Clinic Desktop",
+    "subtitle": "[DESKTOP-PROPOSED] Staff clients, the desktop shell, the shared Supabase project, and external services. No desktop process exists yet.",
+    "quality_profile": "standard",
+    "views": [
+      {
+        "id": "staff-to-desktop",
+        "label": "Staff to desktop",
+        "focus": [
+          "staff",
+          "desktop"
+        ],
+        "note": "Clinic staff are the only actors; the desktop app is the system boundary."
+      },
+      {
+        "id": "shared-backend",
+        "label": "Shared Supabase backend",
+        "focus": [
+          "desktop",
+          "supabase",
+          "authsvc",
+          "storage"
+        ],
+        "note": "Android and desktop share one Supabase project per ADR-0008."
+      },
+      {
+        "id": "backup-path",
+        "label": "Backup path",
+        "focus": [
+          "desktop",
+          "backupsvc"
+        ],
+        "note": "Encrypted backup target is approved in ADR-0010 but not designed."
+      }
+    ]
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 4,
+    "cellW": 170,
+    "cellH": 112,
+    "gapX": 70,
+    "gapY": 56
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Actors",
+      "items": [
+        "admin, doctor, nurse, receptionist, inventory_manager",
+        "Roles come from Supabase JWT app_metadata, not local state",
+        "Desktop must not become an independent authorization source"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Shared backend",
+      "items": [
+        "One Supabase project, one PostgreSQL database [DECISION]",
+        "Auth users, Storage buckets, and Edge Functions are shared",
+        "Local SQLite is a working copy, not a second backend"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Unverified",
+      "items": [
+        "Runtime anonymous access has not been exercised [UNKNOWN]",
+        "Realtime authorization is unverified [UNKNOWN]",
+        "Live RLS enforcement is export-reported only"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "staff",
+      "type": "external",
+      "label": "Clinic Staff",
+      "sublabel": "5 role values",
+      "row": 0,
+      "col": 0,
+      "tag": "actors"
+    },
+    {
+      "id": "desktop",
+      "type": "frontend",
+      "label": "Desktop App",
+      "sublabel": "Go + Wails + React",
+      "row": 0,
+      "col": 1,
+      "tag": "PROPOSED"
+    },
+    {
+      "id": "supabase",
+      "type": "cloud",
+      "label": "Supabase",
+      "sublabel": "shared project",
+      "row": 0,
+      "col": 3,
+      "tag": "same as Android"
+    },
+    {
+      "id": "authsvc",
+      "type": "security",
+      "label": "Supabase Auth",
+      "sublabel": "JWT + app_metadata",
+      "row": 1,
+      "col": 2
+    },
+    {
+      "id": "storage",
+      "type": "database",
+      "label": "Storage",
+      "sublabel": "patient-docs bucket",
+      "row": 1,
+      "col": 3
+    },
+    {
+      "id": "edgefn",
+      "type": "backend",
+      "label": "Edge Functions",
+      "sublabel": "manage-staff",
+      "row": 2,
+      "col": 2
+    },
+    {
+      "id": "backupsvc",
+      "type": "cloud",
+      "label": "Backup Target",
+      "sublabel": "ADR-0010 pending",
+      "row": 2,
+      "col": 0,
+      "tag": "UNDESIGNED"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Clinic workstation",
+      "wraps": [
+        "staff",
+        "desktop"
+      ]
+    },
+    {
+      "kind": "region",
+      "label": "Shared Supabase project (existing)",
+      "wraps": [
+        "supabase",
+        "authsvc",
+        "storage",
+        "edgefn"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "c1",
+      "from": "staff",
+      "to": "desktop",
+      "label": "keyboard / UI",
+      "variant": "emphasis"
+    },
+    {
+      "id": "c2",
+      "from": "desktop",
+      "to": "supabase",
+      "label": "HTTPS REST",
+      "variant": "security"
+    },
+    {
+      "id": "c3",
+      "from": "desktop",
+      "to": "authsvc",
+      "label": "sign-in",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "left"
+    },
+    {
+      "id": "c4",
+      "from": "desktop",
+      "to": "storage",
+      "label": "documents",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "left"
+    },
+    {
+      "id": "c5",
+      "from": "desktop",
+      "to": "edgefn",
+      "label": "invoke",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "left"
+    },
+    {
+      "id": "c6",
+      "from": "desktop",
+      "to": "backupsvc",
+      "label": "encrypted export",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
+  ],
+  "schema_version": 1
+}

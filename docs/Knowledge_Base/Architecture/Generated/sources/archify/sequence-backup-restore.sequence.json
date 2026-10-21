@@ -1,0 +1,163 @@
+{
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Sequence \u2014 Backup Export and Safe Restore",
+    "subtitle": "[ANDROID-SOURCE] Verified Android export and restore with a staged safety snapshot and a single restore transaction.",
+    "quality_profile": "standard",
+    "viewBox": [
+      784,
+      822
+    ]
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Read is atomic",
+      "items": [
+        "Every table is collected inside one read transaction",
+        "The envelope carries version, checksum, and record counts",
+        "Profiles are stripped of device tokens before export"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Restore fails closed",
+      "items": [
+        "A safety snapshot is staged before any write",
+        "Staging failure aborts the restore entirely",
+        "The restore is one transaction; a throw rolls it back"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "ui",
+      "type": "frontend",
+      "label": "Backup UI",
+      "sublabel": "settings"
+    },
+    {
+      "id": "repo",
+      "type": "backend",
+      "label": "Backup Repo",
+      "sublabel": "orchestrates"
+    },
+    {
+      "id": "collector",
+      "type": "database",
+      "label": "Collector",
+      "sublabel": "read snapshot"
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "Local DB",
+      "sublabel": "22 tables"
+    },
+    {
+      "id": "crypto",
+      "type": "security",
+      "label": "Crypto",
+      "sublabel": "AES-256-GCM"
+    },
+    {
+      "id": "safety",
+      "type": "security",
+      "label": "Safety Store",
+      "sublabel": "Keystore key"
+    }
+  ],
+  "messages": [
+    {
+      "from": "ui",
+      "to": "repo",
+      "y": 180,
+      "label": "exportBackup()",
+      "variant": "emphasis"
+    },
+    {
+      "from": "repo",
+      "to": "collector",
+      "y": 222,
+      "label": "collect()"
+    },
+    {
+      "from": "collector",
+      "to": "db",
+      "y": 264,
+      "label": "BEGIN read tx",
+      "variant": "emphasis"
+    },
+    {
+      "from": "db",
+      "to": "collector",
+      "y": 306,
+      "label": "22 snapshots",
+      "variant": "return"
+    },
+    {
+      "from": "collector",
+      "to": "repo",
+      "y": 348,
+      "label": "payload, tokens off",
+      "variant": "return"
+    },
+    {
+      "from": "repo",
+      "to": "crypto",
+      "y": 390,
+      "label": "seal + checksum",
+      "variant": "security"
+    },
+    {
+      "from": "crypto",
+      "to": "ui",
+      "y": 432,
+      "label": ".nccb written",
+      "variant": "return"
+    },
+    {
+      "from": "ui",
+      "to": "repo",
+      "y": 482,
+      "label": "restoreBackup()",
+      "variant": "emphasis"
+    },
+    {
+      "from": "repo",
+      "to": "crypto",
+      "y": 524,
+      "label": "verify checksum",
+      "variant": "security"
+    },
+    {
+      "from": "repo",
+      "to": "safety",
+      "y": 566,
+      "label": "stage snapshot",
+      "variant": "emphasis"
+    },
+    {
+      "from": "safety",
+      "to": "repo",
+      "y": 608,
+      "label": "staged or FAILED",
+      "variant": "return"
+    },
+    {
+      "from": "repo",
+      "to": "db",
+      "y": 650,
+      "label": "BEGIN restore tx",
+      "variant": "emphasis"
+    },
+    {
+      "from": "db",
+      "to": "repo",
+      "y": 692,
+      "label": "COMMIT or rollback",
+      "variant": "return"
+    }
+  ],
+  "schema_version": 1
+}

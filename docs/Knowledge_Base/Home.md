@@ -17,6 +17,12 @@ updated: 2026-10-21
 **Desktop tests run:** 0
 **Android tests run:** 0 in this pass
 
+> **Diagram suite:** an interactive, offline UML/architecture diagram set lives at
+> [[Architecture/Generated/index|Architecture → Generated → index]]. It separates the verified Android
+> reference, the proposed desktop design, and the shared Supabase schema evidence. See
+> [[Architecture/Generated/UML-COVERAGE|UML Coverage]] and [[Architecture/Generated/DIAGRAM-INDEX|Diagram Index]].
+> Documentation-only: no application code, schema, or data was changed.
+
 ## Status at a glance
 
 | | |

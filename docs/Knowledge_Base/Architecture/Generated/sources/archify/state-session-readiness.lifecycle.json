@@ -1,0 +1,95 @@
+{
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "State Machine \u2014 Session Readiness During Sync",
+    "subtitle": "[ANDROID-SOURCE] Verified internal SessionReadiness enum that gates whether a sync group may proceed.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Three readiness values",
+      "items": [
+        "USABLE lets the group proceed",
+        "RETRY_LATER defers without counting a failure",
+        "LOGGED_OUT stops the whole drain"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Grace window",
+      "items": [
+        "A token inside the grace window is still usable",
+        "One refresh is attempted on a 401",
+        "A second failure defers rather than burning the retry budget"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Token check"
+    },
+    {
+      "id": "terminal",
+      "label": "Recovery"
+    }
+  ],
+  "states": [
+    {
+      "id": "usable",
+      "type": "success",
+      "label": "USABLE",
+      "sublabel": "token valid",
+      "col": 0,
+      "step": "01",
+      "tag": "proceed",
+      "lane": "main"
+    },
+    {
+      "id": "retrylater",
+      "type": "waiting",
+      "label": "RETRY_LATER",
+      "sublabel": "refresh failed",
+      "col": 2,
+      "tag": "defer",
+      "lane": "main"
+    },
+    {
+      "id": "loggedout",
+      "type": "failure",
+      "label": "LOGGED_OUT",
+      "sublabel": "no session",
+      "col": 2,
+      "tag": "stop",
+      "lane": "terminal"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "usable",
+      "to": "retrylater",
+      "label": "expired, refresh",
+      "variant": "security",
+      "route": "drop",
+      "labelDy": 58
+    },
+    {
+      "from": "retrylater",
+      "to": "usable",
+      "label": "refresh ok",
+      "variant": "emphasis",
+      "route": "bottom-channel",
+      "labelDy": 40
+    },
+    {
+      "from": "retrylater",
+      "to": "loggedout",
+      "label": "no session",
+      "variant": "security",
+      "route": "drop",
+      "labelDy": 58
+    }
+  ],
+  "schema_version": 1
+}

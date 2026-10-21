@@ -1,0 +1,147 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Activity \u2014 Record a Consultation",
+    "subtitle": "[ANDROID-SOURCE] Verified consultation write with slot revalidation and an optional edit branch. Desktop equivalent is planned only.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Slot revalidation",
+      "items": [
+        "The chosen slot is re-checked immediately before the write",
+        "A stale slot clears the selection and reloads availability",
+        "No consultation row is written for a lost slot"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Edit branch",
+      "items": [
+        "An edit with no changed field reports NO_CHANGES and writes nothing",
+        "A changed fee updates the linked finance row in the same tx",
+        "The consultation is identified by a marker in remarks"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Unproven",
+      "items": [
+        "Doctor availability data is export-reported only",
+        "Concurrent double-booking across devices is untested"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "form",
+      "label": "Form"
+    },
+    {
+      "id": "availability",
+      "label": "Availability"
+    },
+    {
+      "id": "rejection",
+      "label": "Rejection"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "fill",
+      "col": 0,
+      "type": "external",
+      "label": "Consult Form",
+      "sublabel": "problem + fee",
+      "lane": "form"
+    },
+    {
+      "id": "req",
+      "col": 0,
+      "type": "backend",
+      "label": "Required Check",
+      "sublabel": "doctor + slot",
+      "lane": "availability"
+    },
+    {
+      "id": "recheck",
+      "col": 2,
+      "type": "backend",
+      "label": "Slot Free?",
+      "sublabel": "revalidate now",
+      "lane": "availability"
+    },
+    {
+      "id": "tx",
+      "col": 4,
+      "type": "database",
+      "label": "Transaction",
+      "sublabel": "visit + consult + fee",
+      "lane": "availability"
+    },
+    {
+      "id": "stale",
+      "col": 2,
+      "type": "security",
+      "label": "Slot Taken",
+      "sublabel": "reload slots",
+      "lane": "rejection"
+    },
+    {
+      "id": "nochange",
+      "col": 4,
+      "type": "security",
+      "label": "No Changes",
+      "sublabel": "NO_CHANGES",
+      "lane": "rejection"
+    }
+  ],
+  "edges": [
+    {
+      "id": "w1",
+      "from": "fill",
+      "to": "req",
+      "label": "save",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "w2",
+      "from": "req",
+      "to": "recheck",
+      "label": "complete",
+      "variant": "emphasis"
+    },
+    {
+      "id": "w3",
+      "from": "recheck",
+      "to": "tx",
+      "label": "available",
+      "variant": "emphasis"
+    },
+    {
+      "id": "w4",
+      "from": "recheck",
+      "to": "stale",
+      "label": "taken",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "w5",
+      "from": "tx",
+      "to": "nochange",
+      "label": "identical edit",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "schema_version": 1
+}

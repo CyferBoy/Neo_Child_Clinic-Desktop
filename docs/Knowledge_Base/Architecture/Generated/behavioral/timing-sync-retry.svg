@@ -1,0 +1,42 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="520" viewBox="0 0 960 520" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect width="960" height="520" fill="#fffbeb"/>
+<text x="28" y="44" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="22" fill="#1c1917" text-anchor="start" font-weight="700">Timing Diagram — Sync Retry Backoff</text>
+<text x="28" y="68" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" fill="#78716c" text-anchor="start" font-weight="400">Duration-constrained state changes for one queue item under a transient 5xx.</text>
+<text x="28" y="88" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#9a3412" text-anchor="start" font-weight="600">[ANDROID-SOURCE] INITIAL_RETRY_DELAY_MS=1000, MAX=60000, budget=5, stale guard=5 min.</text>
+<rect x="240" y="120" width="640" height="300" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+<text x="60" y="174" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#1c1917" text-anchor="start" font-weight="600">status</text>
+<line x1="240" y1="170" x2="880" y2="170" stroke="#78716c" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="60" y="244" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#1c1917" text-anchor="start" font-weight="600">retryCount</text>
+<line x1="240" y1="240" x2="880" y2="240" stroke="#78716c" stroke-width="1" stroke-dasharray="4 4"/>
+<text x="60" y="314" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#1c1917" text-anchor="start" font-weight="600">timer</text>
+<line x1="240" y1="310" x2="880" y2="310" stroke="#78716c" stroke-width="1" stroke-dasharray="4 4"/>
+<line x1="240" y1="130" x2="240" y2="410" stroke="#fed7aa" stroke-width="1"/>
+<text x="240" y="148" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#78716c" text-anchor="middle" font-weight="400">t0</text>
+<line x1="340" y1="130" x2="340" y2="410" stroke="#fed7aa" stroke-width="1"/>
+<text x="340" y="148" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#78716c" text-anchor="middle" font-weight="400">1s</text>
+<line x1="440" y1="130" x2="440" y2="410" stroke="#fed7aa" stroke-width="1"/>
+<text x="440" y="148" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#78716c" text-anchor="middle" font-weight="400">2s</text>
+<line x1="570" y1="130" x2="570" y2="410" stroke="#fed7aa" stroke-width="1"/>
+<text x="570" y="148" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#78716c" text-anchor="middle" font-weight="400">4s</text>
+<line x1="720" y1="130" x2="720" y2="410" stroke="#fed7aa" stroke-width="1"/>
+<text x="720" y="148" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#78716c" text-anchor="middle" font-weight="400">8s</text>
+<line x1="880" y1="130" x2="880" y2="410" stroke="#fed7aa" stroke-width="1"/>
+<text x="880" y="148" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="10" fill="#78716c" text-anchor="middle" font-weight="400">…60s</text>
+<rect x="240" y="152" width="100" height="36" fill="#ea580c" opacity="0.85"/>
+<text x="290.0" y="174" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#1c1917" text-anchor="middle" font-weight="600">SYNCING</text>
+<rect x="340" y="152" width="540" height="36" fill="#ffedd5" opacity="0.85"/>
+<text x="610.0" y="174" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#1c1917" text-anchor="middle" font-weight="600">PENDING (backoff)</text>
+<polyline points="240,258 340,258 340,240 440,240 440,258 570,258 570,240 720,240 720,258 880,258" fill="none" stroke="#047857" stroke-width="2"/>
+<text x="560" y="232" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#047857" text-anchor="middle" font-weight="400">retryCount 0 → 1 → 2 …</text>
+<line x1="340" y1="300" x2="340" y2="320" stroke="#9f1239" stroke-width="2"/>
+<circle cx="340" cy="310" r="4" fill="#9f1239"/>
+<line x1="440" y1="300" x2="440" y2="320" stroke="#9f1239" stroke-width="2"/>
+<circle cx="440" cy="310" r="4" fill="#9f1239"/>
+<line x1="570" y1="300" x2="570" y2="320" stroke="#9f1239" stroke-width="2"/>
+<circle cx="570" cy="310" r="4" fill="#9f1239"/>
+<line x1="720" y1="300" x2="720" y2="320" stroke="#9f1239" stroke-width="2"/>
+<circle cx="720" cy="310" r="4" fill="#9f1239"/>
+<text x="560" y="350" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#9f1239" text-anchor="middle" font-weight="400">exponential timer fires; stale SYNCING rows requeue after 5 min</text>
+<text x="60" y="460" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">Authorization and schema faults never retry; transient 5xx retries up to five times.</text>
+<a href="../index.html" style="text-decoration:none"><rect x="14" y="14" width="156" height="30" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.2"/><text x="30" y="33" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#1c1917">&#8592; Diagram index</text></a>
+</svg>

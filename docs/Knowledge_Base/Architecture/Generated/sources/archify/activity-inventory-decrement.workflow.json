@@ -1,0 +1,171 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Activity \u2014 Inventory Decrement and Reconciliation",
+    "subtitle": "[ANDROID-SOURCE] Verified FEFO decrement with reconciliation ledger. Duplicate-event risk is documented, not resolved.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "FEFO order",
+      "items": [
+        "Batches are consumed soonest-expiry-first",
+        "Expired batches are refused unless already used",
+        "Remaining quantity is read-modify-write inside the tx"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Duplicate-event risk",
+      "items": [
+        "sync_queue has no unique constraint on entity + operation",
+        "Concurrent enqueues can still produce duplicate rows",
+        "reverseDeduction has no idempotency key by design"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Reconciliation",
+      "items": [
+        "Every movement writes an inventory_transactions row",
+        "inventory_deductions records COMPLETED or FAILED per visit",
+        "Stock can be reversed only from COMPLETED ledger rows"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "request",
+      "label": "Request"
+    },
+    {
+      "id": "batch-selection",
+      "label": "Batch Selection"
+    },
+    {
+      "id": "refusal",
+      "label": "Refusal"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "req",
+      "col": 0,
+      "type": "external",
+      "label": "Deduct Request",
+      "sublabel": "batch + quantity",
+      "lane": "request"
+    },
+    {
+      "id": "load",
+      "col": 0,
+      "type": "backend",
+      "label": "Load Batch",
+      "sublabel": "by batchId",
+      "lane": "batch-selection"
+    },
+    {
+      "id": "expiry",
+      "col": 2,
+      "type": "backend",
+      "label": "Expiry Gate",
+      "sublabel": "vs given date",
+      "tag": "allowExpired",
+      "lane": "batch-selection"
+    },
+    {
+      "id": "enough",
+      "col": 4,
+      "type": "backend",
+      "label": "Sufficient?",
+      "sublabel": "remaining >= qty",
+      "lane": "batch-selection"
+    },
+    {
+      "id": "noBatch",
+      "col": 0,
+      "type": "security",
+      "label": "Blocked",
+      "sublabel": "batch missing",
+      "lane": "refusal"
+    },
+    {
+      "id": "expired",
+      "col": 2,
+      "type": "security",
+      "label": "Expired",
+      "sublabel": "refused",
+      "lane": "refusal"
+    },
+    {
+      "id": "short",
+      "col": 4,
+      "type": "security",
+      "label": "Insufficient",
+      "sublabel": "throws",
+      "lane": "refusal"
+    }
+  ],
+  "edges": [
+    {
+      "id": "i1",
+      "from": "req",
+      "to": "load",
+      "label": "load",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "i2",
+      "from": "load",
+      "to": "expiry",
+      "label": "found",
+      "variant": "emphasis"
+    },
+    {
+      "id": "i3",
+      "from": "expiry",
+      "to": "enough",
+      "label": "not expired",
+      "variant": "emphasis"
+    },
+    {
+      "id": "i4",
+      "from": "load",
+      "to": "noBatch",
+      "label": "null",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "i5",
+      "from": "expiry",
+      "to": "expired",
+      "label": "expired",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop",
+      "labelAt": [
+        300,
+        292
+      ]
+    },
+    {
+      "id": "i6",
+      "from": "enough",
+      "to": "short",
+      "label": "no",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "schema_version": 1
+}

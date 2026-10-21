@@ -1,0 +1,122 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Build and Packaging Pipeline (Android Reference)",
+    "subtitle": "[ANDROID-SOURCE] The only real pipeline in evidence is Android Gradle. No desktop build, package, signing, or CI configuration exists.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Verified Android stages",
+      "items": [
+        "Gradle Kotlin DSL with a version catalog",
+        "Unit tests and instrumented tests are separate tasks",
+        "Release signing is configured in Gradle, not in repository CI"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Desktop is blocked",
+      "items": [
+        "No go.mod, wails.json, or package.json exists",
+        "No packaging, signing, or update feed is configured",
+        "This diagram must not be read as a desktop release plan"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "source",
+      "label": "Source"
+    },
+    {
+      "id": "gradle",
+      "label": "Gradle"
+    },
+    {
+      "id": "blocked",
+      "label": "Blocked"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "kt",
+      "col": 0,
+      "type": "external",
+      "label": "Kotlin Source",
+      "sublabel": "352 files",
+      "lane": "source"
+    },
+    {
+      "id": "catalog",
+      "col": 0,
+      "type": "backend",
+      "label": "Catalog",
+      "sublabel": "libs.versions.toml",
+      "lane": "gradle"
+    },
+    {
+      "id": "assemble",
+      "col": 2,
+      "type": "backend",
+      "label": "Assemble",
+      "sublabel": "compile + dex",
+      "lane": "gradle"
+    },
+    {
+      "id": "apk",
+      "col": 4,
+      "type": "cloud",
+      "label": "APK / AAB",
+      "sublabel": "signed release",
+      "lane": "gradle"
+    },
+    {
+      "id": "blocked",
+      "col": 4,
+      "type": "security",
+      "label": "Desktop Build",
+      "sublabel": "NOT CONFIGURED",
+      "tag": "blocked",
+      "lane": "blocked"
+    }
+  ],
+  "edges": [
+    {
+      "id": "b1",
+      "from": "kt",
+      "to": "catalog",
+      "label": "declare",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "b2",
+      "from": "catalog",
+      "to": "assemble",
+      "label": "resolve",
+      "variant": "emphasis"
+    },
+    {
+      "id": "b3",
+      "from": "assemble",
+      "to": "apk",
+      "label": "package + sign",
+      "variant": "emphasis"
+    },
+    {
+      "id": "b4",
+      "from": "apk",
+      "to": "blocked",
+      "label": "desktop eq.",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "schema_version": 1
+}

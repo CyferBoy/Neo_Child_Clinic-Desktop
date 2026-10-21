@@ -77,6 +77,8 @@ The intended architecture is:
 
 See the [System Architecture](docs/Knowledge_Base/Architecture/System-Architecture.md), [Android Reference Architecture](docs/Knowledge_Base/Architecture/Android-Reference-Architecture.md), [Go Backend Architecture](docs/Knowledge_Base/Architecture/Go-Backend-Architecture.md), and [Offline and Sync Design](docs/Knowledge_Base/Architecture/Offline-and-Sync-Design.md) for verified components, proposed designs, and unresolved decisions.
 
+An interactive, offline UML/architecture diagram suite is at [Architecture/Generated/index.html](docs/Knowledge_Base/Architecture/Generated/index.html) (see the [UML Coverage](docs/Knowledge_Base/Architecture/Generated/UML-COVERAGE.md) matrix and [Diagram Index](docs/Knowledge_Base/Architecture/Generated/DIAGRAM-INDEX.md)). It separates the verified Android reference, the proposed desktop design, and the shared Supabase schema evidence, and is documentation-only.
+
 ## Requirements
 
 The application toolchain is not initialized, so runtime versions are not yet defined. The eventual implementation will need pinned versions of:

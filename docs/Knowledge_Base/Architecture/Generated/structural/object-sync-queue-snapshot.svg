@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="940" height="560" viewBox="0 0 940 560" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect width="940" height="560" fill="#fffbeb"/>
+<text x="28" y="44" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="22" fill="#1c1917" text-anchor="start" font-weight="700">Object Diagram — Sync Queue Instance Snapshot</text>
+<text x="28" y="68" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" fill="#78716c" text-anchor="start" font-weight="400">A moment-in-time instance view of the offline sync queue during one vaccination upload.</text>
+<text x="28" y="88" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#9a3412" text-anchor="start" font-weight="600">[ANDROID-SOURCE] Mirrors verified sync_queue rows; desktop store is proposed.</text>
+<marker id="ah-open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,1 L10,6 L0,11" fill="none" stroke="#1c1917" stroke-width="1.6"/></marker>
+<rect x="50" y="130" width="260" height="120" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="50" y="130" width="260" height="28" rx="8" fill="#9a3412"/>
+<text x="62" y="149" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">queueItem1 : SyncQueueItem</text>
+<text x="62" y="176" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">entityType = &quot;patient_visits&quot;</text>
+<text x="62" y="194" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">operation = UPSERT</text>
+<text x="62" y="212" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">status = SYNCING</text>
+<text x="62" y="230" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">groupId = g-101</text>
+<text x="62" y="248" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">retryCount = 0</text>
+<rect x="360" y="130" width="260" height="120" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="360" y="130" width="260" height="28" rx="8" fill="#9a3412"/>
+<text x="372" y="149" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">queueItem2 : SyncQueueItem</text>
+<text x="372" y="176" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">entityType = &quot;vaccination_items&quot;</text>
+<text x="372" y="194" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">operation = UPSERT</text>
+<text x="372" y="212" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">status = PENDING</text>
+<text x="372" y="230" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">groupId = g-101</text>
+<text x="372" y="248" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">retryCount = 0</text>
+<rect x="360" y="360" width="260" height="84" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="360" y="360" width="260" height="28" rx="8" fill="#9a3412"/>
+<text x="372" y="379" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">group : TxGroup</text>
+<text x="372" y="406" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">groupId = g-101</text>
+<text x="372" y="424" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">priority = 10</text>
+<text x="372" y="442" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">size = 2</text>
+<rect x="670" y="130" width="240" height="84" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="670" y="130" width="240" height="28" rx="8" fill="#9a3412"/>
+<text x="682" y="149" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="12" fill="#ffffff" text-anchor="start" font-weight="700">visit : PatientVisit</text>
+<text x="682" y="176" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">id = 8f2c…</text>
+<text x="682" y="194" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">receiptNumber = &quot;&quot;</text>
+<text x="682" y="212" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">synced = false</text>
+<line x1="310" y1="180" x2="360" y2="180" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="335.0" y="174.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">belongs to</text>
+<line x1="490" y1="250" x2="490" y2="360" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="490.0" y="299.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">groups</text>
+<line x1="620" y1="180" x2="670" y2="180" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="645.0" y="174.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">writes</text>
+<text x="50" y="500" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">receiptNumber is uploaded blank; a server trigger assigns it on insert and the worker stores it back.</text>
+<text x="50" y="522" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#9f1239" text-anchor="start" font-weight="400">sync_queue has no unique constraint on (entityType, operation); duplicate rows are cleaned opportunistically, not prevented.</text>
+<a href="../index.html" style="text-decoration:none"><rect x="14" y="14" width="156" height="30" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.2"/><text x="30" y="33" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#1c1917">&#8592; Diagram index</text></a>
+</svg>

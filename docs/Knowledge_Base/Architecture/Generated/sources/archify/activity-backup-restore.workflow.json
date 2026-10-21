@@ -1,0 +1,147 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Activity \u2014 Backup and Restore",
+    "subtitle": "[ANDROID-SOURCE] Verified Android backup/restore with a staged safety snapshot. The desktop has no backup design; ADR-0010 is pending.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Fail closed",
+      "items": [
+        "A safety snapshot is staged before any restore write",
+        "If staging fails, the restore aborts before touching data",
+        "The restore itself is one transaction; a throw rolls it back"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Encryption",
+      "items": [
+        "Backups use password-based AES-256-GCM with PBKDF2",
+        "The container is independent of the local database passphrase",
+        "A checksum is verified before the payload is trusted"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Desktop",
+      "items": [
+        "No desktop backup format, target, or retention is designed",
+        "ADR-0010 covers encrypted backup and restore safety and is pending"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "trigger",
+      "label": "Trigger"
+    },
+    {
+      "id": "seal",
+      "label": "Seal"
+    },
+    {
+      "id": "failure",
+      "label": "Failure"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "trigger",
+      "col": 0,
+      "type": "external",
+      "label": "Backup Request",
+      "sublabel": "manual or scheduled",
+      "lane": "trigger"
+    },
+    {
+      "id": "collect",
+      "col": 0,
+      "type": "database",
+      "label": "Snapshot",
+      "sublabel": "22 tables, one tx",
+      "lane": "seal"
+    },
+    {
+      "id": "seal",
+      "col": 2,
+      "type": "security",
+      "label": "Encrypt + Hash",
+      "sublabel": "AES-256-GCM",
+      "lane": "seal"
+    },
+    {
+      "id": "stage",
+      "col": 4,
+      "type": "database",
+      "label": "Stage Safety",
+      "sublabel": "pre-restore",
+      "lane": "seal"
+    },
+    {
+      "id": "corrupt",
+      "col": 2,
+      "type": "security",
+      "label": "Bad Checksum",
+      "sublabel": "refuse",
+      "lane": "failure"
+    },
+    {
+      "id": "staging",
+      "col": 4,
+      "type": "security",
+      "label": "Staging Fail",
+      "sublabel": "abort restore",
+      "lane": "failure"
+    }
+  ],
+  "edges": [
+    {
+      "id": "k1",
+      "from": "trigger",
+      "to": "collect",
+      "label": "start",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "k2",
+      "from": "collect",
+      "to": "seal",
+      "label": "payload",
+      "variant": "emphasis"
+    },
+    {
+      "id": "k3",
+      "from": "seal",
+      "to": "stage",
+      "label": "sealed",
+      "variant": "emphasis"
+    },
+    {
+      "id": "k4",
+      "from": "seal",
+      "to": "corrupt",
+      "label": "verify fail",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "k5",
+      "from": "stage",
+      "to": "staging",
+      "label": "cannot stage",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "schema_version": 1
+}

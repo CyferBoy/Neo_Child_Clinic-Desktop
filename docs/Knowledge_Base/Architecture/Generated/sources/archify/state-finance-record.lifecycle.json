@@ -1,0 +1,105 @@
+{
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "State Machine \u2014 Financial Transaction",
+    "subtitle": "[ANDROID-SOURCE] Finance rows are append-only in practice; edits rewrite a single identified row rather than creating state.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Append-only",
+      "items": [
+        "An income row is created once per visit",
+        "An edit updates the identified row and never deletes",
+        "A deterministic id key makes concurrent creates collide safely"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Identification",
+      "items": [
+        "A marker in remarks links a row to its consultation",
+        "An ambiguous match raises instead of guessing",
+        "Receipt numbers are immutable once issued"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Row lifecycle"
+    },
+    {
+      "id": "terminal",
+      "label": "Ambiguity"
+    }
+  ],
+  "states": [
+    {
+      "id": "recorded",
+      "type": "start",
+      "label": "Recorded",
+      "sublabel": "income row",
+      "col": 0,
+      "step": "01",
+      "tag": "immutable id",
+      "lane": "main"
+    },
+    {
+      "id": "updated",
+      "type": "active",
+      "label": "Updated",
+      "sublabel": "fee corrected",
+      "col": 1,
+      "step": "02",
+      "tag": "same row",
+      "lane": "main"
+    },
+    {
+      "id": "reported",
+      "type": "success",
+      "label": "Reported",
+      "sublabel": "in totals",
+      "col": 1,
+      "step": "03",
+      "tag": "read",
+      "lane": "terminal"
+    },
+    {
+      "id": "ambiguous",
+      "type": "failure",
+      "label": "Ambiguous Link",
+      "sublabel": "throws",
+      "col": 0,
+      "tag": "fail closed",
+      "lane": "terminal"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "recorded",
+      "to": "updated",
+      "label": "edit fee",
+      "variant": "emphasis",
+      "labelDy": 58
+    },
+    {
+      "from": "updated",
+      "to": "reported",
+      "label": "in totals",
+      "variant": "emphasis",
+      "route": "drop",
+      "labelDy": 58
+    },
+    {
+      "from": "recorded",
+      "to": "ambiguous",
+      "label": "multiple matches",
+      "variant": "security",
+      "route": "drop",
+      "labelDy": 58
+    }
+  ],
+  "schema_version": 1
+}

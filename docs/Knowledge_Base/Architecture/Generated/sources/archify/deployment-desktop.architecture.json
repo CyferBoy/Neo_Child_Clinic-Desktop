@@ -1,0 +1,158 @@
+{
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Deployment Diagram \u2014 Desktop Runtime",
+    "subtitle": "[DESKTOP-PROPOSED] Single desktop process, webview frontend, Go runtime, local storage, shared Supabase. Nothing is deployed yet.",
+    "quality_profile": "standard"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 5,
+    "cellW": 170,
+    "cellH": 112,
+    "gapX": 70,
+    "gapY": 56
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "One process",
+      "items": [
+        "Wails v3 hosts the Go runtime and the webview in one process",
+        "The renderer is served from embedded assets, not a network origin",
+        "Local SQLite file is the only durable local state"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Shared authority",
+      "items": [
+        "Supabase is the same project Android uses [DECISION]",
+        "Auth, PostgREST, Realtime, Storage, and Edge Functions are all shared",
+        "No new remote database or parallel schema is approved"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Open decisions",
+      "items": [
+        "Local database encryption is decided by ADR-0010 [PENDING]",
+        "Backup target and retention are not designed [PENDING]",
+        "Auto-update feed URL and signing chain are unknown [UNKNOWN]"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "host",
+      "type": "external",
+      "label": "Workstation",
+      "sublabel": "clinic PC",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "process",
+      "type": "backend",
+      "label": "Desktop Process",
+      "sublabel": "Wails v3 runtime",
+      "row": 0,
+      "col": 1,
+      "tag": "single process"
+    },
+    {
+      "id": "webview",
+      "type": "frontend",
+      "label": "WebView",
+      "sublabel": "React bundle",
+      "row": 2,
+      "col": 1
+    },
+    {
+      "id": "dbfile",
+      "type": "database",
+      "label": "SQLite File",
+      "sublabel": "working copy",
+      "row": 0,
+      "col": 2
+    },
+    {
+      "id": "net",
+      "type": "cloud",
+      "label": "Clinic Network",
+      "sublabel": "may be offline",
+      "row": 1,
+      "col": 3
+    },
+    {
+      "id": "supa",
+      "type": "cloud",
+      "label": "Supabase",
+      "sublabel": "shared project",
+      "row": 1,
+      "col": 4,
+      "tag": "same as Android"
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Clinic workstation",
+      "wraps": [
+        "host",
+        "process",
+        "webview",
+        "dbfile"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "Desktop process trust boundary",
+      "wraps": [
+        "process",
+        "webview",
+        "dbfile"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "d1",
+      "from": "host",
+      "to": "process",
+      "label": "launch"
+    },
+    {
+      "id": "d2",
+      "from": "process",
+      "to": "webview",
+      "label": "host + bind",
+      "variant": "emphasis",
+      "labelAt": [
+        340,
+        155
+      ]
+    },
+    {
+      "id": "d3",
+      "from": "process",
+      "to": "dbfile",
+      "label": "SQLCipher or plain",
+      "variant": "dashed"
+    },
+    {
+      "id": "d4",
+      "from": "process",
+      "to": "net",
+      "label": "HTTPS"
+    },
+    {
+      "id": "d5",
+      "from": "net",
+      "to": "supa",
+      "label": "REST / Realtime",
+      "variant": "security"
+    }
+  ],
+  "schema_version": 1
+}

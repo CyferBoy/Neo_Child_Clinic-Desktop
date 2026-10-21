@@ -1,0 +1,104 @@
+{
+  "diagram_type": "lifecycle",
+  "meta": {
+    "title": "State Machine \u2014 Inventory Batch Lifecycle",
+    "subtitle": "[ANDROID-SOURCE] Batch status is a single-value enum; stock movement is modeled as ledger events, not states.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Status is minimal",
+      "items": [
+        "BatchStatus carries only ACTIVE",
+        "Stock level is a quantity on the row, not a state",
+        "Expiry is evaluated against a reference date, not stored"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Deletion guard",
+      "items": [
+        "A batch with historical rows cannot be deleted",
+        "Guard covers vaccinations, waste, borrows, returns, and movements"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "main",
+      "label": "Stock level"
+    },
+    {
+      "id": "terminal",
+      "label": "Deletion"
+    }
+  ],
+  "states": [
+    {
+      "id": "created",
+      "type": "start",
+      "label": "Created",
+      "sublabel": "purchase row",
+      "col": 0,
+      "step": "01",
+      "tag": "full",
+      "lane": "main"
+    },
+    {
+      "id": "depleting",
+      "type": "active",
+      "label": "Depleting",
+      "sublabel": "FEFO draws",
+      "col": 1,
+      "step": "02",
+      "tag": "active",
+      "lane": "main"
+    },
+    {
+      "id": "blocked",
+      "type": "failure",
+      "label": "Deletion Blocked",
+      "sublabel": "history exists",
+      "col": 3,
+      "tag": "guard",
+      "lane": "main"
+    },
+    {
+      "id": "exhausted",
+      "type": "success",
+      "label": "Exhausted",
+      "sublabel": "remaining = 0",
+      "col": 1,
+      "step": "03",
+      "tag": "terminal",
+      "lane": "terminal"
+    }
+  ],
+  "transitions": [
+    {
+      "from": "created",
+      "to": "depleting",
+      "label": "first deduction",
+      "variant": "emphasis",
+      "labelDy": 58
+    },
+    {
+      "from": "depleting",
+      "to": "exhausted",
+      "label": "remaining hits 0",
+      "variant": "emphasis",
+      "route": "drop",
+      "labelDy": 58
+    },
+    {
+      "from": "depleting",
+      "to": "blocked",
+      "label": "delete attempt",
+      "variant": "security",
+      "route": "drop",
+      "labelDy": 58
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="960" height="620" viewBox="0 0 960 620" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect width="960" height="620" fill="#fffbeb"/>
+<text x="28" y="44" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="22" fill="#1c1917" text-anchor="start" font-weight="700">Use-Case Diagram — Roles and Clinic Use Cases</text>
+<text x="28" y="68" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" fill="#78716c" text-anchor="start" font-weight="400">Five clinic roles and the core use cases they may invoke. Authorization is server-enforced.</text>
+<text x="28" y="88" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#9a3412" text-anchor="start" font-weight="600">[SCHEMA-EXPORT + ANDROID-SOURCE] Roles from JWT app_metadata; live RLS enforcement UNKNOWN.</text>
+<rect x="230" y="110" width="500" height="470" rx="12" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5" stroke-dasharray="8 5"/>
+<text x="246" y="134" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" fill="#9a3412" text-anchor="start" font-weight="600">Clinic Desktop System</text>
+<circle cx="120" cy="90" r="16" fill="#ffffff" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="106" x2="120" y2="142" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="98" y1="120" x2="142" y2="120" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="142" x2="104" y2="166" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="142" x2="136" y2="166" stroke="#1c1917" stroke-width="1.6"/>
+<text x="120" y="182" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="600">Admin</text>
+<circle cx="120" cy="210" r="16" fill="#ffffff" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="226" x2="120" y2="262" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="98" y1="240" x2="142" y2="240" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="262" x2="104" y2="286" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="262" x2="136" y2="286" stroke="#1c1917" stroke-width="1.6"/>
+<text x="120" y="302" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="600">Doctor</text>
+<circle cx="120" cy="330" r="16" fill="#ffffff" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="346" x2="120" y2="382" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="98" y1="360" x2="142" y2="360" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="382" x2="104" y2="406" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="382" x2="136" y2="406" stroke="#1c1917" stroke-width="1.6"/>
+<text x="120" y="422" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="600">Nurse</text>
+<circle cx="120" cy="450" r="16" fill="#ffffff" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="466" x2="120" y2="502" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="98" y1="480" x2="142" y2="480" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="502" x2="104" y2="526" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="502" x2="136" y2="526" stroke="#1c1917" stroke-width="1.6"/>
+<text x="120" y="542" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="600">Reception</text>
+<circle cx="120" cy="570" r="16" fill="#ffffff" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="586" x2="120" y2="622" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="98" y1="600" x2="142" y2="600" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="622" x2="104" y2="646" stroke="#1c1917" stroke-width="1.6"/>
+<line x1="120" y1="622" x2="136" y2="646" stroke="#1c1917" stroke-width="1.6"/>
+<text x="120" y="662" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="600">Inventory</text>
+<ellipse cx="480" cy="180" rx="150" ry="28" fill="#ffffff" stroke="#ea580c" stroke-width="1.6"/>
+<text x="480" y="184" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="400">Register patient</text>
+<ellipse cx="480" cy="250" rx="150" ry="28" fill="#ffffff" stroke="#ea580c" stroke-width="1.6"/>
+<text x="480" y="254" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="400">Record consultation</text>
+<ellipse cx="480" cy="320" rx="150" ry="28" fill="#ffffff" stroke="#ea580c" stroke-width="1.6"/>
+<text x="480" y="324" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="400">Record vaccination</text>
+<ellipse cx="480" cy="390" rx="150" ry="28" fill="#ffffff" stroke="#ea580c" stroke-width="1.6"/>
+<text x="480" y="394" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="400">Manage inventory</text>
+<ellipse cx="480" cy="460" rx="150" ry="28" fill="#ffffff" stroke="#ea580c" stroke-width="1.6"/>
+<text x="480" y="464" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="400">Issue receipt / finance</text>
+<ellipse cx="480" cy="530" rx="150" ry="28" fill="#ffffff" stroke="#ea580c" stroke-width="1.6"/>
+<text x="480" y="534" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="12" fill="#1c1917" text-anchor="middle" font-weight="400">Manage staff &amp; roles</text>
+<line x1="150" y1="90" x2="330" y2="180" stroke="#78716c" stroke-width="1.2"/>
+<line x1="150" y1="90" x2="330" y2="530" stroke="#78716c" stroke-width="1.2"/>
+<line x1="150" y1="210" x2="330" y2="250" stroke="#78716c" stroke-width="1.2"/>
+<line x1="150" y1="210" x2="330" y2="320" stroke="#78716c" stroke-width="1.2"/>
+<line x1="150" y1="330" x2="330" y2="320" stroke="#78716c" stroke-width="1.2"/>
+<line x1="150" y1="330" x2="330" y2="390" stroke="#78716c" stroke-width="1.2"/>
+<line x1="150" y1="450" x2="330" y2="180" stroke="#78716c" stroke-width="1.2"/>
+<line x1="150" y1="450" x2="330" y2="460" stroke="#78716c" stroke-width="1.2"/>
+<line x1="150" y1="570" x2="330" y2="390" stroke="#78716c" stroke-width="1.2"/>
+<line x1="150" y1="570" x2="330" y2="460" stroke="#78716c" stroke-width="1.2"/>
+<text x="250" y="604" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">Client-side role gating is UX only; the manage-staff Edge Function and RLS are the real boundary (export-reported).</text>
+<a href="../index.html" style="text-decoration:none"><rect x="14" y="14" width="156" height="30" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.2"/><text x="30" y="33" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#1c1917">&#8592; Diagram index</text></a>
+</svg>

@@ -1,0 +1,131 @@
+{
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Sequence \u2014 Financial Transaction and Receipt Numbering",
+    "subtitle": "[SCHEMA-EXPORT] Server-side receipt assignment and counter locking, reported by exports. The Android client uploads a blank number.",
+    "quality_profile": "standard",
+    "viewBox": [
+      676,
+      691
+    ]
+  },
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Assigned on the server",
+      "items": [
+        "A BEFORE INSERT OR UPDATE trigger assigns the number",
+        "Format is NEO-<financial year>-<six digits>",
+        "The financial year runs 1 April to 31 March from the visit date"
+      ]
+    },
+    {
+      "dot": "emerald",
+      "title": "Counter safety",
+      "items": [
+        "The counter row is incremented with ON CONFLICT DO UPDATE",
+        "That pattern locks the row and closes the read-then-write gap",
+        "The counter table is revoked from authenticated and anon"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Unknown",
+      "items": [
+        "Whether the trigger runs on the live project is unverified",
+        "Concurrent assignment under load has not been measured"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "client",
+      "type": "frontend",
+      "label": "Client",
+      "sublabel": "blank number"
+    },
+    {
+      "id": "postgrest",
+      "type": "cloud",
+      "label": "PostgREST",
+      "sublabel": "upsert"
+    },
+    {
+      "id": "trig",
+      "type": "security",
+      "label": "Trg Assign",
+      "sublabel": "BEFORE INS"
+    },
+    {
+      "id": "fn",
+      "type": "security",
+      "label": "Rcpt Func",
+      "sublabel": "SECURITY DEFINER"
+    },
+    {
+      "id": "counter",
+      "type": "database",
+      "label": "Rcpt Seq",
+      "sublabel": "row-locked"
+    }
+  ],
+  "messages": [
+    {
+      "from": "client",
+      "to": "postgrest",
+      "y": 185,
+      "label": "upsert, rcpt = ''",
+      "variant": "emphasis"
+    },
+    {
+      "from": "postgrest",
+      "to": "trig",
+      "y": 232,
+      "label": "row insert",
+      "variant": "security"
+    },
+    {
+      "from": "trig",
+      "to": "fn",
+      "y": 279,
+      "label": "call + visit date",
+      "variant": "security"
+    },
+    {
+      "from": "fn",
+      "to": "counter",
+      "y": 373,
+      "label": "ON CONFLICT UPDATE",
+      "variant": "emphasis"
+    },
+    {
+      "from": "counter",
+      "to": "fn",
+      "y": 420,
+      "label": "locked next value",
+      "variant": "return"
+    },
+    {
+      "from": "fn",
+      "to": "trig",
+      "y": 467,
+      "label": "NEO-26/27-000042",
+      "variant": "return"
+    },
+    {
+      "from": "trig",
+      "to": "postgrest",
+      "y": 514,
+      "label": "number on row",
+      "variant": "return"
+    },
+    {
+      "from": "postgrest",
+      "to": "client",
+      "y": 561,
+      "label": "saved row",
+      "variant": "return"
+    }
+  ],
+  "schema_version": 1
+}

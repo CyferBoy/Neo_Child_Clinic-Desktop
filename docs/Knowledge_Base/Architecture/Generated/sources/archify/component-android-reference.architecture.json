@@ -1,0 +1,166 @@
+{
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Android Reference Components",
+    "subtitle": "[ANDROID-SOURCE] Verified module structure at ca4bed4. This is the reference implementation, not the desktop design.",
+    "quality_profile": "standard"
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 5,
+    "cellW": 170,
+    "cellH": 112,
+    "gapX": 70,
+    "gapY": 56
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Verified modules",
+      "items": [
+        "app, core, data, domain, feature packages",
+        "core splits into cache database di network sync security",
+        "21 feature packages under feature/"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Persistence",
+      "items": [
+        "Room AppDatabase version 33, 25 entities, 21 DAOs",
+        "SQLCipher encrypted with a Keystore-derived passphrase",
+        "16 migration objects from 17_18 through 32_33"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Known debt",
+      "items": [
+        "Duplicate stock triggers and a failed 20261017 guard block writes",
+        "Receipt and stock RPCs are exposed to anon in the export",
+        "The desktop must reproduce meaning, not Android's structure"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "app",
+      "type": "frontend",
+      "label": "app",
+      "sublabel": "navigation + DI graph",
+      "row": 0,
+      "col": 0
+    },
+    {
+      "id": "core",
+      "type": "backend",
+      "label": "core",
+      "sublabel": "cache database network sync",
+      "row": 0,
+      "col": 1
+    },
+    {
+      "id": "data",
+      "type": "database",
+      "label": "data",
+      "sublabel": "local + remote sources",
+      "row": 0,
+      "col": 2
+    },
+    {
+      "id": "room",
+      "type": "database",
+      "label": "Room",
+      "sublabel": "25 entities v33",
+      "row": 0,
+      "col": 3
+    },
+    {
+      "id": "domain",
+      "type": "backend",
+      "label": "domain",
+      "sublabel": "models + repos",
+      "row": 1,
+      "col": 1
+    },
+    {
+      "id": "supabase",
+      "type": "cloud",
+      "label": "Supabase",
+      "sublabel": "shared project",
+      "row": 1,
+      "col": 4
+    },
+    {
+      "id": "feature",
+      "type": "frontend",
+      "label": "feature",
+      "sublabel": "21 packages",
+      "row": 2,
+      "col": 0
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Android application (reference)",
+      "wraps": [
+        "app",
+        "core",
+        "data",
+        "domain",
+        "feature",
+        "room"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "r1",
+      "from": "feature",
+      "to": "domain",
+      "label": "use cases",
+      "variant": "emphasis"
+    },
+    {
+      "id": "r2",
+      "from": "domain",
+      "to": "data",
+      "label": "repo contracts",
+      "variant": "dashed"
+    },
+    {
+      "id": "r3",
+      "from": "data",
+      "to": "core",
+      "label": "sync + network"
+    },
+    {
+      "id": "r4",
+      "from": "data",
+      "to": "room",
+      "label": "Room DAOs"
+    },
+    {
+      "id": "r5",
+      "from": "data",
+      "to": "supabase",
+      "label": "PostgREST",
+      "variant": "security"
+    },
+    {
+      "id": "r6",
+      "from": "app",
+      "to": "feature",
+      "label": "routes",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        100,
+        155
+      ]
+    }
+  ],
+  "schema_version": 1
+}

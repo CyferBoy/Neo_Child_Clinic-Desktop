@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="980" height="720" viewBox="0 0 980 720" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace">
+<rect width="980" height="720" fill="#fffbeb"/>
+<text x="28" y="44" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="22" fill="#1c1917" text-anchor="start" font-weight="700">Class Diagram — Android Reference Model</text>
+<text x="28" y="68" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="13" fill="#78716c" text-anchor="start" font-weight="400">Representative entities, DAOs, repositories, and services verified at ca4bed4.</text>
+<text x="28" y="88" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#9a3412" text-anchor="start" font-weight="600">[ANDROID-SOURCE] Reference implementation only — the desktop does not share these classes.</text>
+<marker id="ah-open" markerWidth="12" markerHeight="12" refX="10" refY="6" orient="auto"><path d="M0,1 L10,6 L0,11" fill="none" stroke="#1c1917" stroke-width="1.6"/></marker>
+<rect x="40" y="120" width="250" height="146" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="40" y="120" width="250" height="46" rx="8" fill="#ea580c"/>
+<rect x="40" y="158" width="250" height="8" fill="#ea580c"/>
+<text x="165.0" y="135" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#fff7ed" text-anchor="middle" font-weight="400">«entity»</text>
+<text x="165.0" y="150" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700">PatientEntity</text>
+<text x="52" y="182" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ id: UUID</text>
+<text x="52" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ clinicId: String</text>
+<text x="52" y="218" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ fullName: String</text>
+<text x="52" y="236" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ dateOfBirth: LocalDate</text>
+<line x1="40" y1="252" x2="290" y2="252" stroke="#c2410c" stroke-width="1"/>
+<text x="52" y="264" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">@Entity(tableName=&quot;patients&quot;)</text>
+<rect x="40" y="360" width="250" height="146" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="40" y="360" width="250" height="46" rx="8" fill="#ea580c"/>
+<rect x="40" y="398" width="250" height="8" fill="#ea580c"/>
+<text x="165.0" y="375" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#fff7ed" text-anchor="middle" font-weight="400">«entity»</text>
+<text x="165.0" y="390" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700">VaccinationItemEntity</text>
+<text x="52" y="422" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ id: UUID</text>
+<text x="52" y="440" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ visitId: UUID</text>
+<text x="52" y="458" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ vaccineId: UUID</text>
+<text x="52" y="476" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ batchId: UUID</text>
+<line x1="40" y1="492" x2="290" y2="492" stroke="#c2410c" stroke-width="1"/>
+<text x="52" y="504" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">@Entity(tableName=&quot;vaccination_items&quot;)</text>
+<rect x="360" y="120" width="250" height="110" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="360" y="120" width="250" height="46" rx="8" fill="#9a3412"/>
+<rect x="360" y="158" width="250" height="8" fill="#9a3412"/>
+<text x="485.0" y="135" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#fff7ed" text-anchor="middle" font-weight="400">«dao»</text>
+<text x="485.0" y="150" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700">PatientDao</text>
+<text x="372" y="182" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ observeAll(): Flow&lt;List&lt;Patient&gt;&gt;</text>
+<text x="372" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ upsert(patient)</text>
+<line x1="360" y1="216" x2="610" y2="216" stroke="#c2410c" stroke-width="1"/>
+<text x="372" y="228" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">@Dao interface</text>
+<rect x="360" y="360" width="250" height="110" rx="8" fill="#ffedd5" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="360" y="360" width="250" height="46" rx="8" fill="#9a3412"/>
+<rect x="360" y="398" width="250" height="8" fill="#9a3412"/>
+<text x="485.0" y="375" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#fff7ed" text-anchor="middle" font-weight="400">«dao»</text>
+<text x="485.0" y="390" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700">VaccinationDao</text>
+<text x="372" y="422" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ insertVisitWithItems(tx)</text>
+<text x="372" y="440" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ observeDueVaccines()</text>
+<line x1="360" y1="456" x2="610" y2="456" stroke="#c2410c" stroke-width="1"/>
+<text x="372" y="468" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">@Dao interface</text>
+<rect x="690" y="120" width="250" height="110" rx="8" fill="#ecfdf5" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="690" y="120" width="250" height="46" rx="8" fill="#047857"/>
+<rect x="690" y="158" width="250" height="8" fill="#047857"/>
+<text x="815.0" y="135" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#fff7ed" text-anchor="middle" font-weight="400">«service»</text>
+<text x="815.0" y="150" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700">ClinicalVaccinationService</text>
+<text x="702" y="182" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ recordVaccination(req): Result</text>
+<text x="702" y="200" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">- deductBatch(tx)</text>
+<line x1="690" y1="216" x2="940" y2="216" stroke="#c2410c" stroke-width="1"/>
+<text x="702" y="228" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">orchestrates one tx</text>
+<rect x="690" y="360" width="250" height="110" rx="8" fill="#ecfdf5" stroke="#c2410c" stroke-width="1.5"/>
+<rect x="690" y="360" width="250" height="46" rx="8" fill="#047857"/>
+<rect x="690" y="398" width="250" height="8" fill="#047857"/>
+<text x="815.0" y="375" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#fff7ed" text-anchor="middle" font-weight="400">«repository»</text>
+<text x="815.0" y="390" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="13" fill="#ffffff" text-anchor="middle" font-weight="700">SyncRepository</text>
+<text x="702" y="422" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">+ processNextItems()</text>
+<text x="702" y="440" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#1c1917" text-anchor="start" font-weight="400">- pushGroup(groupId)</text>
+<line x1="690" y1="456" x2="940" y2="456" stroke="#c2410c" stroke-width="1"/>
+<text x="702" y="468" font-family="ui-monospace,SFMono-Regular,Menlo,Consolas,monospace" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">owns outbound + inbound</text>
+<line x1="290" y1="200" x2="360" y2="200" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="325.0" y="194.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">queries</text>
+<line x1="290" y1="440" x2="360" y2="440" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="325.0" y="434.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">queries</text>
+<line x1="610" y1="200" x2="690" y2="200" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="650.0" y="194.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">calls</text>
+<line x1="610" y1="440" x2="690" y2="440" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="650.0" y="434.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">calls</text>
+<line x1="815" y1="250" x2="815" y2="360" stroke="#1c1917" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#ah-open)"/>
+<text x="815.0" y="299.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">syncs</text>
+<line x1="165" y1="260" x2="165" y2="360" stroke="#1c1917" stroke-width="1.6" marker-end="url(#ah-open)"/>
+<text x="165.0" y="304.0" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="10" fill="#1c1917" text-anchor="middle" font-weight="400">1..* </text>
+<text x="40" y="640" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">Evidence: Room AppDatabase v33 · 25 entities · 21 DAOs · SQLCipher at rest. Desktop must reproduce meaning, not these classes.</text>
+<text x="40" y="662" font-family="ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,sans-serif" font-size="11" fill="#78716c" text-anchor="start" font-weight="400">Verified source: app/src/main/java/com/neochildclinic/ (core/database, core/sync, data, domain).</text>
+<a href="../index.html" style="text-decoration:none"><rect x="14" y="14" width="156" height="30" rx="8" fill="#fff7ed" stroke="#c2410c" stroke-width="1.2"/><text x="30" y="33" font-family="ui-monospace,Menlo,Consolas,monospace" font-size="12" font-weight="600" fill="#1c1917">&#8592; Diagram index</text></a>
+</svg>

@@ -1,0 +1,225 @@
+{
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "Application Architecture \u2014 Desktop Layers",
+    "subtitle": "[DESKTOP-PROPOSED] Layered desktop architecture from the Knowledge Base. No desktop source, binding, or worker exists yet.",
+    "quality_profile": "standard",
+    "views": [
+      {
+        "id": "renderer-to-db",
+        "label": "Read/write path",
+        "focus": [
+          "ui",
+          "bindings",
+          "svc",
+          "repo",
+          "sqlite"
+        ],
+        "note": "Every read and write crosses the typed Wails binding boundary."
+      },
+      {
+        "id": "sync-path",
+        "label": "Sync path",
+        "focus": [
+          "svc",
+          "sync",
+          "remote"
+        ],
+        "note": "A Go sync worker owns all remote writes."
+      },
+      {
+        "id": "trust",
+        "label": "Trust boundaries",
+        "focus": [
+          "ui",
+          "bindings",
+          "remote"
+        ],
+        "note": "The React renderer never calls Supabase or opens the local database."
+      }
+    ]
+  },
+  "layout": {
+    "mode": "grid",
+    "cols": 5,
+    "cellW": 170,
+    "cellH": 104,
+    "gapX": 70,
+    "gapY": 56
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Layers",
+      "items": [
+        "React + TypeScript renderer (view state only)",
+        "Typed Wails v3 Go bindings are the only crossing",
+        "Go application services orchestrate domain work"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Persistence",
+      "items": [
+        "Local SQLite working copy; encryption pending (ADR-0010)",
+        "Repositories own all SQL; services never issue raw queries",
+        "The local database is not a second source of truth"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Planned, not implemented",
+      "items": [
+        "0 of 22 desktop modules are implemented",
+        "No Go/Wails/React source exists in the repository",
+        "These boxes describe intent, not code"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "id": "ui",
+      "type": "frontend",
+      "label": "React Renderer",
+      "sublabel": "screens + view state",
+      "row": 0,
+      "col": 0,
+      "tag": "no PHI in storage"
+    },
+    {
+      "id": "bindings",
+      "type": "backend",
+      "label": "Wails Bindings",
+      "sublabel": "typed Go methods",
+      "row": 0,
+      "col": 1,
+      "tag": "only crossing"
+    },
+    {
+      "id": "svc",
+      "type": "backend",
+      "label": "App Services",
+      "sublabel": "orchestration",
+      "row": 0,
+      "col": 2
+    },
+    {
+      "id": "domain",
+      "type": "backend",
+      "label": "Domain Rules",
+      "sublabel": "validation + totals",
+      "row": 1,
+      "col": 2,
+      "tag": "pure"
+    },
+    {
+      "id": "repo",
+      "type": "backend",
+      "label": "Repositories",
+      "sublabel": "SQL ownership",
+      "row": 0,
+      "col": 3
+    },
+    {
+      "id": "sqlite",
+      "type": "database",
+      "label": "Local SQLite",
+      "sublabel": "working copy",
+      "row": 0,
+      "col": 4
+    },
+    {
+      "id": "sync",
+      "type": "messagebus",
+      "label": "Sync Worker",
+      "sublabel": "queue + retry",
+      "row": 1,
+      "col": 3
+    },
+    {
+      "id": "remote",
+      "type": "cloud",
+      "label": "Supabase",
+      "sublabel": "shared authority",
+      "row": 1,
+      "col": 4
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "security-group",
+      "label": "Desktop process",
+      "wraps": [
+        "ui",
+        "bindings",
+        "svc",
+        "domain",
+        "repo",
+        "sqlite",
+        "sync"
+      ]
+    },
+    {
+      "kind": "security-group",
+      "label": "Renderer trust boundary",
+      "wraps": [
+        "ui"
+      ]
+    }
+  ],
+  "connections": [
+    {
+      "id": "a1",
+      "from": "ui",
+      "to": "bindings",
+      "label": "typed call",
+      "variant": "emphasis"
+    },
+    {
+      "id": "a2",
+      "from": "bindings",
+      "to": "svc",
+      "label": "invoke"
+    },
+    {
+      "id": "a3",
+      "from": "svc",
+      "to": "domain",
+      "label": "validate",
+      "variant": "dashed",
+      "labelAt": [
+        580,
+        155
+      ]
+    },
+    {
+      "id": "a4",
+      "from": "svc",
+      "to": "repo",
+      "label": "read / write"
+    },
+    {
+      "id": "a5",
+      "from": "repo",
+      "to": "sqlite",
+      "label": "SQL"
+    },
+    {
+      "id": "a6",
+      "from": "sync",
+      "to": "remote",
+      "label": "HTTPS",
+      "variant": "security"
+    },
+    {
+      "id": "a7",
+      "from": "sync",
+      "to": "sqlite",
+      "label": "queue + merge",
+      "variant": "dashed",
+      "fromSide": "left",
+      "toSide": "bottom"
+    }
+  ],
+  "schema_version": 1
+}

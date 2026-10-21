@@ -1,0 +1,152 @@
+{
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Error Handling and Recovery Flow",
+    "subtitle": "[DESKTOP-PROPOSED] Planned desktop failure taxonomy, modeled on verified Android error classes. Desktop code does not exist.",
+    "quality_profile": "standard"
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Fail closed",
+      "items": [
+        "Validation failures never leave a partial record",
+        "Destructive operations confirm before they run",
+        "Every recovery path returns the user to a known state"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Retry classification",
+      "items": [
+        "Transient network faults retry with exponential backoff",
+        "Authorization and schema faults do not retry",
+        "A bounded retry budget prevents hot loops"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Unproven",
+      "items": [
+        "No desktop error taxonomy is implemented yet",
+        "Crash reporting and PHI redaction are undesigned",
+        "No test has been executed against these paths"
+      ]
+    }
+  ],
+  "lanes": [
+    {
+      "id": "action",
+      "label": "Action"
+    },
+    {
+      "id": "processing",
+      "label": "Processing"
+    },
+    {
+      "id": "failure",
+      "label": "Failure"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "action",
+      "col": 0,
+      "type": "external",
+      "label": "User Action",
+      "sublabel": "save or sync",
+      "lane": "action"
+    },
+    {
+      "id": "guard",
+      "col": 0,
+      "type": "backend",
+      "label": "Validation",
+      "sublabel": "domain rules",
+      "tag": "gate",
+      "lane": "processing"
+    },
+    {
+      "id": "commit",
+      "col": 2,
+      "type": "database",
+      "label": "Commit",
+      "sublabel": "local + queue",
+      "lane": "processing"
+    },
+    {
+      "id": "send",
+      "col": 4,
+      "type": "messagebus",
+      "label": "Upload",
+      "sublabel": "grouped, retry < 5",
+      "lane": "processing"
+    },
+    {
+      "id": "fatal",
+      "col": 4,
+      "type": "security",
+      "label": "Surface",
+      "sublabel": "no auto retry",
+      "lane": "failure"
+    },
+    {
+      "id": "invalid",
+      "col": 0,
+      "type": "security",
+      "label": "Blocked",
+      "sublabel": "validation failed",
+      "lane": "failure"
+    }
+  ],
+  "edges": [
+    {
+      "id": "x1",
+      "from": "action",
+      "to": "guard",
+      "label": "submit",
+      "variant": "emphasis",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    },
+    {
+      "id": "x2",
+      "from": "guard",
+      "to": "commit",
+      "label": "valid",
+      "variant": "emphasis"
+    },
+    {
+      "id": "x3",
+      "from": "commit",
+      "to": "send",
+      "label": "drain"
+    },
+    {
+      "id": "x4",
+      "from": "guard",
+      "to": "invalid",
+      "label": "invalid",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop",
+      "labelAt": [
+        88,
+        292
+      ]
+    },
+    {
+      "id": "x5",
+      "from": "send",
+      "to": "fatal",
+      "label": "401/schema",
+      "variant": "security",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "route": "drop"
+    }
+  ],
+  "schema_version": 1
+}

@@ -1,0 +1,162 @@
+{
+  "diagram_type": "sequence",
+  "meta": {
+    "title": "Sequence \u2014 Sync Push, Conflict, and Pull",
+    "subtitle": "[ANDROID-SOURCE] Verified last-write-wins reconciliation with a single-flight guard and bounded retry.",
+    "quality_profile": "standard",
+    "viewBox": [
+      784,
+      820
+    ]
+  },
+  "cards": [
+    {
+      "dot": "emerald",
+      "title": "Outbound first",
+      "items": [
+        "Pending items are grouped by transactionGroupId and pushed",
+        "DELETE operations run at negative priority",
+        "Stale SYNCING rows are requeued after five minutes"
+      ]
+    },
+    {
+      "dot": "amber",
+      "title": "Conflict rule",
+      "items": [
+        "A newer remote row is copied back into the local store",
+        "The guard skips entities that still have pending local edits",
+        "No version column exists; the rule is timestamp only"
+      ]
+    },
+    {
+      "dot": "rose",
+      "title": "Retry budget",
+      "items": [
+        "Transient faults retry up to five times, then fail permanently",
+        "Authorization and schema faults never retry",
+        "One session refresh is attempted on a 401"
+      ]
+    }
+  ],
+  "participants": [
+    {
+      "id": "recon",
+      "type": "backend",
+      "label": "Reconciler",
+      "sublabel": "network aware"
+    },
+    {
+      "id": "repo",
+      "type": "backend",
+      "label": "Sync Repo",
+      "sublabel": "orchestrates"
+    },
+    {
+      "id": "queue",
+      "type": "database",
+      "label": "sync_queue",
+      "sublabel": "PENDING rows"
+    },
+    {
+      "id": "up",
+      "type": "backend",
+      "label": "Uploader",
+      "sublabel": "per entity"
+    },
+    {
+      "id": "supa",
+      "type": "cloud",
+      "label": "Supabase",
+      "sublabel": "PostgREST"
+    },
+    {
+      "id": "db",
+      "type": "database",
+      "label": "Local DB",
+      "sublabel": "merge target"
+    }
+  ],
+  "messages": [
+    {
+      "from": "recon",
+      "to": "repo",
+      "y": 180,
+      "label": "processNextItems()",
+      "variant": "emphasis"
+    },
+    {
+      "from": "repo",
+      "to": "queue",
+      "y": 222,
+      "label": "read PENDING"
+    },
+    {
+      "from": "queue",
+      "to": "repo",
+      "y": 264,
+      "label": "group by txId",
+      "variant": "return"
+    },
+    {
+      "from": "repo",
+      "to": "up",
+      "y": 306,
+      "label": "mark SYNCING"
+    },
+    {
+      "from": "up",
+      "to": "supa",
+      "y": 348,
+      "label": "fetch conflicts",
+      "variant": "dashed"
+    },
+    {
+      "from": "up",
+      "to": "db",
+      "y": 390,
+      "label": "self-heal older",
+      "variant": "dashed"
+    },
+    {
+      "from": "up",
+      "to": "supa",
+      "y": 432,
+      "label": "upsert / delete",
+      "variant": "security"
+    },
+    {
+      "from": "supa",
+      "to": "up",
+      "y": 474,
+      "label": "2xx / 401 / 5xx",
+      "variant": "return"
+    },
+    {
+      "from": "up",
+      "to": "repo",
+      "y": 516,
+      "label": "GroupResult",
+      "variant": "return"
+    },
+    {
+      "from": "repo",
+      "to": "queue",
+      "y": 558,
+      "label": "retry<5? requeue"
+    },
+    {
+      "from": "recon",
+      "to": "repo",
+      "y": 648,
+      "label": "then pull inbound",
+      "variant": "emphasis"
+    },
+    {
+      "from": "repo",
+      "to": "db",
+      "y": 690,
+      "label": "upsert merged"
+    }
+  ],
+  "schema_version": 1
+}
